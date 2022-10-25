@@ -1,5 +1,5 @@
 import React from 'react'
-import './main.scss';
+import '../../css/basic/main.scss';
 
 export default function Main() {
   return (
