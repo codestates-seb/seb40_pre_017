@@ -1,10 +1,10 @@
 import React from 'react'
-import QuetionList from '../components/Mainpage/QuetionList'
+import QuestionList from '../components/mainpage/QuestionList'
 
 export default function Mainpage() {
   return (
     <div>Mainpage
-        <QuetionList />
+        <QuestionList />
     </div>
   )
 }

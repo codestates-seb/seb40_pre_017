@@ -1,9 +1,9 @@
 import React from 'react'
 import Question from './Question'
 
-export default function QuetionList() {
+export default function QuestionList() {
   return (
-    <div>QuetionList
+    <div>QuestionList
         <Question />
     </div>
   )
