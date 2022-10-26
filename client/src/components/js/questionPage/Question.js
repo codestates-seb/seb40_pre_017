@@ -10,28 +10,31 @@ export default function Question({item}) {
   return (
     <div className='questionBox'>
       <div className='question_sideBox'>
-        <p>{item.question.votes}vote</p>
-        <p>{item.question.answer_count}answers</p>
-        <p>{item.question.view_count}views</p>
+        <p>{item.question.votes} vote</p>
+        <p>{item.question.answer_count} answers</p>
+        <p>{item.question.view_count} views</p>
       </div>
       <div className='question_mainBox'>
         <h2>{item.question.title}</h2>
         <p>{contentTextLimit}</p>
         <div className='question_bottomBox'>
-          {
-            item.tags && item.tags.map(tag => (
-              <div className='tag'>
-                {tag}
-              </div>
-            ))
-          }
-          <div className='questionList_profile'>
+          <div className='tags'>
+            {
+              item.tags && item.tags.map(tag => (
+                <div className='tag'>
+                  {tag}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+        
+      </div>
+      <div className='questionList_profile'>
             <img className='pic' src={item.member.profile_image} alt='profile'/>
             <p>{item.member.display_name}</p>
             <p>createdtime ago</p>
-          </div>
         </div>
-      </div>
     </div>
   )
 }
