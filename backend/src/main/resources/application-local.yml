@@ -28,3 +28,11 @@ server:
     encoding:
       force-response: true # HTTP encoding charset
       charset: UTF-8 # HTTP encoding charset
+jwt:
+  secret-key: secret # JWT secret
+  expiration: 86400000 # JWT expiration time in milliseconds
+  header: Authorization # JWT header
+  prefix: Bearer # JWT prefix
+  refreshExpiration: 2592000000 # JWT refresh expiration time in milliseconds
+  refreshHeader: Refresh # JWT refresh header
+  refreshPrefix: Refresh # JWT refresh prefix
