@@ -9,15 +9,20 @@ import DetailPage from './pages/DetailPage'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 
+import useFetch from './util/useFetch';
+
 function App() {
   // json-server --watch data.json --port 3001
   // 라우트 경로 에러 있음
+  const [items] = useFetch("http://localhost:3001/items/");
+
   return (
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* <Route index element={<Home />} /> */}
           <Route index element={<QuestionPage />} />
+          <Route path="/questions" element={<QuestionPage items={items}/>} />
           <Route path="/add" element={<AddQuestion />} />
           <Route path="/:id" element={<DetailPage />} />
           <Route path="/login" element={<Login />} />
