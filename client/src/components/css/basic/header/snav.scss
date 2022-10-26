@@ -1,0 +1,17 @@
+.sNavArea{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #737a80;
+  :hover{
+    background-color: rgba(226, 230, 233, 1);
+  }
+  li{
+    height: 100%;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 15px;
+    padding: 8px 12px;
+  }
+}

@@ -10,7 +10,10 @@
     width: 160px;
     height: 100%;
     background-image: url(../../../../assets/imgs/sprites.svg);
-    background-position: 7px -490px;
+    background-position: 8px -490px;
+    :hover{
+      background-color: rgba(226, 230, 233, 1);
+    }
     cursor: pointer;
   }
 
