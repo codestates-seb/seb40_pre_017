@@ -41,6 +41,7 @@ public class QuestionTag {
         QuestionTag questionTag = QuestionTag.builder()
                 .tag(tag)
                 .build();
+
         return questionTag;
     }
 
