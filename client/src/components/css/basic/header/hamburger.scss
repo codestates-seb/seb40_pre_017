@@ -1,0 +1,15 @@
+.hamburgerArea{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  :hover{
+    background-color: rgba(226, 230, 233, 1);
+  }
+  .hamburger{
+    width: 48px;
+    padding: 16px 0px;
+    font-size: 16px;
+  }
+}
