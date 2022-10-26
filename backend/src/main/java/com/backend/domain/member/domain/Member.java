@@ -55,6 +55,10 @@ public class Member {
         this.answers = answers;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public MemberResponseDto toResponseDto() {
         return MemberResponseDto.builder()
                 .id(id)
