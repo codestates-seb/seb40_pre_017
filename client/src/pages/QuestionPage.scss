@@ -5,8 +5,8 @@
 .headAddWrap{
     display: flex;
     justify-content: space-between;
+    padding: 0px 20px;
     h1{
-        margin-left: 20px;
         font-size: 27px;
     }
 
@@ -29,10 +29,10 @@
 
 .countFilterWrap{
     margin-top: 20px;
+    padding: 0px 20px;
     display: flex;
     justify-content: space-between;
     span{
-        margin-left: 20px;
         position: relative;
         top: 15px;
     }
@@ -63,6 +63,21 @@
 
         button:hover{
             background-color: #F8F9F9;
+        }
+    }
+}
+
+@media (max-width:640px) {
+    .countFilterWrap{
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        span{
+            position: relative;
+            top: 15px;
+        }
+        .filterBtns{
+            margin-top: 30px;
         }
     }
 }

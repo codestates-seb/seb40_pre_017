@@ -75,9 +75,9 @@
                 "link": "https://stackoverflow.com/users/11187800/sflvio"
             },
             "question": {
-                "view_count": 22338,
+                "view_count": 2,
                 "is_answered": false,
-                "votes": 100,
+                "votes": 2000,
                 "creation_date": 1552344257,
                 "last_edit_date": 1596034268,
                 "question_id": 55111203,
@@ -98,7 +98,7 @@
             "answer": [
                 {   
                     "answer_id": 66141503,
-                    "votes": 2,
+                    "votes": 2000,
                     "creation_date": 1552344257,
                     "last_edit_date": 1596034268,
                     "content": "An example post body",
