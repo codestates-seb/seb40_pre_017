@@ -1,0 +1,17 @@
+.logoArea{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  :hover{
+    background-color: rgba(226, 230, 233, 1);
+  }
+  .logo{
+    width: 160px;
+    height: 100%;
+    background-image: url(../../../../assets/imgs/sprites.svg);
+    background-position: 7px -490px;
+    cursor: pointer;
+  }
+
+}
