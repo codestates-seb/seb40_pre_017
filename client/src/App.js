@@ -11,12 +11,13 @@ import Signup from './pages/Signup'
 
 function App() {
   // json-server --watch data.json --port 3001
+  // 라우트 경로 에러 있음
   return (
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="/questions" element={<QuestionPage />} />
+          {/* <Route index element={<Home />} /> */}
+          <Route index element={<QuestionPage />} />
           <Route path="/add" element={<AddQuestion />} />
           <Route path="/:id" element={<DetailPage />} />
           <Route path="/login" element={<Login />} />
@@ -31,6 +32,6 @@ function App() {
       </Routes>
     </>
   );
-}
+} 
 
 export default App;
