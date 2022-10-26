@@ -1,17 +1,14 @@
 package com.backend.domain.question.dto;
 
 
-import com.backend.domain.member.domain.Member;
-import com.backend.domain.question.domain.Question;
-import com.backend.domain.question.domain.QuestionTag;
-import com.backend.domain.tag.domain.Tag;
+
 import com.backend.domain.tag.dto.TagDto;
 import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Getter
