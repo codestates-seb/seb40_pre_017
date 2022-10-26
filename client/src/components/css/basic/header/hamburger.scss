@@ -8,8 +8,12 @@
     background-color: rgba(226, 230, 233, 1);
   }
   .hamburger{
+    display: none;
     width: 48px;
     padding: 16px 0px;
     font-size: 16px;
+    @media screen and (max-width: 640px) {
+      display: block;
+    }
   }
 }

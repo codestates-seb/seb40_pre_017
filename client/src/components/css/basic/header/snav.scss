@@ -13,5 +13,14 @@
     text-align: center;
     border-radius: 15px;
     padding: 8px 12px;
+    @media screen and (max-width: 640px) {
+      font-size: 11px;
+      margin-top: -5px;
+    }
+  }
+  @media screen and (max-width: 980px) {
+    .changeVisible{
+      display: none;
+    }
   }
 }

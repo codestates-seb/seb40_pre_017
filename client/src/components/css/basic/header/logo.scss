@@ -11,10 +11,15 @@
     height: 100%;
     background-image: url(../../../../assets/imgs/sprites.svg);
     background-position: 8px -490px;
+    background-repeat: no-repeat;
+    cursor: pointer;
     :hover{
       background-color: rgba(226, 230, 233, 1);
     }
-    cursor: pointer;
+    @media screen and (max-width: 640px) {
+      width: 37px;
+      background-position: 8px -490px;
+    }
   }
 
 }

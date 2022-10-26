@@ -4,7 +4,7 @@ import Hamburger from './Hamburger';
 import Logo from './Logo';
 import Snav from './Snav';
 import Navinput from './Navinput';
-
+import Navbtn from './Navbtn';
 
 export default function Nav() {
   return (
@@ -13,7 +13,7 @@ export default function Nav() {
       <Logo />
       <Snav />
       <Navinput/>
-      <button>1</button>
+      <Navbtn />
     </nav>
   )
 }
