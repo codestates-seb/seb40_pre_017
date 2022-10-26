@@ -9,14 +9,18 @@ import DetailPage from './pages/DetailPage'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 
+import useFetch from './util/useFetch';
+
 function App() {
   // json-server --watch data.json --port 3001
+  const [items] = useFetch("http://localhost:3001/items/");
+
   return (
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="/questions" element={<QuestionPage />} />
+          <Route path="/questions" element={<QuestionPage items={items}/>} />
           <Route path="/add" element={<AddQuestion />} />
           <Route path="/:id" element={<DetailPage />} />
           <Route path="/login" element={<Login />} />

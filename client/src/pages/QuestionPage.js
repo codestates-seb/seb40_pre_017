@@ -2,7 +2,7 @@ import React from 'react'
 import QuestionList from '../components/js/questionPage/QuestionList'
 import { Link } from 'react-router-dom'
 
-export default function Mainpage() {
+export default function QuestionPage({items}) {
 
   return (
     <div>
@@ -20,9 +20,7 @@ export default function Mainpage() {
           <button>Unanswered</button>
         </div>
       </div>
-      
-      
-      <QuestionList />
+      <QuestionList items={items}/>
     </div>
   )
 }
