@@ -4,19 +4,16 @@ import Hamburger from './Hamburger';
 import Logo from './Logo';
 import Snav from './Snav';
 import Navinput from './Navinput';
-import { Link } from 'react-router-dom';
-
+import Navbtn from './Navbtn';
 
 export default function Nav() {
   return (
     <nav className='nav'>
       <Hamburger />
-      <Link to={'/'}>
-        <Logo />
-      </Link>
+      <Logo />
       <Snav />
       <Navinput/>
-      <button>1</button>
+      <Navbtn />
     </nav>
   )
 }

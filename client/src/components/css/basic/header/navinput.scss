@@ -1,0 +1,36 @@
+.navInputArea{
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  padding-left: 10px;
+  justify-content: center;
+  align-items: center;
+  .navIcon{
+    position: absolute;
+    left: 20px;
+    width: 18px;
+    height: 18px;
+    color: #737a80;
+    cursor: pointer;
+    @media screen and (max-width: 640px) {
+      position: absolute;
+
+      left: auto;
+      right: 0px;
+    }
+  }
+  .navInput{
+    width: 100%;
+    padding: 0.6em 0.7em;
+    padding-left: 34px;
+    border: 1px solid #daddde;
+    border-radius: 3px;
+    @media screen and (max-width: 640px) {
+      display: none;
+    }
+  }
+  .navInput:focus {
+    border: 1px solid #53baff;
+    outline: 3px solid #b5deff;
+  }
+}
