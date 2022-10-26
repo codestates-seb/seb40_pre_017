@@ -1,12 +1,16 @@
 package com.backend.global.config.security;
 
+import com.backend.global.config.security.filter.JwtAuthenticationFilter;
+import com.backend.global.config.security.filter.JwtVerificationFilter;
 import com.backend.global.jwt.JwtTokenizer;
 import com.backend.global.util.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +24,7 @@ import java.util.Arrays;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity // (debug = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
@@ -68,24 +72,24 @@ public class SecurityConfiguration {
         return source;
     }
 
-//    TODO: 인증인가 필터 구현
-//    public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
-//        @Override
-//        public void configure(HttpSecurity builder) throws Exception {
-//            AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-//
-//            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
-//            jwtAuthenticationFilter.setFilterProcessesUrl("/v11/auth/login");
+
+    public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
+        @Override
+        public void configure(HttpSecurity builder) throws Exception {
+            AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
+
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
+            jwtAuthenticationFilter.setFilterProcessesUrl("/v11/auth/login"); // TODO: 로그인 요청 처리 URL
 //            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
 //            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
-//
-//            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
-//
-//
-//            builder
-//                    .addFilter(jwtAuthenticationFilter)
-//                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
-//        }
-//    }
+
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+
+
+            builder
+                    .addFilter(jwtAuthenticationFilter)
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+        }
+    }
 }
 
