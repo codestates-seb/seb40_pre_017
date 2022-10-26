@@ -1,8 +1,11 @@
 package com.backend.domain.member.domain;
 
 import com.backend.domain.answer.domain.Answer;
+import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.question.domain.Question;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,4 +43,21 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Answer> answers = new ArrayList<>();
 
+    @Builder
+    public Member(Long id, String email, String password, String username, String profileImage, Long reputation, List<Question> questions, List<Answer> answers) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.profileImage = profileImage;
+        this.reputation = reputation;
+        this.questions = questions;
+        this.answers = answers;
+    }
+
+    public MemberResponseDto toResponseDto() {
+        return MemberResponseDto.builder()
+                .id(id)
+                .build();
+    }
 }
