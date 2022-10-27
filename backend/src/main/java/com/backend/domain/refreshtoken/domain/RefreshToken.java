@@ -14,15 +14,15 @@ public class RefreshToken extends Auditable {
     @Id
     @Column(name = "rt_key")
     // member id 값이 들어감
-    private Long id;
+    private String key;
 
     @Column(name = "rt_value")
     // refresh token (String)
     private String value;
 
     @Builder
-    public RefreshToken(Long id, String value) {
-        this.id = id;
+    public RefreshToken(String key, String value) {
+        this.key = key;
         this.value = value;
     }
 

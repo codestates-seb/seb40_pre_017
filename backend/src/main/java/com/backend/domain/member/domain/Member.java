@@ -69,4 +69,14 @@ public class Member extends Auditable {
                 .id(id)
                 .build();
     }
+
+    public MemberResponseDto toResponseDto (Member member) {
+        return MemberResponseDto.builder()
+//                .id(member.getId())
+                .email(member.getEmail())
+//                .username(member.getUsername())
+//                .profileImage(member.getProfileImage())
+//                .reputation(member.getReputation())
+                .build();
+    }
 }

@@ -4,6 +4,7 @@ import com.backend.domain.member.dto.MemberPostDto;
 import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.dto.TokenDto;
 import com.backend.domain.member.dto.TokenPostDto;
+import com.backend.domain.member.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
