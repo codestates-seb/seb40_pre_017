@@ -1,13 +1,11 @@
 package com.backend.domain.question.controller;
 
-import com.backend.domain.question.dto.QuestionCreateDto;
+import com.backend.domain.question.dto.request.QuestionCreate;
+import com.backend.domain.question.dto.request.QuestionUpdate;
 import com.backend.domain.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -18,10 +16,20 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @PostMapping("/questions")
-    public ResponseEntity<?> createQuestion(@Valid @RequestBody QuestionCreateDto questionCreateDto) {
+    public ResponseEntity<Long> createQuestion(@Valid @RequestBody QuestionCreate questionCreate) {
+        return ResponseEntity.ok(questionService.createQuestion(questionCreate));
+    }
 
-        return new ResponseEntity<>(questionService.createQuestion(questionCreateDto), HttpStatus.OK);
+    @PatchMapping("questions/{id}")
+    public ResponseEntity<Long> updateQuestion(@PathVariable Long id, @Valid @RequestBody QuestionUpdate questionUpdate){
 
+        return ResponseEntity.ok(questionService.updateQuestion(id, questionUpdate));
+    }
+
+    @DeleteMapping("questions/{id}")
+    public void deleteQuestion(@PathVariable Long id){
+        questionService.deleteQuestion
 
     }
+
 }

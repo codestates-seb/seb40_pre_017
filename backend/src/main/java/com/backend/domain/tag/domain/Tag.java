@@ -2,6 +2,7 @@ package com.backend.domain.tag.domain;
 
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.domain.QuestionTag;
+import com.backend.global.Audit.Auditable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Tag {
+public class Tag extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

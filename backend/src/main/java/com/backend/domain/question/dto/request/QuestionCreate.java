@@ -1,4 +1,4 @@
-package com.backend.domain.question.dto;
+package com.backend.domain.question.dto.request;
 
 
 
@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Getter
-public class QuestionCreateDto {
+public class QuestionCreate {
 
     @NotBlank
     @Size(min = 15, message = "15글자 이상 입력하세요")
@@ -25,7 +25,7 @@ public class QuestionCreateDto {
     private List<TagDto> tags;
 
     @Builder
-    private QuestionCreateDto(String title, String content, List<TagDto> tags) {
+    private QuestionCreate(String title, String content, List<TagDto> tags) {
         this.title = title;
         this.content = content;
         this.tags = tags;
