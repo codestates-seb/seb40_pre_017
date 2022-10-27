@@ -3,6 +3,7 @@ package com.backend.domain.member.domain;
 import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.question.domain.Question;
+import com.backend.global.Audit.Auditable;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Member {
+public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "member_id")
