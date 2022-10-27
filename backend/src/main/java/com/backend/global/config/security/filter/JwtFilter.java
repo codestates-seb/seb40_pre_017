@@ -1,8 +1,9 @@
-package com.backend.global.jwt.filter;
+package com.backend.global.config.security.filter;
 
 import com.backend.global.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -25,8 +26,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
 
-    // 실제 필터링 로직은 doFilterInternal 에서 수행
-    // JWT 토큰의 인증 정보를 현재 쓰레드의 SecurityContext 에 저장하는 역할
+    /* 실제 필터링 로직은 doFilterInternal 에서 수행
+    JWT 토큰의 인증 정보를 현재 쓰레드의 SecurityContext 에 저장하는 역할
+    가입/로그인/재발급을 제외한 Request 요청은 모두 이 필터를 거치게 됨
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // Request Header 에서 JWT 를 받아옴
