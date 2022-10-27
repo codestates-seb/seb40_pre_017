@@ -1,0 +1,29 @@
+.commentWrap{
+    display: flex;
+    font-size: 13px;
+    padding: 10px 0px;
+    border-bottom: 1px solid #E3E6E8;
+
+    i{
+        color: #919394;
+        margin-left: 8px;
+        position: relative;
+        top: 2px;
+        cursor: pointer;
+    }
+}
+
+.commentName{
+    margin-left: 4px;
+    color: #3A93D7;
+    cursor: pointer;
+}
+
+.commentName:hover {
+    color: #0A95FF;
+}
+
+.commentTime {
+    margin-left: 4px;
+    color: #9199A1;
+}

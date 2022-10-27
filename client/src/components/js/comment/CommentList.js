@@ -1,10 +1,17 @@
 import React from 'react'
 import Comment from './Comment'
+import '../../css/comment/CommentList.scss'
 
-export default function CommentList() {
+export default function CommentList({item}) {
   return (
-    <div>CommentList
-        <Comment />
+    <div className='commentList'>
+      {item.question.qcomment && item.question.qcomment.map(question => (
+        <div>
+        <Comment question={question}/>
+        </div>
+      ))}
+        
+        <input type='text' placeholder='Add a comment'></input>
     </div>
   )
 }

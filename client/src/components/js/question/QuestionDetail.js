@@ -7,10 +7,6 @@ import '../../css/question/QuestionDetail.scss'
 
 export default function QuestionDetail({item}) {
 
-  const test = () => {
-    console.log(item.question.title) 
-  }
-
   return (
     <div className='questionDetail'>
       <Vote item={item}/>
@@ -28,11 +24,7 @@ export default function QuestionDetail({item}) {
           <Profile item={item}/>
         </div>
         <CommentList item={item}/>
-      </div>
-
-      <button onClick={test}>Ask Question</button>
-      
-      
+      </div>      
     </div>
   )
 }
