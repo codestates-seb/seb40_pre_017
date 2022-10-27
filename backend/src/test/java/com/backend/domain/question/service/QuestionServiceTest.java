@@ -1,11 +1,10 @@
 package com.backend.domain.question.service;
 
 import com.backend.domain.question.domain.Question;
-import com.backend.domain.question.dto.QuestionCreateDto;
+import com.backend.domain.question.dto.request.QuestionCreate;
 import com.backend.domain.question.exception.QuestionNotFound;
 import com.backend.domain.question.repository.QuestionRepository;
 import com.backend.domain.tag.dto.TagDto;
-import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,8 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -35,7 +32,7 @@ class QuestionServiceTest {
         List<TagDto> tags = List.of(tag1, tag2);
         String title = "adfasdfsadfasdfasdfasdfㅁㄴㅇㄹㄴㅇㄹ";
         String content = "ㅁㄴㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㄴㅁㅇㄹㅁㄴㅇㄹ";
-        QuestionCreateDto dto = QuestionCreateDto.builder()
+        QuestionCreate dto = QuestionCreate.builder()
                 .title(title)
                 .content(content)
                 .tags(tags)

@@ -2,28 +2,37 @@ import React from 'react'
 import CommentList from '../comment/CommentList'
 import Profile from '../profile/Profile'
 import Vote from '../vote/Vote'
-import { Link } from 'react-router-dom'
+import Tags from '../tags/Tags'
+import '../../css/question/QuestionDetail.scss'
 
-export default function QuestionDetail() {
+export default function QuestionDetail({item}) {
 
-  //id 파라미터 가져오기
-  let query = window.location.href;
-  let param = new URLSearchParams(query).keys();
-  
   const test = () => {
-    console.log(param);
+    console.log(item.question.title) 
   }
 
   return (
-    <div>
-      <h1>{}</h1>
-      <Link to={'/add'}>
-        <button>Ask Question</button>
-      </Link>
-      <Profile />
+    <div className='questionDetail'>
+      <Vote item={item}/>
+      <div className='detailMainWrap'>
+        <div className='detailContent'>
+          <h3>{item.question.content}</h3>
+          <Tags item={item}/>
+        </div>
+
+        <div className='detailBottomWrap'>
+          <div className='detailEditWrap'>
+            <button>Share</button>
+            <button>Edit</button>
+          </div>
+          <Profile item={item}/>
+        </div>
+        <CommentList item={item}/>
+      </div>
+
       <button onClick={test}>Ask Question</button>
-      <Vote />
-      <CommentList />
+      
+      
     </div>
   )
 }

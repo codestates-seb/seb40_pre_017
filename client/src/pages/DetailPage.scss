@@ -1,0 +1,50 @@
+.detailPage{
+    margin-top: 10px;
+    padding: 16px;
+}
+
+.detailHeadWrap{
+    margin-bottom: 16px;
+    border-bottom: 1px solid #E3E6E8;
+}
+
+.detailTitleWrap{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+
+    h1{
+        font-size: 27px;
+        color: #4A4F53;
+    }
+
+    button{
+        font-size: 13px;
+        cursor: pointer;
+        width: 98px;
+        height: 37px;
+        padding: 10px;
+        color: white;
+        background-color: #0A95FF;
+        border-color: transparent;
+        border-radius: 3px;
+        box-shadow: rgba(255,255,255,0.4) 0px 2px 0px 0px inset;
+    }
+    button:hover{
+        background-color: #0074CC;
+    }
+}
+
+.detailDateWrap {
+    display: flex;
+    margin-bottom: 20px;
+    p {
+        color: #6A737C;
+    }
+
+    .detailDateValue{
+        color: #232629;
+        margin: 0px 15px 0px 7px;
+    }
+}
