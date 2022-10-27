@@ -24,7 +24,7 @@ public class Answer extends Auditable {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "is_accepted")
+    @Column(name = "is_accepted",nullable = false)
     private Boolean isAccepted;
 
     @ManyToOne
