@@ -1,6 +1,8 @@
 package com.backend.domain.qcomment.domain;
 
 import com.backend.domain.member.domain.Member;
+import com.backend.domain.qcomment.dto.QCommentResponse;
+import com.backend.domain.qcomment.dto.QCommentUpdate;
 import com.backend.domain.question.domain.Question;
 import com.backend.global.Audit.Auditable;
 import lombok.*;
@@ -9,15 +11,13 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class QuestionComment extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "qcomment_id", nullable = false)
-    private Long Id;
+    @Column(name = "qcomment_id")
+    private Long id;
 
     @Column(nullable = false)
     private String content;
@@ -31,9 +31,28 @@ public class QuestionComment extends Auditable {
     private Question question;
 
     @Builder
-    public QuestionComment(String content) {
+    public QuestionComment(String content,Question question, Member member) {
         this.content = content;
+        this.question = question;
     }
 
 
+    public static QuestionComment toEntity(String content, Question question, Member member) {
+        return QuestionComment.builder()
+                .content(content)
+                .question(question)
+                .member(member)
+                .build();
+    }
+
+    public QCommentResponse toResponseDto() {
+        return QCommentResponse.builder()
+                .qcommentId(id)
+                .build();
+    }
+
+    public void patch(QCommentUpdate qCommentUpdate) {
+        if(qCommentUpdate.getContent() != null)
+            this.content = qCommentUpdate.getContent();
+    }
 }

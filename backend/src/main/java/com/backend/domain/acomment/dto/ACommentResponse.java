@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ACommentResponse {
-    private long acommentId;
+    private Long acommentId;
 }

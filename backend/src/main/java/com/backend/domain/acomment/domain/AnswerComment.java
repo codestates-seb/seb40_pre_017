@@ -30,18 +30,20 @@ public class AnswerComment extends Auditable {
     private Answer answer;
 
     @Builder
-    public AnswerComment(String content, Answer answer) {
+    public AnswerComment(String content, Answer answer, Member member) {
         this.content = content;
         this.answer = answer;
+        this.member = member;
     }
 
     /**
      * param member 추가 필요
      */
-    public static AnswerComment toEntity(String content,Answer answer ) {
+    public static AnswerComment toEntity(String content,Answer answer,Member member ) {
         return AnswerComment.builder()
                 .content(content)
                 .answer(answer)
+                .member(member)
                 .build();
     }
     public ACommentResponse toResponseDto() {
@@ -50,8 +52,8 @@ public class AnswerComment extends Auditable {
                 .build();
     }
 
-    public void patch(ACommentUpdate dto) {
-        if(dto.getContent() != null)
-            this.content = dto.getContent();
+    public void patch(ACommentUpdate aCommentUpdate) {
+        if(aCommentUpdate.getContent() != null)
+            this.content = aCommentUpdate.getContent();
     }
 }

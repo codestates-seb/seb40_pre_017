@@ -7,6 +7,7 @@ import com.backend.domain.answer.dto.AnswerPostDto;
 import com.backend.domain.answer.dto.AnswerResponseDto;
 import com.backend.domain.answer.exception.AnswerException;
 import com.backend.domain.answer.exception.ExceptionCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,13 +15,10 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class AnswerService {
 
     private final AnswerRepository answerRepository;
-
-    public AnswerService(AnswerRepository answerRepository) {
-        this.answerRepository = answerRepository;
-    }
 
     public AnswerResponseDto createAnswer(AnswerPostDto answerPostDto) {
 

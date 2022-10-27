@@ -23,8 +23,8 @@ public class ACommentController {
     @PostMapping("/comments")
     public ResponseEntity<ACommentResponse>  createComment(
             @PathVariable("answer-id") @Positive Long answerId,
-            @Valid @RequestBody ACommentCreate aCommentPostDto) {
-        ACommentResponse result = aCommentService.createComment(aCommentPostDto, answerId);
+            @Valid @RequestBody ACommentCreate aCommentCreate) {
+        ACommentResponse result = aCommentService.createComment(aCommentCreate, answerId);
 
         return ResponseEntity.ok(result);
     }
@@ -33,10 +33,10 @@ public class ACommentController {
     public ResponseEntity<ACommentResponse> updateComment(
             @PathVariable("answer-id") @Positive Long answerId,
             @PathVariable("comment-id") @Positive Long acommentId,
-            @Valid @RequestBody ACommentUpdate aCommentPatchDto) {
+            @Valid @RequestBody ACommentUpdate aCommentUpdate) {
 
 
-        ACommentResponse result = aCommentService.updateComment(aCommentPatchDto, acommentId);
+        ACommentResponse result = aCommentService.updateComment(aCommentUpdate, acommentId);
 
         return ResponseEntity.ok(result);
     }
