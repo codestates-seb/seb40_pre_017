@@ -25,7 +25,7 @@ public class AnswerController {
 
 
     @PostMapping("/{id}/answer")
-    public ResponseEntity postAnswer(
+    public ResponseEntity<AnswerResponseDto> postAnswer(
             @PathVariable("id") @Positive Long Id,
             @Valid @RequestBody AnswerPostDto answerPostDto) {
 
@@ -36,7 +36,7 @@ public class AnswerController {
     }
 
     @PatchMapping("/{id}/answer/{answer-id}")
-    public ResponseEntity patchAnswer(
+    public ResponseEntity<AnswerResponseDto> patchAnswer(
             @PathVariable("id") @Positive Long Id,
             @PathVariable("answer-id") @Positive Long answerId,
             @Valid @RequestBody AnswerPatchDto answerPatchDto) {
@@ -48,7 +48,7 @@ public class AnswerController {
     }
 
     @DeleteMapping("/{id}/answer/{answer-id}")
-    public ResponseEntity deleteAnswer(
+    public ResponseEntity<?> deleteAnswer(
             @PathVariable("id") @Positive Long Id,
             @PathVariable("answer-id") @Positive Long answerId) {
         answerService.deleteAnswer(answerId);
@@ -57,7 +57,7 @@ public class AnswerController {
     }
 
     @PostMapping("/{id}/answer/{answer-id}/accept")
-    public ResponseEntity acceptAnswer(
+    public ResponseEntity<?> acceptAnswer(
             @PathVariable("id") @Positive Long Id,
             @PathVariable("answer-id") @Positive Long answerId) {
         answerService.acceptAnswer(answerId);
@@ -66,7 +66,7 @@ public class AnswerController {
     }
 
     @PostMapping("/{id}/answer/{answer-id}/accept/undo")
-    public ResponseEntity unAcceptAnswer(
+    public ResponseEntity<?> unAcceptAnswer(
             @PathVariable("id") @Positive Long Id,
             @PathVariable("answer-id") @Positive Long answerId) {
         answerService.unAcceptAnswer(answerId);

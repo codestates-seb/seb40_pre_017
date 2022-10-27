@@ -66,6 +66,14 @@ public class QuestionService {
         return id;
     }
 
+    @Transactional
+    public Long deleteQuestion(Long id){
+        Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
+        questionRepository.delete(question);
+        
+        return id;
+
+    }
 
 
     /* 비즈니스 로직 경계 */
