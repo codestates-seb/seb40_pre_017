@@ -4,8 +4,6 @@ import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.dto.MemberPostDto;
 import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.repository.MemberRepository;
-import com.backend.global.util.CustomAuthorityUtils;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.security.SecurityUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;

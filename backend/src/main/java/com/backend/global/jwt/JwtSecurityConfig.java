@@ -1,4 +1,4 @@
-package com.backend.global.config.security;
+package com.backend.global.jwt;
 
 import com.backend.global.config.security.filter.JwtFilter;
 import com.backend.global.jwt.TokenProvider;

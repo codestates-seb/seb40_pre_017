@@ -1,5 +1,6 @@
 package com.backend.domain.member.dto;
 
+import com.backend.domain.member.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,5 +24,11 @@ public class MemberResponseDto {
         this.username = username;
         this.profileImage = profileImage;
         this.reputation = reputation;
+    }
+
+    public static MemberResponseDto of(Member member) {
+        return MemberResponseDto.builder()
+                .email(member.getEmail())
+                .build();
     }
 }
