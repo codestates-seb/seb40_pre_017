@@ -17,7 +17,7 @@ export default function Question({item}) {
         <p>{item.question.view_count} views</p>
       </div>
       <div className='question_mainBox'>
-        <Link to={`/${item.question.questionId}`}>
+        <Link to={`questions/${item.question.questionId}`}>
           <h2>{item.question.title}</h2>
         </Link>
         <p>{contentTextLimit}</p>
@@ -35,7 +35,7 @@ export default function Question({item}) {
         
       </div>
       <div className='questionList_profile'>
-            <img className='pic' src={item.member.profile_image} alt='profile'/>
+            <img className='pic' src={item.member.profileImage} alt='profile'/>
             <p>{item.member.userName}</p>
             <p>createdtime ago</p>
         </div>

@@ -1,6 +1,5 @@
 import './App.scss';
 import { Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
 import Layout from './components/js/basic/Layout';
 import Notfound from './components/js/basic/Notfound';
 import QuestionPage from './pages/QuestionPage';
@@ -22,8 +21,9 @@ function App() {
         <Route path="/" element={<Layout />}>
           {/* <Route index element={<Home />} /> */}
           <Route index element={<QuestionPage items={items}/>} />
+          {/* <Route path="/questions" element={<QuestionPage items={items}/>} /> */}
           <Route path="/add" element={<AddQuestion />} />
-          <Route path="/:id" element={<DetailPage />} />
+          <Route path="/questions/:id" element={<DetailPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           {/* path 확실하게 재수정 */}
