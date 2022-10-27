@@ -29,7 +29,6 @@ public class QuestionController {
     @DeleteMapping("questions/{id}")
     public ResponseEntity<Long> deleteQuestion(@PathVariable Long id){
 
-
         return ResponseEntity.ok(questionService.deleteQuestion(id));
 
     }

@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ACommentResponseDto {
+public class ACommentResponse {
     private long acommentId;
 }

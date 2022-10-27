@@ -2,13 +2,13 @@ package com.backend.domain.acomment.application;
 
 import com.backend.domain.acomment.dao.ACommentRepository;
 import com.backend.domain.acomment.domain.AnswerComment;
-import com.backend.domain.acomment.dto.ACommentPatchDto;
-import com.backend.domain.acomment.dto.ACommentPostDto;
-import com.backend.domain.acomment.dto.ACommentResponseDto;
+import com.backend.domain.acomment.dto.ACommentUpdate;
+import com.backend.domain.acomment.dto.ACommentCreate;
+import com.backend.domain.acomment.dto.ACommentResponse;
 import com.backend.domain.acomment.exception.CommentException;
 import com.backend.domain.answer.application.AnswerService;
 import com.backend.domain.answer.domain.Answer;
-import com.backend.domain.answer.exception.ExceptionCode;
+import com.backend.global.error.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,8 +27,7 @@ public class ACommentService {
         this.aCommentRepository = aCommentRepository;
     }
 
-    public ACommentResponseDto createAComment(ACommentPostDto aCommentPostDto) {
-
+    public ACommentResponse createComment(ACommentCreate aCommentPostDto, Long answerId) {
 
         Answer answer = answerService.findVerifiedAnswer(aCommentPostDto.getAnswerId());
 
@@ -38,39 +37,38 @@ public class ACommentService {
 
         AnswerComment savedComment = aCommentRepository.save(answerComment);
 
-        ACommentResponseDto result = savedComment.toResponseDto();
+        ACommentResponse result = savedComment.toResponseDto();
 
         return result;
 
     }
 
-    public ACommentResponseDto updateAComment(ACommentPatchDto aCommentPatchDto) {
+    public ACommentResponse updateComment(ACommentUpdate aCommentPatchDto, Long acommentId) {
 
         AnswerComment findComment = findVerifiedComment(aCommentPatchDto.getAcommentId());
 
         findComment.patch(aCommentPatchDto);
 
-        ACommentResponseDto result = findComment.toResponseDto();
+        ACommentResponse result = findComment.toResponseDto();
 
         return result;
 
-
-
     }
 
-    public void deleteAComment(Long acommentId) {
+    public Long deleteComment(Long acommentId) {
 
         AnswerComment findComment = findVerifiedComment(acommentId);
 
         aCommentRepository.delete(findComment);
+
+        return acommentId;
 
     }
 
 
     private AnswerComment findVerifiedComment(Long acommentId) {
         Optional<AnswerComment> optionalComment = aCommentRepository.findById(acommentId);
-        AnswerComment findComment = optionalComment.orElseThrow(() -> new CommentException(ExceptionCode.COMMENT_NOT_FOUND));
-
+        AnswerComment findComment = optionalComment.orElseThrow(() -> new CommentException(ErrorCode.COMMENT_NOT_FOUND));
         return findComment;
     }
 }

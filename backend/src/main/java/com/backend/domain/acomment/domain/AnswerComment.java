@@ -1,7 +1,7 @@
 package com.backend.domain.acomment.domain;
 
-import com.backend.domain.acomment.dto.ACommentPatchDto;
-import com.backend.domain.acomment.dto.ACommentResponseDto;
+import com.backend.domain.acomment.dto.ACommentUpdate;
+import com.backend.domain.acomment.dto.ACommentResponse;
 import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.member.domain.Member;
 import com.backend.global.Audit.Auditable;
@@ -44,13 +44,13 @@ public class AnswerComment extends Auditable {
                 .answer(answer)
                 .build();
     }
-    public ACommentResponseDto toResponseDto() {
-        return ACommentResponseDto.builder()
+    public ACommentResponse toResponseDto() {
+        return ACommentResponse.builder()
                 .acommentId(id)
                 .build();
     }
 
-    public void patch(ACommentPatchDto dto) {
+    public void patch(ACommentUpdate dto) {
         if(dto.getContent() != null)
             this.content = dto.getContent();
     }

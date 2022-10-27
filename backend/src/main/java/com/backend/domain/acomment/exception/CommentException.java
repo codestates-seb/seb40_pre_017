@@ -1,14 +1,15 @@
 package com.backend.domain.acomment.exception;
 
-import com.backend.domain.answer.exception.ExceptionCode;
+import com.backend.global.error.exception.BusinessException;
+import com.backend.global.error.exception.ErrorCode;
 import lombok.Getter;
 
-public class CommentException extends RuntimeException {
+public class CommentException extends BusinessException {
     @Getter
-    private ExceptionCode exceptionCode;
+    private ErrorCode errorCode;
 
-    public CommentException(ExceptionCode exceptionCode) {
-        super(exceptionCode.getMessage());
-        this.exceptionCode = exceptionCode;
+    public CommentException(ErrorCode errorCode) {
+        super(errorCode.getMessage(), errorCode);
     }
 }
+

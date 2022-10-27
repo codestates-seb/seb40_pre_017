@@ -11,12 +11,13 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ACommentPatchDto {
+public class ACommentCreate {
 
-    private Long acommentId;
-
+    private Long answerId;
 
     @NotBlank(message = "컨텐츠는 공백이 아니어야 합니다.")
     private String content;
+
+
 
 }

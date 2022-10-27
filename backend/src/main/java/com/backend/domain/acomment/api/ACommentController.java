@@ -1,10 +1,10 @@
 package com.backend.domain.acomment.api;
 
 import com.backend.domain.acomment.application.ACommentService;
-import com.backend.domain.acomment.dto.ACommentPatchDto;
-import com.backend.domain.acomment.dto.ACommentPostDto;
-import com.backend.domain.acomment.dto.ACommentResponseDto;
-import org.springframework.http.HttpStatus;
+import com.backend.domain.acomment.dto.ACommentUpdate;
+import com.backend.domain.acomment.dto.ACommentCreate;
+import com.backend.domain.acomment.dto.ACommentResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,46 +14,41 @@ import javax.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("question/?/answer/{answer-id}")
+@RequiredArgsConstructor
 @Validated
 public class ACommentController {
 
-    private ACommentService aCommentService;
-
-    public ACommentController(ACommentService aCommentService) {
-        this.aCommentService = aCommentService;
-    }
+    private final ACommentService aCommentService;
 
     @PostMapping("/comments")
-    public ResponseEntity postAComment(
+    public ResponseEntity<ACommentResponse>  createComment(
             @PathVariable("answer-id") @Positive Long answerId,
-            @Valid @RequestBody ACommentPostDto aCommentPostDto) {
-        aCommentPostDto.setAnswerId(answerId);
+            @Valid @RequestBody ACommentCreate aCommentPostDto) {
+        ACommentResponse result = aCommentService.createComment(aCommentPostDto, answerId);
 
-        ACommentResponseDto result = aCommentService.createAComment(aCommentPostDto);
-
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
+        return ResponseEntity.ok(result);
     }
 
     @PatchMapping("/comments/{comment-id}")
-    public ResponseEntity patchAComment(
+    public ResponseEntity<ACommentResponse> updateComment(
             @PathVariable("answer-id") @Positive Long answerId,
             @PathVariable("comment-id") @Positive Long acommentId,
-            @Valid @RequestBody ACommentPatchDto aCommentPatchDto) {
+            @Valid @RequestBody ACommentUpdate aCommentPatchDto) {
 
-        aCommentPatchDto.setAcommentId(acommentId);
-        ACommentResponseDto result = aCommentService.updateAComment(aCommentPatchDto);
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        ACommentResponse result = aCommentService.updateComment(aCommentPatchDto, acommentId);
+
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/comments/{comment-id}")
-    public ResponseEntity deleteComment(
+    public ResponseEntity<Long> deleteComment(
             @PathVariable("answer-id") @Positive Long answerId,
             @PathVariable("comment-id") @Positive Long acommentId) {
 
-        aCommentService.deleteAComment(acommentId);
+        Long id = aCommentService.deleteComment(acommentId);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok(id);
     }
 
 
