@@ -1,25 +1,41 @@
 import './App.scss';
 import { Route, Routes } from 'react-router-dom';
-import Header from './components/basic/Header';
-import Main from './components/basic/Main';
-import Footer from './components/basic/Footer';
-import Home from './pages/Home';
-import Mainpage from './pages/Mainpage';
+import Layout from './components/js/basic/Layout';
+import Notfound from './components/js/basic/Notfound';
+import QuestionPage from './pages/QuestionPage';
+import AddQuestion from './pages/AddQuestion'
+import DetailPage from './pages/DetailPage'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
+
+import useFetch from './util/useFetch';
 
 function App() {
   // json-server --watch data.json --port 3001
+  // 라우트 경로 에러 있음
+  const [items] = useFetch("http://localhost:3001/items/");
+
   return (
-    <div className='appLayout'>
-      <Header />
-      <Main>
-        <Routes>
-            {/* <Route path='/' element={<Home />} /> */}
-            {/* <Route path='/' element={<Mainpage />}/> */}
-        </Routes>
-      </Main>
-      <Footer />
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          {/* <Route index element={<Home />} /> */}
+          <Route index element={<QuestionPage items={items}/>} />
+          {/* <Route path="/questions" element={<QuestionPage items={items}/>} /> */}
+          <Route path="/add" element={<AddQuestion />} />
+          <Route path="/questions/:id" element={<DetailPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          {/* path 확실하게 재수정 */}
+
+          {/* 검색 페이지 라우팅 */}
+          {/* <Route path="/search" element={<Layout />}> */}
+          {/* 경로 예외처리 */}
+          <Route path="*" element={<Notfound />} />
+        </Route>
+      </Routes>
+    </>
   );
-}
+} 
 
 export default App;
