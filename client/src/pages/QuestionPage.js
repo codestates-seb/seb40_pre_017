@@ -15,9 +15,9 @@ export default function QuestionPage({items}) {
     <div className='questionPage'>
       <div className='headAddWrap'>
         <h1>All Questions</h1>
-        <button>
-          <Link to={'/add'}>Ask Question</Link>
-        </button>
+        <Link to={'/add'}>
+          <button>Ask Question</button>
+        </Link>
       </div>
       <div className='countFilterWrap'>
         <span>{count} question</span>
