@@ -43,8 +43,11 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Answer> answers = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
     @Builder
-    public Member(Long id, String email, String password, String username, String profileImage, Long reputation, List<Question> questions, List<Answer> answers) {
+    public Member(Long id, String email, String password, String username, String profileImage, Long reputation, List<Question> questions, List<Answer> answers, Authority authority) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -53,6 +56,7 @@ public class Member {
         this.reputation = reputation;
         this.questions = questions;
         this.answers = answers;
+        this.authority = authority;
     }
 
     public void setPassword(String password) {

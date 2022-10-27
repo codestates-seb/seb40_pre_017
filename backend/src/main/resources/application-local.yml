@@ -29,13 +29,9 @@ server:
       force-response: true # HTTP encoding charset
       charset: UTF-8 # HTTP encoding charset
 jwt:
-  secret: secret # JWT secret
+  secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK # JWT secret
   access-token-expiration-time: 86400000 # 15분
   refresh-token-expiration-time: 1209600000 # 2주
-  header: Authorization # JWT header
-  prefix: Bearer # JWT prefix
-  refreshHeader: Refresh # JWT refresh header
-  refreshPrefix: Refresh # JWT refresh prefix
 
 mail:
   address:

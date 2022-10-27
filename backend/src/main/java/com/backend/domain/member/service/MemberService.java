@@ -21,7 +21,7 @@ public class MemberService {
     private final CustomAuthorityUtils authorityUtils;
 
     // 회원가입
-    public MemberResponseDto createMember(MemberPostDto memberPostDto) {
+    public MemberResponseDto create(MemberPostDto memberPostDto) {
         Member member = memberPostDto.toEntity();
 
         // 비밀번호 암호화
