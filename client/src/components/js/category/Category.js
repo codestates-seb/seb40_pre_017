@@ -12,7 +12,7 @@ export default function Category() {
   const [selectNav, setSelectNav] = useState(0);
   
   const location = useLocation().pathname;
-
+  
   useEffect(() => {
     setSelectNav(location)
   },[location])
