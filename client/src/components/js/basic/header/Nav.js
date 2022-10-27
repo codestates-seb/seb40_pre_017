@@ -5,7 +5,7 @@ import Logo from './Logo';
 import Snav from './Snav';
 import Navinput from './Navinput';
 import Navbtn from './Navbtn';
-import Inputtab from './Inputtab';
+import User from './User';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
@@ -19,17 +19,12 @@ export default function Nav() {
         <Logo />
         <Snav />
         <Navinput />
-        <Navbtn />
+        {/* <Navbtn /> */}
+
+        {/* props */}
+        <User />
+
       </nav>
-      {/* <div className='navSmallInputArea'>
-        {isFocused ?
-        <label for="검색" className='navIcon'>
-          <FontAwesomeIcon className='hamburger' icon={faMagnifyingGlass} />
-        </label> : ""
-        }
-        {isFocused && <input onFocus={focusChange} onBlur={focusChange} id='검색' className='navInput' type="text" placeholder="Search…" />}
-        {isFocused && <div className='navSmallInputTabArea'><Inputtab /></div>}
-      </div> */}
     </>
   )
 }
