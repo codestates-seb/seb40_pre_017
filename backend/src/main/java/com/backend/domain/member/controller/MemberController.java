@@ -19,7 +19,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<MemberResponseDto> createMember(@RequestBody MemberPostDto memberPostDto) {
+    public ResponseEntity<MemberResponseDto> create(@RequestBody MemberPostDto memberPostDto) {
 
         MemberResponseDto member = memberService.createMember(memberPostDto);
 
