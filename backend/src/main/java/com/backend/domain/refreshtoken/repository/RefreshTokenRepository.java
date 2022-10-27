@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
+    // member id 값으로 refresh token 찾기
     Optional<RefreshToken> findByKey(Long key);
 }
