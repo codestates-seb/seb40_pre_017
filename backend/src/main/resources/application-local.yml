@@ -29,10 +29,14 @@ server:
       force-response: true # HTTP encoding charset
       charset: UTF-8 # HTTP encoding charset
 jwt:
-  secret-key: secret # JWT secret
-  expiration: 86400000 # JWT expiration time in milliseconds
+  secret: secret # JWT secret
+  access-token-expiration-time: 86400000 # 15분
+  refresh-token-expiration-time: 1209600000 # 2주
   header: Authorization # JWT header
   prefix: Bearer # JWT prefix
-  refreshExpiration: 2592000000 # JWT refresh expiration time in milliseconds
   refreshHeader: Refresh # JWT refresh header
   refreshPrefix: Refresh # JWT refresh prefix
+
+mail:
+  address:
+    admin: admin@localhost # 관리자 이메일
