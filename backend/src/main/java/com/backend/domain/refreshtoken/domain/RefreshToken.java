@@ -1,15 +1,18 @@
 package com.backend.domain.refreshtoken.domain;
 
 import com.backend.global.Audit.Auditable;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RefreshToken extends Auditable {
     @Id
     @Column(name = "rt_key")

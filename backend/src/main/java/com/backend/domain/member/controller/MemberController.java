@@ -25,4 +25,14 @@ public class MemberController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(member);
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
+        return ResponseEntity.ok(memberService.getMyInfo());
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<MemberResponseDto> getMemberInfo(@PathVariable String email) {
+        return ResponseEntity.ok(memberService.getMemberInfo(email));
+    }
 }

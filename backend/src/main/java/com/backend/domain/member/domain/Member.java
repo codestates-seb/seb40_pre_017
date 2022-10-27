@@ -4,6 +4,7 @@ import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.question.domain.Question;
 import com.backend.global.Audit.Auditable;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,7 +61,7 @@ public class Member extends Auditable {
         this.authority = authority;
     }
 
-    public void setPassword(String password) {
+    public void encodePassword(String password) {
         this.password = password;
     }
 
@@ -72,8 +73,8 @@ public class Member extends Auditable {
 
     public MemberResponseDto toResponseDto (Member member) {
         return MemberResponseDto.builder()
-//                .id(member.getId())
-                .email(member.getEmail())
+                .id(member.getId())
+//                .email(member.getEmail())
 //                .username(member.getUsername())
 //                .profileImage(member.getProfileImage())
 //                .reputation(member.getReputation())
