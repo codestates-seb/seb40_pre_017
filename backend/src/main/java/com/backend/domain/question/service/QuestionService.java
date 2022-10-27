@@ -3,8 +3,10 @@ package com.backend.domain.question.service;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.domain.QuestionTag;
-import com.backend.domain.question.dto.QuestionCreateDto;
-import com.backend.domain.question.exception.TitleDuplicate;
+import com.backend.domain.question.dto.request.QuestionCreate;
+import com.backend.domain.question.dto.request.QuestionUpdate;
+import com.backend.domain.question.exception.QuestionNotFound;
+import com.backend.domain.question.exception.TitleDuplication;
 import com.backend.domain.question.repository.QuestionRepository;
 import com.backend.domain.tag.domain.Tag;
 import com.backend.domain.tag.dto.TagDto;
@@ -15,10 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
@@ -29,34 +33,50 @@ public class QuestionService {
      * 2. 제목이 중복인지 확인한다.
      * 3. 태그를 등록한다 ( 있는 태그면 넘어가고 새 태그면 등록한다.)
      * 4.
-
      */
     @Transactional
-    public Long createQuestion(QuestionCreateDto questionCreateDto){
+    public Long createQuestion(QuestionCreate questionCreate) {
 
-        existsSameTitle(questionCreateDto.getTitle());
+        existsSameTitle(questionCreate.getTitle());
 
-        List<QuestionTag> questionTags = new ArrayList<>();
-
-        questionCreateDto.getTags().forEach(tagDto -> {
-            Tag tag = tagService.addTag(tagDto);
-            QuestionTag questionTag = QuestionTag.createQuestionTag(tag);
-            questionTags.add(questionTag);
-        }
-        );
-
-//        for (TagDto tagDto : questionCreateDto.getTags()){
-//            Tag tag = tagService.addTag(tagDto);
-//            QuestionTag questionTag = QuestionTag.createQuestionTag(tag);
-//            questionTags.add(questionTag);
-//        }
+        List<QuestionTag> questionTags = makeQuestionTags(questionCreate.getTags());
 
         // 현재 사용자 가져오는 로직으로 수정 필요
 
-        Question question = Question.createQuestion(questionCreateDto, getMember(), questionTags);
+        Question question = Question.createQuestion(questionCreate, getMember(), questionTags);
+
         return questionRepository.save(question).getId();
 
     }
+
+
+    @Transactional
+    public Long updateQuestion(Long id, QuestionUpdate questionUpdate) {
+
+        Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
+
+        if (!Objects.equals(question.getTitle(), questionUpdate.getTitle())) {
+            existsSameTitle(questionUpdate.getTitle());
+        }
+
+        List<QuestionTag> questionTags = makeQuestionTags(questionUpdate.getTags());
+
+        question.updateQuestion(questionUpdate, questionTags);
+
+        return id;
+    }
+
+    @Transactional
+    public Long deleteQuestion(Long id){
+        Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
+        questionRepository.delete(question);
+        
+        return id;
+
+    }
+
+
+    /* 비즈니스 로직 경계 */
 
     private Member getMember() {
         Member member = Member.builder()
@@ -69,9 +89,19 @@ public class QuestionService {
         return member;
     }
 
+    private List<QuestionTag> makeQuestionTags(List<TagDto> questionCreate) {
+
+        return questionCreate.stream().map(
+                tagDto -> {
+                    Tag tag = tagService.addTag(tagDto);
+                    return QuestionTag.createQuestionTag(tag);
+                }
+        ).collect(Collectors.toList());
+    }
+
     private void existsSameTitle(String title) {
-        if(questionRepository.existsByTitle(title)){
-            throw new TitleDuplicate();
+        if (questionRepository.existsByTitle(title)) {
+            throw new TitleDuplication();
         }
     }
 }

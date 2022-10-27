@@ -1,9 +1,12 @@
 package com.backend.domain.question.exception;
 
 
-public class QuestionNotFound extends RuntimeException{
+import com.backend.global.error.exception.BusinessException;
+import com.backend.global.error.exception.ErrorCode;
+
+public class QuestionNotFound extends BusinessException {
 
     public QuestionNotFound() {
-        super("질문을 찾을 수 없습니다.");
+        super(ErrorCode.QUESTION_NOT_FOUND.getMessage(),ErrorCode.QUESTION_NOT_FOUND);
     }
 }

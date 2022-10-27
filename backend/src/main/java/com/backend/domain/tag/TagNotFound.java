@@ -1,8 +1,11 @@
 package com.backend.domain.tag;
 
 
-public class TagNotFound extends RuntimeException{
+import com.backend.global.error.exception.BusinessException;
+import com.backend.global.error.exception.ErrorCode;
+
+public class TagNotFound extends BusinessException {
     public TagNotFound() {
-        super("태그가 없습니다");
+        super(ErrorCode.TAG_NOT_FOUND.getMessage(), ErrorCode.TAG_NOT_FOUND);
     }
 }
