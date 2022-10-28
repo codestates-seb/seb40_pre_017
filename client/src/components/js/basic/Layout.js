@@ -10,6 +10,7 @@ export default function Layout() {
   return (
     <div className='appLayout'>
       <Header/>
+      <div></div>
       <Main>
         <Outlet/>
       </Main>
