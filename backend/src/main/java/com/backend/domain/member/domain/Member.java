@@ -61,6 +61,8 @@ public class Member extends Auditable {
         this.authority = authority;
     }
 
+    //
+
     public void encodePassword(String password) {
         this.password = password;
     }

@@ -10,4 +10,11 @@
   <component name="ProjectType">
     <option name="id" value="jpab" />
   </component>
+  <component name="SwUserDefinedSpecifications">
+    <option name="specTypeByUrl">
+      <map>
+        <entry key="file://$PROJECT_DIR$/backend/src/main/resources/application-local.yml" value="openapi30" />
+      </map>
+    </option>
+  </component>
 </project>

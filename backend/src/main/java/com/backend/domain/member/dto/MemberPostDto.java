@@ -46,7 +46,7 @@ public class MemberPostDto {
                 .password(passwordEncoder.encode(password))
                 .username(username)
                 .authority(Authority.ROLE_USER)
-                .profileImage("https://imgur.com/gallery/5tMeN")
+                .profileImage("https://imgur.com/gallery/5tMeN") // TODO: 기본 프로필 이미지 수정
                 .reputation(0L)
                 .build();
     }
