@@ -1,7 +1,7 @@
-package com.backend.domain.acomment.domain;
+package com.backend.domain.comment.domain;
 
-import com.backend.domain.acomment.dto.ACommentUpdate;
-import com.backend.domain.acomment.dto.ACommentResponse;
+import com.backend.domain.comment.dto.AnswerCommentUpdate;
+import com.backend.domain.comment.dto.AnswerCommentResponse;
 import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.member.domain.Member;
 import com.backend.global.Audit.Auditable;
@@ -15,7 +15,7 @@ public class AnswerComment extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "acomment_id", nullable = false)
+    @Column(name = "answerComment_id", nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -46,14 +46,14 @@ public class AnswerComment extends Auditable {
                 .member(member)
                 .build();
     }
-    public ACommentResponse toResponseDto() {
-        return ACommentResponse.builder()
-                .acommentId(id)
+    public AnswerCommentResponse toResponseDto() {
+        return AnswerCommentResponse.builder()
+                .answerCommentId(id)
                 .build();
     }
 
-    public void patch(ACommentUpdate aCommentUpdate) {
-        if(aCommentUpdate.getContent() != null)
-            this.content = aCommentUpdate.getContent();
+    public void patch(AnswerCommentUpdate answerCommentUpdate) {
+        if(answerCommentUpdate.getContent() != null)
+            this.content = answerCommentUpdate.getContent();
     }
 }

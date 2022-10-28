@@ -1,4 +1,4 @@
-package com.backend.domain.qcomment.exception;
+package com.backend.domain.comment.exception;
 
 import com.backend.global.error.exception.BusinessException;
 import com.backend.global.error.exception.ErrorCode;

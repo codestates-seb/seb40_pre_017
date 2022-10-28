@@ -1,8 +1,8 @@
-package com.backend.domain.qcomment.domain;
+package com.backend.domain.comment.domain;
 
 import com.backend.domain.member.domain.Member;
-import com.backend.domain.qcomment.dto.QCommentResponse;
-import com.backend.domain.qcomment.dto.QCommentUpdate;
+import com.backend.domain.comment.dto.QuestionCommentResponse;
+import com.backend.domain.comment.dto.QuestionCommentUpdate;
 import com.backend.domain.question.domain.Question;
 import com.backend.global.Audit.Auditable;
 import lombok.*;
@@ -16,7 +16,7 @@ public class QuestionComment extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "qcomment_id")
+    @Column(name = "questionComment_id")
     private Long id;
 
     @Column(nullable = false)
@@ -46,14 +46,14 @@ public class QuestionComment extends Auditable {
                 .build();
     }
 
-    public QCommentResponse toResponseDto() {
-        return QCommentResponse.builder()
-                .qcommentId(id)
+    public QuestionCommentResponse toResponseDto() {
+        return QuestionCommentResponse.builder()
+                .questionCommentId(id)
                 .build();
     }
 
-    public void patch(QCommentUpdate qCommentUpdate) {
-        if(qCommentUpdate.getContent() != null)
-            this.content = qCommentUpdate.getContent();
+    public void patch(QuestionCommentUpdate questionCommentUpdate) {
+        if(questionCommentUpdate.getContent() != null)
+            this.content = questionCommentUpdate.getContent();
     }
 }
