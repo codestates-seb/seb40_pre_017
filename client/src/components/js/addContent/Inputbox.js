@@ -1,7 +1,7 @@
 import React from 'react'
 import AddContent from './AddContent'
 
-export default function Inputbox({setTitle, setContent, setInputTag, tags, setTags}) {
+export default function Inputbox({setTitle, setContent, tags, setTags}) {
 
   const inputTitle = (e) => {
     e.preventDefault();

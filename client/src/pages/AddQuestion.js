@@ -16,7 +16,7 @@ export default function AddQuestion() {
   const [content, setContent] = useState('');
 
   //tag
-  const [inputTag, setInputTag] = useState();
+  // const [inputTag, setInputTag] = useState();
   const [tags, setTags] = useState([]);
   //inputTag를 tags state에 넣는 조건문
   // if(!tags.includes(inputTag) && inputTag !== undefined)setTags([...tags, inputTag])
@@ -47,7 +47,7 @@ export default function AddQuestion() {
     "answer": []
     }
     console.log(data)
-    // fetchCreate("http://localhost:3001/items/", data)
+    fetchCreate("http://localhost:3001/items/", data)
   }
 
   return (
@@ -72,7 +72,7 @@ export default function AddQuestion() {
             Add “tags” which help surface your question to members of the community.
             Review your question and post it to the site.
           </div>
-          <Inputbox setTitle={setTitle} setContent={setContent} setInputTag={setInputTag} tags={tags} setTags={setTags}/>
+          <Inputbox setTitle={setTitle} setContent={setContent} tags={tags} setTags={setTags}/>
           <button onClick={handleSubmit}>Review your question</button>
         </div>
         
