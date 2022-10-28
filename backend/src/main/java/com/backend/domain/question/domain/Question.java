@@ -4,7 +4,6 @@ import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.question.dto.request.QuestionCreate;
 import com.backend.domain.question.dto.request.QuestionUpdate;
-import com.backend.domain.tag.dto.TagDto;
 import com.backend.global.Audit.Auditable;
 import lombok.AccessLevel;
 import lombok.Builder;

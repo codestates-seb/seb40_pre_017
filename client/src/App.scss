@@ -56,3 +56,6 @@ a{
 button{
 	border: 0px solid transparent;
 };
+*::-webkit-scrollbar {
+	display: none;
+}
