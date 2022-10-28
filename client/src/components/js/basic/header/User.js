@@ -17,11 +17,11 @@ export default function User({userInfo}) {
         {/* <img className='userIcon' src={userInfo.img} alt="userIcon" /> */}
         <div className='userNumber'>1</div>
         {/* <div className='userNumber'>{userInfo.number}</div> */}
+        {toggleOpen && <div className='UserinfoArea'>
+          <Userinfo userInfo={userInfo} />
+        </div>}
       </div>
 
-      {toggleOpen && <div className='UserinfoArea'>
-        <Userinfo userInfo={userInfo} />
-      </div>}
     </>
     
   )
