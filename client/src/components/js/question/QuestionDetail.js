@@ -7,13 +7,9 @@ import '../../css/question/QuestionDetail.scss'
 
 export default function QuestionDetail({item}) {
 
-  const test = () => {
-    console.log(item.question.title) 
-  }
-
   return (
     <div className='questionDetail'>
-      <Vote item={item}/>
+      <Vote item={item.question.votes}/>
       <div className='detailMainWrap'>
         <div className='detailContent'>
           <h3>{item.question.content}</h3>
@@ -25,14 +21,10 @@ export default function QuestionDetail({item}) {
             <button>Share</button>
             <button>Edit</button>
           </div>
-          <Profile item={item}/>
+          <Profile item={item.member}/>
         </div>
-        <CommentList item={item}/>
-      </div>
-
-      <button onClick={test}>Ask Question</button>
-      
-      
+        <CommentList item={item.question.qcomment}/>
+      </div>      
     </div>
   )
 }
