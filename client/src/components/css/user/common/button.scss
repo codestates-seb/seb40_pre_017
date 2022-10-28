@@ -1,0 +1,16 @@
+.btn{
+  width: 100%;
+  padding: 0.8em 0.6em;
+  font-size: 13px;
+  outline: none;
+  border: 1px solid #76a7cd;
+  border-radius: 3px;
+  cursor: pointer;
+  @media screen and (max-width: 640px) {
+    font-size: 12px;
+  }
+}
+.btnColor{
+  color: white;
+  background-color: #0b96ff;
+}
