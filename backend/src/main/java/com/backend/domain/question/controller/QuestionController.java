@@ -3,18 +3,15 @@ package com.backend.domain.question.controller;
 import com.backend.domain.question.dto.request.QuestionCreate;
 import com.backend.domain.question.dto.request.QuestionSearch;
 import com.backend.domain.question.dto.request.QuestionUpdate;
-import com.backend.domain.question.dto.response.QuestionResponse;
 import com.backend.domain.question.service.QuestionService;
 import com.backend.global.dto.Response.MultiResponse;
 import com.backend.global.dto.request.PageRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -49,7 +46,6 @@ public class QuestionController {
 
 
         return ResponseEntity.ok(questionService.delete(id));
-
 
     }
 
