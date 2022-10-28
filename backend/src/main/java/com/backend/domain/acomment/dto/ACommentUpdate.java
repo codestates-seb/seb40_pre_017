@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -13,7 +14,8 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class ACommentUpdate {
 
-    @NotBlank(message = "컨텐츠는 공백이 아니어야 합니다.")
+    @NotBlank
+    @Size(min = 15, message = "15글자 이상 입력하세요")
     private String content;
 
 }
