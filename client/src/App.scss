@@ -32,6 +32,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	font-family: 'Segoe UI';
 }
 ol, ul {
 	list-style: none;
@@ -48,11 +49,13 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
-.appLayout{
-	box-sizing: border-box;
-	display: grid;
-	width: 100vw;
-	grid-template-columns: 1fr;
-	grid-template-rows: 50px 1fr 322px
+a{
+	text-decoration: none;
+	color: inherit;
+}
+button{
+	border: 0px solid transparent;
+};
+*::-webkit-scrollbar {
+	display: none;
 }

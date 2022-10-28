@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/seb40_pre_017.iml" filepath="$PROJECT_DIR$/.idea/seb40_pre_017.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/src/main/main1.iml" filepath="$PROJECT_DIR$/backend/src/main/main1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/src/test/test1.iml" filepath="$PROJECT_DIR$/backend/src/test/test1.iml" />
     </modules>
   </component>
 </project>

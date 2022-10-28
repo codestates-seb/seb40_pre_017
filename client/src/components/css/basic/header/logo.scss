@@ -1,0 +1,25 @@
+.logoArea{
+  height: 53px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  :hover{
+    background-color: rgba(226, 230, 233, 1);
+  }
+  .logo{
+    width: 160px;
+    height: 100%;
+    background-image: url(../../../../assets/imgs/sprites.svg);
+    background-position: 8px -490px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    :hover{
+      background-color: rgba(226, 230, 233, 1);
+    }
+    @media screen and (max-width: 640px) {
+      width: 37px;
+      background-position: 8px -490px;
+    }
+  }
+
+}

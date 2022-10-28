@@ -1,0 +1,61 @@
+.navInputArea{
+  font-size: 15px;
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  padding-left: 10px;
+  justify-content: center;
+  align-items: center;
+  .navIcon{
+    position: absolute;
+    left: 20px;
+    top: 9px;
+    width: 18px;
+    height: 18px;
+    color: #737a80;
+    cursor: pointer;
+  }
+  .navInput{
+    width: 100%;
+    padding: 0.6em 0.7em;
+    padding-left: 34px;
+    border: 1px solid #daddde;
+    border-radius: 3px;
+    margin: 0px;
+  }
+  .navInput:focus {
+    border: 1px solid #53baff;
+    outline: 3px solid #b5deff;
+  }
+  .inputTabArea{
+    position: absolute;
+    top:40px;
+    padding: 5px;
+    width: 100%;
+    height: 180px;
+    z-index: 20;
+    @media screen and (max-width: 770px) {
+      width: 100vw;
+      left: -235px;
+    }
+    @media screen and (max-width: 640px) {
+      width: 100vw;
+      left: -152px;
+    }
+  }
+  
+}
+@media screen and (max-width: 640px) {
+  .navInputArea{
+    padding-left: 0px;
+    .navInput{
+      padding-left: 24px;
+    }
+    .navIcon{
+      position: absolute;
+      left: 6px;
+      color: #737a80;
+      cursor: pointer;
+    }
+  }
+}

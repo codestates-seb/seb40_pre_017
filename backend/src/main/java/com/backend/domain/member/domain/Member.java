@@ -49,16 +49,12 @@ public class Member extends Auditable {
     private Authority authority;
 
     @Builder
-    public Member(Long id, String email, String password, String username, String profileImage, Long reputation, List<Question> questions, List<Answer> answers, Authority authority) {
-        this.id = id;
+    public Member(String email, String password, String username, String profileImage, Long reputation, List<Question> questions, List<Answer> answers, Authority authority) {
         this.email = email;
         this.password = password;
         this.username = username;
-        this.profileImage = profileImage;
-        this.reputation = reputation;
-        this.questions = questions;
-        this.answers = answers;
-        this.authority = authority;
+        this.reputation = 0L;
+        this.authority = Authority.ROLE_USER;
     }
 
     //
@@ -67,19 +63,9 @@ public class Member extends Auditable {
         this.password = password;
     }
 
-    public MemberResponseDto toResponseDto() {
-        return MemberResponseDto.builder()
-                .id(id)
-                .build();
-    }
-
     public MemberResponseDto toResponseDto (Member member) {
         return MemberResponseDto.builder()
                 .id(member.getId())
-//                .email(member.getEmail())
-//                .username(member.getUsername())
-//                .profileImage(member.getProfileImage())
-//                .reputation(member.getReputation())
                 .build();
     }
 }
