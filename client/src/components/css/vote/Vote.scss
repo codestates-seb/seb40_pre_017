@@ -1,0 +1,46 @@
+.voteWrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.voteUp {
+    width: 0;
+    height: 0;
+    border-bottom: 17px solid #BABFC4;
+    border-top: 17px solid transparent;
+    border-left: 17px solid transparent;
+    border-right: 17px solid transparent;
+    padding: 0px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.voteCount {
+    font-size: 21px;
+    margin: 20px 0px;
+}
+
+.voteDown {
+    width: 0;
+    height: 0;
+    border-bottom: 17px solid transparent;
+    border-top: 17px solid #BABFC4;
+    border-left: 17px solid transparent;
+    border-right: 17px solid transparent;
+    padding: 0px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.etcBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #BABFC4;
+    cursor: pointer;
+    i {
+        margin-bottom: 15px;
+
+    }
+}

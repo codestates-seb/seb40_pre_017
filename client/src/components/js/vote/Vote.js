@@ -1,18 +1,15 @@
 import React from 'react'
 import '../../css/vote/Vote.scss'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTriangle } from "@fortawesome/free-brands-svg-icons";
 
 export default function Vote({item}) {
   return (
     <div className='voteWrap'>
-{/* <button><i class="fa-solid fa-triangle"></i></button>  */}
-<i class="fa-duotone fa-triangle"></i>
-<div>{item.question.votes}</div>
-      <button>down</button>
+      <button className='voteUp'></button> 
+      <div className='voteCount'>{item}</div>
+      <button className='voteDown'></button>
       <div className='etcBtn'>
-        <button>bookmark</button>
-        <button>active</button>
+        <i className="fa-regular fa-bookmark"></i>
+        <i className="fa-solid fa-clock-rotate-left"></i>
       </div>
     </div>
   )

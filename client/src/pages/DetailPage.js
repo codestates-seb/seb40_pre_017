@@ -4,9 +4,12 @@ import QuestionDetail from '../components/js/question/QuestionDetail'
 import { useParams } from 'react-router-dom'
 import './DetailPage.scss'
 import { Link } from 'react-router-dom'
+import AddContent from '../components/js/addContent/AddContent'
 
 export default function DetailPage({items}) {
   //오류! 새로고침시 useParams가 안불러짐
+  //AnswerList sorted by 만들어야함
+  //AddContent 마크다운 추가
 
   //id 파라미터 가져오기
   let params  = useParams();
@@ -35,9 +38,12 @@ export default function DetailPage({items}) {
           <p className='detailDateValue'>{item.question.viewCount} times</p>
         </div>
       </div>
-        <QuestionDetail item={item}/>
-        <AnswerList />
-        {/* aside */}
+      <QuestionDetail item={item}/>
+      <AnswerList item={item}/>
+      <h1 className='yourAnswer'>Your Answer</h1>
+      <AddContent />
+      <button className='postAnswerBtn'>Post Your Answer</button>
+      {/* aside */}
     </div>
   )
 }
