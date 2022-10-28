@@ -34,6 +34,7 @@ public class QuestionComment extends Auditable {
     public QuestionComment(String content,Question question, Member member) {
         this.content = content;
         this.question = question;
+//   member 구현후 해제    this.member = member;
     }
 
 

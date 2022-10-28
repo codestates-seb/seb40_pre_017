@@ -32,6 +32,7 @@ public class QCommentService {
 
         Question question = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new);
 
+        // 토큰에서 회원정보 가져오는것으로 수정필요
         Member member = Member.builder()
                 .email("abc@gmail.com")
                 .password("1234")
@@ -75,4 +76,6 @@ public class QCommentService {
         QuestionComment findComment = optionalComment.orElseThrow(() -> new CommentException(ErrorCode.COMMENT_NOT_FOUND));
         return findComment;
     }
+
+
 }

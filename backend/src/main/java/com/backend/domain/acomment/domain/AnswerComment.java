@@ -33,7 +33,7 @@ public class AnswerComment extends Auditable {
     public AnswerComment(String content, Answer answer, Member member) {
         this.content = content;
         this.answer = answer;
-        this.member = member;
+ //      멤버 구현후 해제 this.member = member;
     }
 
     /**

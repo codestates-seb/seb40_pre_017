@@ -29,6 +29,7 @@ public class ACommentService {
 
         Answer answer = answerService.findVerifiedAnswer(answerId);
 
+        // 토큰에서 회원정보 가져오는것으로 수정필요
         Member member = Member.builder()
                 .email("abc@gmail.com")
                 .password("1234")
@@ -73,4 +74,6 @@ public class ACommentService {
         AnswerComment findComment = optionalComment.orElseThrow(() -> new CommentException(ErrorCode.COMMENT_NOT_FOUND));
         return findComment;
     }
+
+
 }
