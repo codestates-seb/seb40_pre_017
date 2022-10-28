@@ -23,7 +23,10 @@ public enum ErrorCode {
     ANSWER_NOT_FOUND(404, "Answer Not Found"),
 
     //Tag
-    TAG_NOT_FOUND(404,"Tag Not Found");
+    TAG_NOT_FOUND(404,"Tag Not Found"),
+
+    //Comment
+    COMMENT_NOT_FOUND(404,"Comment Not Found");
 
     private final String message;
     private int status;

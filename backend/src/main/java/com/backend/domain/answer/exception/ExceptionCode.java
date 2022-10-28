@@ -3,7 +3,8 @@ package com.backend.domain.answer.exception;
 import lombok.Getter;
 
 public enum ExceptionCode {
-    ANSWER_NOT_FOUND(404, "Answer not found");
+    ANSWER_NOT_FOUND(404, "Answer not found"),
+    COMMENT_NOT_FOUND(404, "Comment not found");
 
 
     @Getter

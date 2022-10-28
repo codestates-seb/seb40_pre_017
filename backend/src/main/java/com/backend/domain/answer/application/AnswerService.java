@@ -6,7 +6,8 @@ import com.backend.domain.answer.dto.AnswerPatchDto;
 import com.backend.domain.answer.dto.AnswerPostDto;
 import com.backend.domain.answer.dto.AnswerResponseDto;
 import com.backend.domain.answer.exception.AnswerException;
-import com.backend.domain.answer.exception.ExceptionCode;
+import com.backend.global.error.exception.ErrorCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,13 +15,10 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class AnswerService {
 
     private final AnswerRepository answerRepository;
-
-    public AnswerService(AnswerRepository answerRepository) {
-        this.answerRepository = answerRepository;
-    }
 
     public AnswerResponseDto createAnswer(AnswerPostDto answerPostDto) {
 
@@ -64,7 +62,7 @@ public class AnswerService {
     @Transactional(readOnly = true)
     public Answer findVerifiedAnswer(long answerId) {
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
-        Answer findAnswer = optionalAnswer.orElseThrow(() -> new AnswerException(ExceptionCode.ANSWER_NOT_FOUND));
+        Answer findAnswer = optionalAnswer.orElseThrow(() -> new AnswerException(ErrorCode.ANSWER_NOT_FOUND));
         return findAnswer;
     }
 
