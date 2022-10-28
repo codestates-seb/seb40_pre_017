@@ -3,5 +3,11 @@
 	display: grid;
 	// width: 100vw;
 	grid-template-columns: 1fr;
-	grid-template-rows: 53px 1fr 322px
+	grid-template-rows: 53px 1fr 322px;
+	@media screen and (max-width: 960px) {
+		grid-template-rows: 53px 1fr 372px;
+  }
+	@media screen and (max-width: 640px) {
+		grid-template-rows: 53px 1fr 394px;
+	}
 }
