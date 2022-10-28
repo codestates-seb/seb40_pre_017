@@ -8,6 +8,8 @@ import AddContent from '../components/js/addContent/AddContent'
 
 export default function DetailPage({items}) {
   //오류! 새로고침시 useParams가 안불러짐
+  //AnswerList sorted by 만들어야함
+  //AddContent 마크다운 추가
 
   //id 파라미터 가져오기
   let params  = useParams();
