@@ -27,7 +27,7 @@ public class MemberResponseDto {
 
     public static MemberResponseDto of(Member member) {
         return MemberResponseDto.builder()
-                .email(member.getEmail())
+                .id(member.getId())
                 .build();
     }
 }

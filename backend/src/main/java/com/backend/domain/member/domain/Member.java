@@ -63,9 +63,4 @@ public class Member extends Auditable {
         this.password = password;
     }
 
-    public MemberResponseDto toResponseDto (Member member) {
-        return MemberResponseDto.builder()
-                .id(member.getId())
-                .build();
-    }
 }

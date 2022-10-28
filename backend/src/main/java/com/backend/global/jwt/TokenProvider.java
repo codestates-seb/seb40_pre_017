@@ -1,6 +1,7 @@
 package com.backend.global.jwt;
 
 import com.backend.domain.member.dto.TokenDto;
+import com.backend.domain.member.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

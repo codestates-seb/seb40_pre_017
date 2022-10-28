@@ -5,6 +5,7 @@ import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.dto.TokenDto;
 import com.backend.domain.member.dto.TokenPostDto;
 import com.backend.domain.member.service.AuthService;
+import com.backend.global.config.security.dto.LoginDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,8 @@ public class AuthController {
     }
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody MemberPostDto memberRequestDto) {
-        return ResponseEntity.ok(authService.login(memberRequestDto));
+    public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginDto) {
+        return ResponseEntity.ok(authService.login(loginDto));
     }
     // 재발급
     @PostMapping("/reissue")

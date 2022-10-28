@@ -8,6 +8,7 @@ import com.backend.domain.member.dto.TokenPostDto;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.refreshtoken.domain.RefreshToken;
 import com.backend.domain.refreshtoken.repository.RefreshTokenRepository;
+import com.backend.global.config.security.dto.LoginDto;
 import com.backend.global.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,14 +39,13 @@ public class AuthService {
         Member member = memberPostDto.toEntity(passwordEncoder);
         Member savedMember = memberRepository.save(member);
 
-        return savedMember.toResponseDto(savedMember);
+        return MemberResponseDto.of(savedMember);
     }
 
     // 로그인
     @Transactional
-    public TokenDto login(MemberPostDto memberPostDto) {
+    public TokenDto login(LoginDto loginDto) {
         // Login ID/PW 를 기반으로 AuthenticationToken 생성
-        UsernamePasswordAuthenticationToken authenticationToken = memberPostDto.toAuthentication();
 
         // 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         // authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
@@ -53,14 +53,12 @@ public class AuthService {
         // 그리고 나서 UserDetails 객체의 getPassword() 메서드를 통해 DB에 저장되어 있는 비밀번호를 가져옴
         // 그리고 입력받은 비밀번호와 UserDetails 객체의 getPassword() 메서드를 통해 가져온 비밀번호를 비교함
         // 비밀번호가 일치하면 Authentication 객체를 리턴하고, 일치하지 않으면 예외를 던짐
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         // 인증 정보를 기반으로 JWT 토큰 생성
-        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
         // RefreshToken 저장
         RefreshToken refreshToken = RefreshToken.builder()
-                .key(authentication.getName())
+                .key(loginDto.getEmail())
                 .value(tokenDto.getRefreshToken())
                 .build();
 
