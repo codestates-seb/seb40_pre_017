@@ -28,8 +28,8 @@ public class AuthController {
     }
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginDto) {
-        return ResponseEntity.ok(authService.login(loginDto));
+    public ResponseEntity<TokenDto> login(@RequestBody MemberPostDto memberRequestDto) {
+        return ResponseEntity.ok(authService.login(memberRequestDto));
     }
     // 재발급
     @PostMapping("/reissue")

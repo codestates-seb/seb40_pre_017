@@ -2,6 +2,7 @@ package com.backend.global.config.security;
 
 import com.backend.global.config.security.filter.JwtAuthenticationFilter;
 import com.backend.global.config.security.filter.JwtVerificationFilter;
+import com.backend.global.config.security.handler.MemberAuthenticationSuccessHandler;
 import com.backend.global.jwt.JwtAccessDeniedHandler;
 import com.backend.global.jwt.JwtAuthenticationEntryPoint;
 import com.backend.global.jwt.JwtSecurityConfig;
@@ -17,6 +18,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @EnableWebSecurity // (debug = true)
 @RequiredArgsConstructor
