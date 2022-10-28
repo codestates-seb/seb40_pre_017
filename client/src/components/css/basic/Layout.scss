@@ -11,3 +11,10 @@
 		grid-template-rows: 53px 1fr 394px;
 	}
 }
+.loginLayout{
+	box-sizing: border-box;
+	width: 100vw;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 53px 1fr;
+}

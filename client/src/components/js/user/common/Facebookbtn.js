@@ -1,7 +1,14 @@
 import React from 'react'
 import '../../../css/user/common/facebookBtn.scss';
-export default function Facebookbtn() {
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle, faGithub, faFacebook } from "@fortawesome/free-brands-svg-icons";
+
+
+export default function Facebookbtn({content}) {
   return (
-    <button>Sign up with Facebook</button>
+    <button className='facebookBtn'>
+      <FontAwesomeIcon className='btnIcon' icon={faFacebook} />
+      {content}
+    </button>
   )
 }
