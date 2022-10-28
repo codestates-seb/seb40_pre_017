@@ -5,3 +5,54 @@ nav{
   height: 100%;
   max-width: 1264px;
 }
+
+// .navSmallInputArea{
+//   display: none;
+//   position: absolute;
+//   top: 58px;
+//   width: 95%;
+//   .navIcon{
+//     position: absolute;
+//     display: none;
+//     left: 7px;
+//     top: 5px;
+//     width: 18px;
+//     height: 18px;
+//     color: #737a80;
+//     cursor: pointer;
+//   }
+//   .navSmallInput{
+//     display: none;
+//     width: 100%;
+//     padding: 0.6em 0.7em;
+//     padding-left: 34px;
+//     border: 1px solid #daddde;
+//     border-radius: 3px;
+//   }
+//   .navSmallInput:focus {
+//     border: 1px solid #53baff;
+//     outline: 3px solid #b5deff;
+//   }
+//   .navSmallInputTabArea{
+//     position: absolute;
+//     display: none;
+//     top:34px;
+//     width: 95%;
+//     height: 180px;
+//     z-index: 20;
+//   }
+// }
+// @media screen and (max-width: 640px) {
+//   .navSmallInputArea{
+//     display: block;
+//     .navIcon{
+//       display: block;
+//     }
+//     .navSmallInput{
+//       display: block;
+//     }
+//     .navSmallInputTabArea{
+//       display: block;
+//     }
+//   }
+// }

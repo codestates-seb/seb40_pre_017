@@ -27,11 +27,11 @@ public class Answer extends Auditable {
     @Column(name = "is_accepted",nullable = false)
     private Boolean isAccepted;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 

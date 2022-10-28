@@ -38,7 +38,7 @@ class QuestionServiceTest {
                 .tags(tags)
                 .build();
 
-        Long questionId = questionService.createQuestion(dto);
+        Long questionId = questionService.create(dto);
         Question question = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new);
         Assertions.assertThat(question.getTitle()).isEqualTo(title);
         Assertions.assertThat(question.getContent()).isEqualTo(content);

@@ -4,7 +4,6 @@ import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.question.dto.request.QuestionCreate;
 import com.backend.domain.question.dto.request.QuestionUpdate;
-import com.backend.domain.tag.dto.TagDto;
 import com.backend.global.Audit.Auditable;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -43,12 +42,17 @@ public class Question extends Auditable {
     @OneToMany(mappedBy = "question")
     private List<Answer> answers = new ArrayList<>();
 
+
+    @Column(name = "isAnswered", nullable = false)
+    private Boolean isAnswered;
+
     @Builder
-    public Question(String title, Long view, String content, Member member) {
+    public Question(String title, Long view, String content, Member member, Boolean isAnswered) {
         this.title = title;
         this.view = view;
         this.content = content;
         this.member = member;
+        this.isAnswered = false;
     }
 
     public static Question createQuestion(QuestionCreate questionCreate, Member member, List<QuestionTag> questionTags){

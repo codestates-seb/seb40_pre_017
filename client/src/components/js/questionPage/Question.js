@@ -1,6 +1,7 @@
 import React from 'react'
 import '../../css/questionPage/Question.scss'
 import { Link } from 'react-router-dom'
+import Tags from '../tags/Tags'
 
 export default function Question({item}) {
   //content 글자수 제한
@@ -22,17 +23,8 @@ export default function Question({item}) {
         </Link>
         <p>{contentTextLimit}</p>
         <div className='question_bottomBox'>
-          <div className='tags'>
-            {
-              item.tags && item.tags.map(tag => (
-                <div className='tag'>
-                  {tag}
-                </div>
-              ))
-            }
-          </div>
+          <Tags item={item}/>
         </div>
-        
       </div>
       <div className='questionList_profile'>
             <img className='pic' src={item.member.profileImage} alt='profile'/>

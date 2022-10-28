@@ -1,21 +1,27 @@
 package com.backend.domain.question.service;
 
 import com.backend.domain.member.domain.Member;
+import com.backend.domain.member.dto.MemberResponse;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.domain.QuestionTag;
 import com.backend.domain.question.dto.request.QuestionCreate;
+import com.backend.domain.question.dto.request.QuestionSearch;
 import com.backend.domain.question.dto.request.QuestionUpdate;
+import com.backend.domain.question.dto.response.QuestionResponse;
+import com.backend.domain.question.dto.response.SimpleQuestionResponse;
 import com.backend.domain.question.exception.QuestionNotFound;
 import com.backend.domain.question.exception.TitleDuplication;
 import com.backend.domain.question.repository.QuestionRepository;
 import com.backend.domain.tag.domain.Tag;
 import com.backend.domain.tag.dto.TagDto;
 import com.backend.domain.tag.service.TagService;
+import com.backend.global.dto.Response.MultiResponse;
+import com.backend.global.dto.request.PageRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -35,7 +41,7 @@ public class QuestionService {
      * 4.
      */
     @Transactional
-    public Long createQuestion(QuestionCreate questionCreate) {
+    public Long create(QuestionCreate questionCreate) {
 
         existsSameTitle(questionCreate.getTitle());
 
@@ -49,9 +55,32 @@ public class QuestionService {
 
     }
 
+    public MultiResponse<?> getList(PageRequest pageable, QuestionSearch questionSearch){
+
+        PageImpl<QuestionResponse> questionResponses = new PageImpl<>(questionRepository.getList(pageable, questionSearch)
+                .stream()
+                .map(question -> QuestionResponse.builder()
+                        .member(MemberResponse.toResponse(question.getMember()))
+                        .question(SimpleQuestionResponse.toResponse(question))
+                        .tags(question
+                                .getQuestionTags()
+                                .stream()
+                                .map(questionTag -> questionTag.getTag().getName())
+                                .collect(Collectors.toList()))
+                        .build()
+                )
+                .collect(Collectors.toList()),pageable.of(), questionRepository.getCount());
+
+
+        MultiResponse<?> multiResponse = MultiResponse.of(questionResponses);
+
+        return multiResponse;
+    }
+
+
 
     @Transactional
-    public Long updateQuestion(Long id, QuestionUpdate questionUpdate) {
+    public Long update(Long id, QuestionUpdate questionUpdate) {
 
         Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
 
@@ -67,10 +96,10 @@ public class QuestionService {
     }
 
     @Transactional
-    public Long deleteQuestion(Long id){
+    public Long delete(Long id){
         Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
         questionRepository.delete(question);
-        
+
         return id;
 
     }

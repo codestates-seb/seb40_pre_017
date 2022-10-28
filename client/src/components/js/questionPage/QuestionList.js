@@ -6,8 +6,8 @@ export default function QuestionList({items}) {
   return (
     <div className='questionList'>
         {items && items.map(item => (
-        <div key={item.question.question_id}>
-          <Question item={item}/>
+        <div key={item.question.questionId}>
+          <Question item={item} />
         </div>
       ))}
     </div>
