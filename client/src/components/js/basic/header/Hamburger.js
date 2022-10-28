@@ -16,7 +16,7 @@ export default function Hamburger() {
 
   return (
     <>
-      <div className='hamburgerArea' onClick={toggleOpenChange}>
+      <div className={'hamburgerArea ' + (toggleOpen ? "active" : "")} onClick={toggleOpenChange}>
         {toggleOpen ? <FontAwesomeIcon className='hamburger' icon={faXmark} /> : <FontAwesomeIcon className='hamburger' icon={faBars} />}
       </div>
       {toggleOpen &&

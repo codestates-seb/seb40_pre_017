@@ -19,7 +19,7 @@ public class QuestionCreate {
     private final String title;
 
     @NotBlank
-    @Size(min = 15, message = "15글자 이상 입력하세요")
+    @Size(min = 15, message = "30글자 이상 입력하세요")
     private final String content;
 
     private List<TagDto> tags;

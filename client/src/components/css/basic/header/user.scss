@@ -1,0 +1,36 @@
+.userArea{
+  width: 65px;
+  height: 100%;
+  margin: 0px 10px;
+  padding: 12px;
+  display: flex;
+  position: relative;
+  cursor: pointer;
+  .userIcon{
+    width: 67%;
+  }
+  .userNumber{
+    width: 33%;
+    margin: auto;
+    padding-left: 5px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+}
+.userArea:hover{
+  background-color: rgba(226, 230, 233, 1);
+}
+.UserinfoArea{
+  position: absolute;
+  right: 0px;
+  top: 57px;
+  background-color: white;
+  width: 200px;
+  height: 250px;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px hsla(0,0%,0%,0.1), 0 1px 4px hsla(0, 0%, 0%, 0.1), 0 2px 8px hsla(0, 0%, 0%, 0.1);
+  padding: 10px;
+}
+.active{
+  background-color: rgba(226, 230, 233, 1);
+}
