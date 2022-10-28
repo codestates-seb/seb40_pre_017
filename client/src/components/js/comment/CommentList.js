@@ -5,8 +5,8 @@ import '../../css/comment/CommentList.scss'
 export default function CommentList({item}) {
   return (
     <div className='commentList'>
-      {item.question.qcomment && item.question.qcomment.map(question => (
-        <div>
+      {item && item.map(question => (
+        <div className='commentLine'>
         <Comment question={question}/>
         </div>
       ))}

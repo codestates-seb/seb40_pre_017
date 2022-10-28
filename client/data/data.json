@@ -53,8 +53,8 @@
                 "memberId": 21123802,
                 "createdAt": 1552234257,
                 "modifiedAt": 1523034268,
-                "content": "An example body body",
-                "votes": 2,
+                "content": "2The spec is your friend. It tells us that Object.assign takes each of the source objects in turn from left to right, enumerates the enumerable [[OwnPropertyKeys]] of those objects, and shallow copies the value associated with each property key onto the target object. Object properties are enumerated in the following order:",
+                "votes": 10,
                 "isAccepted": "true",
                 "reputation": 23,
                 "profileImage": "https://lh4.googleusercontent.com/-8o1Zs4lQprY/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rebPfyBOjde6DPW0bjTb2M1BSIwCg/mo/photo.jpg?sz=256",
@@ -66,7 +66,7 @@
                     "memberId": 21187802,
                     "userName": "baptiste",
                     "link": "https://stackoverflow.com/users/11187800/fulvio",
-                    "content": "An example comment body",
+                    "content": "They are ordered according to creation, and in the vent of overwriting, ordered on update",
                     "createdAt": 1552344257,
                     "modifiedAt": 1596034268
                 },
@@ -75,17 +75,18 @@
                     "memberId": 21123802,
                     "userName": "Entic",
                     "link": "https://stackoverflow.com/users/11187800/fulvio",
-                    "content": "An example comment body",
+                    "content": "If you were to log the resulting object to the console, how would it appear? - This is what I mean",
                     "createdAt": 1552234257,
                     "modifiedAt": 1523034268
                 }
                 ]
-            },{
+            },
+            {
                 "answerId": 2117802,
                 "memberId": 2112802,
                 "createdAt": 1552234257,
                 "modifiedAt": 1523034268,
-                "content": "An example body body",
+                "content": "If the text file is always going to be in this format, you can use a split function and not worry about regex ever.I am using a one-liner, but you can understand it.",
                 "votes": 2,
                 "isAccepted": "true",
                 "reputation": 23,
@@ -93,24 +94,7 @@
                 "userName": "eulvio",
                 "link": "https://stackoverflow.com/users/11187800/fulvio",
                 "aComments": [
-                {
-                    "aCommnetId": 3117802,
-                    "memberId": 2118702,
-                    "userName": "Tatiste",
-                    "link": "https://stackoverflow.com/users/11187800/fulvio",
-                    "content": "An example comment body",
-                    "createdAt": 1552344257,
-                    "modifiedAt": 1596034268
-                },
-                {
-                    "aCommnetId": 4217802,
-                    "memberId": 2112802,
-                    "userName": "Rntic",
-                    "link": "https://stackoverflow.com/users/11187800/fulvio",
-                    "content": "An example comment body",
-                    "createdAt": 1552234257,
-                    "modifiedAt": 1523034268
-                }
+                
                 ]
             }
         ]

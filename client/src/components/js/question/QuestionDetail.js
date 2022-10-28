@@ -9,7 +9,7 @@ export default function QuestionDetail({item}) {
 
   return (
     <div className='questionDetail'>
-      <Vote item={item}/>
+      <Vote item={item.question.votes}/>
       <div className='detailMainWrap'>
         <div className='detailContent'>
           <h3>{item.question.content}</h3>
@@ -21,9 +21,9 @@ export default function QuestionDetail({item}) {
             <button>Share</button>
             <button>Edit</button>
           </div>
-          <Profile item={item}/>
+          <Profile item={item.member}/>
         </div>
-        <CommentList item={item}/>
+        <CommentList item={item.question.qcomment}/>
       </div>      
     </div>
   )

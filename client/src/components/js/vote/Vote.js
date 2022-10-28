@@ -5,7 +5,7 @@ export default function Vote({item}) {
   return (
     <div className='voteWrap'>
       <button className='voteUp'></button> 
-      <div className='voteCount'>{item.question.votes}</div>
+      <div className='voteCount'>{item}</div>
       <button className='voteDown'></button>
       <div className='etcBtn'>
         <i className="fa-regular fa-bookmark"></i>

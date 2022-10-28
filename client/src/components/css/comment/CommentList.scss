@@ -1,6 +1,8 @@
 .commentList {
     margin-top: 32px;
-    border-top: 1px solid #E3E6E8;
+    .commentLine:nth-child(1) {
+        border-top: 1px solid #E3E6E8;
+    }
 }
 
 input {

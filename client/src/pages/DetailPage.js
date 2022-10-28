@@ -35,9 +35,9 @@ export default function DetailPage({items}) {
           <p className='detailDateValue'>{item.question.viewCount} times</p>
         </div>
       </div>
-        <QuestionDetail item={item}/>
-        <AnswerList />
-        {/* aside */}
+      <QuestionDetail item={item}/>
+      <AnswerList item={item}/>
+      {/* aside */}
     </div>
   )
 }
