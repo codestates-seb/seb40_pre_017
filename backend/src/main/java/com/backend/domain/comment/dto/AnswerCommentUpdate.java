@@ -1,4 +1,4 @@
-package com.backend.domain.acomment.dto;
+package com.backend.domain.comment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,12 +12,10 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ACommentCreate {
+public class AnswerCommentUpdate {
 
     @NotBlank
     @Size(min = 15, message = "15글자 이상 입력하세요")
     private String content;
-
-
 
 }
