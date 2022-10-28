@@ -10,7 +10,6 @@ public enum ErrorCode {
     HANDLE_ACCESS_DENIED(403,  "Access is Denied"),
     METHOD_NOT_ALLOWED(405, " Invalid Input Value"),
 
-
     // Member
     EMAIL_DUPLICATION(409,"Email Is Duplication"),
     MEMBER_NOT_FOUND(400,"Can't Find This Member"),
