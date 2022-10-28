@@ -29,7 +29,7 @@ public class MemberService {
 
         Member savedMember = memberRepository.save(member);
 
-        return savedMember.toResponseDto();
+        return MemberResponseDto.of(savedMember);
     }
 
     //
