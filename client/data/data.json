@@ -180,8 +180,18 @@
                     ]
                 }
             ]
-            }
+        }
     ],
+
+    "member": {
+        "last_modified_date": "2022_10_25",
+        "last_access_date": "2022-10-25",
+        "reputation": 10000,
+        "creation_date": "2022-10-25",
+        "user_id": 20289611,
+        "profile_image": "https://lh3.googleusercontent.com/a/ALm5wu1QgJcvr2DCXXCzlv8qu4IEGgs1ldcwLxQQV_4w=k-s256",
+        "display_name": "이성준"
+    },
     
     "pageInfo": {
         "page": 1,
