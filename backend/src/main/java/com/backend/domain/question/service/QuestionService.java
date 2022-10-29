@@ -7,6 +7,7 @@ import com.backend.domain.question.domain.QuestionTag;
 import com.backend.domain.question.dto.request.QuestionCreate;
 import com.backend.domain.question.dto.request.QuestionSearch;
 import com.backend.domain.question.dto.request.QuestionUpdate;
+import com.backend.domain.question.dto.response.DetailQuestionResponse;
 import com.backend.domain.question.dto.response.QuestionResponse;
 import com.backend.domain.question.dto.response.SimpleQuestionResponse;
 import com.backend.domain.question.exception.QuestionNotFound;
@@ -55,13 +56,28 @@ public class QuestionService {
 
     }
 
+    public void get(Long id){
+
+        Question question = questionRepository.getQuestionWithMemberWithAnswers(id).orElseThrow(QuestionNotFound::new);
+
+
+
+        DetailQuestionResponse.builder()
+                .question(SimpleQuestionResponse.toResponse(question))
+                .member(MemberResponse.toResponse(question.getMember()));
+
+
+
+
+    }
+
     public MultiResponse<?> getList(PageRequest pageable, QuestionSearch questionSearch){
 
         PageImpl<QuestionResponse> questionResponses = new PageImpl<>(questionRepository.getList(pageable, questionSearch)
                 .stream()
                 .map(question -> QuestionResponse.builder()
                         .member(MemberResponse.toResponse(question.getMember()))
-                        .question(SimpleQuestionResponse.toResponse(question))
+                        .question(SimpleQuestionResponse.toSummaryResponse(question))
                         .tags(question
                                 .getQuestionTags()
                                 .stream()

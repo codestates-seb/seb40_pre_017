@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.support.Querydsl;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.backend.domain.answer.domain.QAnswer.answer;
 import static com.backend.domain.member.domain.QMember.*;
@@ -40,6 +41,19 @@ public class QuestionRepositoryImpl implements  QuestionRepositoryCustom{
                 .orderBy(question.id.asc())
                 .fetch();
         return questions;
+    }
+
+    @Override
+    public Optional<Question> getQuestionWithMemberWithAnswers(Long id) {
+        return Optional.ofNullable(
+                jpaQueryFactory.selectFrom(question)
+                .where(question.id.eq(id))
+                .leftJoin(question.member).fetchJoin()
+                .leftJoin(question.answers).fetchJoin()
+                .fetchOne()
+        );
+
+
     }
 
 

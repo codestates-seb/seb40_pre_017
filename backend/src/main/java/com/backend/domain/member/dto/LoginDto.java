@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberPostDto {
+public class LoginDto {
 
     @Email(message = "이메일 형식이 아닙니다.")
     @NotBlank(message = "이메일을 입력해주세요.")

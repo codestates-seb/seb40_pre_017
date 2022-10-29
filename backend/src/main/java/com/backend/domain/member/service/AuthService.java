@@ -1,7 +1,7 @@
 package com.backend.domain.member.service;
 
 import com.backend.domain.member.domain.Member;
-import com.backend.domain.member.dto.MemberPostDto;
+import com.backend.domain.member.dto.LoginDto;
 import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.dto.TokenDto;
 import com.backend.domain.member.dto.TokenPostDto;
@@ -10,9 +10,8 @@ import com.backend.domain.refreshtoken.domain.RefreshToken;
 import com.backend.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.backend.global.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
@@ -29,21 +27,23 @@ public class AuthService {
 
     // 회원가입
     @Transactional
-    public MemberResponseDto signup(MemberPostDto memberPostDto) {
-        if (memberRepository.existsByEmail(memberPostDto.getEmail())) {
+    public MemberResponseDto signup(LoginDto loginDto) {
+        if (memberRepository.existsByEmail(loginDto.getEmail())) {
             // TODO: 전역 예외 처리
             throw new RuntimeException("이미 존재하는 이메일입니다.");
         }
 
-        Member member = memberPostDto.toEntity(passwordEncoder);
+        Member member = loginDto.toEntity(passwordEncoder);
         Member savedMember = memberRepository.save(member);
 
-        return savedMember.toResponseDto(savedMember);
+        return MemberResponseDto.of(savedMember);
     }
 
     // 로그인
     @Transactional
-    public TokenDto login(MemberPostDto memberPostDto) {
+
+    public String login(LoginDto loginDto) {
+
         // Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = memberPostDto.toAuthentication();
 
@@ -53,7 +53,9 @@ public class AuthService {
         // 그리고 나서 UserDetails 객체의 getPassword() 메서드를 통해 DB에 저장되어 있는 비밀번호를 가져옴
         // 그리고 입력받은 비밀번호와 UserDetails 객체의 getPassword() 메서드를 통해 가져온 비밀번호를 비교함
         // 비밀번호가 일치하면 Authentication 객체를 리턴하고, 일치하지 않으면 예외를 던짐
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
 
         // 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
@@ -65,9 +67,9 @@ public class AuthService {
                 .build();
 
         refreshTokenRepository.save(refreshToken);
-
+        System.out.println("refreshToken = " + refreshToken);
         // 토큰 발급
-        return tokenDto;
+        return tokenDto.getRefreshToken();
     }
 
     // 토큰 재발급

@@ -36,9 +36,11 @@ public class Answer extends Auditable {
     private Member member;
 
     @Builder
-    public Answer(String content, Boolean isAccepted) {
+    public Answer(String content, Boolean isAccepted, Member member, Question question) {
         this.content = content;
         this.isAccepted = isAccepted;
+        this.member = member;
+        this.question=question;
     }
 
     public AnswerResponseDto toResponseDto() {

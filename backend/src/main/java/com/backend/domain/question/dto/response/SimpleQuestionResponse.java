@@ -34,7 +34,7 @@ public class SimpleQuestionResponse {
     }
 
 
-    public static SimpleQuestionResponse toResponse(Question question) {
+    public static SimpleQuestionResponse toSummaryResponse(Question question) {
         return SimpleQuestionResponse.builder()
                 .viewCount(question.getView())
                 .isAnswered(question.getIsAnswered())
@@ -45,6 +45,22 @@ public class SimpleQuestionResponse {
                 .link(questionLink(question))
                 .title(question.getTitle())
                 .summary(getSummary(question.getContent()))
+                .answerCount(question.getAnswers().size())
+                .build();
+
+    }
+
+    public static SimpleQuestionResponse toResponse(Question question) {
+        return SimpleQuestionResponse.builder()
+                .viewCount(question.getView())
+                .isAnswered(question.getIsAnswered())
+                //votes
+                .createAt(question.getCreatedAt())
+                .modifiedAt(question.getModifiedAt())
+                .questionId(question.getId())
+                .link(questionLink(question))
+                .title(question.getTitle())
+                .summary(question.getContent())
                 .answerCount(question.getAnswers().size())
                 .build();
 

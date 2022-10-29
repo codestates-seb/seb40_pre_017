@@ -18,7 +18,7 @@ export default function Question({item}) {
         <p>{item.question.view_count} views</p>
       </div>
       <div className='question_mainBox'>
-        <Link to={`questions/${item.question.questionId}`}>
+        <Link to={`/questions/${item.question.questionId}`}>
           <h2>{item.question.title}</h2>
         </Link>
         <p>{contentTextLimit}</p>
