@@ -3,8 +3,9 @@ import Vote from '../vote/Vote'
 import ProfileAnswer from '../profile/ProfileAnswer'
 import CommentList from '../comment/CommentList'
 import '../../css/answer/Answer.scss'
+import { Link } from 'react-router-dom'
 
-export default function Answer({answer}) {
+export default function Answer({answer, id, answerId}) {
 
   return (
     <div className='answerWrap'>
@@ -14,7 +15,9 @@ export default function Answer({answer}) {
         <div className='detailBottomWrap'>
           <div className='detailEditWrap'>
             <button>Share</button>
-            <button>Edit</button>
+            <Link to={`/questions/${id}/editanswer/${answerId}`}>
+              <button>Edit</button>
+            </Link>
           </div>
           <ProfileAnswer item={answer}/>
         </div>

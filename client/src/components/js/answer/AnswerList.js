@@ -47,9 +47,14 @@ export default function AnswerList({item}) {
         <div className='answerCount'>{count} Answers</div>
         {/* <div>Sorted by:</div> */}
       </div>
-      {item.answer && item.answer.map(answer => (
+      {item.answer && item.answer.map((answer, idx) => (
         <div key={answer.answerId}>
-          <Answer answer={answer}/>
+          <Answer 
+            answer={answer} 
+            id={item.question.questionId} 
+            answerId={answer.answerId} 
+            idx={idx}
+          />
         </div>
       ))}
       <h1 className='yourAnswer'>Your Answer</h1>
