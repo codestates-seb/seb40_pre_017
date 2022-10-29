@@ -1,6 +1,7 @@
 package com.backend.domain.question.domain;
 
 import com.backend.domain.answer.domain.Answer;
+import com.backend.domain.comment.domain.QuestionComment;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.question.dto.request.QuestionCreate;
 import com.backend.domain.question.dto.request.QuestionUpdate;
@@ -41,6 +42,9 @@ public class Question extends Auditable {
 
     @OneToMany(mappedBy = "question")
     private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "question",cascade = CascadeType.ALL)
+    private List<QuestionComment> questionComments = new ArrayList<>();
 
 
     @Column(name = "isAnswered", nullable = false)

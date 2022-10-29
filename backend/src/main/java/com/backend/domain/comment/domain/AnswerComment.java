@@ -33,18 +33,22 @@ public class AnswerComment extends Auditable {
     public AnswerComment(String content, Answer answer, Member member) {
         this.content = content;
         this.answer = answer;
- //      멤버 구현후 해제 this.member = member;
+        this.member = member;
     }
 
     /**
      * param member 추가 필요
      */
     public static AnswerComment toEntity(String content,Answer answer,Member member ) {
-        return AnswerComment.builder()
+        AnswerComment answerComment = AnswerComment.builder()
                 .content(content)
                 .answer(answer)
                 .member(member)
                 .build();
+
+        answer.getAnswerComments().add(answerComment);
+
+        return answerComment;
     }
     public AnswerCommentResponse toResponseDto() {
         return AnswerCommentResponse.builder()

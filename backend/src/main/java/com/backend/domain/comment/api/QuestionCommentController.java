@@ -4,6 +4,8 @@ import com.backend.domain.comment.application.QuestionCommentService;
 import com.backend.domain.comment.dto.QuestionCommentCreate;
 import com.backend.domain.comment.dto.QuestionCommentResponse;
 import com.backend.domain.comment.dto.QuestionCommentUpdate;
+import com.backend.domain.member.service.AuthMember;
+import com.backend.global.Annotation.CurrentMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,10 +24,11 @@ public class QuestionCommentController {
 
     @PostMapping("/comments")
     public ResponseEntity<QuestionCommentResponse>  createComment(
+            @CurrentMember AuthMember authMember,
             @PathVariable("id") @Positive Long questionId,
             @Valid @RequestBody QuestionCommentCreate questionCommentCreate) {
 
-        QuestionCommentResponse result = questionCommentService.createComment(questionCommentCreate, questionId);
+        QuestionCommentResponse result = questionCommentService.createComment(authMember.getMemberId(),questionCommentCreate, questionId);
 
         return ResponseEntity.ok(result);
     }

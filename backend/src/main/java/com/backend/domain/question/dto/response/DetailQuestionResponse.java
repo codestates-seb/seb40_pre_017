@@ -2,11 +2,16 @@ package com.backend.domain.question.dto.response;
 
 import com.backend.domain.answer.dto.ComplexAnswerResponse;
 import com.backend.domain.comment.QuestionComment.dto.QuestionCommentResponse;
+import com.backend.domain.comment.dto.AnswerCommentResponse;
+import com.backend.domain.comment.dto.SimpleAnswerCommentResponse;
+import com.backend.domain.comment.dto.SimpleQuestionCommentResponse;
 import com.backend.domain.member.dto.MemberResponse;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 public class DetailQuestionResponse {
     private List<String> tags;
 
@@ -14,17 +19,20 @@ public class DetailQuestionResponse {
 
     private SimpleQuestionResponse question;
 
-    private List<QuestionCommentResponse> questionComments;
-
     private List<ComplexAnswerResponse> answers;
 
+    private List<SimpleQuestionCommentResponse> questionComments;
+
+
+
     @Builder
-    public DetailQuestionResponse(List<String> tags, MemberResponse member, SimpleQuestionResponse question, List<QuestionCommentResponse> questionComments, List<ComplexAnswerResponse> answers) {
+    public DetailQuestionResponse(List<String> tags, MemberResponse member, SimpleQuestionResponse question, List<ComplexAnswerResponse> answers, List<SimpleQuestionCommentResponse> questionComments) {
         this.tags = tags;
         this.member = member;
         this.question = question;
-        this.questionComments = questionComments;
         this.answers = answers;
+        this.questionComments = questionComments;
+
     }
 }
 

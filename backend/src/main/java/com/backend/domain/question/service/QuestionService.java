@@ -1,7 +1,15 @@
 package com.backend.domain.question.service;
 
+import com.backend.domain.answer.domain.Answer;
+import com.backend.domain.answer.dto.ComplexAnswerResponse;
+import com.backend.domain.comment.domain.AnswerComment;
+import com.backend.domain.comment.domain.QuestionComment;
+import com.backend.domain.comment.dto.SimpleAnswerCommentResponse;
+import com.backend.domain.comment.dto.SimpleQuestionCommentResponse;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.dto.MemberResponse;
+import com.backend.domain.member.exception.MemberNotFound;
+import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.domain.QuestionTag;
 import com.backend.domain.question.dto.request.QuestionCreate;
@@ -19,10 +27,12 @@ import com.backend.domain.tag.service.TagService;
 import com.backend.global.dto.Response.MultiResponse;
 import com.backend.global.dto.request.PageRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -30,10 +40,12 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final TagService tagService;
+    private final MemberRepository memberRepository;
 
     /**
      * 1. dto에서 태그를 가져온다.
@@ -42,33 +54,96 @@ public class QuestionService {
      * 4.
      */
     @Transactional
-    public Long create(QuestionCreate questionCreate) {
+    public Long create(Long memberId, QuestionCreate questionCreate) {
+
 
         existsSameTitle(questionCreate.getTitle());
-
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
         List<QuestionTag> questionTags = makeQuestionTags(questionCreate.getTags());
 
         // 현재 사용자 가져오는 로직으로 수정 필요
 
-        Question question = Question.createQuestion(questionCreate, getMember(), questionTags);
+        Question question = Question.createQuestion(questionCreate, member, questionTags);
 
         return questionRepository.save(question).getId();
 
     }
 
-    public void get(Long id){
+    public DetailQuestionResponse get(Long id){
 
         Question question = questionRepository.getQuestionWithMemberWithAnswers(id).orElseThrow(QuestionNotFound::new);
 
 
+        List<SimpleQuestionCommentResponse> questionCommentResponses = new ArrayList<>();
 
-        DetailQuestionResponse.builder()
+        for (QuestionComment questionComment : question.getQuestionComments()) {
+            log.info("questionComment={}", questionComment.getContent());
+            log.info("questionComment member id={}", questionComment.getMember().getId());
+            log.info("questionComment member username={}", questionComment.getMember().getUsername());
+
+            SimpleQuestionCommentResponse simpleQuestionCommentResponse = SimpleQuestionCommentResponse.builder()
+                    .questionCommentId(questionComment.getId())
+                    .memberId(questionComment.getMember().getId())
+                    .userName(questionComment.getMember().getUsername())
+                    .content(questionComment.getContent())
+                    .createdAt(questionComment.getCreatedAt())
+                    .modifiedAt(questionComment.getModifiedAt())
+                    .build();
+
+            questionCommentResponses.add(simpleQuestionCommentResponse);
+        }
+
+
+        List<ComplexAnswerResponse> complexAnswerResponses = new ArrayList<>();
+        for (Answer answer : question.getAnswers()) {
+
+            List<SimpleAnswerCommentResponse> simpleAnswerCommentResponses = new ArrayList<>();
+            for (AnswerComment answerComment : answer.getAnswerComments()) {
+                SimpleAnswerCommentResponse simpleAnswerCommentResponse = SimpleAnswerCommentResponse.builder()
+                        .answerCommentId(answerComment.getId())
+                        .memberId(answerComment.getMember().getId())
+                        .userName(answerComment.getMember().getUsername())
+                        .content(answerComment.getContent())
+                        .createAt(answerComment.getCreatedAt())
+                        .modifiedAt(answerComment.getModifiedAt())
+                        .build();
+                simpleAnswerCommentResponses.add(simpleAnswerCommentResponse);
+            }
+
+
+            ComplexAnswerResponse complexAnswerResponse = ComplexAnswerResponse.builder()
+                    //답변정보
+                    .answerId(answer.getId())
+                    .createdAt(answer.getCreatedAt())
+                    .modifiedAt(answer.getModifiedAt())
+                    .content(answer.getContent())
+                    .votes(0L)
+                    .isAccepted(answer.getIsAccepted())
+                    //질문 댓글 정보
+                    //작성자 정보
+                    .answerMember(MemberResponse.toResponse(answer.getMember()))
+                    //답변댓글 정보
+                    .simpleAnswerCommentResponses(simpleAnswerCommentResponses)
+                    .build();
+
+            complexAnswerResponses.add(complexAnswerResponse);
+        }
+
+
+        DetailQuestionResponse detailQuestionResponse = DetailQuestionResponse.builder()
                 .question(SimpleQuestionResponse.toResponse(question))
-                .member(MemberResponse.toResponse(question.getMember()));
+                .member(MemberResponse.toResponse(question.getMember()))
+                .tags(question
+                        .getQuestionTags()
+                        .stream()
+                        .map(questionTag -> questionTag.getTag().getName())
+                        .collect(Collectors.toList()))
+                //질문이랑 태그
+                .answers(complexAnswerResponses)
+                .questionComments(questionCommentResponses)
+                .build();
 
-
-
-
+    return detailQuestionResponse;
     }
 
     public MultiResponse<?> getList(PageRequest pageable, QuestionSearch questionSearch){

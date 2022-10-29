@@ -2,6 +2,7 @@ package com.backend.domain.answer.domain;
 
 import com.backend.domain.answer.dto.AnswerPatchDto;
 import com.backend.domain.answer.dto.AnswerResponseDto;
+import com.backend.domain.comment.domain.AnswerComment;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.question.domain.Question;
 import com.backend.global.Audit.Auditable;
@@ -11,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -34,6 +37,9 @@ public class Answer extends Auditable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "answer",cascade = CascadeType.ALL)
+    private List<AnswerComment> answerComments = new ArrayList<>();
 
     @Builder
     public Answer(String content, Boolean isAccepted, Member member, Question question) {

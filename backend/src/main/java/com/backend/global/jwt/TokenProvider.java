@@ -1,6 +1,7 @@
 package com.backend.global.jwt;
 
 import com.backend.domain.member.dto.TokenDto;
+import com.backend.domain.member.service.AuthMember;
 import com.backend.domain.member.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -16,9 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -41,19 +40,23 @@ public class TokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public TokenDto generateTokenDto(Authentication authentication) {
+    public TokenDto generateTokenDto(AuthMember authMember) {
         // 권한들 가져오기
-        String authorities = authentication.getAuthorities().stream()
+        String authorities = authMember.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
 
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", authMember.getMemberId());
+        claims.put("roles", authMember.getAuthorities());
+
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())                  // payload "sub": "name"
-                .claim(AUTHORITIES_KEY, authorities)      // payload "auth": "ROLE_USER"
+                .setSubject(authMember.getEmail())                  // payload "sub": "name"
+                .setClaims(claims)      // payload "auth": "ROLE_USER"
                 .setExpiration(accessTokenExpiresIn)                   // payload "exp": 1516239022 (예시)
                 .signWith(key, SignatureAlgorithm.HS512)          // header "alg": "HS512"
                 .compact();
@@ -76,20 +79,18 @@ public class TokenProvider {
         // 토큰 복호화
         Claims claims = parseClaims(accessToken);
 
-        if (claims.get(AUTHORITIES_KEY) == null) {
+        if (claims.get("roles") == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
 
         // 클레임에서 권한 정보 가져오기
-        Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
+        List<String> authorities = Arrays.stream(claims.get("roles").toString().split(","))
+                .collect(Collectors.toList());
 
         // UserDetails 객체를 만들어서 Authentication 리턴
-        UserDetails principal = new User(claims.getSubject(), "", authorities);
-
-        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+//        UserDetails principal = new User(claims.getSubject(), "", authorities);
+        AuthMember auth = AuthMember.of(claims.get("id",Long.class), authorities);
+        return new UsernamePasswordAuthenticationToken(auth, auth.getPassword(), auth.getAuthorities());
     }
 
     // 토큰 검증 - Jwts에서 던져주는 에러 활용
