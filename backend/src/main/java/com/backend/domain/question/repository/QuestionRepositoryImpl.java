@@ -2,8 +2,11 @@ package com.backend.domain.question.repository;
 
 import com.backend.domain.answer.domain.QAnswer;
 import com.backend.domain.member.domain.QMember;
+import com.backend.domain.question.domain.QQuestionTag;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.dto.request.QuestionSearch;
+import com.backend.domain.tag.domain.QTag;
+import com.backend.domain.tag.domain.Tag;
 import com.backend.global.dto.request.PageRequest;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,8 @@ import java.util.Optional;
 import static com.backend.domain.answer.domain.QAnswer.answer;
 import static com.backend.domain.member.domain.QMember.*;
 import static com.backend.domain.question.domain.QQuestion.*;
+import static com.backend.domain.question.domain.QQuestionTag.*;
+import static com.backend.domain.tag.domain.QTag.tag;
 
 @Repository
 @RequiredArgsConstructor
@@ -28,7 +33,7 @@ public class QuestionRepositoryImpl implements  QuestionRepositoryCustom{
     /* 아직 최적화 안됨 */
 
     @Override
-    public List<Question> getList(PageRequest pageable, QuestionSearch questionSearch) {
+    public List<Question> findList(PageRequest pageable, QuestionSearch questionSearch) {
         List<Question> questions = jpaQueryFactory
                 .selectFrom(question)
                 .leftJoin(question.member, member)
@@ -44,7 +49,7 @@ public class QuestionRepositoryImpl implements  QuestionRepositoryCustom{
     }
 
     @Override
-    public Optional<Question> getQuestionWithMemberWithAnswers(Long id) {
+    public Optional<Question> findQuestionWithMemberWithAnswers(Long id) {
         return Optional.ofNullable(
                 jpaQueryFactory.selectFrom(question)
                 .where(question.id.eq(id))
@@ -56,5 +61,8 @@ public class QuestionRepositoryImpl implements  QuestionRepositoryCustom{
 
     }
 
-
+    @Override
+    public List<Tag> findQuestionTags(Long id) {
+        return null;
+    }
 }

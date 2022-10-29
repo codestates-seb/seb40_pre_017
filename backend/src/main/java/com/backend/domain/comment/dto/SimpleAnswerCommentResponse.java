@@ -1,5 +1,6 @@
 package com.backend.domain.comment.dto;
 
+import com.backend.domain.comment.domain.AnswerComment;
 import com.backend.domain.member.domain.Member;
 import com.backend.global.Constant;
 import lombok.Builder;
@@ -27,6 +28,19 @@ public class SimpleAnswerCommentResponse {
         this.createAt = createAt;
         this.modifiedAt = modifiedAt;
     }
+
+    public static SimpleAnswerCommentResponse of(AnswerComment answerComment) {
+        return SimpleAnswerCommentResponse.builder()
+                .answerCommentId(answerComment.getId())
+                .memberId(answerComment.getMember().getId())
+                .userName(answerComment.getMember().getUsername())
+                .content(answerComment.getContent())
+                .createAt(answerComment.getCreatedAt())
+                .modifiedAt(answerComment.getModifiedAt())
+                .build();
+    }
+
+
 
 
     private String memberLink(Long memberId) {
