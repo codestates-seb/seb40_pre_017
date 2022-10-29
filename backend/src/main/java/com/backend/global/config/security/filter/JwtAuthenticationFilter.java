@@ -1,11 +1,12 @@
 package com.backend.global.config.security.filter;
 
+import com.backend.domain.member.dto.LoginDto;
 import com.backend.domain.member.dto.TokenDto;
-import com.backend.global.config.security.dto.LoginDto;
 import com.backend.global.jwt.TokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -47,6 +48,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.setHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
         response.setHeader("RefreshToken", "Bearer " + tokenDto.getRefreshToken());
+
+        this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
 
 
     }

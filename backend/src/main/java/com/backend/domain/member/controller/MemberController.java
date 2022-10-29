@@ -1,6 +1,6 @@
 package com.backend.domain.member.controller;
 
-import com.backend.domain.member.dto.MemberPostDto;
+import com.backend.domain.member.dto.LoginDto;
 import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +19,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<MemberResponseDto> create(@RequestBody MemberPostDto memberPostDto) {
+    public ResponseEntity<MemberResponseDto> create(@RequestBody LoginDto loginDto) {
 
-        MemberResponseDto member = memberService.create(memberPostDto);
+        MemberResponseDto member = memberService.create(loginDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(member);
     }

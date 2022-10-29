@@ -1,5 +1,6 @@
 package com.backend.global.config.security;
 
+import com.backend.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.backend.global.config.security.filter.JwtAuthenticationFilter;
 import com.backend.global.config.security.filter.JwtVerificationFilter;
 import com.backend.global.config.security.handler.MemberAuthenticationSuccessHandler;
@@ -26,8 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /*
     Spring Security 설정
      */
-
+    private final RefreshTokenRepository refreshTokenRepository;
     private final TokenProvider tokenProvider;
+
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
@@ -54,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
+
                 .and()
 
                 // h2 console 사용을 위한 설정
@@ -81,13 +84,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
+
         @Override
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(tokenProvider, authenticationManager);
             jwtAuthenticationFilter.setFilterProcessesUrl("/users/login");
-//            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler());
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler(refreshTokenRepository,tokenProvider));
 //            jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(tokenProvider);
