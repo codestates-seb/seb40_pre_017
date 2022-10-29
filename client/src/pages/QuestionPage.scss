@@ -1,4 +1,21 @@
+.questionPageWrap {
+    display: flex;
+
+    .questionPageNavbar{
+        width: 164px;
+        background-color: #e8e7e3;
+    }
+
+    .questionPageAside{
+        margin-right: 23px;
+        width: 300px;
+        background-color: #e8e7e3;
+    }
+}
+
+
 .questionPage {
+    flex-grow: 1;
     margin-top: 30px;
 }
 
@@ -67,7 +84,19 @@
     }
 }
 
+@media (max-width:980px) {
+
+    .questionPageAside{
+        display: none;
+    }
+    
+}
+
 @media (max-width:640px) {
+    .questionPageNavbar {
+        display: none;
+    }
+
     .countFilterWrap{
         margin-top: 20px;
         display: flex;

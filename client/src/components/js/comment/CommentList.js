@@ -11,7 +11,7 @@ export default function CommentList({item}) {
         </div>
       ))}
         
-        <input type='text' placeholder='Add a comment'></input>
+        <input className='commentInput' type='text' placeholder='Add a comment'></input>
     </div>
   )
 }
