@@ -10,6 +10,7 @@ public class VoteException extends BusinessException {
 
     public VoteException(ErrorCode errorCode) {
         super(errorCode.getMessage(), errorCode);
+        this.errorCode = errorCode;
     }
 }
 

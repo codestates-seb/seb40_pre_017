@@ -1,58 +1,66 @@
 package com.backend.domain.vote.application;
 
-import com.backend.domain.answer.application.AnswerService;
-import com.backend.domain.answer.domain.Answer;
-import com.backend.domain.member.domain.Member;
-import com.backend.domain.vote.dao.AnswerVoteRepository;
-import com.backend.domain.vote.domain.AnswerVote;
-import com.backend.domain.vote.dto.AnswerVoteResponse;
-import com.backend.domain.vote.dto.AnswerVoteUpdate;
+import com.backend.domain.member.repository.MemberRepository;
+import com.backend.domain.vote.dao.AnswerDownVoteRepository;
+import com.backend.domain.vote.dao.AnswerUpVoteRepository;
 import com.backend.domain.vote.exception.VoteException;
 import com.backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class AnswerVoteService {
+    private final AnswerUpVoteRepository answerUpVoteRepository;
 
-    private final AnswerService answerService;
+    private final AnswerDownVoteRepository answerDownVoteRepository;
 
-    private final AnswerVoteRepository answerVoteRepository;
+    private final MemberRepository memberRepository;
 
-    public AnswerVoteResponse up(Long answerId) {
+    public void up(Long answerId, Long memberId) {
 
-        Answer findAnswer = answerService.findVerifiedAnswer(answerId);
-        findAnswer.get
+        try {
+            answerUpVoteRepository.up(answerId, memberId);
+        } catch (DataIntegrityViolationException e) {
+            log.error("handleDataIntegrityViolationException", e);
+            throw new VoteException(ErrorCode.CONSTRAINTS_VIOLATED);
+        }
 
-
-        AnswerVote savedComment = answerVoteRepository.save(answerVote);
-
-        return result;
 
     }
 
-    public AnswerVoteResponse undoUp(AnswerVoteUpdate answerVoteUpdate, Long answerVoteId) {
-
-        AnswerVote findComment = findVerifiedComment(answerVoteId);
-
-        findComment.patch(answerVoteUpdate);
-
-        AnswerVoteResponse result = findComment.toResponseDto();
-
-        return result;
+    public void undoUp(Long answerId, Long memberId) {
+        answerUpVoteRepository.undoUp(answerId, memberId);
 
     }
 
-    private AnswerVote findVerifiedComment(Long answerVoteId) {
-        Optional<AnswerVote> optionalComment = answerVoteRepository.findById(answerVoteId);
-        AnswerVote findComment = optionalComment.orElseThrow(() -> new VoteException(ErrorCode.COMMENT_NOT_FOUND));
-        return findComment;
+
+    public void down(Long answerId, Long memberId) {
+        try {
+            answerDownVoteRepository.down(answerId, memberId);
+
+        }catch (DataIntegrityViolationException e) {
+            log.error("handleDataIntegrityViolationException", e);
+            throw new VoteException(ErrorCode.CONSTRAINTS_VIOLATED);
+        }
+
+
+        Long reputation = memberRepository.findById(memberId).get().getReputation();
+        reputation -= 1;
+
     }
 
+    public void undoDown(Long answerId, Long memberId) {
+        answerDownVoteRepository.undoDown(answerId, memberId);
 
+        Long reputation = memberRepository.findById(memberId).get().getReputation();
+        reputation += 1;
+
+    }
 }

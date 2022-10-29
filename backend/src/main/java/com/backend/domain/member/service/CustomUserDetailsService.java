@@ -1,6 +1,5 @@
 package com.backend.domain.member.service;
 
-import com.backend.domain.member.domain.Authority;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.repository.MemberRepository;
 import lombok.Getter;
@@ -43,7 +42,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Getter
-    private final class MemberDetails extends Member implements UserDetails {
+   public class MemberDetails extends Member implements UserDetails {
         private Long memberId;
         private String email;
         private String password;

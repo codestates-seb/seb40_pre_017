@@ -29,6 +29,7 @@ public class AnswerService {
 
         Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
 
+
         Answer answer = answerPostDto.toEntity(question,getMember());
 
         Answer savedAnswer = answerRepository.save(answer);
@@ -75,11 +76,11 @@ public class AnswerService {
 
     private Member getMember() {
         Member member = Member.builder()
-                .email("thwn40@naver.com")
-                .password("asdf123")
-                .profileImage("sdlfkjasldkfj")
+                .email("thsdf0@naver.com")
+                .password("asdf1234")
+                .profileImage("ssdafasldkfj")
                 .reputation(0L)
-                .username("thwn400")
+                .username("thwsadf0")
                 .build();
         return member;
     }

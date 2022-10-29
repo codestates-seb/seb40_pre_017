@@ -4,6 +4,8 @@ import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.question.dto.request.QuestionCreate;
 import com.backend.domain.question.dto.request.QuestionUpdate;
+import com.backend.domain.vote.domain.QuestionDownVote;
+import com.backend.domain.vote.domain.QuestionUpVote;
 import com.backend.global.Audit.Auditable;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -39,8 +41,19 @@ public class Question extends Auditable {
     @OneToMany(mappedBy = "question",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuestionTag> questionTags = new ArrayList<>();
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answer> answers = new ArrayList<>();
+
+    /**
+     * Vote 관련 변수 추가
+     * voteState는 현재 로그인한 멤버가 해당질문에 vote했는지 안했는지 여부 표시
+     */
+
+    @OneToMany(mappedBy = "question",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<QuestionUpVote> upVotes;
+
+    @OneToMany(mappedBy = "question",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<QuestionDownVote> downVotes;
 
 
     @Column(name = "isAnswered", nullable = false)

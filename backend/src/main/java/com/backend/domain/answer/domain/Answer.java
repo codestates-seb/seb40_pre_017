@@ -4,7 +4,8 @@ import com.backend.domain.answer.dto.AnswerPatchDto;
 import com.backend.domain.answer.dto.AnswerResponseDto;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.question.domain.Question;
-import com.backend.domain.vote.domain.AnswerVote;
+import com.backend.domain.vote.domain.AnswerDownVote;
+import com.backend.domain.vote.domain.AnswerUpVote;
 import com.backend.global.Audit.Auditable;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -31,25 +32,25 @@ public class Answer extends Auditable {
     private Boolean isAccepted;
 
 
-    @OneToMany(mappedBy = "answer")
-    private List<AnswerVote> votes;
+    @OneToMany(mappedBy = "answer",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AnswerUpVote> upVotes;
 
-    @Transient
-    private Long voteCount;
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AnswerDownVote> downVotes;
+
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
     public Answer(String content, Boolean isAccepted, Member member, Question question) {
         this.content = content;
-        this.
         this.isAccepted = isAccepted;
         this.member = member;
         this.question=question;

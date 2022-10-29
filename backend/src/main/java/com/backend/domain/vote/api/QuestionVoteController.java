@@ -1,16 +1,17 @@
 package com.backend.domain.vote.api;
 
 
+import com.backend.domain.member.service.CustomUserDetailsService;
 import com.backend.domain.vote.application.QuestionVoteService;
-import com.backend.domain.vote.dto.QuestionVoteCreate;
-import com.backend.domain.vote.dto.QuestionVoteResponse;
-import com.backend.domain.vote.dto.QuestionVoteUpdate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
 @RestController
@@ -21,39 +22,44 @@ public class QuestionVoteController {
 
     private final QuestionVoteService questionVoteService;
 
-    @PostMapping("/comments")
-    public ResponseEntity<QuestionVoteResponse>  create(
+    @PostMapping("/upvote")
+    public ResponseEntity<Long> up(
             @PathVariable("id") @Positive Long questionId,
-            @Valid @RequestBody QuestionVoteCreate questionVoteCreate) {
+            @AuthenticationPrincipal CustomUserDetailsService.MemberDetails memberDetails) {
 
-        QuestionVoteResponse result = questionVoteService.create(questionVoteCreate, questionId);
+        questionVoteService.up(questionId, 1L);
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(questionId);
     }
 
-    @PatchMapping("/comments/{comment-id}")
-    public ResponseEntity<QuestionVoteResponse> update(
+    @PostMapping("/upvote/undo")
+    public ResponseEntity<Long> undoUp(
             @PathVariable("id") @Positive Long questionId,
-            @PathVariable("comment-id") @Positive Long questionVoteId,
-            @Valid @RequestBody QuestionVoteUpdate questionVoteUpdate) {
+            @AuthenticationPrincipal CustomUserDetailsService.MemberDetails memberDetails) {
 
+        questionVoteService.undoUp(questionId, 1L);
 
-        QuestionVoteResponse result = questionVoteService.update(questionVoteUpdate, questionVoteId);
-
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(questionId);
     }
 
-    @DeleteMapping("/comments/{comment-id}")
-    public ResponseEntity<Long> delete(
+    @PostMapping("/downvote")
+    public ResponseEntity<Long> down(
             @PathVariable("id") @Positive Long questionId,
-            @PathVariable("comment-id") @Positive Long questionVoteId) {
+            @AuthenticationPrincipal CustomUserDetailsService.MemberDetails memberDetails) {
 
-        Long id = questionVoteService.delete(questionVoteId);
+        questionVoteService.down(questionId, 1L);
 
-        return ResponseEntity.ok(id);
+        return ResponseEntity.ok(questionId);
     }
 
+    @PostMapping("/downvote/undo")
+    public ResponseEntity<Long> undoDown(
+            @PathVariable("id") @Positive Long questionId,
+            @AuthenticationPrincipal CustomUserDetailsService.MemberDetails memberDetails) {
 
+        questionVoteService.undoDown(questionId, 1L);
 
-
+        return ResponseEntity.ok(questionId);
+    }
+    
 }

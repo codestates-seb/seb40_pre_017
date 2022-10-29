@@ -1,82 +1,58 @@
 package com.backend.domain.vote.application;
 
 
-import com.backend.domain.comment.exception.CommentException;
-import com.backend.domain.member.domain.Member;
-import com.backend.domain.question.domain.Question;
-import com.backend.domain.question.exception.QuestionNotFound;
-import com.backend.domain.question.repository.QuestionRepository;
-import com.backend.domain.vote.dao.QuestionVoteRepository;
-import com.backend.domain.vote.domain.QuestionVote;
-import com.backend.domain.vote.dto.QuestionVoteCreate;
-import com.backend.domain.vote.dto.QuestionVoteResponse;
-import com.backend.domain.vote.dto.QuestionVoteUpdate;
+import com.backend.domain.member.repository.MemberRepository;
+import com.backend.domain.vote.dao.QuestionDownVoteRepository;
+import com.backend.domain.vote.dao.QuestionUpVoteRepository;
+import com.backend.domain.vote.exception.VoteException;
 import com.backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class QuestionVoteService {
 
-    private final QuestionRepository questionRepository;
+    private final QuestionUpVoteRepository questionUpVoteRepository;
+    private final QuestionDownVoteRepository questionDownVoteRepository;
 
-    private final QuestionVoteRepository questionVoteRepository;
+    private final MemberRepository memberRepository;
 
+    public void up(Long questionId, Long memberId) {
 
-
-    public QuestionVoteResponse create(QuestionVoteCreate questionVoteCreate, Long questionId) {
-
-        Question question = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new);
-
-        // 토큰에서 회원정보 가져오는것으로 수정필요
-        Member member = Member.builder()
-                .email("abc@gmail.com")
-                .password("1234")
-                .username("hi")
-                .build();
-
-        QuestionVote questionVote = QuestionVote.toEntity(questionVoteCreate.getContent(), question, member);
-
-        QuestionVote savedComment = questionVoteRepository.save(questionVote);
-
-        QuestionVoteResponse result = savedComment.toResponseDto();
-        return result;
-
+        try {
+            questionUpVoteRepository.up(questionId, memberId);
+        }catch (DataIntegrityViolationException e) {
+            log.error("handleDataIntegrityViolationException", e);
+            throw new VoteException(ErrorCode.CONSTRAINTS_VIOLATED);
+        }
     }
 
-    public QuestionVoteResponse update(QuestionVoteUpdate questionVoteUpdate, Long questionVoteId) {
-
-        QuestionVote findComment = findVerifiedComment(questionVoteId);
-
-        findComment.patch(questionVoteUpdate);
-
-        QuestionVoteResponse result = findComment.toResponseDto();
-
-        return result;
-
-    }
-
-    public Long delete(Long questionVoteId) {
-
-        QuestionVote findComment = findVerifiedComment(questionVoteId);
-
-        questionVoteRepository.delete(findComment);
-
-        return questionVoteId;
+    public void undoUp(Long questionId, Long memberId) {
+        questionUpVoteRepository.undoUp(questionId, memberId);
 
     }
 
 
-    private QuestionVote findVerifiedComment(Long questionVoteId) {
-        Optional<QuestionVote> optionalComment = questionVoteRepository.findById(questionVoteId);
-        QuestionVote findComment = optionalComment.orElseThrow(() -> new CommentException(ErrorCode.COMMENT_NOT_FOUND));
-        return findComment;
+    public void down(Long questionId, Long memberId) {
+        try {
+            questionDownVoteRepository.down(questionId, memberId);
+        } catch (DataIntegrityViolationException e) {
+            log.error("handleDataIntegrityViolationException", e);
+            throw new VoteException(ErrorCode.CONSTRAINTS_VIOLATED);
+        }
+
     }
 
+    public void undoDown(Long questionId, Long memberId) {
+        questionDownVoteRepository.undoDown(questionId, memberId);
 
+    }
+    
 }
