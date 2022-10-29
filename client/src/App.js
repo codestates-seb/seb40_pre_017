@@ -24,8 +24,8 @@ function App() {
           <Route index element={<QuestionPage items={items}/>} />
           {/* <Route path="/questions" element={<QuestionPage items={items}/>} /> */}
           <Route path="/add" element={<AddQuestion />} />
-          <Route path="/questions/:id" element={<DetailPage items={items}/>} />
-          <Route path="/questions/:id/edit" element={<EditQuestion items={items}/>} />
+          <Route path="questions/:id" element={<DetailPage items={items}/>} />
+          <Route path="questions/:id/edit" element={<EditQuestion items={items}/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           {/* path 확실하게 재수정 */}

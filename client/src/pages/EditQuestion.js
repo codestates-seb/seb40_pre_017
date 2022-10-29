@@ -2,7 +2,7 @@ import React from 'react'
 import Inputbox from '../components/js/addContent/Inputbox'
 import { useState } from 'react';
 import { fetchPatch } from '../util/api';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 export default function EditQuestion({items}) {
     //id 파라미터 가져오기
@@ -35,9 +35,10 @@ export default function EditQuestion({items}) {
     }
     fetchPatch("http://localhost:3001/items/", item.id, data);
 
-    // data 생성 & POST (Api)
+    // data 생성 & Patch (Api)
     // let data = { title, content, tags }
-    // fetchCreate("/questions/", data)
+    // fetchPatch("/questions", id, data)
+    // fetchPatch api에 맞게 추후 수정
     }
     return (
     <div>
@@ -50,7 +51,9 @@ export default function EditQuestion({items}) {
             content={content}
         />
         <button onClick={handleEdit}>Save Edits</button>
-        <button>Cancle</button>
+        <Link to={`/questions/${params.id}`}>
+            <button>Cancle</button>
+        </Link>
     </div>
     )
 }
