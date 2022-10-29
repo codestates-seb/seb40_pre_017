@@ -42,7 +42,7 @@ export default function DetailPage({items}) {
         </div>
         <div className='detailBodyWrap'>
           <div className='detailContentWrap'>
-          <QuestionDetail item={item}/>
+          <QuestionDetail item={item} id={params.id}/>
           <AnswerList item={item}/>
           <h1 className='yourAnswer'>Your Answer</h1>
           <AddContent />

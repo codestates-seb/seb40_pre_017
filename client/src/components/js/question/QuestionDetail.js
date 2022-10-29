@@ -4,8 +4,9 @@ import Profile from '../profile/Profile'
 import Vote from '../vote/Vote'
 import Tags from '../tags/Tags'
 import '../../css/question/QuestionDetail.scss'
+import { Link } from 'react-router-dom'
 
-export default function QuestionDetail({item}) {
+export default function QuestionDetail({item, id}) {
 
   return (
     <div className='questionDetail'>
@@ -19,7 +20,9 @@ export default function QuestionDetail({item}) {
         <div className='detailBottomWrap'>
           <div className='detailEditWrap'>
             <button>Share</button>
-            <button>Edit</button>
+            <Link to={`/questions/${id}/edit`}>
+              <button>Edit</button>
+            </Link>
           </div>
           <Profile item={item.member}/>
         </div>

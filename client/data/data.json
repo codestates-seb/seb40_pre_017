@@ -2,10 +2,12 @@
   "items": [
     {
       "tags": [
-        "google-apps-script",
-        "google-drive-api",
-        "file-conversion",
-        "convertapi"
+        {
+          "name": "java"
+        },
+        {
+          "name": "python"
+        }
       ],
       "member": {
         "reputation": 23,
@@ -100,8 +102,12 @@
     },
     {
       "tags": [
-        "file-conversion",
-        "convertapi"
+        {
+          "name": "java"
+        },
+        {
+          "name": "python"
+        }
       ],
       "member": {
         "reputation": 23,
@@ -182,7 +188,12 @@
     },
     {
       "tags": [
-        "태그"
+        {
+          "name": "네"
+        },
+        {
+          "name": "진짜요"
+        }
       ],
       "member": {
         "last_modified_date": "2022-10-25",
@@ -203,8 +214,8 @@
         "modifiedAt": 1596034268,
         "questionId": 55111502,
         "link": "https://stackoverflow.com/questions/55111503/convert-a-gdoc-into-image",
-        "title": "잘되나요",
-        "content": "네",
+        "title": "수정이번엔",
+        "content": "잘되나요",
         "qcomment": []
       },
       "answer": [],

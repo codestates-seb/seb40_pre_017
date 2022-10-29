@@ -6,27 +6,25 @@ import { fetchCreate } from '../util/api'
 import  useFetch  from '../util/useFetch'
 
 export default function AddQuestion() {
-  //회원정보 받아오기
+  //회원정보 받아오기 (임시)
   const [member] = useFetch("http://localhost:3001/member/");
+  //회원정보 받아오기 (Api)
+  // const [member] = useFetch("/users/{ids}");
 
   //제목
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState('');
 
   //content
   const [content, setContent] = useState('');
 
   //tag
-  // const [inputTag, setInputTag] = useState();
   const [tags, setTags] = useState([]);
-  //inputTag를 tags state에 넣는 조건문
-  // if(!tags.includes(inputTag) && inputTag !== undefined)setTags([...tags, inputTag])
-
-
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //data 생성
+
+    // data 생성 & POST (임시)
     let data = {
     tags,
     member,
@@ -46,8 +44,11 @@ export default function AddQuestion() {
     },
     "answer": []
     }
-    console.log(data)
     fetchCreate("http://localhost:3001/items/", data)
+
+    // data 생성 & POST (Api)
+    // let data = { title, content, tags }
+    // fetchCreate("/questions/", data)
   }
 
   return (
