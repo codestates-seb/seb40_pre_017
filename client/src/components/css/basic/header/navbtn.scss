@@ -1,21 +1,23 @@
 .btnArea{
-  width: 140px;
+  width: 160px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  padding: 10px;
+  padding: 5px;
   @media screen and (max-width: 640px) {
     width: 130px;
 
   }
   .btn{
-    padding: 0.6em 0.6em;
+    padding: 0.6em 0.4em;
     font-size: 13px;
     outline: none;
     border: 1px solid #76a7cd;
     border-radius: 3px;
+    margin-right: 5px;
     cursor: pointer;
+    
     @media screen and (max-width: 640px) {
       font-size: 12px;
     }
