@@ -9,6 +9,8 @@ import com.backend.domain.comment.exception.CommentException;
 import com.backend.domain.answer.application.AnswerService;
 import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.member.domain.Member;
+import com.backend.domain.member.exception.MemberNotFound;
+import com.backend.domain.member.repository.MemberRepository;
 import com.backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,16 +27,13 @@ public class AnswerCommentService {
 
     private final AnswerCommentRepository answerCommentRepository;
 
-    public AnswerCommentResponse createComment(AnswerCommentCreate answerCommentCreate, Long answerId) {
+    private final MemberRepository memberRepository;
+    public AnswerCommentResponse createComment(Long memberId, AnswerCommentCreate answerCommentCreate, Long answerId) {
 
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
         Answer answer = answerService.findVerifiedAnswer(answerId);
 
         // 토큰에서 회원정보 가져오는것으로 수정필요
-        Member member = Member.builder()
-                .email("abc@gmail.com")
-                .password("1234")
-                .username("hi")
-                .build();
 
         AnswerComment answerComment = AnswerComment.toEntity(answerCommentCreate.getContent(), answer, member);
 

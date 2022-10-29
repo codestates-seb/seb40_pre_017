@@ -34,16 +34,22 @@ public class QuestionComment extends Auditable {
     public QuestionComment(String content,Question question, Member member) {
         this.content = content;
         this.question = question;
-//   member 구현후 해제    this.member = member;
+        this.member = member;
     }
 
 
+
+
     public static QuestionComment toEntity(String content, Question question, Member member) {
-        return QuestionComment.builder()
+        QuestionComment questionComment = QuestionComment.builder()
                 .content(content)
                 .question(question)
                 .member(member)
                 .build();
+
+        question.getQuestionComments().add(questionComment);
+
+        return questionComment;
     }
 
     public QuestionCommentResponse toResponseDto() {

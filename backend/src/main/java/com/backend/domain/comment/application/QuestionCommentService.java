@@ -7,6 +7,8 @@ import com.backend.domain.comment.dto.QuestionCommentResponse;
 import com.backend.domain.comment.dto.QuestionCommentUpdate;
 import com.backend.domain.comment.exception.CommentException;
 import com.backend.domain.member.domain.Member;
+import com.backend.domain.member.exception.MemberNotFound;
+import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.exception.QuestionNotFound;
 import com.backend.domain.question.repository.QuestionRepository;
@@ -26,18 +28,15 @@ public class QuestionCommentService {
 
     private final QuestionCommentRepository questionCommentRepository;
 
+    private final MemberRepository memberRepository;
 
 
-    public QuestionCommentResponse createComment(QuestionCommentCreate questionCommentCreate, Long questionId) {
+
+    public QuestionCommentResponse createComment(Long memberId, QuestionCommentCreate questionCommentCreate, Long questionId) {
+
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
 
         Question question = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new);
-
-        // 토큰에서 회원정보 가져오는것으로 수정필요
-        Member member = Member.builder()
-                .email("abc@gmail.com")
-                .password("1234")
-                .username("hi")
-                .build();
 
         QuestionComment questionComment = QuestionComment.toEntity(questionCommentCreate.getContent(), question, member);
 

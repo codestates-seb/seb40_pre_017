@@ -2,6 +2,7 @@ package com.backend.global.config.security.filter;
 
 import com.backend.domain.member.dto.LoginDto;
 import com.backend.domain.member.dto.TokenDto;
+import com.backend.domain.member.service.AuthMember;
 import com.backend.global.jwt.TokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
-        TokenDto tokenDto = tokenProvider.generateTokenDto(authResult);
+        AuthMember authMember = (AuthMember) authResult.getPrincipal();
+        TokenDto tokenDto = tokenProvider.generateTokenDto(authMember);
 
         response.setHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
         response.setHeader("RefreshToken", "Bearer " + tokenDto.getRefreshToken());
