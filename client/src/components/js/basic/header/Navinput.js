@@ -18,7 +18,7 @@ export default function Navinput() {
     <form className='navInputArea'>
 
       {/* display가 640px 이상일 때 보임 */}
-      <label for="검색" className='navIcon'>
+      <label htmlFor="search" className='navIcon'>
         <FontAwesomeIcon className='hamburger' icon={faMagnifyingGlass} />
       </label>
 
@@ -26,7 +26,7 @@ export default function Navinput() {
       <label for="검색" className='navIconSmall' onClick={()=> focusChange(true)} >
         <FontAwesomeIcon className='hamburger' icon={faMagnifyingGlass} />
       </label> */}
-      <Input focusChange={focusChange} name="검색"/>
+      <Input focusChange={focusChange} id="search"/>
 
       {isFocused ? <div className='inputTabArea'>
         <Inputtab />
