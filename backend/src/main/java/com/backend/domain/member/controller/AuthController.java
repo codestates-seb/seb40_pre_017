@@ -29,7 +29,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
         String login = authService.login(loginDto);
-        return ResponseEntity.ok(login);
+       return ResponseEntity.ok(login);
     }
     // 재발급
     @PostMapping("/reissue")
