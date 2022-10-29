@@ -19,10 +19,10 @@ export default function Nav() {
         <Logo />
         <Snav />
         <Navinput />
-        {/* <Navbtn /> */}
+        <Navbtn />
 
         {/* props */}
-        <User />
+        {/* <User /> */}
 
       </nav>
     </>
