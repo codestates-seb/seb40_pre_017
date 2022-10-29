@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './signup.scss';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,12 +9,35 @@ import Facebookbtn from '../components/js/user/common/Facebookbtn';
 import Input from '../components/js/user/common/Input';
 import Button from '../components/js/user/common/Button';
 
-
 let content = ["Log in with Google", "Log in with Github", "Log in with Facebook"];
 
 
-export default function signup() {
 
+
+export default function Signup() {
+
+  // 어떤 경로에서 로그인 페이지로 접속했는지 확인 후 로그인 성공시 해당 페이지로 이동.
+  // 닉네임 입력 검사 -> 닉네임 입효성 판단 boolean -> p태그 보여줌
+  // 이메일 유효성 검사 -> 이메일 유효성 판단 boolean -> p태그 보여줌
+  // 이메일 입력 길이 먼저 검사.
+  // 입력한 값이 있으면 이메일 주소 형식인지 확인.
+  // 비밀번호 유효성 검사 -> 비밀번호 유효성 판단 boolean -> p태그 보여줌
+
+  const [data, setDate] = useState({});
+
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
+  const formSubmit = (e) =>{
+    e.preventDefault()
+    console.log(data)
+    console.log("submit")
+  }
+
+  const onChangeInput = (e) => {
+    setDate({...data, [e.target.name] : e.target.value});
+  }
+  
   return (
     <div className='signupPage'>
       <div className='flexBox'>
@@ -48,19 +71,19 @@ export default function signup() {
           <Githubbtn content={content[1]} />
           <Facebookbtn content={content[2]} />
 
-          <form className='signupForm' action="#">
-            <Input labelName="Display name" inputId="text" inputType="text" />
-            <Input labelName="Email" inputId="email" inputType="email" />
-            <Input labelName="Password" inputId="password" inputType="password" />
+          <form className='signupForm'>
+            <Input labelName="Display name" inputId="text" inputType="text" name="name" onChangeInput={onChangeInput} />
+            <Input labelName="Email" inputId="email" inputType="email" name="email" onChangeInput={onChangeInput} />
+            <Input labelName="Password" inputId="password" inputType="password" name="password" onChangeInput={onChangeInput} />
             <p>Passwords must contain at least eight characters, including at least 1 letter and 1 number.</p>
             <div className='checkBot'></div>
-            <Button btnContent="Sign up" />
+            <Button formSubmit={formSubmit} btnContent="Sign up" />
             {/* <p>By clicking “Sign up”, you agree to our terms of service, privacy policy and cookie policy</p> */}
           </form>
 
           <div className='loginLink'>
             Already have an account?
-            <Link to={"/"} >Log in</Link>
+            <Link to={"/login"} >Log in</Link>
           </div>
           <div className='loginLink'>
             Are you an employer?

@@ -9,7 +9,7 @@ import Button from '../components/js/user/common/Button';
 
 let content = ["Log in with Google", "Log in with Github", "Log in with Facebook"];
 
-export default function login() {
+export default function Login() {
   return (
     <div className='loginPage'>
       <div className='loginPageInner'>
@@ -27,7 +27,7 @@ export default function login() {
         </form>
         <div className='loginLink'>
           Don’t have an account?
-          <Link to={"/"} >Sign up</Link>
+          <Link to={"/signup"} >Sign up</Link>
         </div>
         <div className='loginLink'>
           Are you an employer?

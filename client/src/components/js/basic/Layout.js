@@ -12,9 +12,7 @@ export default function Layout() {
 
   const location = useLocation().pathname;
 
-  console.log(location)
   let pageStyle = (location === '/login') || (location === '/signup');
-  console.log(pageStyle)
   return (
     <>
       {pageStyle ? 
