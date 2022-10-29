@@ -6,6 +6,10 @@ import com.backend.domain.answer.dto.AnswerPatchDto;
 import com.backend.domain.answer.dto.AnswerPostDto;
 import com.backend.domain.answer.dto.AnswerResponseDto;
 import com.backend.domain.answer.exception.AnswerException;
+import com.backend.domain.member.domain.Member;
+import com.backend.domain.question.domain.Question;
+import com.backend.domain.question.exception.QuestionNotFound;
+import com.backend.domain.question.repository.QuestionRepository;
 import com.backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,10 +23,13 @@ import java.util.Optional;
 public class AnswerService {
 
     private final AnswerRepository answerRepository;
+    private final QuestionRepository questionRepository;
 
-    public AnswerResponseDto createAnswer(AnswerPostDto answerPostDto) {
+    public AnswerResponseDto createAnswer(Long id,AnswerPostDto answerPostDto) {
 
-        Answer answer = answerPostDto.toEntity();
+        Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
+
+        Answer answer = answerPostDto.toEntity(question,getMember());
 
         Answer savedAnswer = answerRepository.save(answer);
 
@@ -64,6 +71,17 @@ public class AnswerService {
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
         Answer findAnswer = optionalAnswer.orElseThrow(() -> new AnswerException(ErrorCode.ANSWER_NOT_FOUND));
         return findAnswer;
+    }
+
+    private Member getMember() {
+        Member member = Member.builder()
+                .email("thwn40@naver.com")
+                .password("asdf123")
+                .profileImage("sdlfkjasldkfj")
+                .reputation(0L)
+                .username("thwn400")
+                .build();
+        return member;
     }
 
 }

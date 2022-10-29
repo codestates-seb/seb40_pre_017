@@ -1,11 +1,13 @@
 package com.backend.domain.member.domain;
 
 import com.backend.domain.answer.domain.Answer;
+import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.question.domain.Question;
+import com.backend.global.Audit.Auditable;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,8 +15,8 @@ import java.util.List;
 
 @Entity
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "member_id")
@@ -43,12 +45,22 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Answer> answers = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
     @Builder
-    public Member(String email, String password, String username, String profileImage, Long reputation) {
+    public Member(String email, String password, String username, String profileImage, Long reputation, List<Question> questions, List<Answer> answers, Authority authority) {
         this.email = email;
         this.password = password;
         this.username = username;
-        this.profileImage = profileImage;
-        this.reputation = reputation;
+        this.reputation = 0L;
+        this.authority = Authority.ROLE_USER;
     }
+
+    //
+
+    public void encodePassword(String password) {
+        this.password = password;
+    }
+
 }

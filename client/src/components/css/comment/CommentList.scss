@@ -5,13 +5,13 @@
     }
 }
 
-input {
+.commentInput {
     margin-top: 10px;
     outline: 0;
     border-color: transparent;
     padding: 0px;
 }
 
-input::placeholder{
+.commentInput::placeholder{
     color: #BBC0C5;
 }
