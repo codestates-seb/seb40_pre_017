@@ -21,33 +21,33 @@ public class QuestionCommentController {
     private final QuestionCommentService questionCommentService;
 
     @PostMapping("/comments")
-    public ResponseEntity<QuestionCommentResponse>  createComment(
+    public ResponseEntity<QuestionCommentResponse>  create(
             @PathVariable("id") @Positive Long questionId,
             @Valid @RequestBody QuestionCommentCreate questionCommentCreate) {
 
-        QuestionCommentResponse result = questionCommentService.createComment(questionCommentCreate, questionId);
+        QuestionCommentResponse result = questionCommentService.create(questionCommentCreate, questionId);
 
         return ResponseEntity.ok(result);
     }
 
     @PatchMapping("/comments/{comment-id}")
-    public ResponseEntity<QuestionCommentResponse> updateComment(
+    public ResponseEntity<QuestionCommentResponse> update(
             @PathVariable("id") @Positive Long questionId,
             @PathVariable("comment-id") @Positive Long questionCommentId,
             @Valid @RequestBody QuestionCommentUpdate questionCommentUpdate) {
 
 
-        QuestionCommentResponse result = questionCommentService.updateComment(questionCommentUpdate, questionCommentId);
+        QuestionCommentResponse result = questionCommentService.update(questionCommentUpdate, questionCommentId);
 
         return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/comments/{comment-id}")
-    public ResponseEntity<Long> deleteComment(
+    public ResponseEntity<Long> delete(
             @PathVariable("id") @Positive Long questionId,
             @PathVariable("comment-id") @Positive Long questionCommentId) {
 
-        Long id = questionCommentService.deleteComment(questionCommentId);
+        Long id = questionCommentService.delete(questionCommentId);
 
         return ResponseEntity.ok(id);
     }

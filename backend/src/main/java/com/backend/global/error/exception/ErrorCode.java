@@ -28,6 +28,7 @@ public enum ErrorCode {
     //Comment
     COMMENT_NOT_FOUND(404,"Comment Not Found");
 
+
     private final String message;
     private int status;
 

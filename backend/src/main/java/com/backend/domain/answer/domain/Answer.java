@@ -4,6 +4,7 @@ import com.backend.domain.answer.dto.AnswerPatchDto;
 import com.backend.domain.answer.dto.AnswerResponseDto;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.question.domain.Question;
+import com.backend.domain.vote.domain.AnswerVote;
 import com.backend.global.Audit.Auditable;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,8 +26,17 @@ public class Answer extends Auditable {
     @Column(name = "content", nullable = false)
     private String content;
 
+
     @Column(name = "is_accepted",nullable = false)
     private Boolean isAccepted;
+
+
+    @OneToMany(mappedBy = "answer")
+    private List<AnswerVote> votes;
+
+    @Transient
+    private Long voteCount;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
@@ -38,6 +49,7 @@ public class Answer extends Auditable {
     @Builder
     public Answer(String content, Boolean isAccepted) {
         this.content = content;
+        this.
         this.isAccepted = isAccepted;
     }
 
