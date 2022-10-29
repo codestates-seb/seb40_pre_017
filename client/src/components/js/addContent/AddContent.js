@@ -1,7 +1,14 @@
 import React from 'react'
 import '../../css/addContent/AddContent.scss'
 
-export default function AddContent({inputContent, content}) {
+export default function AddContent({content, setContent}) {
+
+
+  const inputContent = (e) => {
+    e.preventDefault();
+    setContent(e.target.value);
+  }
+
   return (
     <div>
         <input 

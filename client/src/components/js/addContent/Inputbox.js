@@ -9,10 +9,10 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
     setTitle(e.target.value);
   }
 
-  const inputContent = (e) => {
-    e.preventDefault();
-    setContent(e.target.value);
-  }
+  // const inputContent = (e) => {
+  //   e.preventDefault();
+  //   setContent(e.target.value);
+  // }
 
   const inputTag = (event) => {
     const filtered = tags.filter((el) => el === event.target.value);
@@ -46,7 +46,11 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
       <div className='inputbox'>
         <h3>What are the details of your problem?</h3>
         <p>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</p>
-        <AddContent inputContent={inputContent} content={content}/>
+        <AddContent 
+          // inputContent={inputContent} 
+          content={content}
+          setContent={setContent}
+          />
       </div>
 
       <div className='inputbox'>

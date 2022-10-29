@@ -5,6 +5,7 @@ import CommentList from '../comment/CommentList'
 import '../../css/answer/Answer.scss'
 
 export default function Answer({answer}) {
+
   return (
     <div className='answerWrap'>
       <Vote item={answer.votes}/>
