@@ -1,11 +1,10 @@
 package com.backend.domain.member.controller;
 
-import com.backend.domain.member.dto.MemberPostDto;
+import com.backend.domain.member.dto.LoginDto;
 import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.dto.TokenDto;
 import com.backend.domain.member.dto.TokenPostDto;
 import com.backend.domain.member.service.AuthService;
-import com.backend.global.config.security.dto.LoginDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +22,14 @@ public class AuthController {
 
     // 회원가입
     @PostMapping()
-    public ResponseEntity<MemberResponseDto> signup(@RequestBody MemberPostDto memberRequestDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(authService.signup(memberRequestDto));
+    public ResponseEntity<MemberResponseDto> signup(@RequestBody LoginDto loginDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.signup(loginDto));
     }
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginDto) {
-        return ResponseEntity.ok(authService.login(loginDto));
+    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+        String login = authService.login(loginDto);
+        return ResponseEntity.ok(login);
     }
     // 재발급
     @PostMapping("/reissue")

@@ -28,6 +28,11 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.create(questionCreate));
     }
 
+    @GetMapping("/questions/{id}")
+    public void get(@PathVariable Long id) {
+        questionService.get(id);
+    }
+
     @GetMapping("/questions")
     public ResponseEntity<MultiResponse<?>> getList(PageRequest pageable, @ModelAttribute QuestionSearch questionSearch) {
         log.info("page= {}",pageable.getPage());
