@@ -7,6 +7,7 @@ import com.backend.domain.answer.dto.AnswerPostDto;
 import com.backend.domain.answer.dto.AnswerResponseDto;
 import com.backend.domain.answer.exception.AnswerException;
 import com.backend.domain.member.domain.Member;
+import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.exception.QuestionNotFound;
 import com.backend.domain.question.repository.QuestionRepository;
@@ -24,13 +25,15 @@ public class AnswerService {
 
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
-
-    public AnswerResponseDto createAnswer(Long id,AnswerPostDto answerPostDto) {
+    private final MemberRepository memberRepository;
+    public AnswerResponseDto createAnswer(Long id,Long memberId, AnswerPostDto answerPostDto) {
 
         Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
+        Member member = memberRepository.findById(id).orElseThrow(QuestionNotFound::new);
 
 
         Answer answer = answerPostDto.toEntity(question,getMember());
+
 
         Answer savedAnswer = answerRepository.save(answer);
 

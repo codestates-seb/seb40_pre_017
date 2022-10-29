@@ -9,6 +9,13 @@
   justify-content: center;
   align-items: center;
   border: 1px solid black;
+  .loginPageInner{
+    width: 336px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   .logo{
     width: 43px;
     height: 50px;
@@ -16,16 +23,18 @@
     background-position: 8px 0px;
     background-repeat: no-repeat;
     cursor: pointer;
-    margin: 0px 0px 20px;
+    margin-bottom: 20px;
   }
   .loginForm{
-    width: 280px;
-    height: 230px;
+    width: 100%;
     padding: 24px;
     border-radius: 5px;
     margin-bottom: 40px;
     background-color: white;
     box-shadow: 0 1px 2px hsla(0,0%,0%,0.1), 0 1px 4px hsla(0, 0%, 0%, 0.1), 0 2px 8px hsla(0, 0%, 0%, 0.1);
+    p{
+      margin: 0px 0px 20px;
+    }
   }
   .loginLink{
     font-size: 14px;

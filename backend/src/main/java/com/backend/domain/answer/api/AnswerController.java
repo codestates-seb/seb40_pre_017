@@ -4,6 +4,8 @@ import com.backend.domain.answer.application.AnswerService;
 import com.backend.domain.answer.dto.AnswerPatchDto;
 import com.backend.domain.answer.dto.AnswerPostDto;
 import com.backend.domain.answer.dto.AnswerResponseDto;
+import com.backend.domain.member.service.AuthMember;
+import com.backend.global.Annotation.CurrentMember;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,11 +27,11 @@ public class AnswerController {
 
 
     @PostMapping("/{id}/answer")
-    public ResponseEntity<AnswerResponseDto> postAnswer(
+    public ResponseEntity<AnswerResponseDto> postAnswer(@CurrentMember AuthMember authMember,
             @PathVariable("id") @Positive Long id,
             @Valid @RequestBody AnswerPostDto answerPostDto) {
 
-        AnswerResponseDto result = answerService.createAnswer(id, answerPostDto);
+        AnswerResponseDto result = answerService.createAnswer(id, authMember.getMemberId(),answerPostDto);
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
 
