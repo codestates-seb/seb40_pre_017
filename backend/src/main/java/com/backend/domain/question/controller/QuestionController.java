@@ -26,9 +26,9 @@ public class QuestionController {
     @PostMapping("/questions")
     public ResponseEntity<Long> create(@CurrentMember AuthMember authMember, @Valid @RequestBody QuestionCreate questionCreate) {
 
-//      Long memberId = authMember.getMemberId();
+     Long memberId = authMember.getMemberId();
 
-        return ResponseEntity.ok(questionService.create(1L,questionCreate));
+        return ResponseEntity.ok(questionService.create(memberId,questionCreate));
 
     }
 
