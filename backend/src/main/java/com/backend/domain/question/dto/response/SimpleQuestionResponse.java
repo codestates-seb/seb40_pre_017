@@ -20,8 +20,11 @@ public class SimpleQuestionResponse {
     private String summary;
     private Integer answerCount;
 
+    private Integer voteCount;
+
+
     @Builder
-    public SimpleQuestionResponse(Boolean isAnswered, Long viewCount, LocalDateTime createAt, LocalDateTime modifiedAt, Long questionId, String link, String title, String summary, Integer answerCount) {
+    public SimpleQuestionResponse(Boolean isAnswered, Long viewCount, LocalDateTime createAt, LocalDateTime modifiedAt, Long questionId, String link, String title, String summary, Integer answerCount, Integer voteCount) {
         this.isAnswered = isAnswered;
         this.viewCount = viewCount;
         this.createAt = createAt;
@@ -31,6 +34,7 @@ public class SimpleQuestionResponse {
         this.title = title;
         this.summary = summary;
         this.answerCount = answerCount;
+        this.voteCount = voteCount;
     }
 
 
@@ -46,6 +50,7 @@ public class SimpleQuestionResponse {
                 .title(question.getTitle())
                 .summary(getSummary(question.getContent()))
                 .answerCount(question.getAnswers().size())
+                .voteCount(question.getUpVotes().size() - question.getDownVotes().size())
                 .build();
 
     }

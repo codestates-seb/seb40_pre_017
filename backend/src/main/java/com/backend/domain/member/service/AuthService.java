@@ -10,6 +10,7 @@ import com.backend.domain.refreshtoken.domain.RefreshToken;
 import com.backend.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.backend.global.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,6 +46,7 @@ public class AuthService {
     public String login(LoginDto loginDto) {
 
         // Login ID/PW 를 기반으로 AuthenticationToken 생성
+
 
         // 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         // authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
