@@ -7,6 +7,7 @@ import com.backend.global.jwt.TokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -46,9 +48,18 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication authResult) throws IOException, ServletException {
         AuthMember authMember = (AuthMember) authResult.getPrincipal();
         TokenDto tokenDto = tokenProvider.generateTokenDto(authMember);
+        String refreshToken = tokenDto.getRefreshToken();
+
+        Cookie refreshTokenToCookie = new Cookie("refreshToken", refreshToken);
+        refreshTokenToCookie.setMaxAge(60 * 60 * 24 * 14);
+        refreshTokenToCookie.setHttpOnly(true);
+
+        response.addCookie(refreshTokenToCookie);
 
         response.setHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
-        response.setHeader("RefreshToken", tokenDto.getRefreshToken());
+//        response.setHeader("RefreshToken", refreshToken);
+
+
 
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }

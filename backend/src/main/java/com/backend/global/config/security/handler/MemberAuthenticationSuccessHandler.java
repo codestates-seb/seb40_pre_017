@@ -1,15 +1,15 @@
 package com.backend.global.config.security.handler;
 
-import com.backend.domain.member.dto.TokenDto;
+import com.backend.domain.member.service.AuthMember;
 import com.backend.domain.refreshtoken.domain.RefreshToken;
 import com.backend.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.backend.global.jwt.TokenProvider;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,17 +29,17 @@ public class MemberAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
 
-        // 인증 정보를 기반으로 JWT 토큰 생성
-        String refreshToken = response.getHeader("RefreshToken");
+        AuthMember authMember = (AuthMember) authentication.getPrincipal();
+
+        String refreshToken = response.getHeader("Set-Cookie").substring(13).split(";")[0];
 
         // RefreshToken 저장
         RefreshToken refresh = RefreshToken.builder()
-                .key(authentication.getName())
+                .key(authMember.getMemberId())
                 .value(refreshToken)
                 .build();
 
         refreshTokenRepository.save(refresh);
-
 
     }
 
