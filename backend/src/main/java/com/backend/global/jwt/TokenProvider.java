@@ -2,7 +2,7 @@ package com.backend.global.jwt;
 
 import com.backend.domain.member.dto.TokenDto;
 import com.backend.domain.member.service.AuthMember;
-import com.backend.domain.member.service.CustomUserDetailsService;
+import com.backend.domain.refreshtoken.repository.RefreshTokenRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -11,9 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -34,10 +31,12 @@ public class TokenProvider {
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1209600000; // 2주
 
     private final Key key;
+    private final RefreshTokenRepository refreshTokenRepository;
 
-    public TokenProvider(@Value("${jwt.secret}") String secretKey) {
+    public TokenProvider(@Value("${jwt.secret}") String secretKey, RefreshTokenRepository refreshTokenRepository) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
     public TokenDto generateTokenDto(AuthMember authMember) {
@@ -116,5 +115,10 @@ public class TokenProvider {
         } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
+    }
+
+    public void verifyRefreshToken(String refreshToken) throws Exception {
+        refreshTokenRepository.findByValue(refreshToken)
+                .orElseThrow(() -> new Exception("유효하지 않은 Refresh Token 입니다."));
     }
 }

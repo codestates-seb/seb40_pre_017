@@ -1,5 +1,6 @@
 package com.backend.global.config.security.filter;
 
+import com.backend.domain.member.service.AuthMember;
 import com.backend.global.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -30,7 +31,9 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     가입/로그인/재발급을 제외한 Request 요청은 모두 이 필터를 거치게 됨
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         // Request Header 에서 JWT 를 받아옴
         String jwt = resolveToken(request);
 

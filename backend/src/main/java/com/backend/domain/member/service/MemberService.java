@@ -1,7 +1,7 @@
 package com.backend.domain.member.service;
 
 import com.backend.domain.member.domain.Member;
-import com.backend.domain.member.dto.LoginDto;
+import com.backend.domain.member.dto.SignUpRequest;
 import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.global.util.SecurityUtil;
@@ -20,8 +20,8 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     // 회원가입
-    public MemberResponseDto create(LoginDto loginDto) {
-        Member member = loginDto.toEntity();
+    public MemberResponseDto create(SignUpRequest signUpRequest) {
+        Member member = signUpRequest.signup();
 
         // 비밀번호 암호화
         String encryptedPassword = passwordEncoder.encode(member.getPassword());

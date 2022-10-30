@@ -1,13 +1,12 @@
 package com.backend.global.config.security.filter;
 
-import com.backend.domain.member.dto.LoginDto;
+import com.backend.domain.member.dto.SignUpRequest;
 import com.backend.domain.member.dto.TokenDto;
 import com.backend.domain.member.service.AuthMember;
 import com.backend.global.jwt.TokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,10 +31,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                                 HttpServletResponse response) throws AuthenticationException {
 
         ObjectMapper om = new ObjectMapper();
-        LoginDto loginDto = om.readValue(request.getInputStream(), LoginDto.class);
+        SignUpRequest signUpRequest = om.readValue(request.getInputStream(), SignUpRequest.class);
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
+                new UsernamePasswordAuthenticationToken(signUpRequest.getEmail(), signUpRequest.getPassword());
 
         return authenticationManager.authenticate(authenticationToken);
     }
@@ -49,11 +48,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         TokenDto tokenDto = tokenProvider.generateTokenDto(authMember);
 
         response.setHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
-        response.setHeader("RefreshToken", "Bearer " + tokenDto.getRefreshToken());
+        response.setHeader("RefreshToken", tokenDto.getRefreshToken());
 
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
-
-
     }
 
 
