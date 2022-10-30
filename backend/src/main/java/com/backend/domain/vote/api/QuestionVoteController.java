@@ -1,7 +1,7 @@
 package com.backend.domain.vote.api;
 
 
-import com.backend.domain.member.service.CustomUserDetailsService;
+import com.backend.domain.member.service.AuthMember;
 import com.backend.domain.vote.application.QuestionVoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public class QuestionVoteController {
     @PostMapping("/upvote")
     public ResponseEntity<Long> up(
             @PathVariable("id") @Positive Long questionId,
-            @AuthenticationPrincipal CustomUserDetailsService.MemberDetails memberDetails) {
+            @AuthenticationPrincipal AuthMember authMember) {
 
         questionVoteService.up(questionId, 1L);
 
@@ -35,7 +35,7 @@ public class QuestionVoteController {
     @PostMapping("/upvote/undo")
     public ResponseEntity<Long> undoUp(
             @PathVariable("id") @Positive Long questionId,
-            @AuthenticationPrincipal CustomUserDetailsService.MemberDetails memberDetails) {
+            @AuthenticationPrincipal AuthMember authMember) {
 
         questionVoteService.undoUp(questionId, 1L);
 
@@ -45,7 +45,7 @@ public class QuestionVoteController {
     @PostMapping("/downvote")
     public ResponseEntity<Long> down(
             @PathVariable("id") @Positive Long questionId,
-            @AuthenticationPrincipal CustomUserDetailsService.MemberDetails memberDetails) {
+            @AuthenticationPrincipal AuthMember authMember) {
 
         questionVoteService.down(questionId, 1L);
 
@@ -55,7 +55,7 @@ public class QuestionVoteController {
     @PostMapping("/downvote/undo")
     public ResponseEntity<Long> undoDown(
             @PathVariable("id") @Positive Long questionId,
-            @AuthenticationPrincipal CustomUserDetailsService.MemberDetails memberDetails) {
+            @AuthenticationPrincipal AuthMember authMember) {
 
         questionVoteService.undoDown(questionId, 1L);
 

@@ -26,7 +26,7 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
     private final MemberRepository memberRepository;
-    public AnswerResponseDto createAnswer(Long id,Long memberId, AnswerPostDto answerPostDto) {
+    public Long createAnswer(Long id,Long memberId, AnswerPostDto answerPostDto) {
 
         Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
         Member member = memberRepository.findById(id).orElseThrow(QuestionNotFound::new);
@@ -37,9 +37,9 @@ public class AnswerService {
 
         Answer savedAnswer = answerRepository.save(answer);
 
-        AnswerResponseDto result = savedAnswer.toResponseDto();
+//        AnswerResponseDto result = savedAnswer.toResponseDto();
 
-        return result;
+        return savedAnswer.getId();
     }
 
     public  AnswerResponseDto updateAnswer(AnswerPatchDto answerPatchDto) {

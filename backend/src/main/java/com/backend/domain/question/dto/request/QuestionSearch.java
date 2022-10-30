@@ -23,6 +23,7 @@ public class QuestionSearch {
     }
 
     public long getOffset() {
-        return (long) (Math.min(1,page) - 1) *Math.min(size,MAX_SIZE);
+       return (long) (Math.max(1,page) - 1) *Math.min(size,MAX_SIZE);
+
     }
 }
