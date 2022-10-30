@@ -9,5 +9,18 @@
 	}
   display: flex;
   justify-content: center;
-  background-color: #f1f2f4;
+  // background-color: #f1f2f4;
+}
+.userMain{
+  width: 100%;
+  min-height: calc(100vh - 53px - 322px);
+  @media screen and (max-width: 960px) {
+    min-height: calc(100vh - 53px - 372px);
+  }
+	@media screen and (max-width: 640px) {
+    min-height: calc(100vh - 53px - 394px);
+	}
+  display: flex;
+  justify-content: center;
+  // background-color: #f1f2f4;
 }

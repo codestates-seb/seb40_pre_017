@@ -7,7 +7,7 @@ export default function Tags({item}) {
         {
         item.tags && item.tags.map((tag, idx) => (
             <div className='tag' key={idx}>
-            {tag}
+            {tag.name}
             </div>
         ))
         }

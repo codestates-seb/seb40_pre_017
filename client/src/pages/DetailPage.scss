@@ -1,3 +1,17 @@
+.detailPageWrap {
+    display: flex;
+
+    .detailPageNavbar{
+        width: 164px;
+        background-color: #e8e7e3;
+    }
+}
+
+.detailPageAside{
+        width: 300px;
+        background-color: #e8e7e3;
+}
+
 .detailPage{
     margin-top: 10px;
     padding: 16px;
@@ -71,4 +85,8 @@
 }
 .postAnswerBtn:hover{
     background-color: #0074CC;
+}
+
+.detailBodyWrap{
+    display: flex;
 }

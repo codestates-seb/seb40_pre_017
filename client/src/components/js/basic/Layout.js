@@ -12,15 +12,14 @@ export default function Layout() {
 
   const location = useLocation().pathname;
 
-  console.log(location)
-
+  let pageStyle = (location === '/login') || (location === '/signup');
   return (
     <>
-      {(location === '/login') || (location === '/signup') ? 
+      {pageStyle ? 
         <div className='loginLayout'>
           <Header/>
           <div></div>
-          <Main>
+          <Main pageStyle={pageStyle}>
             <Outlet/>
           </Main>
         </div> : 

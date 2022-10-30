@@ -10,6 +10,7 @@ public class CommentException extends BusinessException {
 
     public CommentException(ErrorCode errorCode) {
         super(errorCode.getMessage(), errorCode);
+        this.errorCode = errorCode;
     }
 }
 

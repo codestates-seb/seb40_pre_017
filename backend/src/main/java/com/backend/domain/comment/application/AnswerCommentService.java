@@ -27,8 +27,10 @@ public class AnswerCommentService {
 
     private final AnswerCommentRepository answerCommentRepository;
 
+
     private final MemberRepository memberRepository;
     public AnswerCommentResponse createComment(Long memberId, AnswerCommentCreate answerCommentCreate, Long answerId) {
+
 
         Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
         Answer answer = answerService.findVerifiedAnswer(answerId);
@@ -45,7 +47,7 @@ public class AnswerCommentService {
 
     }
 
-    public AnswerCommentResponse updateComment(AnswerCommentUpdate answerCommentUpdate, Long answerCommentId) {
+    public AnswerCommentResponse update(AnswerCommentUpdate answerCommentUpdate, Long answerCommentId) {
 
         AnswerComment findComment = findVerifiedComment(answerCommentId);
 
@@ -57,7 +59,7 @@ public class AnswerCommentService {
 
     }
 
-    public Long deleteComment(Long answerCommentId) {
+    public Long delete(Long answerCommentId) {
 
         AnswerComment findComment = findVerifiedComment(answerCommentId);
 

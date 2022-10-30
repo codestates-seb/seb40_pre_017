@@ -9,6 +9,7 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR(500,  "Server Error"),
     HANDLE_ACCESS_DENIED(403,  "Access is Denied"),
     METHOD_NOT_ALLOWED(405, " Invalid Input Value"),
+    CONSTRAINTS_VIOLATED(404, "Constraints Violated"),
 
     // Member
     EMAIL_DUPLICATION(409,"Email Is Duplication"),
@@ -27,6 +28,7 @@ public enum ErrorCode {
 
     //Comment
     COMMENT_NOT_FOUND(404,"Comment Not Found");
+
 
     private final String message;
     private int status;
