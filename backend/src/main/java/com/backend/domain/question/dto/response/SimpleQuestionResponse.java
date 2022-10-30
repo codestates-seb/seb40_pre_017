@@ -1,7 +1,7 @@
 package com.backend.domain.question.dto.response;
 
 import com.backend.domain.question.domain.Question;
-import com.backend.global.Constant;
+import com.backend.global.util.Constant;
 import lombok.Builder;
 import lombok.Getter;
 

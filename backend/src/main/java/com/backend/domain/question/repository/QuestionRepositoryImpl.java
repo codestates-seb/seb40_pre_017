@@ -1,17 +1,12 @@
 package com.backend.domain.question.repository;
 
-import com.backend.domain.answer.domain.QAnswer;
-import com.backend.domain.member.domain.QMember;
-import com.backend.domain.question.domain.QQuestionTag;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.dto.request.QuestionSearch;
-import com.backend.domain.tag.domain.QTag;
-import com.backend.domain.tag.domain.Tag;
 import com.backend.global.dto.request.PageRequest;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.support.Querydsl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,6 +20,7 @@ import static com.backend.domain.tag.domain.QTag.tag;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class QuestionRepositoryImpl implements  QuestionRepositoryCustom{
 
     private final JPAQueryFactory jpaQueryFactory;
@@ -40,7 +36,6 @@ public class QuestionRepositoryImpl implements  QuestionRepositoryCustom{
                 .fetchJoin()
                 .leftJoin(question.answers, answer)
                 .fetchJoin()
-                .leftJoin(question.questionTags)
                 .limit(pageable.getSize())
                 .offset(pageable.getOffset())
                 .orderBy(question.id.asc())
@@ -62,7 +57,37 @@ public class QuestionRepositoryImpl implements  QuestionRepositoryCustom{
     }
 
     @Override
-    public List<Tag> findQuestionTags(Long id) {
-        return null;
+    public List<Tuple> findQuestionTags(PageRequest pageable) {
+
+
+        // 가져올 컬럼수 = 가져올 게시글의 딸린 태그 수
+        List<Tuple> fetch = jpaQueryFactory.select(question.id,questionTag.id.count())
+                .from(questionTag)
+                .offset(pageable.getOffset())
+                .limit(pageable.getSize())
+                .groupBy(question.id)
+                .fetch();
+
+        long tagSize = fetch.stream().mapToLong(value -> value.get(questionTag.id.count())).sum();
+        Long firstId = fetch.get(0).get(question.id);
+
+
+        log.info("tagSize = {}",tagSize);
+
+
+        return jpaQueryFactory.select(question.id,tag.name)
+                .from(question)
+                .leftJoin(questionTag)
+                .on(question.id.eq(questionTag.question.id))
+                .fetchJoin()
+                .leftJoin(tag)
+                .on(questionTag.tag.id.eq(tag.id))
+                .fetchJoin()
+                .limit(tagSize)
+                .where(question.id.goe(firstId))
+                .orderBy(question.id.asc())
+                .fetch();
     }
+
+
 }

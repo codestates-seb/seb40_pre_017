@@ -18,20 +18,25 @@ import com.backend.domain.question.dto.response.SimpleQuestionResponse;
 import com.backend.domain.question.exception.QuestionNotFound;
 import com.backend.domain.question.exception.TitleDuplication;
 import com.backend.domain.question.repository.QuestionRepository;
+import com.backend.domain.tag.domain.QTag;
 import com.backend.domain.tag.domain.Tag;
 import com.backend.domain.tag.dto.TagDto;
 import com.backend.domain.tag.service.TagService;
 import com.backend.global.dto.Response.MultiResponse;
 import com.backend.global.dto.request.PageRequest;
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.backend.domain.question.domain.QQuestion.question;
+import static com.backend.domain.tag.domain.QTag.tag;
+import static java.util.stream.Collectors.*;
 
 @Service
 @RequiredArgsConstructor
@@ -71,37 +76,16 @@ public class QuestionService {
         Question question = questionRepository.findQuestionWithMemberWithAnswers(id).orElseThrow(QuestionNotFound::new);
         question.hit();
 
-//        List<SimpleQuestionCommentResponse> questionCommentResponses = new ArrayList<>();
-//        for (QuestionComment questionComment : question.getQuestionComments()) {
-//            SimpleQuestionCommentResponse simpleQuestionCommentResponse = SimpleQuestionCommentResponse.of(questionComment);
-//
-//            questionCommentResponses.add(simpleQuestionCommentResponse);
-//        }
-
         List<SimpleQuestionCommentResponse> questionCommentResponses = question.getQuestionComments().stream()
                 .map(SimpleQuestionCommentResponse::of)
-                .collect(Collectors.toList());
-
-
-//        List<ComplexAnswerResponse> complexAnswerResponses = new ArrayList<>();
-//        for (Answer answer : question.getAnswers()) {
-//
-//            List<SimpleAnswerCommentResponse> simpleAnswerCommentResponses = new ArrayList<>();
-//            for (AnswerComment answerComment : answer.getAnswerComments()) {
-//                SimpleAnswerCommentResponse simpleAnswerCommentResponse = SimpleAnswerCommentResponse.of(answerComment);
-//                simpleAnswerCommentResponses.add(simpleAnswerCommentResponse);
-//            }
-//
-//            ComplexAnswerResponse complexAnswerResponse = ComplexAnswerResponse.of(answer,simpleAnswerCommentResponses);
-//            complexAnswerResponses.add(complexAnswerResponse);
-//        }
+                .collect(toList());
 
         List<ComplexAnswerResponse> complexAnswerResponses = question.getAnswers().stream()
                 .map(answer ->
                         ComplexAnswerResponse.of(answer, answer.getAnswerComments().stream()
                                 .map(SimpleAnswerCommentResponse::of)
-                                .collect(Collectors.toList())))
-                .collect(Collectors.toList());
+                                .collect(toList())))
+                .collect(toList());
 
 
         DetailQuestionResponse detailQuestionResponse = DetailQuestionResponse.of(question,complexAnswerResponses,questionCommentResponses);
@@ -114,20 +98,26 @@ public class QuestionService {
 
     public MultiResponse<?> getList(PageRequest pageable, QuestionSearch questionSearch){
 
+        log.info("questionFindLIst= {}", questionRepository.findList(pageable,questionSearch).size());
+
+        List<Tuple> questionTags = questionRepository.findQuestionTags(pageable);
+
+        Map<Long, List<String>> questionTagMap = questionTags.stream().collect(
+                groupingBy(tuple -> tuple.get(question.id),
+                mapping(tuple -> tuple.get(tag.name),toList())));
+
+
         PageImpl<QuestionResponse> questionResponses = new PageImpl<>(questionRepository.findList(pageable, questionSearch)
                 .stream()
                 .map(question -> QuestionResponse.builder()
                         .member(MemberResponse.toResponse(question.getMember()))
                         .question(SimpleQuestionResponse.toSummaryResponse(question))
-                        .tags(question
-                                .getQuestionTags()
-                                .stream()
-                                .map(questionTag -> questionTag.getTag().getName())
-                                .collect(Collectors.toList()))
+                                .tags(questionTagMap.get(question.getId()))
                         .build()
                 )
-                .collect(Collectors.toList()),pageable.of(), questionRepository.getCount());
+                .collect(toList()),pageable.of(), questionRepository.getCount());
 
+        log.info("getCount = {}" , questionRepository.getCount());
 
         MultiResponse<?> multiResponse = MultiResponse.of(questionResponses);
 
@@ -182,7 +172,7 @@ public class QuestionService {
                     Tag tag = tagService.addTag(tagDto);
                     return QuestionTag.createQuestionTag(tag);
                 }
-        ).collect(Collectors.toList());
+        ).collect(toList());
     }
 
     private void existsSameTitle(String title) {
