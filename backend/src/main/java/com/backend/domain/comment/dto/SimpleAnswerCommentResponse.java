@@ -1,8 +1,7 @@
 package com.backend.domain.comment.dto;
 
 import com.backend.domain.comment.domain.AnswerComment;
-import com.backend.domain.member.domain.Member;
-import com.backend.global.Constant;
+import com.backend.global.util.Constant;
 import lombok.Builder;
 import lombok.Getter;
 

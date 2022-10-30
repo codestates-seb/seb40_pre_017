@@ -27,10 +27,12 @@ public final class PageRequest  {
 //    }
 
     public long getOffset() {
-        return (long) (Math.max(1,page) - 1) *Math.min(size,MAX_SIZE);
+    
+        return (long) (Math.max(1,page)-1) *Math.min(size,MAX_SIZE);
     }
+    
     // getter
     public org.springframework.data.domain.PageRequest of() {
-        return org.springframework.data.domain.PageRequest.of(page -1, size);
+        return org.springframework.data.domain.PageRequest.of(page-1, size);
     }
 }

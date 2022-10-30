@@ -1,4 +1,4 @@
-package com.backend.global;
+package com.backend.global.util;
 
 import lombok.Getter;
 
