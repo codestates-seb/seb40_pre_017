@@ -4,7 +4,7 @@ import ProfileAnswer from '../profile/ProfileAnswer'
 import CommentList from '../comment/CommentList'
 import '../../css/answer/Answer.scss'
 import { Link } from 'react-router-dom'
-import { fetchCreate, fetchDelete } from '../../../util/api'
+// import { fetchCreate, fetchDelete } from '../../../util/api'
 
 export default function Answer({answer, id, answerId, item}) {
 
@@ -26,7 +26,6 @@ export default function Answer({answer, id, answerId, item}) {
       // fetchCreate(`/question/${id}/answer/${answerId}/accept/undo`)
       setCheck(false);
     }
-    
   }
 
   return (
@@ -51,7 +50,7 @@ export default function Answer({answer, id, answerId, item}) {
           </div>
           <ProfileAnswer item={answer}/>
         </div>
-        <CommentList item={answer.aComments}/>
+        <CommentList item={answer.aComments} type={'answer'} temporary={item}/>
       </div>
     </div>
   )
