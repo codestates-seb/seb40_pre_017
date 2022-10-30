@@ -45,13 +45,31 @@ export default function CommentList({item, type, temporary}) {
     }else if(type === 'answer'){
       // fetchCreate("/question/{id}/answer/{answer-id}comments", data)
     }
+    setClickAdd(false);
   }
+
+  //comment Edit
+  const [editClick, setEditClick] = useState(false);
+  const handleEdit = () => {
+    if(type === 'question'){
+      // fetchPatch("/question/{id}/comments/{comment-id}")
+    }else if( type === 'answer'){
+      // fetchPatch("question/{id}/answer/{answer-id}/comments/{comment-id}")
+    }
+    setEditClick(false);
+  }
+
+  //edit 취소
+  const handleEditCancle = () => {
+    setEditClick(false);
+  }
+
 
   return (
     <div className='commentList'>
       {item && item.map(content => (
         <div className='commentLine'>
-        <Comment content={content}/>
+        <Comment content={content} setEditClick={setEditClick} type={type}/>
         </div>
       ))}
         
@@ -64,6 +82,17 @@ export default function CommentList({item, type, temporary}) {
           </div>
           :
           <button className='addCommentBtn' onClick={handleAdd}>Add a comment</button>
+      }
+
+      {
+        editClick ?
+        <div>
+          <input type='text' onChange={handleInput}></input>
+          <button onClick={handleEdit}>Save Edit</button>
+          <button onClick={handleEditCancle}>Cancle</button>
+        </div>
+        :
+        null
       }
     </div>
   )
