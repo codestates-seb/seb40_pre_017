@@ -6,10 +6,12 @@ import com.backend.domain.comment.dto.AnswerCommentResponse;
 import com.backend.domain.comment.dto.SimpleAnswerCommentResponse;
 import com.backend.domain.comment.dto.SimpleQuestionCommentResponse;
 import com.backend.domain.member.dto.MemberResponse;
+import com.backend.domain.question.domain.Question;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class DetailQuestionResponse {
@@ -32,6 +34,22 @@ public class DetailQuestionResponse {
         this.question = question;
         this.answers = answers;
         this.questionComments = questionComments;
+    }
+
+    public static  DetailQuestionResponse of(Question question, List<ComplexAnswerResponse> complexAnswerResponses, List<SimpleQuestionCommentResponse> questionCommentResponses){
+        return DetailQuestionResponse.builder()
+                .question(SimpleQuestionResponse.toResponse(question))
+                .member(MemberResponse.toResponse(question.getMember()))
+                .tags(question
+                        .getQuestionTags()
+                        .stream()
+                        .map(questionTag -> questionTag.getTag().getName())
+                        .collect(Collectors.toList()))
+                //질문이랑 태그
+                .answers(complexAnswerResponses)
+                .questionComments(questionCommentResponses)
+                .build();
+
 
     }
 }

@@ -87,4 +87,8 @@ public class Question extends Auditable {
         questionTag.setQuestion(question);
         question.getQuestionTags().add(questionTag);
     }
+
+  public void hit(){
+        this.view=this.view+1;
+    }
 }
