@@ -1,5 +1,8 @@
 package com.backend.domain.vote.application;
 
+import com.backend.domain.answer.application.AnswerService;
+import com.backend.domain.member.domain.Member;
+import com.backend.domain.member.exception.MemberNotFound;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.vote.dao.AnswerDownVoteRepository;
 import com.backend.domain.vote.dao.AnswerUpVoteRepository;
@@ -19,48 +22,90 @@ import javax.transaction.Transactional;
 public class AnswerVoteService {
     private final AnswerUpVoteRepository answerUpVoteRepository;
 
+    private final AnswerService answerService;
+
     private final AnswerDownVoteRepository answerDownVoteRepository;
 
     private final MemberRepository memberRepository;
 
+
+
     public void up(Long answerId, Long memberId) {
 
-        try {
-            answerUpVoteRepository.up(answerId, memberId);
-        } catch (DataIntegrityViolationException e) {
-            log.error("handleDataIntegrityViolationException", e);
-            throw new VoteException(ErrorCode.CONSTRAINTS_VIOLATED);
+        Member answerWriter = answerService.findVerifiedAnswer(answerId).getMember();
+
+        if(memberId != answerWriter.getId() ) {
+            try {
+                answerUpVoteRepository.up(answerId, memberId);
+                answerUpVoted(answerWriter);
+            } catch (DataIntegrityViolationException e) {
+                log.error("handleDataIntegrityViolationException", e);
+                throw new VoteException(ErrorCode.CONSTRAINTS_VIOLATED);
+            }
+        }else{
+            throw new VoteException(ErrorCode.HANDLE_ACCESS_DENIED);
         }
 
 
     }
 
     public void undoUp(Long answerId, Long memberId) {
-        answerUpVoteRepository.undoUp(answerId, memberId);
+
+        Member answerWriter = answerService.findVerifiedAnswer(answerId).getMember();
+
+        int result = answerUpVoteRepository.undoUp(answerId, memberId);
+        if(result == 0) throw new VoteException(ErrorCode.VOTE_NOT_FOUND);
+
+        undoAnswerUpVoted(answerWriter);
+
 
     }
 
 
     public void down(Long answerId, Long memberId) {
-        try {
-            answerDownVoteRepository.down(answerId, memberId);
 
-        }catch (DataIntegrityViolationException e) {
-            log.error("handleDataIntegrityViolationException", e);
-            throw new VoteException(ErrorCode.CONSTRAINTS_VIOLATED);
+        Member answerWriter = answerService.findVerifiedAnswer(answerId).getMember();
+
+        if(memberId != answerWriter.getId() ) {
+            try {
+                answerDownVoteRepository.down(answerId, memberId);
+                answerDownVoted(answerWriter);
+            } catch (DataIntegrityViolationException e) {
+                log.error("handleDataIntegrityViolationException", e);
+                throw new VoteException(ErrorCode.CONSTRAINTS_VIOLATED);
+            }
+        } else{
+            throw new VoteException(ErrorCode.HANDLE_ACCESS_DENIED);
         }
-
-
-        Long reputation = memberRepository.findById(memberId).get().getReputation();
-        reputation -= 1;
 
     }
 
     public void undoDown(Long answerId, Long memberId) {
-        answerDownVoteRepository.undoDown(answerId, memberId);
 
-        Long reputation = memberRepository.findById(memberId).get().getReputation();
-        reputation += 1;
+        Member answerWriter = answerService.findVerifiedAnswer(answerId).getMember();
+        int result = answerDownVoteRepository.undoDown(answerId, memberId);
+        if(result == 0) throw new VoteException(ErrorCode.VOTE_NOT_FOUND);
 
+        undoAnswerDownVoted(answerWriter);
     }
+
+
+    private void answerUpVoted(Member member) {
+        Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
+        findMember.answerUpVoted();
+    }
+    private void undoAnswerUpVoted(Member member) {
+        Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
+        findMember.undoAnswerUpVoted();
+    }
+    private void answerDownVoted(Member member) {
+        Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
+        findMember.answerDownVoted();
+    }
+    private void undoAnswerDownVoted(Member member) {
+        Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
+        findMember.undoAnswerDownVoted();
+    }
+
+
 }

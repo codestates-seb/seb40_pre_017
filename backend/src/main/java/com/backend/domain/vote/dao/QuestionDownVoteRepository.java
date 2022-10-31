@@ -13,5 +13,5 @@ public interface QuestionDownVoteRepository extends JpaRepository<QuestionDownVo
 
     @Modifying(clearAutomatically = true)
     @Query(value = "DELETE FROM Question_Down_Vote WHERE question_Id = :questionId AND member_Id = :memberId", nativeQuery = true)
-    void undoDown(Long questionId, Long memberId);
+    int undoDown(Long questionId, Long memberId);
 }

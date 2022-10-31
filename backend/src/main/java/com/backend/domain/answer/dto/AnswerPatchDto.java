@@ -13,12 +13,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class AnswerPatchDto {
 
-
-    private long answerId;
-
     @NotBlank(message = "컨텐츠는 공백이 아니어야 합니다.")
     private String content;
-
-
 
 }

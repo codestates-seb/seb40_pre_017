@@ -1,9 +1,6 @@
 package com.backend.domain.question.dto.response;
 
 import com.backend.domain.answer.dto.ComplexAnswerResponse;
-import com.backend.domain.comment.QuestionComment.dto.QuestionCommentResponse;
-import com.backend.domain.comment.dto.AnswerCommentResponse;
-import com.backend.domain.comment.dto.SimpleAnswerCommentResponse;
 import com.backend.domain.comment.dto.SimpleQuestionCommentResponse;
 import com.backend.domain.member.dto.MemberResponse;
 import com.backend.domain.question.domain.Question;

@@ -1,7 +1,6 @@
 package com.backend.domain.comment.domain;
 
 import com.backend.domain.comment.dto.AnswerCommentUpdate;
-import com.backend.domain.comment.dto.AnswerCommentResponse;
 import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.member.domain.Member;
 import com.backend.global.Audit.Auditable;
@@ -36,9 +35,7 @@ public class AnswerComment extends Auditable {
         this.member = member;
     }
 
-    /**
-     * param member 추가 필요
-     */
+
     public static AnswerComment toEntity(String content,Answer answer,Member member ) {
         AnswerComment answerComment = AnswerComment.builder()
                 .content(content)
@@ -50,11 +47,7 @@ public class AnswerComment extends Auditable {
 
         return answerComment;
     }
-    public AnswerCommentResponse toResponseDto() {
-        return AnswerCommentResponse.builder()
-                .answerCommentId(id)
-                .build();
-    }
+
 
     public void patch(AnswerCommentUpdate answerCommentUpdate) {
         if(answerCommentUpdate.getContent() != null)

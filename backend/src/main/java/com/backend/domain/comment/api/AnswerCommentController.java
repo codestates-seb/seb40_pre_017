@@ -1,12 +1,13 @@
 package com.backend.domain.comment.api;
 
 import com.backend.domain.comment.application.AnswerCommentService;
-import com.backend.domain.comment.dto.AnswerCommentUpdate;
 import com.backend.domain.comment.dto.AnswerCommentCreate;
-import com.backend.domain.comment.dto.AnswerCommentResponse;
+import com.backend.domain.comment.dto.AnswerCommentUpdate;
 import com.backend.domain.member.service.AuthMember;
 import com.backend.global.Annotation.CurrentMember;
+import com.backend.global.dto.Response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,38 +24,39 @@ public class AnswerCommentController {
     private final AnswerCommentService answerCommentService;
 
     @PostMapping("/comments")
-
-    public ResponseEntity<AnswerCommentResponse>  createComment(
+    public ResponseEntity<?>  create(
             @CurrentMember AuthMember authMember,
             @PathVariable("answer-id") @Positive Long answerId,
             @Valid @RequestBody AnswerCommentCreate answerCommentCreate) {
 
-        AnswerCommentResponse result = answerCommentService.createComment(authMember.getMemberId(),answerCommentCreate, answerId);
+        Long result = answerCommentService.create(authMember.getMemberId(), answerId, answerCommentCreate);
 
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.status(HttpStatus.CREATED).body((new SingleResponseDto(result)));
     }
 
     @PatchMapping("/comments/{comment-id}")
-    public ResponseEntity<AnswerCommentResponse> update(
+    public ResponseEntity<?> update(
+            @CurrentMember AuthMember authMember,
             @PathVariable("answer-id") @Positive Long answerId,
             @PathVariable("comment-id") @Positive Long answerCommentId,
             @Valid @RequestBody AnswerCommentUpdate answerCommentUpdate) {
 
 
-        AnswerCommentResponse result = answerCommentService.update(answerCommentUpdate, answerCommentId);
+        Long result = answerCommentService.update(authMember.getMemberId(), answerCommentId, answerCommentUpdate);
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(new SingleResponseDto(result));
     }
 
     @DeleteMapping("/comments/{comment-id}")
-    public ResponseEntity<Long> delete(
+    public ResponseEntity<?> delete(
+            @CurrentMember AuthMember authMember,
             @PathVariable("answer-id") @Positive Long answerId,
             @PathVariable("comment-id") @Positive Long answerCommentId) {
 
-        Long id = answerCommentService.delete(answerCommentId);
+        Long id = answerCommentService.delete(authMember.getMemberId(),answerCommentId);
 
-        return ResponseEntity.ok(id);
+        return ResponseEntity.ok(new SingleResponseDto(id));
     }
 
 
