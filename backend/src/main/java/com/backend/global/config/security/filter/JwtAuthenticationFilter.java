@@ -48,6 +48,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication authResult) throws IOException, ServletException {
         AuthMember authMember = (AuthMember) authResult.getPrincipal();
         TokenDto tokenDto = tokenProvider.generateTokenDto(authMember);
+
         String refreshToken = tokenDto.getRefreshToken();
 
         Cookie refreshTokenToCookie = new Cookie("refreshToken", refreshToken);
@@ -59,6 +60,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
 //        response.setHeader("RefreshToken", refreshToken);
 
+        // response body에 member의 emial, username, ImageUrl을 담아서 보내준다.
+        response.getWriter().write(
+                "{" +
+                        "\"email\":\"" + authMember.getEmail() + "\","
+                        + "\"username\":\"" + authMember.getMemberUsername() + "\","
+                        + "\"imageUrl\":\"" + authMember.getProfileImage() + "\"" +
+                        "}"
+        );
 
 
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
