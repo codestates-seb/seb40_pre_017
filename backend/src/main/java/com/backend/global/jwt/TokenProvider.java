@@ -2,7 +2,6 @@ package com.backend.global.jwt;
 
 import com.backend.domain.member.dto.TokenDto;
 import com.backend.domain.member.service.AuthMember;
-import com.backend.domain.member.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -11,9 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -30,13 +26,14 @@ public class TokenProvider {
 
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 86400000; // 15분
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1209600000; // 2주
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 60 * 15; // 15분
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 60 * 60 * 24 * 14; // 2주
 
     private final Key key;
 
+
     public TokenProvider(@Value("${jwt.secret}") String secretKey) {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        byte[] keyBytes = Decoders.BASE64URL.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -95,19 +92,41 @@ public class TokenProvider {
 
     // 토큰 검증 - Jwts에서 던져주는 에러 활용
     public boolean validateToken(String token) {
+
+        // validate jwt token
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            parseClaims(token);
             return true;
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("잘못된 JWT 서명입니다.");
+        } catch (SignatureException e) {
+            log.info("Invalid JWT signature");
+            log.trace("Invalid JWT signature trace: {}", e);
+        } catch (MalformedJwtException e) {
+            log.info("Invalid JWT token");
+            log.trace("Invalid JWT token trace: {}", e);
         } catch (ExpiredJwtException e) {
-            log.info("만료된 JWT 토큰입니다.");
+            log.info("Expired JWT token");
+            log.trace("Expired JWT token trace: {}", e);
         } catch (UnsupportedJwtException e) {
-            log.info("지원되지 않는 JWT 토큰입니다.");
+            log.info("Unsupported JWT token");
+            log.trace("Unsupported JWT token trace: {}", e);
         } catch (IllegalArgumentException e) {
-            log.info("JWT 토큰이 잘못되었습니다.");
+            log.info("JWT claims string is empty.");
+            log.trace("JWT claims string is empty trace: {}", e);
         }
         return false;
+//        try {
+//            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+//            return true;
+//        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+//            log.info("잘못된 JWT 서명입니다.");
+//        } catch (ExpiredJwtException e) {
+//            log.info("만료된 JWT 토큰입니다.");
+//        } catch (UnsupportedJwtException e) {
+//            log.info("지원되지 않는 JWT 토큰입니다.");
+//        } catch (IllegalArgumentException e) {
+//            log.info("JWT 토큰이 잘못되었습니다.");
+//        }
+//        return false;
     }
 
     private Claims parseClaims(String accessToken) {
@@ -117,4 +136,5 @@ public class TokenProvider {
             return e.getClaims();
         }
     }
+
 }

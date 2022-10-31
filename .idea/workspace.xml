@@ -7,8 +7,14 @@
     <list default="true" id="090fbf84-ca3d-4290-9388-d272eb653abd" name="Changes" comment="# feat: Allow overriding of webpack config&#10;# ^--^  ^--------------------------------^&#10;# |     |&#10;# |     +-&gt; 커밋 메시지&#10;# |&#10;# +-------&gt; 커밋 타입: chore, docs, feat, fix, refactor, style, test.&#10;&#10;# ------------------&#10;# &lt;타입&gt; 리스트&#10;#   chore   : 기타 변경사항 (빌드 스크립트 수정 등)&#10;#   docs    : 문서 (문서 추가, 수정, 삭제)&#10;#   feat    : 기능 (새로운 기능)&#10;#   fix     : 버그 (버그 수정)&#10;#   refactor: 리팩토링&#10;#   style   : 스타일 (코드 형식, 세미콜론 추가: 비즈니스 로직에 변경 없음)&#10;#   test    : 테스트 (테스트 코드 추가, 수정, 삭제: 비즈니스 로직에 변경 없음)&#10;# ------------------&#10;#     제목 첫 글자를 대문자로&#10;#     제목은 명령문으로&#10;#     제목 끝에 마침표(.) 금지&#10;#     제목은 최대 50 글자&#10;#     제목과 본문을 한 줄 띄워 분리하기&#10;#     본문은 한 줄에 최대 72 글자까지만&#10;#     본문은 &quot;어떻게&quot; 보다 &quot;무엇을&quot;, &quot;왜&quot;를 설명한다.&#10;#     본문에 여러줄의 메시지를 작성할 땐 &quot;-&quot;로 구분&#10;# ------------------">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/domain/member/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/domain/member/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/domain/member/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/domain/member/controller/MemberController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/domain/member/dto/LoginDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/domain/member/dto/SignUpRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/domain/member/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/domain/member/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/global/config/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/global/config/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/domain/member/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/domain/member/service/MemberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/domain/refreshtoken/repository/RefreshTokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/domain/refreshtoken/repository/RefreshTokenRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/global/config/security/filter/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/global/config/security/filter/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/global/config/security/filter/JwtVerificationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/global/config/security/filter/JwtVerificationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/backend/global/jwt/TokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/backend/global/jwt/TokenProvider.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +48,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feat/회원가입" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -56,16 +62,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feat/login" />
-                    <option name="lastUsedInstant" value="1666976849" />
+                    <option name="branchName" value="Feat/토큰검증" />
+                    <option name="lastUsedInstant" value="1667055679" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="dev" />
-                    <option name="lastUsedInstant" value="1666968810" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feat/회원가입" />
-                    <option name="lastUsedInstant" value="1666968809" />
+                    <option name="lastUsedInstant" value="1667055670" />
                   </RecentBranch>
                 </list>
               </option>
@@ -117,7 +119,8 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "configurable.group.tools"
+    "settings.editor.selected.configurable": "configurable.group.tools",
+    "spring.configuration.checksum": "3241ca6184e7e06d7e2313367e60913a"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -173,6 +176,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="애플리케이션.com.backend.BackendApplication" />
+        <item itemvalue="애플리케이션.com.backend.BackendApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -192,6 +196,7 @@
       <workItem from="1666678100532" duration="85000" />
       <workItem from="1666678193405" duration="2626000" />
       <workItem from="1666684226403" duration="38000" />
+      <workItem from="1667109707527" duration="458000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1666676468813</created>

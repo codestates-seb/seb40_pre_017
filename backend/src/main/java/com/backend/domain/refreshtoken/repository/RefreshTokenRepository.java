@@ -10,4 +10,10 @@ import java.util.Optional;
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
     // member id 값으로 refresh token 찾기
     Optional<RefreshToken> findByKey(String key);
+    // value 값으로 key 찾기
+    Optional<RefreshToken> findByValue(String value);
+    // key 값으로 refresh token 삭제
+    void deleteByKey(String key);
+    // value 값으로 refresh token 삭제
+    void deleteByValue(String value);
 }
