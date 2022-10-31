@@ -3,6 +3,7 @@ import Inputbox from '../components/js/addContent/Inputbox'
 import { useState } from 'react';
 import { fetchPatch } from '../util/api';
 import { useParams, Link } from 'react-router-dom';
+import './EditQuestion.scss'
 
 export default function EditQuestion({items}) {
     //id 파라미터 가져오기
@@ -41,7 +42,8 @@ export default function EditQuestion({items}) {
       // fetchPatch api에 맞게 추후 수정
     }
     return (
-      <div>
+      <div className='editQuestionWrap'>
+        <h2>Question</h2>
         <Inputbox 
             setTitle={setTitle} 
             setContent={setContent} 
@@ -50,9 +52,9 @@ export default function EditQuestion({items}) {
             title={title} 
             content={content}
         />
-        <button onClick={handleEdit}>Save Edits</button>
+        <button onClick={handleEdit} className='saveEdit'>Save edits</button>
         <Link to={`/questions/${params.id}`}>
-            <button>Cancle</button>
+            <button className='cancel'>Cancel</button>
         </Link>
       </div>
     )
