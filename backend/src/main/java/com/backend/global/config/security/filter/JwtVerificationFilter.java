@@ -1,6 +1,5 @@
 package com.backend.global.config.security.filter;
 
-import com.backend.domain.member.service.AuthMember;
 import com.backend.global.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -10,7 +9,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

@@ -17,11 +17,9 @@ import java.io.IOException;
 @Component
 public class MemberAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final RefreshTokenRepository refreshTokenRepository;
-    private final TokenProvider tokenProvider;
 
-    public MemberAuthenticationSuccessHandler(RefreshTokenRepository refreshTokenRepository, TokenProvider tokenProvider) {
+    public MemberAuthenticationSuccessHandler(RefreshTokenRepository refreshTokenRepository) {
         this.refreshTokenRepository = refreshTokenRepository;
-        this.tokenProvider = tokenProvider;
     }
 
     @Override

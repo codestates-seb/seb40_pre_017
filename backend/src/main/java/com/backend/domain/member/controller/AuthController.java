@@ -10,6 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -38,9 +42,20 @@ public class AuthController {
 
     // 로그아웃
     @DeleteMapping("/logout")
-    public ResponseEntity<Void> logout(@CookieValue("refreshToken") String refreshToken) {
+    public ResponseEntity<Void> logout(@CookieValue("refreshToken") String refreshToken,
+                                       HttpServletRequest request, HttpServletResponse response) {
         authService.logout(refreshToken);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+        // request 에서 refreshToken 쿠키를 찾아 삭제
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("refreshToken")) {
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
+        }
+
+        return ResponseEntity.ok().build();
     }
 
 }
