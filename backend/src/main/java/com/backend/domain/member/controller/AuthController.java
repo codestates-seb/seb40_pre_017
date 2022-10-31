@@ -23,7 +23,7 @@ public class AuthController {
 
     // 회원가입
     @PostMapping()
-    public ResponseEntity<MemberResponseDto> signup(@RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<Long> signup(@RequestBody SignUpRequest signUpRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.signup(signUpRequest));
     }
 

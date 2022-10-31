@@ -27,7 +27,7 @@ public class AuthService {
 
     // 회원가입
     @Transactional
-    public MemberResponseDto signup(SignUpRequest signUpRequest) {
+    public Long signup(SignUpRequest signUpRequest) {
         if (memberRepository.existsByEmail(signUpRequest.getEmail())) {
             // TODO: 전역 예외 처리
             throw new RuntimeException("이미 존재하는 이메일입니다.");
@@ -36,7 +36,7 @@ public class AuthService {
         Member member = signUpRequest.encodePassword(passwordEncoder);
         Member savedMember = memberRepository.save(member);
 
-        return MemberResponseDto.of(savedMember);
+        return MemberResponseDto.of(savedMember).getId();
     }
 
     // 토큰 재발급
