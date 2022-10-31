@@ -24,6 +24,11 @@
     button:hover{
         background-color: #0074CC;
     }
+    button:disabled {
+        background-color: #96CAFF;
+        color: #FFFFFF;
+        cursor:not-allowed;
+    }
 }
 
 .addGuide{

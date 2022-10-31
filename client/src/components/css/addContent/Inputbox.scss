@@ -1,0 +1,13 @@
+.inputbox {
+    button:disabled {
+        background-color: #96CAFF;
+        color: #FFFFFF;
+        cursor:not-allowed;
+    }
+}
+
+.disable {
+    opacity: 0.3;
+    cursor:not-allowed;
+
+}

@@ -20,6 +20,9 @@ export default function AddQuestion() {
   //tag
   const [tags, setTags] = useState([]);
 
+  //submit 비활성화
+  const [ submitDis, setSubmitDis ] = useState(true);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -73,8 +76,14 @@ export default function AddQuestion() {
             Add “tags” which help surface your question to members of the community.
             Review your question and post it to the site.
           </div>
-          <Inputbox setTitle={setTitle} setContent={setContent} tags={tags} setTags={setTags}/>
-          <button onClick={handleSubmit}>Review your question</button>
+          <Inputbox 
+            setTitle={setTitle} 
+            setContent={setContent} 
+            tags={tags} 
+            setTags={setTags} 
+            setSubmitDis={setSubmitDis}
+          />
+          <button onClick={handleSubmit} disabled={submitDis ? true : false}>Review your question</button>
         </div>
         
       </div>
