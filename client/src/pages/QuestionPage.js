@@ -3,6 +3,8 @@ import QuestionList from '../components/js/questionPage/QuestionList'
 import { Link } from 'react-router-dom'
 import './QuestionPage.scss'
 import Pagination from '../components/js/questionPage/Pagination';
+import Aside from '../components/js/aside/Aside';
+import Category from '../components/js/category/Category';
 
 export default function QuestionPage({items}) {
   //questionList Count
@@ -13,7 +15,9 @@ export default function QuestionPage({items}) {
 
   return (
     <div className='questionPageWrap'>
-      <div className='questionPageNavbar'>Navbar</div>
+      <div className='questionPageNavbar'>
+        <Category />
+      </div>
       <div className='questionPage'>
         <div className='headAddWrap'>
           <h1>All Questions</h1>
@@ -32,7 +36,9 @@ export default function QuestionPage({items}) {
         <QuestionList items={items}/>
         <Pagination/>
       </div>
-      <div className='questionPageAside'>aside</div>
+      <div className='questionPageAside'>
+        <Aside />
+      </div>
     </div>
     
   )

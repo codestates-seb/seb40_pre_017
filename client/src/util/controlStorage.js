@@ -63,7 +63,8 @@ export const AccessTokenControl = () => {
       // 리프레시 토큰이 유효하지 않을 경우.
       localStorage.removeItem("member");
       localStorage.removeItem("isLogin");
-
+      // 로그아웃 호출
+      
       alert(err)
       window.location.href = "/"
     });
