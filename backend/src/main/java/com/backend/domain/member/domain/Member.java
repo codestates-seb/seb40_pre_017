@@ -1,7 +1,6 @@
 package com.backend.domain.member.domain;
 
 import com.backend.domain.answer.domain.Answer;
-import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.question.domain.Question;
 import com.backend.global.Audit.Auditable;
 import lombok.AccessLevel;
@@ -56,8 +55,6 @@ public class Member extends Auditable {
         this.reputation = 0L;
         this.authority = Authority.ROLE_USER;
     }
-
-    //
 
     public void encodePassword(String password) {
         this.password = password;

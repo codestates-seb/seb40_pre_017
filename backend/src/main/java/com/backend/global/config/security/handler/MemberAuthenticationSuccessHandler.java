@@ -3,16 +3,12 @@ package com.backend.global.config.security.handler;
 import com.backend.domain.member.service.AuthMember;
 import com.backend.domain.refreshtoken.domain.RefreshToken;
 import com.backend.domain.refreshtoken.repository.RefreshTokenRepository;
-import com.backend.global.jwt.TokenProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Component
 public class MemberAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -25,7 +21,7 @@ public class MemberAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
-                                        Authentication authentication) throws IOException, ServletException {
+                                        Authentication authentication) {
 
         AuthMember authMember = (AuthMember) authentication.getPrincipal();
 
@@ -38,8 +34,6 @@ public class MemberAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 .build();
 
         refreshTokenRepository.save(refresh);
-
     }
-
 
 }
