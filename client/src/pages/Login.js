@@ -7,6 +7,7 @@ import Facebookbtn from '../components/js/user/common/Facebookbtn';
 import Input from '../components/js/user/common/Input';
 import Button from '../components/js/user/common/Button';
 import Inputerror from '../components/js/user/common/Inputerror';
+import  {setItemWithExpireTime}  from '../util/controlStorage'
 
 let content = ["Log in with Google", "Log in with Github", "Log in with Facebook"];
 
@@ -17,9 +18,11 @@ export default function Login() {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
+
+
   const formSubmit = (e) =>{
     e.preventDefault()
-
+    console.log(data)
     let error = false
 
     if(data.email === undefined){
@@ -32,9 +35,39 @@ export default function Login() {
     }
 
     if(!error){
-      console.log('제출')
-    }
+      // fetch("http://localhost:3001/users/login", {
+      //   method: "POST",
+      //   headers: {"Content-Type" : "application/json"},
+      //   body: JSON.stringify(data)
+      // })
+      // .then((res) => {
+      //   // 엑세스 토큰 정보 스토리지에 저장.
+      //   let jwtToken = res.headers.authorization;
+      //   localStorage.setItem("authorization", jwtToken);
+          // setItemWithExpireTime("authorization", jwtToken, 1000 * 60 * 30);
+        
+      //   return res.json();
+      // })
+      // .then((resData) => {
+      //   // 헤더에서 사용할 멤버 정보 스토리지에 저장.
+        // localStorage.setItem("member", resData.member);
+        
+        setItemWithExpireTime("isLogin", true, 1000 * 60 * 30);
+        setItemWithExpireTime("member", {"memberName" : "123", "memberEmail" : "email@naver.com"}, 1000 * 60 * 30);
 
+      //   // 접속한 경로에서 리다이렉트를 해줘야 함.
+      //   // 로그인 버튼 클릭 시 스토리지에 이전 경로를 lastPath로 저장.
+      //   // import { Link, useLocation } from 'react-router-dom';
+      //   // const location = useLocation().pathname;
+
+        let path = localStorage.getItem('lastPath')
+        // console.log(path)
+        window.location.href = path;
+      // })
+      // .catch((error) => {
+      //     console.error('Error', error);
+      // })
+    }
   }
 
   const onChangeInput = (e) => {
