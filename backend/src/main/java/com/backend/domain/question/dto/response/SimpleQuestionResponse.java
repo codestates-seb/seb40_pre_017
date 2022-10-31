@@ -1,7 +1,9 @@
 package com.backend.domain.question.dto.response;
 
+import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.question.domain.Question;
 import com.backend.global.util.Constant;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -23,22 +25,24 @@ public class SimpleQuestionResponse {
     private Integer voteCount;
 
 
+
+
     @Builder
     public SimpleQuestionResponse(Boolean isAnswered, Long viewCount, LocalDateTime createAt, LocalDateTime modifiedAt, Long questionId, String link, String title, String summary, Integer answerCount, Integer voteCount) {
         this.isAnswered = isAnswered;
         this.viewCount = viewCount;
+        this.answerCount = answerCount;
+        this.voteCount = voteCount;
         this.createAt = createAt;
         this.modifiedAt = modifiedAt;
         this.questionId = questionId;
         this.link = link;
         this.title = title;
         this.summary = summary;
-        this.answerCount = answerCount;
-        this.voteCount = voteCount;
     }
 
 
-    public static SimpleQuestionResponse toSummaryResponse(Question question) {
+    public static SimpleQuestionResponse toSummaryResponse(Question question,int AnswerSize, int voteCount) {
         return SimpleQuestionResponse.builder()
                 .viewCount(question.getView())
                 .isAnswered(question.getIsAnswered())
@@ -49,13 +53,13 @@ public class SimpleQuestionResponse {
                 .link(questionLink(question))
                 .title(question.getTitle())
                 .summary(getSummary(question.getContent()))
-                .answerCount(question.getAnswers().size())
-                .voteCount(question.getUpVotes().size() - question.getDownVotes().size())
+                .answerCount(AnswerSize)
+                .voteCount(voteCount)
                 .build();
 
     }
 
-    public static SimpleQuestionResponse toResponse(Question question) {
+    public static SimpleQuestionResponse toResponse(Question question, int answerCount) {
         return SimpleQuestionResponse.builder()
                 .viewCount(question.getView())
                 .isAnswered(question.getIsAnswered())
@@ -66,7 +70,7 @@ public class SimpleQuestionResponse {
                 .link(questionLink(question))
                 .title(question.getTitle())
                 .summary(question.getContent())
-                .answerCount(question.getAnswers().size())
+                .answerCount(answerCount)
                 .build();
 
     }

@@ -19,6 +19,7 @@ public enum ErrorCode {
     //Question
     QUESTION_NOT_FOUND(404,"Question Not Found"),
     TITLE_DUPLICATION(409,"Title Is Duplication"),
+    NO_SUCH_ELEMENT(404,"No Such Element"),
 
     //Answer
     ANSWER_NOT_FOUND(404, "Answer Not Found"),

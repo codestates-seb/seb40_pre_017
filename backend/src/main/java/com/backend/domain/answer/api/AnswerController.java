@@ -31,7 +31,6 @@ public class AnswerController {
     public ResponseEntity<?> postAnswer(@CurrentMember AuthMember authMember,
             @PathVariable("id") @Positive Long id,
             @Valid @RequestBody AnswerPostDto answerPostDto) {
-
 //        Long answerId = answerService.createAnswer(id, authMember.getMemberId(), answerPostDto);
         Long answerId = answerService.createAnswer(id, 1L, answerPostDto);
 

@@ -1,29 +1,33 @@
 package com.backend.domain.question.dto.request;
 
-import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+
+import java.util.List;
 
 @Getter
-@Setter
-@Builder
 public class QuestionSearch {
-    private static final int MAX_SIZE = 2000;
-    @Builder.Default
-    private Integer page =1;
-    @Builder.Default
-    private Integer size = 20;
 
-    @Override
-    public String toString() {
-        return "QuestionSearch{" +
-                "page=" + page +
-                ", size=" + size +
-                '}';
+    private String query;
+    private List<String> tagNames;
+
+    private QuestionSearch(String query, List<String> tagNames) {
+        this.query = query;
+        this.tagNames = tagNames;
     }
 
-    public long getOffset() {
-       return (long) (Math.max(1,page) - 1) *Math.min(size,MAX_SIZE);
+    static public QuestionSearch of(String query, List<String> tagNames){
+        return new QuestionSearch(query, tagNames);
+    }
+
+
+    static class Tag{
 
     }
+
+    static class Query{
+
+    }
+
+
+
 }

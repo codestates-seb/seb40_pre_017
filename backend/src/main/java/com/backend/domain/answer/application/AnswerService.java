@@ -61,6 +61,7 @@ public class AnswerService {
 
     public void acceptAnswer(long answerId) {
         Answer findAnswer = findVerifiedAnswer(answerId);
+
         findAnswer.accept();
 
     }
