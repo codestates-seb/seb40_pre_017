@@ -8,9 +8,15 @@ import Navbtn from './Navbtn';
 import User from './User';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-
+import { getItemWithExpireTime }  from '../../../../util/controlStorage'
 
 export default function Nav() {
+
+  let data = getItemWithExpireTime("member");
+  let login = getItemWithExpireTime("isLogin");
+  
+  console.log(data)
+  console.log(login)
 
   return (
     <>
@@ -19,11 +25,7 @@ export default function Nav() {
         <Logo />
         <Snav />
         <Navinput />
-        <Navbtn />
-
-        {/* props */}
-        {/* <User /> */}
-
+        {login ? <User data={data} /> : <Navbtn />}
       </nav>
     </>
   )

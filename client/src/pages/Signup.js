@@ -33,6 +33,7 @@ export default function Signup() {
   const [passwordError, setPasswordError] = useState(false);
 
   const formSubmit = (e) =>{
+    console.log(data)
     e.preventDefault()
 
     let error = false
@@ -48,6 +49,21 @@ export default function Signup() {
 
     if(!error){
       console.log('제출')
+      // fetch("http://localhost:3001/users", {
+      //   method: "POST",
+      //   headers: {"Content-Type" : "application/json"},
+      //   body: JSON.stringify(data)
+      // })
+      // .then(() => {
+      //   // localStorage.setItem("lastPath", "/");
+        // alert("Sign up Success!!")
+        // window.location.href = "/login";
+      // })
+      // .catch((error) => {
+        // alert("error")
+
+      //     console.error('Error', error);
+      // })
     }
     
   }
@@ -101,7 +117,7 @@ export default function Signup() {
           <Facebookbtn content={content[2]} />
 
           <form className='signupForm'>
-            <Input labelName="Display name" inputId="text" inputType="text" name="name" onChangeInput={onChangeInput} />
+            <Input labelName="Display name" inputId="text" inputType="text" name="username" onChangeInput={onChangeInput} />
             <Input labelName="Email" inputId="email" inputType="email" name="email" onChangeInput={onChangeInput} />
             {emailError && <Inputerror text="The email is not a valid email address." />}
 
