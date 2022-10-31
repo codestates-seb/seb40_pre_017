@@ -4,16 +4,14 @@ import AddContent from './AddContent'
 export default function Inputbox({setTitle, setContent, tags, setTags, title, content}) {
   //유효성검사 해아함
 
+
+  // title 입력
   const inputTitle = (e) => {
     e.preventDefault();
     setTitle(e.target.value);
   }
 
-  // const inputContent = (e) => {
-  //   e.preventDefault();
-  //   setContent(e.target.value);
-  // }
-
+  // tag 입력
   const inputTag = (event) => {
     const filtered = tags.filter((el) => el === event.target.value);
     if(filtered.length > 0){
@@ -25,10 +23,25 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
     }
   };
 
+  // tag 삭제
   const removeTags = (indexToRemove) => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
     console.log(indexToRemove)
   };
+
+  //next버튼
+  // onfocus 일때 나타난다
+  // 글자수 적으면 비활성화
+  // 글자수 이상되면 활성화
+  // onfocus, 글자수확인, 버튼눌럿을때 사라진다
+
+  // aside
+  // onfocus일때 나타난다
+  // false 면 사라진다
+
+  //inputbox
+  //content || tags가 있으면 활성화
+  //비활성화시 위쪽 next 버튼눌러야 활성화
 
   return (
     <div>
@@ -47,7 +60,6 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
         <h3>What are the details of your problem?</h3>
         <p>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</p>
         <AddContent 
-          // inputContent={inputContent} 
           content={content}
           setContent={setContent}
           />
