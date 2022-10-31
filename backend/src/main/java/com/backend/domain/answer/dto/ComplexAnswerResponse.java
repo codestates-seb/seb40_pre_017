@@ -1,5 +1,6 @@
 package com.backend.domain.answer.dto;
 
+import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.comment.dto.SimpleAnswerCommentResponse;
 import com.backend.domain.member.dto.MemberResponse;
 import lombok.Builder;
@@ -29,5 +30,22 @@ public class ComplexAnswerResponse {
         this.isAccepted = isAccepted;
         this.answerMember = answerMember;
         this.answerComments = simpleAnswerCommentResponses;
+    }
+
+    public static ComplexAnswerResponse of(Answer answer, List<SimpleAnswerCommentResponse> simpleAnswerCommentResponses){
+        return ComplexAnswerResponse.builder()
+                //답변정보
+                .answerId(answer.getId())
+                .createdAt(answer.getCreatedAt())
+                .modifiedAt(answer.getModifiedAt())
+                .content(answer.getContent())
+                .votes(0L)
+                .isAccepted(answer.getIsAccepted())
+                //질문 댓글 정보
+                //작성자 정보
+                .answerMember(MemberResponse.toResponse(answer.getMember()))
+                //답변댓글 정보
+                .simpleAnswerCommentResponses(simpleAnswerCommentResponses)
+                .build();
     }
 }

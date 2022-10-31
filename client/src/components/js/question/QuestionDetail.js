@@ -36,7 +36,7 @@ export default function QuestionDetail({item, id}) {
           </div>
           <Profile item={item.member}/>
         </div>
-        <CommentList item={item.question.qcomment}/>
+        <CommentList item={item.question.qcomment} type={'question'} temporary={item}/>
       </div>      
     </div>
   )

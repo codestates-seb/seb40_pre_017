@@ -1,9 +1,6 @@
 package com.backend.domain.question.service;
 
-import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.answer.dto.ComplexAnswerResponse;
-import com.backend.domain.comment.domain.AnswerComment;
-import com.backend.domain.comment.domain.QuestionComment;
 import com.backend.domain.comment.dto.SimpleAnswerCommentResponse;
 import com.backend.domain.comment.dto.SimpleQuestionCommentResponse;
 import com.backend.domain.member.domain.Member;
@@ -21,21 +18,25 @@ import com.backend.domain.question.dto.response.SimpleQuestionResponse;
 import com.backend.domain.question.exception.QuestionNotFound;
 import com.backend.domain.question.exception.TitleDuplication;
 import com.backend.domain.question.repository.QuestionRepository;
+import com.backend.domain.tag.domain.QTag;
 import com.backend.domain.tag.domain.Tag;
 import com.backend.domain.tag.dto.TagDto;
 import com.backend.domain.tag.service.TagService;
 import com.backend.global.dto.Response.MultiResponse;
 import com.backend.global.dto.request.PageRequest;
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.backend.domain.question.domain.QQuestion.question;
+import static com.backend.domain.tag.domain.QTag.tag;
+import static java.util.stream.Collectors.*;
 
 @Service
 @RequiredArgsConstructor
@@ -69,99 +70,54 @@ public class QuestionService {
 
     }
 
+    @Transactional
     public DetailQuestionResponse get(Long id){
 
-        Question question = questionRepository.getQuestionWithMemberWithAnswers(id).orElseThrow(QuestionNotFound::new);
+        Question question = questionRepository.findQuestionWithMemberWithAnswers(id).orElseThrow(QuestionNotFound::new);
+        question.hit();
+
+        List<SimpleQuestionCommentResponse> questionCommentResponses = question.getQuestionComments().stream()
+                .map(SimpleQuestionCommentResponse::of)
+                .collect(toList());
+
+        List<ComplexAnswerResponse> complexAnswerResponses = question.getAnswers().stream()
+                .map(answer ->
+                        ComplexAnswerResponse.of(answer, answer.getAnswerComments().stream()
+                                .map(SimpleAnswerCommentResponse::of)
+                                .collect(toList())))
+                .collect(toList());
 
 
-        List<SimpleQuestionCommentResponse> questionCommentResponses = new ArrayList<>();
+        DetailQuestionResponse detailQuestionResponse = DetailQuestionResponse.of(question,complexAnswerResponses,questionCommentResponses);
 
-        for (QuestionComment questionComment : question.getQuestionComments()) {
-            log.info("questionComment={}", questionComment.getContent());
-            log.info("questionComment member id={}", questionComment.getMember().getId());
-            log.info("questionComment member username={}", questionComment.getMember().getUsername());
-
-            SimpleQuestionCommentResponse simpleQuestionCommentResponse = SimpleQuestionCommentResponse.builder()
-                    .questionCommentId(questionComment.getId())
-                    .memberId(questionComment.getMember().getId())
-                    .userName(questionComment.getMember().getUsername())
-                    .content(questionComment.getContent())
-                    .createdAt(questionComment.getCreatedAt())
-                    .modifiedAt(questionComment.getModifiedAt())
-                    .build();
-
-            questionCommentResponses.add(simpleQuestionCommentResponse);
-        }
-
-
-        List<ComplexAnswerResponse> complexAnswerResponses = new ArrayList<>();
-        for (Answer answer : question.getAnswers()) {
-
-            List<SimpleAnswerCommentResponse> simpleAnswerCommentResponses = new ArrayList<>();
-            for (AnswerComment answerComment : answer.getAnswerComments()) {
-                SimpleAnswerCommentResponse simpleAnswerCommentResponse = SimpleAnswerCommentResponse.builder()
-                        .answerCommentId(answerComment.getId())
-                        .memberId(answerComment.getMember().getId())
-                        .userName(answerComment.getMember().getUsername())
-                        .content(answerComment.getContent())
-                        .createAt(answerComment.getCreatedAt())
-                        .modifiedAt(answerComment.getModifiedAt())
-                        .build();
-                simpleAnswerCommentResponses.add(simpleAnswerCommentResponse);
-            }
-
-
-            ComplexAnswerResponse complexAnswerResponse = ComplexAnswerResponse.builder()
-                    //답변정보
-                    .answerId(answer.getId())
-                    .createdAt(answer.getCreatedAt())
-                    .modifiedAt(answer.getModifiedAt())
-                    .content(answer.getContent())
-                    .votes(0L)
-                    .isAccepted(answer.getIsAccepted())
-                    //질문 댓글 정보
-                    //작성자 정보
-                    .answerMember(MemberResponse.toResponse(answer.getMember()))
-                    //답변댓글 정보
-                    .simpleAnswerCommentResponses(simpleAnswerCommentResponses)
-                    .build();
-
-            complexAnswerResponses.add(complexAnswerResponse);
-        }
-
-
-        DetailQuestionResponse detailQuestionResponse = DetailQuestionResponse.builder()
-                .question(SimpleQuestionResponse.toResponse(question))
-                .member(MemberResponse.toResponse(question.getMember()))
-                .tags(question
-                        .getQuestionTags()
-                        .stream()
-                        .map(questionTag -> questionTag.getTag().getName())
-                        .collect(Collectors.toList()))
-                //질문이랑 태그
-                .answers(complexAnswerResponses)
-                .questionComments(questionCommentResponses)
-                .build();
 
     return detailQuestionResponse;
     }
 
+
+
     public MultiResponse<?> getList(PageRequest pageable, QuestionSearch questionSearch){
 
-        PageImpl<QuestionResponse> questionResponses = new PageImpl<>(questionRepository.getList(pageable, questionSearch)
+        log.info("questionFindLIst= {}", questionRepository.findList(pageable,questionSearch).size());
+
+        List<Tuple> questionTags = questionRepository.findQuestionTags(pageable);
+
+        Map<Long, List<String>> questionTagMap = questionTags.stream().collect(
+                groupingBy(tuple -> tuple.get(question.id),
+                mapping(tuple -> tuple.get(tag.name),toList())));
+
+
+        PageImpl<QuestionResponse> questionResponses = new PageImpl<>(questionRepository.findList(pageable, questionSearch)
                 .stream()
                 .map(question -> QuestionResponse.builder()
                         .member(MemberResponse.toResponse(question.getMember()))
                         .question(SimpleQuestionResponse.toSummaryResponse(question))
-                        .tags(question
-                                .getQuestionTags()
-                                .stream()
-                                .map(questionTag -> questionTag.getTag().getName())
-                                .collect(Collectors.toList()))
+                                .tags(questionTagMap.get(question.getId()))
                         .build()
                 )
-                .collect(Collectors.toList()),pageable.of(), questionRepository.getCount());
+                .collect(toList()),pageable.of(), questionRepository.getCount());
 
+        log.info("getCount = {}" , questionRepository.getCount());
 
         MultiResponse<?> multiResponse = MultiResponse.of(questionResponses);
 
@@ -216,7 +172,7 @@ public class QuestionService {
                     Tag tag = tagService.addTag(tagDto);
                     return QuestionTag.createQuestionTag(tag);
                 }
-        ).collect(Collectors.toList());
+        ).collect(toList());
     }
 
     private void existsSameTitle(String title) {

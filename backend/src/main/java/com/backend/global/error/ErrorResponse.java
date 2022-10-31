@@ -18,11 +18,12 @@ public class ErrorResponse {
     private List<FieldError> errors;
 
 
+
+
     private ErrorResponse(final ErrorCode code, final List<FieldError> errors) {
         this.message = code.getMessage();
         this.status = code.getStatus();
         this.errors = errors;
-
     }
 
     private ErrorResponse(final ErrorCode code) {
@@ -42,6 +43,8 @@ public class ErrorResponse {
     public static ErrorResponse of(final ErrorCode code, final List<FieldError> errors) {
         return new ErrorResponse(code, errors);
     }
+
+
 
     @Getter
     @NoArgsConstructor
@@ -72,6 +75,5 @@ public class ErrorResponse {
                     .collect(Collectors.toList());
         }
     }
-
 
 }

@@ -23,25 +23,25 @@ export default function EditQuestion({items}) {
     const [tags, setTags] = useState(item.tags);
 
     const handleEdit = (e) => {
-    e.preventDefault();
+      e.preventDefault();
 
-    // data 생성 & Patch (임시)
-    let question = Object.assign(item.question);
-    question.title = title;
-    question.content = content;
-    let data = {
-    tags,
-    question
-    }
-    fetchPatch("http://localhost:3001/items/", item.id, data);
+      // data 생성 & Patch (임시)
+      let question = Object.assign(item.question);
+      question.title = title;
+      question.content = content;
+      let data = {
+      tags,
+      question
+      }
+      fetchPatch("http://localhost:3001/items/", item.id, data);
 
-    // data 생성 & Patch (Api)
-    // let data = { title, content, tags }
-    // fetchPatch("/questions", id, data)
-    // fetchPatch api에 맞게 추후 수정
+      // data 생성 & Patch (Api)
+      // let data = { title, content, tags }
+      // fetchPatch("/questions", id, data)
+      // fetchPatch api에 맞게 추후 수정
     }
     return (
-    <div>
+      <div>
         <Inputbox 
             setTitle={setTitle} 
             setContent={setContent} 
@@ -54,6 +54,6 @@ export default function EditQuestion({items}) {
         <Link to={`/questions/${params.id}`}>
             <button>Cancle</button>
         </Link>
-    </div>
+      </div>
     )
 }

@@ -23,6 +23,7 @@ public class AnswerCommentController {
     private final AnswerCommentService answerCommentService;
 
     @PostMapping("/comments")
+
     public ResponseEntity<AnswerCommentResponse>  createComment(
             @CurrentMember AuthMember authMember,
             @PathVariable("answer-id") @Positive Long answerId,
@@ -30,27 +31,28 @@ public class AnswerCommentController {
 
         AnswerCommentResponse result = answerCommentService.createComment(authMember.getMemberId(),answerCommentCreate, answerId);
 
+
         return ResponseEntity.ok(result);
     }
 
     @PatchMapping("/comments/{comment-id}")
-    public ResponseEntity<AnswerCommentResponse> updateComment(
+    public ResponseEntity<AnswerCommentResponse> update(
             @PathVariable("answer-id") @Positive Long answerId,
             @PathVariable("comment-id") @Positive Long answerCommentId,
             @Valid @RequestBody AnswerCommentUpdate answerCommentUpdate) {
 
 
-        AnswerCommentResponse result = answerCommentService.updateComment(answerCommentUpdate, answerCommentId);
+        AnswerCommentResponse result = answerCommentService.update(answerCommentUpdate, answerCommentId);
 
         return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/comments/{comment-id}")
-    public ResponseEntity<Long> deleteComment(
+    public ResponseEntity<Long> delete(
             @PathVariable("answer-id") @Positive Long answerId,
             @PathVariable("comment-id") @Positive Long answerCommentId) {
 
-        Long id = answerCommentService.deleteComment(answerCommentId);
+        Long id = answerCommentService.delete(answerCommentId);
 
         return ResponseEntity.ok(id);
     }

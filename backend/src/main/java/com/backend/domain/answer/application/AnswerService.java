@@ -26,18 +26,20 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
     private final MemberRepository memberRepository;
-    public AnswerResponseDto createAnswer(Long id,Long memberId, AnswerPostDto answerPostDto) {
+    public Long createAnswer(Long id,Long memberId, AnswerPostDto answerPostDto) {
 
         Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
         Member member = memberRepository.findById(id).orElseThrow(QuestionNotFound::new);
 
-        Answer answer = answerPostDto.toEntity(question,member);
+
+        Answer answer = answerPostDto.toEntity(question,getMember());
+
 
         Answer savedAnswer = answerRepository.save(answer);
 
-        AnswerResponseDto result = savedAnswer.toResponseDto();
+//        AnswerResponseDto result = savedAnswer.toResponseDto();
 
-        return result;
+        return savedAnswer.getId();
     }
 
     public  AnswerResponseDto updateAnswer(AnswerPatchDto answerPatchDto) {
@@ -77,11 +79,11 @@ public class AnswerService {
 
     private Member getMember() {
         Member member = Member.builder()
-                .email("thwn40@naver.com")
-                .password("asdf123")
-                .profileImage("sdlfkjasldkfj")
+                .email("thsdf0@naver.com")
+                .password("asdf1234")
+                .profileImage("ssdafasldkfj")
                 .reputation(0L)
-                .username("thwn400")
+                .username("thwsadf0")
                 .build();
         return member;
     }

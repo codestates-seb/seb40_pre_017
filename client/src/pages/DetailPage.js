@@ -4,7 +4,6 @@ import QuestionDetail from '../components/js/question/QuestionDetail'
 import { useParams } from 'react-router-dom'
 import './DetailPage.scss'
 import { Link } from 'react-router-dom'
-import AddContent from '../components/js/addContent/AddContent'
 
 export default function DetailPage({items}) {
   //오류! 새로고침시 useParams가 안불러짐
@@ -42,11 +41,8 @@ export default function DetailPage({items}) {
         </div>
         <div className='detailBodyWrap'>
           <div className='detailContentWrap'>
-          <QuestionDetail item={item} id={params.id}/>
-          <AnswerList item={item}/>
-          <h1 className='yourAnswer'>Your Answer</h1>
-          <AddContent />
-          <button className='postAnswerBtn'>Post Your Answer</button>
+            <QuestionDetail item={item} id={params.id}/>
+            <AnswerList item={item} id={params.id}/>
           </div>
           <div className='detailPageAside'>aside</div>
         </div>

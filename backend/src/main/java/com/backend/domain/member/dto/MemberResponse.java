@@ -1,7 +1,7 @@
 package com.backend.domain.member.dto;
 
 import com.backend.domain.member.domain.Member;
-import com.backend.global.Constant;
+import com.backend.global.util.Constant;
 import lombok.Builder;
 import lombok.Getter;
 

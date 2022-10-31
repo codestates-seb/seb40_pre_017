@@ -3,7 +3,6 @@ package com.backend.global.error;
 import com.backend.global.error.exception.BusinessException;
 import com.backend.global.error.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -53,5 +52,6 @@ public class GlobalExceptionHandler {
 
         return   ResponseEntity.internalServerError().body(response);
     }
+
 
 }
