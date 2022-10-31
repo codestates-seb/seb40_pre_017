@@ -9,23 +9,21 @@ const useFetch = (url) => {
     //fetch도 비동기 요청이기 때문에, 이 비동기 작업의 중단을 위해 사용
     const abortCont = new AbortController();
 
-    setTimeout(() => {
-      //요청과 통신하거나 중단하는 데에 사용하는 신호 역할
-      fetch(url, { signal: abortCont.signal })
-      .then(res => {
-        if (!res.ok) { // error coming back from server
-          throw Error('could not fetch the data for that resource');
-        } 
-        return res.json();
-      })
-      .then(data => {
-        setData(data);
-        setError(null);
-      })
-      .catch(err => {
-        setError(err.message);
-      })
-    }, 1000);
+    //요청과 통신하거나 중단하는 데에 사용하는 신호 역할
+    fetch(url, { signal: abortCont.signal })
+    .then(res => {
+      if (!res.ok) { // error coming back from server
+        throw Error('could not fetch the data for that resource');
+      } 
+      return res.json();
+    })
+    .then(data => {
+      setData(data);
+      setError(null);
+    })
+    .catch(err => {
+      setError(err.message);
+    })
 
     // abort the fetch. 완료되기 전에 DOM 요청 중단
     return () => abortCont.abort();
