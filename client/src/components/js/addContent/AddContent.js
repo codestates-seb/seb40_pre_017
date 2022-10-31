@@ -25,7 +25,7 @@ export default function AddContent({content, setContent, appearNext, contentInpu
           ref={contentInput}
           onChange={inputContent} 
           value={content}
-          disabled
+          disabled={content && content.length > 20 ? false : true}
         ></input>
     </div>
   )

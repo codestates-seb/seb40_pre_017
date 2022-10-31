@@ -58,13 +58,13 @@ export default function AddQuestion() {
     <div className='addOut'>
       <div className='addQuestion'>
         <div className='addHeadWrap'>
-          <img src={Background} alt='backgroundImg'/>
           <h1>Ask a public question</h1>
+          <img src={Background} alt='backgroundImg'/>
         </div>
         
         <div className='addContent'>
           <div className='addGuide'>
-            Writing a good question
+            <h3>Writing a good question</h3>
             You’re ready to ask a programming-related question and this form will help guide you through the process.
 
             Looking to ask a non-programming question? See the topics here to find a relevant site.
