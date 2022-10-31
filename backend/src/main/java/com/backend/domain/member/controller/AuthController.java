@@ -29,15 +29,15 @@ public class AuthController {
 
     // 재발급
     @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(@RequestHeader("Authorization") String accessToken,
-                                            @CookieValue("refreshToken") String refreshToken) {
+    public ResponseEntity<Long> reissue(@CookieValue("refreshToken") String refreshToken,
+                                        HttpServletResponse response) throws Exception {
 
         // 쿠키의 refreshToken 이 만료되어 없을 경우
         if (refreshToken == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        return ResponseEntity.ok(authService.reissue(accessToken, refreshToken));
+        return ResponseEntity.ok(authService.reissue(refreshToken, response));
     }
 
     // 로그아웃

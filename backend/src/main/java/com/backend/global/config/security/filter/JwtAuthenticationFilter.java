@@ -53,6 +53,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Cookie refreshTokenToCookie = new Cookie("refreshToken", refreshToken);
         refreshTokenToCookie.setMaxAge(60 * 60 * 24 * 14);
         refreshTokenToCookie.setHttpOnly(true);
+        refreshTokenToCookie.setPath("/");
 
         response.addCookie(refreshTokenToCookie);
 
