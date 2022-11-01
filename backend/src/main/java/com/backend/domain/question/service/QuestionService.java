@@ -36,6 +36,8 @@ import java.util.stream.Collectors;
 
 import static com.backend.domain.question.domain.QQuestion.question;
 import static com.backend.domain.tag.domain.QTag.tag;
+import static com.backend.domain.vote.domain.QQuestionDownVote.questionDownVote;
+import static com.backend.domain.vote.domain.QQuestionUpVote.questionUpVote;
 import static java.util.stream.Collectors.*;
 
 @Service
@@ -112,7 +114,7 @@ public class QuestionService {
                 .map(question -> QuestionResponse.builder()
                         .member(MemberResponse.toResponse(question.getMember()))
                         .question(SimpleQuestionResponse.toSummaryResponse(question))
-                                .tags(questionTagMap.get(question.getId()))
+                        .tags(questionTagMap.get(question.getId()))
                         .build()
                 )
                 .collect(toList()),pageable.of(), questionRepository.getCount());

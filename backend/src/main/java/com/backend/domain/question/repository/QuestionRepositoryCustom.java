@@ -15,4 +15,5 @@ public interface QuestionRepositoryCustom {
     Optional<Question> findQuestionWithMemberWithAnswers(Long id);
     List<Tuple> findQuestionTags(PageRequest pageable);
 
+
 }

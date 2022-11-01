@@ -29,7 +29,6 @@ public class QuestionController {
      Long memberId = authMember.getMemberId();
 
         return ResponseEntity.ok(questionService.create(memberId,questionCreate));
-
     }
 
     @GetMapping("/questions/{id}")

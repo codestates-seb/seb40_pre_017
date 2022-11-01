@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnswerPatchDto {
+public class AnswerUpdate {
 
     @NotBlank(message = "컨텐츠는 공백이 아니어야 합니다.")
     private String content;
