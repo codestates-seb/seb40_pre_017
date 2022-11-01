@@ -72,7 +72,7 @@ function App() {
       let temp = e.target.value;
       setInputData(e.target.value);      
       e.target.value = "";
-      navigate('/search?' + ('q:' + temp) + ('&tab:' + filterData));
+      navigate('/search?' + ('q=' + temp) + ('&tab=' + filterData));
     }
   }
   // 필터 함수
@@ -81,9 +81,9 @@ function App() {
     setFilterData(e.target.name)
 
     if(location !== "/"){
-      navigate('/search?' + ('q:' + inputData) + ('&tab:' + temp));
+      navigate('/search?' + ('q=' + inputData) + ('&tab=' + temp));
     }else{
-      navigate('/?' + ('&tab:' + temp));
+      navigate('/?' + ('tab=' + temp));
     }
   }
   // 로그아웃

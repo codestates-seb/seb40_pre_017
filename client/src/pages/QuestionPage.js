@@ -12,12 +12,12 @@ export default function QuestionPage({ filterData, changeFilterData}) {
   const [items, seItems] = useState(null);;
 
   useEffect(()=>{
-    let param = {
+    let params = {
       "tab" : filterData
     };
 
     axios.get('http://localhost:3001/items', {
-      param : param
+      params : params
     })
     .then(res => {
       seItems(res.data)
