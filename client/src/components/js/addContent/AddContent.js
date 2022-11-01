@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../css/addContent/AddContent.scss'
 
-export default function AddContent({content, setContent, appearNext, contentInput, setNextContentDis}) {
+export default function AddContent({content, setContent, appearNext, contentInput, setNextContentDis, type}) {
 
 
   const inputContent = (e) => {
@@ -15,6 +15,12 @@ export default function AddContent({content, setContent, appearNext, contentInpu
     }
   }
 
+  const handledisabled = () => {
+    if(type === 'answer') return false
+    else if(content && content.length > 20) return false
+    return true
+  }
+
   return (
     <div>
         <input 
@@ -25,7 +31,8 @@ export default function AddContent({content, setContent, appearNext, contentInpu
           ref={contentInput}
           onChange={inputContent} 
           value={content}
-          disabled={content && content.length > 20 ? false : true}
+          // disabled={content && content.length > 20 ? false : true}
+          disabled={handledisabled}
         ></input>
     </div>
   )
