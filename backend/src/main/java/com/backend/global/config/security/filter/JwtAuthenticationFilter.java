@@ -53,11 +53,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Cookie refreshTokenToCookie = new Cookie("refreshToken", refreshToken);
         refreshTokenToCookie.setMaxAge(60 * 60 * 24 * 14);
         refreshTokenToCookie.setHttpOnly(true);
+        refreshTokenToCookie.setPath("/");
 
         response.addCookie(refreshTokenToCookie);
 
         response.setHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
-//        response.setHeader("RefreshToken", refreshToken);
 
         // response body에 member의 emial, username, ImageUrl을 담아서 보내준다.
         response.getWriter().write(
@@ -71,6 +71,5 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
-
 
 }

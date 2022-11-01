@@ -40,17 +40,14 @@ public class AuthMember extends Member implements UserDetails {
         return new AuthMember(id, roles);
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(roles.get(0)));
     }
 
-    // Member 의 username
     public String getMemberUsername() {
         return nickname;
     }
-
 
     @Override
     public String getUsername() {
@@ -76,4 +73,5 @@ public class AuthMember extends Member implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
