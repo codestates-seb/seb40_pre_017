@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import './signup.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMessage, faUpDown, faTags, faTrophy } from "@fortawesome/free-solid-svg-icons";
 import Googlebtn from '../components/js/user/common/Googlebtn';
@@ -19,6 +19,7 @@ let passwordExptext = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/;
 
 
 export default function Signup() {
+  const navigate = useNavigate();
 
   // 어떤 경로에서 로그인 페이지로 접속했는지 확인 후 로그인 성공시 해당 페이지로 이동.
   // 닉네임 입력 검사 -> 닉네임 입효성 판단 boolean -> p태그 보여줌
@@ -51,18 +52,22 @@ export default function Signup() {
       console.log('제출')
       // fetch("http://localhost:3001/users", {
       //   method: "POST",
-      //   headers: {"Content-Type" : "application/json"},
+      //   headers: {
+      //     "Content-Type" : "application/json",
+      //     "ngrok-skip-browser-warning": "skip"
+      //   },
       //   body: JSON.stringify(data)
       // })
       // .then(() => {
-      //   // localStorage.setItem("lastPath", "/");
-        // alert("Sign up Success!!")
-        // window.location.href = "/login";
+      //   localStorage.setItem("lastPath", "/");
+        
+        alert("Sign up Success!!")
+        
+        navigate("/login");
       // })
       // .catch((error) => {
-        // alert("error")
-
-      //     console.error('Error', error);
+      //   alert(error)
+      //   console.error('Error', error);
       // })
     }
     
@@ -70,8 +75,6 @@ export default function Signup() {
 
   const onChangeInput = (e) => {
     setDate({...data, [e.target.name] : e.target.value});
-    console.log(emailError)
-    console.log(passwordError)
     // 이메일 유효성 체크
 
     // 이메일 유효성이 확인되면 폼에서 생성한 에러 메세지 삭제.

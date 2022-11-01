@@ -34,6 +34,11 @@ export const getItemWithExpireTime = (keyName) => {
   return obj.value;
 }
 
+
+
+// 쿠키에서 리프레시 토큰이 있는지 확인
+// 있으면 컨트롤러 토큰 요청.
+// 없으면 로그인 페이지로 이동.
 export const AccessTokenControl = () => {
 
   let token = getItemWithExpireTime("authorization");
@@ -61,12 +66,15 @@ export const AccessTokenControl = () => {
     })
     .catch((err) => {
       // 리프레시 토큰이 유효하지 않을 경우.
-      localStorage.removeItem("member");
-      localStorage.removeItem("isLogin");
       // 로그아웃 호출
-      
-      alert(err)
-      window.location.href = "/"
+      fetch('http://localhost:3001/users/logout')
+      .then((res) => {
+        localStorage.removeItem("member");
+        localStorage.removeItem("authorization");
+        localStorage.removeItem("isLogin");
+        alert("Logout")
+        window.location.href = "/"
+      })
     });
   }
 
