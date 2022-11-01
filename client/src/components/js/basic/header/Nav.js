@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import '../../../css/basic/header/nav.scss';
 import Hamburger from './Hamburger';
 import Logo from './Logo';
@@ -6,12 +6,12 @@ import Snav from './Snav';
 import Navinput from './Navinput';
 import Navbtn from './Navbtn';
 import User from './User';
-import { getItemWithExpireTime }  from '../../../../util/controlStorage'
 
-export default function Nav({changeInputData}) {
+export default function Nav({changeInputData, islogined, memberData, logoutControll}) {
 
-  let data = getItemWithExpireTime("member");
-  let login = getItemWithExpireTime("isLogin");
+
+  // 데이터나 로그인, 엑세스 토큰이 null 일 경우 리프레시 토큰이 있는지 확인하고 있으면 재 발급 요청.
+  // 리프레시 토큰이 없으면? 아무것도 안함.
 
   return (
     <>
@@ -20,7 +20,7 @@ export default function Nav({changeInputData}) {
         <Logo />
         <Snav />
         <Navinput changeInputData={changeInputData} />
-        {login ? <User data={data} /> : <Navbtn />}
+        {islogined ? <User memberData={memberData} logoutControll={logoutControll} /> : <Navbtn />}
       </nav>
     </>
   )

@@ -3,14 +3,13 @@ import '../../../css/basic/header/user.scss'
 import Userinfo from './Userinfo'
 import { getItemWithExpireTime }  from '../../../../util/controlStorage'
 
-export default function User({data}) {
+export default function User({memberData, logoutControll}) {
 
   const [toggleOpen, setToggleOpen] = useState(false);
 
   const toggleOpenChange = () => {
     setToggleOpen(!toggleOpen)
   }
-
 
   return (
     <>
@@ -20,7 +19,7 @@ export default function User({data}) {
         <div className='userNumber'>1</div>
         {/* <div className='userNumber'>{userInfo.number}</div> */}
         {toggleOpen && <div className='UserinfoArea'>
-          <Userinfo data={data} />
+          <Userinfo memberData={memberData} logoutControll={logoutControll} />
         </div>}
       </div>
 
