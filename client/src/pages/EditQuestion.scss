@@ -1,6 +1,6 @@
 .editQuestionWrap{
-    margin-top: 50px;
-    margin-bottom: 72px;
+    display: flex;
+    max-width: 1264px;
 
     h2{
         font-size: 21px;
@@ -32,4 +32,16 @@
         color:  #0A95FF;
     }
 
+}
+
+.editQuestionNavbar{
+    width: 164px;
+}
+
+.editQuestionMain{
+    margin: 50px 23px 72px 23px;
+}
+
+.editQuestionAside{
+    width: 300px;
 }

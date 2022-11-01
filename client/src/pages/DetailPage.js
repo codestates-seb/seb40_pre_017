@@ -4,6 +4,8 @@ import QuestionDetail from '../components/js/question/QuestionDetail'
 import { useParams } from 'react-router-dom'
 import './DetailPage.scss'
 import { Link } from 'react-router-dom'
+import Category from '../components/js/category/Category'
+import Aside from '../components/js/aside/Aside'
 
 export default function DetailPage({items}) {
   //오류! 새로고침시 useParams가 안불러짐
@@ -20,7 +22,7 @@ export default function DetailPage({items}) {
 
   return (
     <div className='detailPageWrap'>
-      <div className='detailPageNavbar'>Navbar</div>
+      <div className='detailPageNavbar'><Category/></div>
       <div className='detailPage'>
         <div className='detailHeadWrap'>
           <div className='detailTitleWrap'>
@@ -44,7 +46,7 @@ export default function DetailPage({items}) {
             <QuestionDetail item={item} id={params.id}/>
             <AnswerList item={item} id={params.id}/>
           </div>
-          <div className='detailPageAside'>aside</div>
+          <div className='detailPageAside'><Aside/></div>
         </div>
       </div>
     </div>

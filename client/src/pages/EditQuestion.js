@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { fetchPatch } from '../util/api';
 import { useParams, Link } from 'react-router-dom';
 import './EditQuestion.scss'
+import Category from '../components/js/category/Category';
+import Aside from '../components/js/aside/Aside';
 
 export default function EditQuestion({items}) {
     //id 파라미터 가져오기
@@ -43,19 +45,23 @@ export default function EditQuestion({items}) {
     }
     return (
       <div className='editQuestionWrap'>
-        <h2>Question</h2>
-        <Inputbox 
-            setTitle={setTitle} 
-            setContent={setContent} 
-            tags={tags} 
-            setTags={setTags} 
-            title={title} 
-            content={content}
-        />
-        <button onClick={handleEdit} className='saveEdit'>Save edits</button>
-        <Link to={`/questions/${params.id}`}>
-            <button className='cancel'>Cancel</button>
-        </Link>
+        <div className='editQuestionNavbar'><Category/></div>
+        <div className='editQuestionMain'>
+          <h2>Question</h2>
+          <Inputbox 
+              setTitle={setTitle} 
+              setContent={setContent} 
+              tags={tags} 
+              setTags={setTags} 
+              title={title} 
+              content={content}
+          />
+          <button onClick={handleEdit} className='saveEdit'>Save edits</button>
+          <Link to={`/questions/${params.id}`}>
+              <button className='cancel'>Cancel</button>
+          </Link>
+        </div>
+        <div className='editQuestionAside'><Aside/></div>
       </div>
     )
 }
