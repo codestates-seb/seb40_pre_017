@@ -6,7 +6,6 @@ import com.backend.global.config.security.filter.JwtVerificationFilter;
 import com.backend.global.config.security.handler.MemberAuthenticationSuccessHandler;
 import com.backend.global.jwt.JwtAccessDeniedHandler;
 import com.backend.global.jwt.JwtAuthenticationEntryPoint;
-import com.backend.global.jwt.JwtSecurityConfig;
 import com.backend.global.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +18,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @EnableWebSecurity // (debug = true)
 @RequiredArgsConstructor
@@ -77,10 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").permitAll() // 모든 요청에 대해 허용
                 .anyRequest().permitAll() // 나머지 요청 허용
                 .and()
-
-
         ;
-
     }
 
     private class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
@@ -91,7 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(tokenProvider, authenticationManager);
             jwtAuthenticationFilter.setFilterProcessesUrl("/users/login");
-            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler(refreshTokenRepository,tokenProvider));
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler(refreshTokenRepository));
 //            jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(tokenProvider);

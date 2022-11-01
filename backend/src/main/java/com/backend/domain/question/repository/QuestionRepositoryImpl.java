@@ -46,6 +46,8 @@ public class QuestionRepositoryImpl implements  QuestionRepositoryCustom{
                 .orderBy(question.id.asc())
                 .fetch();
         return fetch;
+
+
     }
 
     @Override
@@ -79,12 +81,16 @@ public class QuestionRepositoryImpl implements  QuestionRepositoryCustom{
 
     @Override
     public List<Answer> findAnswersWithAnswerComment(Long id) {
+
+
         return jpaQueryFactory.select(answer)
                         .from(answer)
-                        .where(answer.question.id.eq(id))
                         .leftJoin(answer.member).fetchJoin()
                         .leftJoin(answer.answerComments).fetchJoin()
+                        .where(answer.question.id.eq(id))
                         .fetch();
+
+
 
     }
 

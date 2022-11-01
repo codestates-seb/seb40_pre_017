@@ -31,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.*;
 
@@ -65,6 +66,7 @@ public class QuestionService {
         // 현재 사용자 가져오는 로직으로 수정 필요
 
         Question question = Question.createQuestion(questionCreate, member, questionTags);
+
 
         return questionRepository.save(question).getId();
 

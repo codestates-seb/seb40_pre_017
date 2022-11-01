@@ -20,6 +20,8 @@ spring:
 logging:
   level:
     org:
+      hibernate:
+        type: trace
       springframework:
         orm:
           jpa: DEBUG
@@ -31,8 +33,8 @@ server:
       charset: UTF-8 # HTTP encoding charset
 jwt:
   secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK # JWT secret
-  access-token-expiration-time: 86400000 # 15분
-  refresh-token-expiration-time: 1209600000 # 2주
+  access-token-expiration-time: 60 * 15 # 15분
+  refresh-token-expiration-time: 60 * 60 * 24 * 14 # 2주
 
 mail:
   address:

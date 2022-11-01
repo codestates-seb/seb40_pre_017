@@ -20,14 +20,6 @@ public class QuestionSearch {
     }
 
 
-    static class Tag{
-
-    }
-
-    static class Query{
-
-    }
-
 
 
 }

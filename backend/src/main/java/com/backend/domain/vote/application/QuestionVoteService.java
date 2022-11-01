@@ -1,7 +1,11 @@
 package com.backend.domain.vote.application;
 
 
+import com.backend.domain.member.domain.Member;
+import com.backend.domain.member.exception.MemberNotFound;
 import com.backend.domain.member.repository.MemberRepository;
+import com.backend.domain.question.exception.QuestionNotFound;
+import com.backend.domain.question.repository.QuestionRepository;
 import com.backend.domain.vote.dao.QuestionDownVoteRepository;
 import com.backend.domain.vote.dao.QuestionUpVoteRepository;
 import com.backend.domain.vote.exception.VoteException;
@@ -22,37 +26,87 @@ public class QuestionVoteService {
     private final QuestionUpVoteRepository questionUpVoteRepository;
     private final QuestionDownVoteRepository questionDownVoteRepository;
 
+    private final QuestionRepository questionRepository;
+
     private final MemberRepository memberRepository;
+
 
     public void up(Long questionId, Long memberId) {
 
-        try {
-            questionUpVoteRepository.up(questionId, memberId);
-        }catch (DataIntegrityViolationException e) {
-            log.error("handleDataIntegrityViolationException", e);
-            throw new VoteException(ErrorCode.CONSTRAINTS_VIOLATED);
+        Member questionWriter = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new).getMember();
+
+        if (memberId != questionWriter.getId()) {
+            try {
+                questionUpVoteRepository.up(questionId, memberId);
+                questionUpVoted(questionWriter);
+            } catch (DataIntegrityViolationException e) {
+                log.error("handleDataIntegrityViolationException", e);
+                throw new VoteException(ErrorCode.CONSTRAINTS_VIOLATED);
+            }
+        } else {
+            throw new VoteException(ErrorCode.HANDLE_ACCESS_DENIED);
         }
     }
 
     public void undoUp(Long questionId, Long memberId) {
-        questionUpVoteRepository.undoUp(questionId, memberId);
+
+        Member questionWriter = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new).getMember();
+
+        int result = questionUpVoteRepository.undoUp(questionId, memberId);
+
+        if(result == 0) throw new VoteException(ErrorCode.VOTE_NOT_FOUND);
+       undoQuestionUpVoted(questionWriter);
 
     }
 
 
     public void down(Long questionId, Long memberId) {
-        try {
-            questionDownVoteRepository.down(questionId, memberId);
-        } catch (DataIntegrityViolationException e) {
-            log.error("handleDataIntegrityViolationException", e);
-            throw new VoteException(ErrorCode.CONSTRAINTS_VIOLATED);
-        }
 
+        Member questionWriter = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new).getMember();
+
+        if (memberId != questionWriter.getId()) {
+            try {
+                questionDownVoteRepository.down(questionId, memberId);
+                questionDownVoted(questionWriter);
+            } catch (DataIntegrityViolationException e) {
+                log.error("handleDataIntegrityViolationException", e);
+                throw new VoteException(ErrorCode.CONSTRAINTS_VIOLATED);
+            }
+        }else{
+            throw new VoteException(ErrorCode.HANDLE_ACCESS_DENIED);
+        }
     }
 
     public void undoDown(Long questionId, Long memberId) {
-        questionDownVoteRepository.undoDown(questionId, memberId);
+
+        Member questionWriter = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new).getMember();
+
+        int result = questionDownVoteRepository.undoDown(questionId, memberId);
+        if(result == 0) throw new VoteException(ErrorCode.VOTE_NOT_FOUND);
+
+        undoQuestionDownVoted(questionWriter);
 
     }
-    
+
+
+    private void questionUpVoted(Member member) {
+        Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
+        findMember.questionUpVoted();
+    }
+    private void undoQuestionUpVoted(Member member) {
+        Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
+        findMember.undoQuestionUpVoted();
+    }
+
+    private void questionDownVoted(Member member) {
+        Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
+        findMember.questionDownVoted();
+    }
+
+    private void undoQuestionDownVoted(Member member) {
+        Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
+        findMember.undoQuestionDownVoted();
+    }
+
+
 }

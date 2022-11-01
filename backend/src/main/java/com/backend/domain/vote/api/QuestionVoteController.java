@@ -27,7 +27,7 @@ public class QuestionVoteController {
             @PathVariable("id") @Positive Long questionId,
             @AuthenticationPrincipal AuthMember authMember) {
 
-        questionVoteService.up(questionId, 1L);
+        questionVoteService.up(questionId, authMember.getMemberId());
 
         return ResponseEntity.ok(questionId);
     }
@@ -37,7 +37,7 @@ public class QuestionVoteController {
             @PathVariable("id") @Positive Long questionId,
             @AuthenticationPrincipal AuthMember authMember) {
 
-        questionVoteService.undoUp(questionId, 1L);
+        questionVoteService.undoUp(questionId, authMember.getMemberId());
 
         return ResponseEntity.ok(questionId);
     }
@@ -47,7 +47,7 @@ public class QuestionVoteController {
             @PathVariable("id") @Positive Long questionId,
             @AuthenticationPrincipal AuthMember authMember) {
 
-        questionVoteService.down(questionId, 1L);
+        questionVoteService.down(questionId, authMember.getMemberId());
 
         return ResponseEntity.ok(questionId);
     }
@@ -57,7 +57,7 @@ public class QuestionVoteController {
             @PathVariable("id") @Positive Long questionId,
             @AuthenticationPrincipal AuthMember authMember) {
 
-        questionVoteService.undoDown(questionId, 1L);
+        questionVoteService.undoDown(questionId, authMember.getMemberId());
 
         return ResponseEntity.ok(questionId);
     }

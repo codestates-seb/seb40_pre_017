@@ -1,11 +1,13 @@
 package com.backend.domain.comment.domain;
 
-import com.backend.domain.member.domain.Member;
-import com.backend.domain.comment.dto.QuestionCommentResponse;
 import com.backend.domain.comment.dto.QuestionCommentUpdate;
+import com.backend.domain.member.domain.Member;
 import com.backend.domain.question.domain.Question;
 import com.backend.global.Audit.Auditable;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -38,8 +40,6 @@ public class QuestionComment extends Auditable {
     }
 
 
-
-
     public static QuestionComment toEntity(String content, Question question, Member member) {
         QuestionComment questionComment = QuestionComment.builder()
                 .content(content)
@@ -52,11 +52,6 @@ public class QuestionComment extends Auditable {
         return questionComment;
     }
 
-    public QuestionCommentResponse toResponseDto() {
-        return QuestionCommentResponse.builder()
-                .questionCommentId(id)
-                .build();
-    }
 
     public void patch(QuestionCommentUpdate questionCommentUpdate) {
         if(questionCommentUpdate.getContent() != null)

@@ -1,0 +1,23 @@
+.memoInner{
+  width: 100%;
+  background-color: #faf5e6;
+  font-size: 14px;
+  .memoTitle{
+    height: 37px;
+    padding: 12px 15px;
+    background-color: #faf3d6;
+    border-bottom: 2px solid #efe7cb;
+    font-weight: 500;
+  }
+  >ul{
+    padding: 12px 15px;
+    color: #737a80;
+    li{
+      padding: 5px 0px;
+      cursor: pointer;
+    }
+    li:hover{
+      color: black;
+    }
+  }
+}

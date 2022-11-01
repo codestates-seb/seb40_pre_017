@@ -1,12 +1,12 @@
 import React from 'react'
 import QuestionList from '../components/js/questionPage/QuestionList'
 import { Link } from 'react-router-dom'
-import './QuestionPage.scss'
+import './searchPage.scss'
 import Pagination from '../components/js/questionPage/Pagination';
 import Aside from '../components/js/aside/Aside';
 import Category from '../components/js/category/Category';
 
-export default function QuestionPage({items}) {
+export default function SearchPage({items}) {
   //questionList Count
   let count = 0;
   if(items){

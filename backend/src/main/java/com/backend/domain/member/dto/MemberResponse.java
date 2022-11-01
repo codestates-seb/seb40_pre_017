@@ -30,7 +30,6 @@ public class MemberResponse {
                 .username(member.getUsername())
                 .link(memberLink(member))
                 .build();
-
     }
 
     private static String memberLink(Member member) {
@@ -38,4 +37,5 @@ public class MemberResponse {
                 concat("/member/").
                 concat(String.valueOf(member.getId()));
     }
+
 }

@@ -1,9 +1,8 @@
 package com.backend.domain.question.dto.response;
 
-import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.question.domain.Question;
 import com.backend.global.util.Constant;
-import com.querydsl.core.annotations.QueryProjection;
+
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,7 +13,7 @@ public class SimpleQuestionResponse {
 
     private Boolean isAnswered;
     private Long viewCount;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private Long questionId;
     private String link;
@@ -33,7 +32,7 @@ public class SimpleQuestionResponse {
         this.viewCount = viewCount;
         this.answerCount = answerCount;
         this.voteCount = voteCount;
-        this.createAt = createAt;
+        this.createdAt = createAt;
         this.modifiedAt = modifiedAt;
         this.questionId = questionId;
         this.link = link;
@@ -46,7 +45,6 @@ public class SimpleQuestionResponse {
         return SimpleQuestionResponse.builder()
                 .viewCount(question.getView())
                 .isAnswered(question.getIsAnswered())
-                //votes
                 .createAt(question.getCreatedAt())
                 .modifiedAt(question.getModifiedAt())
                 .questionId(question.getId())
@@ -57,13 +55,13 @@ public class SimpleQuestionResponse {
                 .voteCount(voteCount)
                 .build();
 
+
     }
 
     public static SimpleQuestionResponse toResponse(Question question, int answerCount) {
         return SimpleQuestionResponse.builder()
                 .viewCount(question.getView())
                 .isAnswered(question.getIsAnswered())
-                //votes
                 .createAt(question.getCreatedAt())
                 .modifiedAt(question.getModifiedAt())
                 .questionId(question.getId())
@@ -71,6 +69,7 @@ public class SimpleQuestionResponse {
                 .title(question.getTitle())
                 .summary(question.getContent())
                 .answerCount(answerCount)
+                .voteCount(question.getUpVotes().size() - question.getDownVotes().size())
                 .build();
 
     }

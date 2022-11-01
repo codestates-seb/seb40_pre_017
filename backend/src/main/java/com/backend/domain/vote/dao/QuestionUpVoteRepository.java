@@ -12,6 +12,6 @@ public interface QuestionUpVoteRepository extends JpaRepository<QuestionUpVote, 
 
     @Modifying(clearAutomatically = true)
     @Query(value = "DELETE FROM Question_Up_Vote WHERE question_Id = :questionId AND member_Id = :memberId", nativeQuery = true)
-    void undoUp(Long questionId, Long memberId);
+    int undoUp(Long questionId, Long memberId);
 
 }

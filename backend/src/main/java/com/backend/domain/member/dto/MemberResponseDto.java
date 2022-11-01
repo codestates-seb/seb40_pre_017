@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-//@AllArgsConstructor
 public class MemberResponseDto {
 
     private Long id;
@@ -17,7 +16,7 @@ public class MemberResponseDto {
     private Long reputation;
 
     @Builder
-    public MemberResponseDto(Long id, String email, String username, String profileImage, Long reputation) {
+    public MemberResponseDto(Long id) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -29,5 +28,9 @@ public class MemberResponseDto {
         return MemberResponseDto.builder()
                 .id(member.getId())
                 .build();
+    }
+
+    public Long getId() {
+        return id;
     }
 }

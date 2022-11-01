@@ -12,25 +12,34 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class JwtVerificationFilter extends OncePerRequestFilter {
-    /*
-    Spring Request 앞단에 붙일 Custom Filter
-
-     */
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String BEARER_PREFIX = "Bearer ";
 
     private final TokenProvider tokenProvider;
 
+    // 인증에서 제외할 url
+    private static final List<String> EXCLUDE_URL =
+            Collections.unmodifiableList(
+                    Arrays.asList(
+                            "/users/signup"
+                    ));
+
+
     /* 실제 필터링 로직은 doFilterInternal 에서 수행
     JWT 토큰의 인증 정보를 현재 쓰레드의 SecurityContext 에 저장하는 역할
     가입/로그인/재발급을 제외한 Request 요청은 모두 이 필터를 거치게 됨
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         // Request Header 에서 JWT 를 받아옴
         String jwt = resolveToken(request);
 
@@ -51,6 +60,13 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(7);
         }
+
         return null;
     }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return EXCLUDE_URL.stream().anyMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
+    }
+
 }

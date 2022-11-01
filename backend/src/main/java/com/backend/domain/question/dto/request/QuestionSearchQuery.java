@@ -30,6 +30,7 @@ public class QuestionSearchQuery {
             tagNames.add(m.group().substring(1,m.group().length()-1));
         }
 
+
         String noTagOneSpaceString = m.replaceAll("").replaceAll("\\s+", " ");
 
         return QuestionSearch.of(noTagOneSpaceString,tagNames);

@@ -24,11 +24,15 @@ public enum ErrorCode {
     //Answer
     ANSWER_NOT_FOUND(404, "Answer Not Found"),
 
+
     //Tag
     TAG_NOT_FOUND(404,"Tag Not Found"),
 
     //Comment
-    COMMENT_NOT_FOUND(404,"Comment Not Found");
+    COMMENT_NOT_FOUND(404,"Comment Not Found"),
+
+    //Vote
+    VOTE_NOT_FOUND(404, "Vote Not Found");
 
 
     private final String message;

@@ -1,7 +1,6 @@
 package com.backend.domain.member.domain;
 
 import com.backend.domain.answer.domain.Answer;
-import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.question.domain.Question;
 import com.backend.global.Audit.Auditable;
 import lombok.AccessLevel;
@@ -32,7 +31,7 @@ public class Member extends Auditable {
     private String username;
 
     @Column(name = "profile_image")
-    private String profileImage;
+    private String profileImage = "https://imgur.com/gallery/cfvvtV4";
 
     @Column(name = "reputation", nullable = false)
     private Long reputation;
@@ -57,10 +56,45 @@ public class Member extends Auditable {
         this.authority = Authority.ROLE_USER;
     }
 
-    //
-
     public void encodePassword(String password) {
         this.password = password;
+    }
+
+    public void questionUpVoted() {
+        this.reputation += 5;
+    }
+    public void undoQuestionUpVoted() {
+        this.reputation -= 5;
+    }
+
+    public void answerUpVoted(){
+        this.reputation += 10;
+    }
+    public void undoAnswerUpVoted() {
+        this.reputation -= 10;
+    }
+
+    public void answerAccepted() {
+        this.reputation += 15;
+    }
+
+    public void answerUnAccepted() {
+        this.reputation -= 15;
+    }
+
+    public void questionDownVoted() {
+        this.reputation -= 2;
+    }
+
+    public void undoQuestionDownVoted() {
+        this.reputation += 2;
+    }
+    public void answerDownVoted() {
+        this.reputation -=2;
+    }
+
+    public void undoAnswerDownVoted() {
+        this.reputation +=2;
     }
 
 }

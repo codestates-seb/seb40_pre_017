@@ -4,9 +4,9 @@ import com.backend.domain.answer.dao.AnswerRepository;
 import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.answer.dto.AnswerPatchDto;
 import com.backend.domain.answer.dto.AnswerPostDto;
-import com.backend.domain.answer.dto.AnswerResponseDto;
 import com.backend.domain.answer.exception.AnswerException;
 import com.backend.domain.member.domain.Member;
+import com.backend.domain.member.exception.MemberNotFound;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.exception.QuestionNotFound;
@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.Positive;
 import java.util.Optional;
 
 @Service
@@ -26,49 +27,85 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
     private final MemberRepository memberRepository;
-    public Long createAnswer(Long id,Long memberId, AnswerPostDto answerPostDto) {
+    public Long create(Long id,Long memberId, AnswerPostDto answerPostDto) {
 
         Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
-        Member member = memberRepository.findById(id).orElseThrow(QuestionNotFound::new);
+        Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
 
 
-        Answer answer = answerPostDto.toEntity(question,getMember());
+        Answer answer = answerPostDto.toEntity(question,member);
 
 
         Answer savedAnswer = answerRepository.save(answer);
 
-//        AnswerResponseDto result = savedAnswer.toResponseDto();
 
         return savedAnswer.getId();
     }
 
-    public  AnswerResponseDto updateAnswer(AnswerPatchDto answerPatchDto) {
-        Answer findAnswer = findVerifiedAnswer(answerPatchDto.getAnswerId());
+    public  Long update(@Positive Long answerId, Long memberId, AnswerPatchDto answerPatchDto) {
 
-        findAnswer.patch(answerPatchDto);
-        AnswerResponseDto result = findAnswer.toResponseDto();
 
-        return result;
+        Answer findAnswer = findVerifiedAnswer(answerId);
+
+        if (memberId == findAnswer.getMember().getId()) {
+            findAnswer.patch(answerPatchDto);
+        }else{
+            throw new AnswerException(ErrorCode.HANDLE_ACCESS_DENIED);
+        }
+
+
+
+        return findAnswer.getId();
 
     }
 
 
-    public  void deleteAnswer(long answerId) {
+    public  Long delete(Long answerId, Long memberId) {
         Answer findAnswer = findVerifiedAnswer(answerId);
-        answerRepository.delete(findAnswer);
+
+        if (memberId == findAnswer.getMember().getId()) {
+            answerRepository.delete(findAnswer);
+        }else{
+            throw new AnswerException(ErrorCode.HANDLE_ACCESS_DENIED);
+        }
+
+        return findAnswer.getId();
+    }
+
+    public Long accept(Long id, Long answerId, Long memberId ) {
+        Answer findAnswer = findVerifiedAnswer(answerId);
+        Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
+
+
+        if(question.getMember().getId() == memberId) {
+            findAnswer.accept();
+            question.accept();
+            if(findAnswer.getMember().getId() != memberId)
+                findAnswer.getMember().answerAccepted();
+        }else{
+            throw new AnswerException(ErrorCode.HANDLE_ACCESS_DENIED);
+        }
+
+        return findAnswer.getId();
 
     }
 
-    public void acceptAnswer(long answerId) {
+    public Long unAccept(Long id, Long answerId, Long memberId) {
         Answer findAnswer = findVerifiedAnswer(answerId);
+        Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
 
-        findAnswer.accept();
 
-    }
+        if(question.getMember().getId() == memberId ) {
+            findAnswer.unAccept();
+            question.unAccept();
+            if(findAnswer.getMember().getId() != memberId)
+                findAnswer.getMember().answerUnAccepted();
+        }else{
+            throw new AnswerException(ErrorCode.HANDLE_ACCESS_DENIED);
+        }
 
-    public void unAcceptAnswer(long answerId) {
-        Answer findAnswer = findVerifiedAnswer(answerId);
-        findAnswer.unAccept();
+        return findAnswer.getId();
+
     }
 
     @Transactional(readOnly = true)
@@ -78,15 +115,6 @@ public class AnswerService {
         return findAnswer;
     }
 
-    private Member getMember() {
-        Member member = Member.builder()
-                .email("thsdf0@naver.com")
-                .password("asdf1234")
-                .profileImage("ssdafasldkfj")
-                .reputation(0L)
-                .username("thwsadf0")
-                .build();
-        return member;
-    }
+
 
 }

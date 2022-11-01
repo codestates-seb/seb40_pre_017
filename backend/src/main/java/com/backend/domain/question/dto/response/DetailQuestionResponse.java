@@ -1,18 +1,17 @@
 package com.backend.domain.question.dto.response;
 
 import com.backend.domain.answer.dto.ComplexAnswerResponse;
-import com.backend.domain.comment.dto.AnswerCommentResponse;
-import com.backend.domain.comment.dto.SimpleAnswerCommentResponse;
+
+
 import com.backend.domain.comment.dto.SimpleQuestionCommentResponse;
 import com.backend.domain.member.dto.MemberResponse;
 import com.backend.domain.question.domain.Question;
-import com.backend.domain.tag.dto.TagQueryResponse;
+
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
 
 @Getter
 public class DetailQuestionResponse {
@@ -20,11 +19,13 @@ public class DetailQuestionResponse {
 
     private MemberResponse member;
 
+    private List<SimpleQuestionCommentResponse> questionComments;
+
     private SimpleQuestionResponse question;
 
     private List<ComplexAnswerResponse> answers;
 
-    private List<SimpleQuestionCommentResponse> questionComments;
+
 
 
 

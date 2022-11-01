@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginDto {
+public class SignUpRequest {
 
     @Email(message = "이메일 형식이 아닙니다.")
     @NotBlank(message = "이메일을 입력해주세요.")
@@ -30,7 +30,7 @@ public class LoginDto {
     private String profileImage;
     private Long reputation;
 
-    public Member toEntity() {
+    public Member signup() {
         return Member.builder()
                 .email(email)
                 .password(password)
@@ -40,7 +40,7 @@ public class LoginDto {
                 .build();
     }
 
-    public Member toEntity(PasswordEncoder passwordEncoder) {
+    public Member encodePassword(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))

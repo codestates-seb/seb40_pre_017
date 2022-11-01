@@ -2,14 +2,15 @@
     display: flex;
 
     .questionPageNavbar{
+        position: relative;
         width: 164px;
         background-color: #e8e7e3;
     }
 
     .questionPageAside{
-        margin-right: 23px;
+        margin-left: 20px;
         width: 300px;
-        background-color: #e8e7e3;
+        // background-color: #e8e7e3;
     }
 }
 
@@ -17,6 +18,7 @@
 .questionPage {
     flex-grow: 1;
     margin-top: 30px;
+    border-left: 1px solid #e8e7e3;
 }
 
 .headAddWrap{
