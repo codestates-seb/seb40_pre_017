@@ -33,6 +33,6 @@ public final class PageRequest  {
     
     // getter
     public org.springframework.data.domain.PageRequest of() {
-        return org.springframework.data.domain.PageRequest.of(page-1, size);
+        return org.springframework.data.domain.PageRequest.of(page, size);
     }
 }

@@ -104,4 +104,12 @@ public class Question extends Auditable {
   public void hit(){
         this.view=this.view+1;
     }
+
+    public void accept() {
+        this.isAnswered = true;
+    }
+
+    public void unaccept(){
+        this.isAnswered = false;
+    }
 }

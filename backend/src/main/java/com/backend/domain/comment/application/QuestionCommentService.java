@@ -3,7 +3,6 @@ package com.backend.domain.comment.application;
 import com.backend.domain.comment.dao.QuestionCommentRepository;
 import com.backend.domain.comment.domain.QuestionComment;
 import com.backend.domain.comment.dto.QuestionCommentCreate;
-import com.backend.domain.comment.dto.QuestionCommentResponse;
 import com.backend.domain.comment.dto.QuestionCommentUpdate;
 import com.backend.domain.comment.exception.CommentException;
 import com.backend.domain.member.domain.Member;
@@ -33,10 +32,9 @@ public class QuestionCommentService {
 
 
 
-    public QuestionCommentResponse createComment(Long memberId, QuestionCommentCreate questionCommentCreate, Long questionId) {
+    public Long create(Long memberId, QuestionCommentCreate questionCommentCreate, Long questionId) {
 
         Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
-
 
         Question question = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new);
 
@@ -44,30 +42,39 @@ public class QuestionCommentService {
 
         QuestionComment savedComment = questionCommentRepository.save(questionComment);
 
-        QuestionCommentResponse result = savedComment.toResponseDto();
-        return result;
+
+        return savedComment.getId();
 
     }
 
-    public QuestionCommentResponse update(QuestionCommentUpdate questionCommentUpdate, Long questionCommentId) {
+    public Long update(Long memberId, QuestionCommentUpdate questionCommentUpdate, Long questionCommentId) {
 
         QuestionComment findComment = findVerifiedComment(questionCommentId);
 
-        findComment.patch(questionCommentUpdate);
+        if(findComment.getMember().getId() == memberId) {
+            findComment.patch(questionCommentUpdate);
+        }else{
+            throw new CommentException(ErrorCode.HANDLE_ACCESS_DENIED);
+        }
 
-        QuestionCommentResponse result = findComment.toResponseDto();
 
-        return result;
+        return findComment.getId();
 
     }
 
-    public Long delete(Long questionCommentId) {
+    public Long delete(Long memberId, Long questionCommentId ) {
 
         QuestionComment findComment = findVerifiedComment(questionCommentId);
 
-        questionCommentRepository.delete(findComment);
+        if(findComment.getMember().getId() == memberId) {
+            questionCommentRepository.delete(findComment);
+        }else{
+            throw new CommentException(ErrorCode.HANDLE_ACCESS_DENIED);
+        }
 
-        return questionCommentId;
+
+
+        return findComment.getId();
 
     }
 

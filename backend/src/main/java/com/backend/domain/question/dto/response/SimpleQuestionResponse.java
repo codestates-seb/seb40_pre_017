@@ -42,7 +42,6 @@ public class SimpleQuestionResponse {
         return SimpleQuestionResponse.builder()
                 .viewCount(question.getView())
                 .isAnswered(question.getIsAnswered())
-                //votes
                 .createAt(question.getCreatedAt())
                 .modifiedAt(question.getModifiedAt())
                 .questionId(question.getId())
@@ -53,13 +52,13 @@ public class SimpleQuestionResponse {
                 .voteCount(question.getUpVotes().size() - question.getDownVotes().size())
                 .build();
 
+
     }
 
     public static SimpleQuestionResponse toResponse(Question question) {
         return SimpleQuestionResponse.builder()
                 .viewCount(question.getView())
                 .isAnswered(question.getIsAnswered())
-                //votes
                 .createAt(question.getCreatedAt())
                 .modifiedAt(question.getModifiedAt())
                 .questionId(question.getId())
@@ -67,6 +66,7 @@ public class SimpleQuestionResponse {
                 .title(question.getTitle())
                 .summary(question.getContent())
                 .answerCount(question.getAnswers().size())
+                .voteCount(question.getUpVotes().size() - question.getDownVotes().size())
                 .build();
 
     }
@@ -84,5 +84,6 @@ public class SimpleQuestionResponse {
                 concat("/questions/").
                 concat(String.valueOf(question.getId()));
     }
+
 
 }

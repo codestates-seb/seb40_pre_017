@@ -16,5 +16,5 @@ public interface AnswerDownVoteRepository extends JpaRepository<AnswerUpVote, Lo
 
     @Modifying(clearAutomatically = true)
     @Query(value = "DELETE FROM Answer_Down_Vote WHERE answer_Id = :answerId AND member_Id = :memberId", nativeQuery = true)
-    void undoDown(Long answerId, Long memberId);
+    int undoDown(Long answerId, Long memberId);
 }

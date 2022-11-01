@@ -15,18 +15,18 @@ public class ComplexAnswerResponse {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private String content;
-    private Long votes;
+    private Integer voteCount;
     private boolean isAccepted;
     private MemberResponse answerMember;
     private List<SimpleAnswerCommentResponse> answerComments;
 
     @Builder
-    public ComplexAnswerResponse(Long answerId, LocalDateTime createdAt, LocalDateTime modifiedAt, String content, Long votes, boolean isAccepted, MemberResponse answerMember, List<SimpleAnswerCommentResponse> simpleAnswerCommentResponses) {
+    public ComplexAnswerResponse(Long answerId, LocalDateTime createdAt, LocalDateTime modifiedAt, String content, Integer voteCount, boolean isAccepted, MemberResponse answerMember, List<SimpleAnswerCommentResponse> simpleAnswerCommentResponses) {
         this.answerId = answerId;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
         this.content = content;
-        this.votes = votes;
+        this.voteCount = voteCount;
         this.isAccepted = isAccepted;
         this.answerMember = answerMember;
         this.answerComments = simpleAnswerCommentResponses;
@@ -39,7 +39,7 @@ public class ComplexAnswerResponse {
                 .createdAt(answer.getCreatedAt())
                 .modifiedAt(answer.getModifiedAt())
                 .content(answer.getContent())
-                .votes(0L)
+                .voteCount(answer.getUpVotes().size() - answer.getDownVotes().size())
                 .isAccepted(answer.getIsAccepted())
                 //질문 댓글 정보
                 //작성자 정보
