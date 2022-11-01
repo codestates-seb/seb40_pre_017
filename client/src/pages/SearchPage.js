@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import QuestionList from '../components/js/questionPage/QuestionList'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './searchPage.scss'
 import Pagination from '../components/js/questionPage/Pagination';
 import Aside from '../components/js/aside/Aside';
@@ -9,18 +9,17 @@ import axios from 'axios';
 
 
 export default function SearchPage({inputData, filterData, changeFilterData}) {
-  const navigate = useNavigate();
 
   const [items, seItems] = useState(null);;
 
   useEffect(()=>{
-    let param = {
+    let params = {
       "q" : inputData,
       "tab" : filterData
     };
 
     axios.get('http://localhost:3001/items', {
-      param : param
+      params : params
     })
     .then(res => {
       seItems(res.data)
