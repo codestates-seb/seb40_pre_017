@@ -58,10 +58,13 @@ export default function AnswerList({item}) {
         </div>
       ))}
       <h1 className='yourAnswer'>Your Answer</h1>
-      <AddContent 
-      content={answerContent} 
-      setContent={setAnswerContent}
-      />
+      <div className='addAnswerInput'>
+        <AddContent 
+        content={answerContent} 
+        setContent={setAnswerContent}
+        type={'answer'}
+        />
+      </div>
       <button className='postAnswerBtn' onClick={handleAddAnswer}>Post Your Answer</button>
     </div>
   )
