@@ -4,12 +4,14 @@
     .questionPageNavbar{
         position: relative;
         width: 164px;
+        min-width: 164px;
         background-color: #e8e7e3;
     }
 
     .questionPageAside{
         margin-left: 20px;
         width: 300px;
+        min-width: 300px;
         // background-color: #e8e7e3;
     }
 }

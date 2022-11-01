@@ -3,10 +3,10 @@ import '../../../css/basic/header/header.scss'
 import Nav from './Nav';
 
 
-export default function Header() {
+export default function Header({changeInputData}) {
   return (
     <header className='header'>
-      <Nav />
+      <Nav changeInputData={changeInputData} />
     </header>
   )
 }

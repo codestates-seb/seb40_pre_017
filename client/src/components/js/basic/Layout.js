@@ -8,7 +8,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 
 
-export default function Layout() {
+export default function Layout({changeInputData}) {
 
   const location = useLocation().pathname;
   let pageStyle = (location === '/login') || (location === '/signup');
@@ -25,7 +25,7 @@ export default function Layout() {
           </Main>
         </div> : 
         <div className='appLayout'>
-          <Header/>
+          <Header changeInputData={changeInputData} />
           <div />
           <Main>
             <Outlet/>

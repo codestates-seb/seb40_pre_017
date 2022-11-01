@@ -6,17 +6,12 @@ import Snav from './Snav';
 import Navinput from './Navinput';
 import Navbtn from './Navbtn';
 import User from './User';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { getItemWithExpireTime }  from '../../../../util/controlStorage'
 
-export default function Nav() {
+export default function Nav({changeInputData}) {
 
   let data = getItemWithExpireTime("member");
   let login = getItemWithExpireTime("isLogin");
-  
-  console.log(data)
-  console.log(login)
 
   return (
     <>
@@ -24,7 +19,7 @@ export default function Nav() {
         <Hamburger />
         <Logo />
         <Snav />
-        <Navinput />
+        <Navinput changeInputData={changeInputData} />
         {login ? <User data={data} /> : <Navbtn />}
       </nav>
     </>
