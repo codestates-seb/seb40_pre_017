@@ -5,12 +5,11 @@ import { Link, useLocation } from 'react-router-dom';
 
 export default function Navbtn() {
 
-  const location = useLocation().pathname;
-
+  const location = useLocation();
 
   const btnClick = () => {
     if(location !== '/login' && location !== '/signup'){
-      localStorage.setItem("lastPath", location);
+      localStorage.setItem("lastPath", location.pathname + location.search);
     }
   }
 
