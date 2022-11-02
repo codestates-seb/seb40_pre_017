@@ -40,10 +40,10 @@ public class AnswerVoteService {
                 answerUpVoted(answerWriter);
             } catch (DataIntegrityViolationException e) {
                 log.error("handleDataIntegrityViolationException", e);
-                throw new VoteException(ErrorCode.CONSTRAINTS_VIOLATED);
+                throw new VoteException(ErrorCode.ALREADY_VOTED);
             }
         }else{
-            throw new VoteException(ErrorCode.HANDLE_ACCESS_DENIED);
+            throw new VoteException(ErrorCode.CANNOT_VOTE_OWN_POST);
         }
 
 
@@ -72,10 +72,10 @@ public class AnswerVoteService {
                 answerDownVoted(answerWriter);
             } catch (DataIntegrityViolationException e) {
                 log.error("handleDataIntegrityViolationException", e);
-                throw new VoteException(ErrorCode.CONSTRAINTS_VIOLATED);
+                throw new VoteException(ErrorCode.ALREADY_VOTED);
             }
         } else{
-            throw new VoteException(ErrorCode.HANDLE_ACCESS_DENIED);
+            throw new VoteException(ErrorCode.CANNOT_VOTE_OWN_POST);
         }
 
     }

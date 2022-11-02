@@ -12,12 +12,12 @@ export default function QuestionPage({ filterData, changeFilterData}) {
   const [items, seItems] = useState(null);;
 
   useEffect(()=>{
-    let param = {
+    let params = {
       "tab" : filterData
     };
 
     axios.get('http://localhost:3001/items', {
-      param : param
+      params : params
     })
     .then(res => {
       seItems(res.data)
@@ -49,9 +49,9 @@ export default function QuestionPage({ filterData, changeFilterData}) {
         <div className='countFilterWrap'>
           <span>{count} question</span>
           <div className='filterBtns'>
-            <button onClick={changeFilterData} name='newest'>Newest</button>
-            <button onClick={changeFilterData} name='vote'>Vote</button>
-            <button onClick={changeFilterData} name='unanswered'>Unanswered</button>
+            <button className={'' + (filterData === "newest" && "active")} onClick={changeFilterData} name='newest'>Newest</button>
+            <button className={'' + (filterData === "vote" && "active")} onClick={changeFilterData} name='vote'>Vote</button>
+            <button className={'' + (filterData === "unanswered" && "active")} onClick={changeFilterData} name='unanswered'>Unanswered</button>
           </div>
         </div>
         <QuestionList items={items}/>

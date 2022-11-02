@@ -4,6 +4,8 @@ import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.dto.SignUpRequest;
 import com.backend.domain.member.dto.TokenDto;
+import com.backend.domain.member.exception.EmailDuplication;
+import com.backend.domain.member.exception.UserNameDuplication;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.refreshtoken.domain.RefreshToken;
 import com.backend.domain.refreshtoken.repository.RefreshTokenRepository;
@@ -31,7 +33,10 @@ public class AuthService {
     @Transactional
     public Long signup(SignUpRequest signUpRequest) {
         if (memberRepository.existsByEmail(signUpRequest.getEmail())) {
-            throw new RuntimeException("이미 존재하는 이메일입니다.");
+            throw new EmailDuplication();
+        }
+        if(memberRepository.existsByUsername((signUpRequest.getUsername()))){
+            throw new UserNameDuplication();
         }
         // 비밀번호 암호화
         Member member = signUpRequest.encodePassword(passwordEncoder);

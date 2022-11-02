@@ -1,6 +1,7 @@
 .questionPageWrap {
     display: flex;
-
+    width: 100%;
+    max-width: 1264px;
     .questionPageNavbar{
         position: relative;
         width: 164px;
@@ -10,9 +11,9 @@
 
     .questionPageAside{
         margin-left: 20px;
+        padding-top: 30px;
         width: 300px;
         min-width: 300px;
-        // background-color: #e8e7e3;
     }
 }
 
@@ -84,6 +85,9 @@
 
         button:hover{
             background-color: #F8F9F9;
+        }
+        .active{
+            background-color: #d8d8d8;
         }
     }
 }

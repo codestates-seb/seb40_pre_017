@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import QuestionList from '../components/js/questionPage/QuestionList'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './searchPage.scss'
 import Pagination from '../components/js/questionPage/Pagination';
 import Aside from '../components/js/aside/Aside';
@@ -9,18 +9,17 @@ import axios from 'axios';
 
 
 export default function SearchPage({inputData, filterData, changeFilterData}) {
-  const navigate = useNavigate();
 
   const [items, seItems] = useState(null);;
 
   useEffect(()=>{
-    let param = {
+    let params = {
       "q" : inputData,
       "tab" : filterData
     };
 
     axios.get('http://localhost:3001/items', {
-      param : param
+      params : params
     })
     .then(res => {
       seItems(res.data)
@@ -53,9 +52,9 @@ export default function SearchPage({inputData, filterData, changeFilterData}) {
         <div className='countFilterWrap'>
           <span>{count} question</span>
           <div className='filterBtns'>
-            <button onClick={changeFilterData} name='newest'>Newest</button>
-            <button onClick={changeFilterData} name='vote'>Vote</button>
-            <button onClick={changeFilterData} name='unanswered'>Unanswered</button>
+            <button className={'' + (filterData === "newest" && "active")} onClick={changeFilterData} name='newest'>Newest</button>
+            <button className={'' + (filterData === "vote" && "active")} onClick={changeFilterData} name='vote'>Vote</button>
+            <button className={'' + (filterData === "unanswered" && "active")} onClick={changeFilterData} name='unanswered'>Unanswered</button>
           </div>
         </div>
         <QuestionList items={items}/>

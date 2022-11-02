@@ -2,6 +2,9 @@ import React from 'react'
 import AnswerList from '../components/js/answer/AnswerList'
 import QuestionDetail from '../components/js/question/QuestionDetail'
 import { useParams } from 'react-router-dom'
+import Aside from '../components/js/aside/Aside';
+import Category from '../components/js/category/Category';
+
 import './DetailPage.scss'
 import { Link } from 'react-router-dom'
 import Category from '../components/js/category/Category'
@@ -22,7 +25,9 @@ export default function DetailPage({items}) {
 
   return (
     <div className='detailPageWrap'>
-      <div className='detailPageNavbar'><Category/></div>
+      <div className='detailPageNavbar'>
+        <Category />
+      </div>
       <div className='detailPage'>
         <div className='detailHeadWrap'>
           <div className='detailTitleWrap'>
@@ -46,7 +51,9 @@ export default function DetailPage({items}) {
             <QuestionDetail item={item} id={params.id}/>
             <AnswerList item={item} id={params.id}/>
           </div>
-          <div className='detailPageAside'><Aside/></div>
+          <div className='detailPageAside'>
+            <Aside />
+          </div>
         </div>
       </div>
     </div>

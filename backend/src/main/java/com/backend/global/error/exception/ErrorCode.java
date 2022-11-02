@@ -12,7 +12,8 @@ public enum ErrorCode {
     CONSTRAINTS_VIOLATED(404, "Constraints Violated"),
 
     // Member
-    EMAIL_DUPLICATION(409,"Email Is Duplication"),
+    EMAIL_DUPLICATION(409,"Email Is Duplicated"),
+    USERNAME_DUPLICATION(409, "UserName Is Duplicated"),
     MEMBER_NOT_FOUND(400,"Can't Find This Member"),
     LOGIN_FAILED(400,  "Login input is invalid"),
 
@@ -23,6 +24,12 @@ public enum ErrorCode {
 
     //Answer
     ANSWER_NOT_FOUND(404, "Answer Not Found"),
+    CANNOT_UPDATE_ANSWER(403, "Cannot Update Answer"),
+
+    CANNOT_DELETE_ANSWER(403, "Cannot Delete Answer"),
+
+    CANNOT_ACCEPT_ANSWER(403, "Need Authority to Accept Answer"),
+    CANNOT_UNACCEPT_ANSWER(403, "Need Authority to unAccept Answer"),
 
 
     //Tag
@@ -30,9 +37,14 @@ public enum ErrorCode {
 
     //Comment
     COMMENT_NOT_FOUND(404,"Comment Not Found"),
+    CANNOT_UPDATE_COMMENT(403, "Cannot Update Comment"),
+    CANNOT_DELETE_COMMENT(403, "Cannot Delete Comment"),
 
     //Vote
-    VOTE_NOT_FOUND(404, "Vote Not Found");
+    VOTE_NOT_FOUND(404, "Vote Not Found"),
+    ALREADY_VOTED(400, "You Already Voted"),
+
+    CANNOT_VOTE_OWN_POST(400, "Cannot Vote Your Own Post");
 
 
     private final String message;

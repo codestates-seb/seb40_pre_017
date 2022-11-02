@@ -35,7 +35,7 @@ function App() {
     //       "ngrok-skip-browser-warning": "skip"
     //     }
     //   })
-    //   .then((res) => {
+    //   .then((res) => {s
     //     // access 토큰 재발급 후 로컬 스토리지에 저장.
     //     let jwtToken = res.headers.authorization;
     //     setAccessToken(jwtToken);
@@ -47,7 +47,7 @@ function App() {
     //       "memberName": "qwer1234",
     //       "memberEmail" : "qwer1234@gmail.com"
     //     });
-    //     // setTimeout으로 갱신 함수 만들면?
+    //    
     //   })
     //   .catch((err) => {
     //     // 리프레시 토큰이 유효하지 않을 경우.
@@ -72,7 +72,7 @@ function App() {
       let temp = e.target.value;
       setInputData(e.target.value);      
       e.target.value = "";
-      navigate('/search?' + ('q:' + temp) + ('&tab:' + filterData));
+      navigate('/search?' + ('q=' + temp) + ('&tab=' + filterData));
     }
   }
   // 필터 함수
@@ -81,9 +81,9 @@ function App() {
     setFilterData(e.target.name)
 
     if(location !== "/"){
-      navigate('/search?' + ('q:' + inputData) + ('&tab:' + temp));
+      navigate('/search?' + ('q=' + inputData) + ('&tab=' + temp));
     }else{
-      navigate('/?' + ('&tab:' + temp));
+      navigate('/?' + ('tab=' + temp));
     }
   }
   // 로그아웃
