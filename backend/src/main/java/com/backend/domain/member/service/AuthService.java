@@ -1,22 +1,23 @@
 package com.backend.domain.member.service;
 
 import com.backend.domain.member.domain.Member;
-import com.backend.domain.member.dto.*;
-import com.backend.domain.member.exception.MemberNotFound;
-import com.backend.domain.member.exception.NotLoginMember;
 import com.backend.domain.member.dto.MemberResponseDto;
+import com.backend.domain.member.dto.ReissueResponse;
 import com.backend.domain.member.dto.SignUpRequest;
 import com.backend.domain.member.dto.TokenDto;
 import com.backend.domain.member.exception.EmailDuplication;
+import com.backend.domain.member.exception.MemberNotFound;
+import com.backend.domain.member.exception.NotLoginMember;
 import com.backend.domain.member.exception.UserNameDuplication;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.refreshtoken.domain.RefreshToken;
+import com.backend.domain.refreshtoken.exception.TokenInvalid;
+import com.backend.domain.refreshtoken.exception.TokenNotFound;
 import com.backend.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.backend.global.jwt.TokenProvider;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +43,7 @@ public class AuthService {
         if (memberRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new EmailDuplication();
         }
-        if(memberRepository.existsByUsername((signUpRequest.getUsername()))){
+        if (memberRepository.existsByUsername((signUpRequest.getUsername()))) {
             throw new UserNameDuplication();
         }
         // 비밀번호 암호화
@@ -98,7 +99,10 @@ public class AuthService {
 
     // 로그아웃
     @Transactional
-    public void logout(String token, HttpServletRequest request, HttpServletResponse response) {
+    public void logout(String refreshToken, HttpServletRequest request, HttpServletResponse response) {
+
+        refreshToken = Optional.ofNullable(refreshToken)
+                .orElseThrow(TokenNot:Found::new);
         // request 에서 refreshToken 쿠키를 찾아 삭제
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
@@ -109,7 +113,7 @@ public class AuthService {
                 response.addCookie(cookie);
             }
         }
-        refreshTokenRepository.deleteByValue(token);
+        refreshTokenRepository.deleteByValue(refreshToken);
     }
 
 }
