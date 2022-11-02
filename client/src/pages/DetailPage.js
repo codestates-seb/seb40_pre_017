@@ -7,8 +7,6 @@ import Category from '../components/js/category/Category';
 
 import './DetailPage.scss'
 import { Link } from 'react-router-dom'
-import Category from '../components/js/category/Category'
-import Aside from '../components/js/aside/Aside'
 
 export default function DetailPage({items}) {
   //오류! 새로고침시 useParams가 안불러짐
