@@ -60,7 +60,7 @@ public class AuthService {
 
         TokenDto tokenDto = tokenProvider.generateTokenDto(authMember);
         String newRTK = tokenDto.getRefreshToken();
-        String newATK = tokenDto.getRefreshToken();
+        String newATK = tokenDto.getAccessToken();
 
         RefreshToken savedRefreshToken = refreshTokenRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));

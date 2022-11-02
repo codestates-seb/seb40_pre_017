@@ -27,7 +27,7 @@ public class TokenProvider {
     private static final String BEARER_TYPE = "bearer";
     @Value("${jwt.access-token-expiration-time}")
     private static long ACCESS_TOKEN_EXPIRE_TIME;
-    @Value("${refresh-token-expiration-time}")
+    @Value("${jwt.refresh-token-expiration-time}")
     private static long REFRESH_TOKEN_EXPIRE_TIME;
     private final Key key;
 
@@ -57,10 +57,11 @@ public class TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)          // header "alg": "HS512"
                 .compact();
 
+        Date refreshTokenExpiresIn = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
                 .setSubject(authMember.getMemberId().toString())
-                .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
+                .setExpiration(refreshTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
