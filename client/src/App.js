@@ -23,51 +23,55 @@ function App() {
   
   // 로그인 state
   const [islogined, setIslogined] = useState(false);
-  const [memberData, setMemberData] = useState(null);
+  const [memberData, setMemberData] = useState({
+    email: 'dummy@gmail.com',
+    username: 'dummy',
+    imageUrl: "https://i.imgur.com/GvsgVco.jpeg"});
   const [accessToken, setAccessToken] = useState(null);
 
+
   useEffect(() => {
-    if(!(islogined && memberData && accessToken)){
+    if(!(islogined && accessToken)){
       console.log('reload')
-    //   fetch('http://localhost:3001/users/reissue',{
-    //     method: "GET",
-    //     headers: {
-    //       "ngrok-skip-browser-warning": "skip"
-    //     }
-    //   })
-    //   .then((res) => {s
-    //     // access 토큰 재발급 후 로컬 스토리지에 저장.
-    //     let jwtToken = res.headers.authorization;
-    //     setAccessToken(jwtToken);
-    //     return res.json()
-    //   })
-    //   .then((data) => {
-    //     setIslogined(true);
-    //     setMemberData({
-    //       "memberName": "qwer1234",
-    //       "memberEmail" : "qwer1234@gmail.com"
-    //     });
-    //    
-    //   })
-    //   .catch((err) => {
-    //     // 리프레시 토큰이 유효하지 않을 경우.
-    //     // 로그아웃 호출
-    //     fetch('http://localhost:3001/users/logout',{
-    //       method: "DELETE",
-    //       headers: {
-    //         "ngrok-skip-browser-warning": "skip"
-    //       }
-    //     })
-    //     .then((res) => {
-    //       alert("Logout")
-    //       navigate("/")
-    //     })
-    //   });
+      fetch('/users/reissue',{
+        method: "GET",
+        headers: new Headers({
+          "ngrok-skip-browser-warning": "69420"
+        })
+      })
+      .then((res) => {
+        // access 토큰 재발급 후 로컬 스토리지에 저장.
+        let jwtToken = res.headers.get("Authorization");
+        setAccessToken(jwtToken);
+        if(jwtToken) {
+          setIslogined(true);
+        }
+        return res.json()
+      })
+      .then((data) => {
+        if(data.status !== 400) {
+          setMemberData(data);
+        }
+      })
+      .catch((err) => {
+        // 리프레시 토큰이 유효하지 않을 경우.
+        // 로그아웃 호출
+        // fetch('http://localhost:3001/users/logout',{
+        //   method: "DELETE",
+        //   headers: {
+        //     "ngrok-skip-browser-warning": "skip"
+        //   }
+        // })
+        // .then((res) => {
+        //   alert("Logout")
+        //   navigate("/")
+        // })
+      });
     }
   }, [])
 
   // 검색 함수
-  const changeInputData = async(e) => {
+  const changeInputData = (e) => {
     if(e.target.value !== ""){
       let temp = e.target.value;
       setInputData(e.target.value);      
@@ -88,14 +92,23 @@ function App() {
   }
   // 로그아웃
   const logoutControll = () => {
-    // fetch('http://localhost:3001/users/logout')
-    // .then((res) => {
+    fetch('/users/logout',{
+      method: "DELETE",
+      headers: new Headers({
+        "ngrok-skip-browser-warning": "69420"
+      })
+    })
+    .then((res) => {
+      console.log(res)
       setMemberData(null);
       setAccessToken(null);
       setIslogined(false);
       alert("Logout Success!!");
-      navigate("/");
-    // })
+      window.location.href = "/";
+    })
+    .catch((err) =>{
+      console.log(err)
+    })
   }
 
 

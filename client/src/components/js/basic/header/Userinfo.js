@@ -11,8 +11,8 @@ export default function Userinfo({ memberData, logoutControll }) {
   return (
     <div className='userInfo'>
       <img className='userInfoIcon' src="https://www.gravatar.com/avatar/b755eca3f0896d3d0751a1bb7fb5e06d?s=48&d=identicon&r=PG" alt="userInfoIcon" />
-      <div className='userName'>{memberData.memberName}</div>
-      <div className='userEmail'>{memberData.memberEmail}</div>
+      <div className='userName'>{memberData.username}</div>
+      <div className='userEmail'>{memberData.email}</div>
 
       <button onClick={logoutControll} className='logoutBtn'>Logout</button>
 

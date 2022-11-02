@@ -15,12 +15,8 @@ export default function Navbtn() {
 
   return (
     <div className='btnArea'>
-      <button onClick={btnClick} className='btn btnColor1'>
-        <Link to={"/login"} >Log in</Link>
-      </button>
-      <button className='btn btnColor2'>
-        <Link onClick={btnClick} to={"/signup"} >Sign up</Link>
-      </button>
+      <Link className='btn btnColor1' onClick={btnClick} to={"/login"} >Log in</Link>
+      <Link className='btn btnColor2' onClick={btnClick} to={"/signup"} >Sign up</Link>
     </div>
   )
 }

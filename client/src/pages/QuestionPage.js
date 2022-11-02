@@ -16,10 +16,14 @@ export default function QuestionPage({ filterData, changeFilterData}) {
       "tab" : filterData
     };
 
-    axios.get('http://localhost:3001/items', {
-      params : params
+    axios.get('/questions', {
+      params : params,
+      headers: {
+        "ngrok-skip-browser-warning": "69420"
+      }
     })
     .then(res => {
+      console.log(res)
       seItems(res.data)
     })
     .catch(err => {
