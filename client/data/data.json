@@ -189,7 +189,14 @@
       "id": 2
     },
     {
-      "tags": [],
+      "tags": [
+        {
+          "name": "javascript"
+        },
+        {
+          "name": "arrays"
+        }
+      ],
       "member": {
         "last_modified_date": "2022-10-25",
         "last_access_date": "2022-10-25",
@@ -207,21 +214,11 @@
         "votes": 0,
         "createdAt": 1552344257,
         "modifiedAt": 1596034268,
-        "questionId": 55111523,
+        "questionId": 55111502,
         "link": "https://stackoverflow.com/questions/55111503/convert-a-gdoc-into-image",
-        "title": "ff",
-        "content": "d",
-        "qcomment": [
-          {
-            "qCommnetId": 31187802,
-            "memberId": 21187802,
-            "userName": "baptiste",
-            "link": "https://stackoverflow.com/users/11187800/fulvio",
-            "content": "ㄹ허",
-            "createdAt": 1552344257,
-            "modifiedAt": 1596034268
-          }
-        ]
+        "title": "Typescript and Javascript Array not showing length property",
+        "content": "## Help\nI have a complex interface that has properties that are arrays, it looks like this:\n```\nexport interface Fundamentals {\nBookValue: number;\nEarningsQuarterly: EarningsQuarter[];\n}\n```\n\nIn my code , I load the interface from json like this\n\n`this.jsonData = JSON.parse(this.selectedSymbol.fundamentalJson);\nthis.fndFundamentals.EarningsQuarterly = <EarningsQuarter[]>this.jsonData.Earnings.History;`\n\n**Also when I try**",
+        "qcomment": []
       },
       "answer": [
         {
@@ -229,7 +226,7 @@
           "memberId": 21123802,
           "createdAt": 1552234257,
           "modifiedAt": 1523034268,
-          "content": "ㅁㅁㅁ",
+          "content": "The console prints the this.fndFundamentals.EarningsQuarterly values in the console so I know it's loaded. See below\n\n```\n{\n    \"2023-06-30\": {\n        \"ReportDate\": \"2023-07-26T00:00:00+00:00\",\n        \"EpsEstimate\": null,\n        \"EpsDifference\": null,\n        \"SurprisePercent\": null,\n        \"Date\": \"2023-06-30T00:00:00+00:00\",\n        \"EpsActual\": null\n    },\n    \"2023-03-31\": {\n        \"ReportDate\": \"2023-04-26T00:00:00+00:00\",\n        \"EpsEstimate\": null,\n        \"EpsDifference\": null,\n        \"SurprisePercent\": null,\n        \"Date\": \"2023-03-31T00:00:00+00:00\",\n        \"EpsActual\": null\n    },\n    \"2022-12-31\": {\n        \"ReportDate\": \"2023-02-09T00:00:00+00:00\",\n        \"EpsEstimate\": \"-1.62\",\n        \"EpsDifference\": null,\n        \"SurprisePercent\": null,\n        \"Date\": \"2022-12-31T00:00:00+00:00\",\n        \"EpsActual\": null\n    }\n}\n```",
           "votes": 0,
           "isAccepted": "true",
           "reputation": 23,
@@ -239,106 +236,7 @@
           "aComments": []
         }
       ],
-      "id": 4
-    },
-    {
-      "tags": [
-        {
-          "name": "java"
-        },
-        {
-          "name": "coffee"
-        }
-      ],
-      "member": {
-        "last_modified_date": "2022-10-25",
-        "last_access_date": "2022-10-25",
-        "reputation": 10000,
-        "creation_date": "2022-10-25",
-        "memberId": 20289611,
-        "profileImage": "https://lh3.googleusercontent.com/a/ALm5wu1QgJcvr2DCXXCzlv8qu4IEGgs1ldcwLxQQV_4w=k-s256",
-        "userName": "이성준"
-      },
-      "question": {
-        "isAnswered": false,
-        "viewCount": 0,
-        "acceptedAnswerId": 55152722,
-        "answerCount": 0,
-        "votes": 0,
-        "createdAt": 1552344257,
-        "modifiedAt": 1596034268,
-        "questionId": 55111502,
-        "link": "https://stackoverflow.com/questions/55111503/convert-a-gdoc-into-image",
-        "title": "start",
-        "content": "넴 ",
-        "qcomment": []
-      },
-      "answer": [],
-      "id": 6
-    },
-    {
-      "tags": [
-        {
-          "name": "f"
-        }
-      ],
-      "member": {
-        "last_modified_date": "2022-10-25",
-        "last_access_date": "2022-10-25",
-        "reputation": 10000,
-        "creation_date": "2022-10-25",
-        "memberId": 20289611,
-        "profileImage": "https://lh3.googleusercontent.com/a/ALm5wu1QgJcvr2DCXXCzlv8qu4IEGgs1ldcwLxQQV_4w=k-s256",
-        "userName": "이성준"
-      },
-      "question": {
-        "isAnswered": false,
-        "viewCount": 0,
-        "acceptedAnswerId": 55152722,
-        "answerCount": 0,
-        "votes": 0,
-        "createdAt": 1552344257,
-        "modifiedAt": 1596034268,
-        "questionId": 55111502,
-        "link": "https://stackoverflow.com/questions/55111503/convert-a-gdoc-into-image",
-        "title": "asdfasdf",
-        "content": "asdfasdfasdfasdfasdf",
-        "qcomment": []
-      },
-      "answer": [],
-      "id": 7
-    },
-    {
-      "tags": [
-        {
-          "name": "ffff"
-        }
-      ],
-      "member": {
-        "last_modified_date": "2022-10-25",
-        "last_access_date": "2022-10-25",
-        "reputation": 10000,
-        "creation_date": "2022-10-25",
-        "memberId": 20289611,
-        "profileImage": "https://lh3.googleusercontent.com/a/ALm5wu1QgJcvr2DCXXCzlv8qu4IEGgs1ldcwLxQQV_4w=k-s256",
-        "userName": "이성준"
-      },
-      "question": {
-        "isAnswered": false,
-        "viewCount": 0,
-        "acceptedAnswerId": 55152722,
-        "answerCount": 0,
-        "votes": 0,
-        "createdAt": 1552344257,
-        "modifiedAt": 1596034268,
-        "questionId": 55111502,
-        "link": "https://stackoverflow.com/questions/55111503/convert-a-gdoc-into-image",
-        "title": "asdfasdf",
-        "content": "asdfasdfasdfasdfasdfasdf",
-        "qcomment": []
-      },
-      "answer": [],
-      "id": 8
+      "id": 3
     }
   ],
   "member": {

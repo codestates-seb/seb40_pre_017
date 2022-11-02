@@ -1,6 +1,7 @@
 package com.backend.domain.member.domain;
 
 import com.backend.domain.answer.domain.Answer;
+import com.backend.domain.member.dto.MemberUpdate;
 import com.backend.domain.question.domain.Question;
 import com.backend.global.Audit.Auditable;
 import lombok.AccessLevel;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -21,13 +23,13 @@ public class Member extends Auditable {
     @Column(nullable = false, name = "member_id")
     private Long id;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, updatable = false, unique = true)
     private String email;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Column(name = "profile_image")
@@ -55,7 +57,13 @@ public class Member extends Auditable {
         this.reputation = 0L;
         this.authority = Authority.ROLE_USER;
     }
+    public void patch(MemberUpdate memberUpdate , String password) {
 
+        this.username = memberUpdate.getUsername();
+        this.password = password;
+        Optional.ofNullable(memberUpdate.getProfileImage())
+                .ifPresent(image -> this.profileImage = image);
+    }
     public void encodePassword(String password) {
         this.password = password;
     }
@@ -96,5 +104,6 @@ public class Member extends Auditable {
     public void undoAnswerDownVoted() {
         this.reputation +=2;
     }
+
 
 }

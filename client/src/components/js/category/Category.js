@@ -28,16 +28,28 @@ export default function Category() {
         <li>
           <ol>
             <li className='navMain'>PUBLIC</li>
-            {navData.map(function(el, index) {
-              return <>
-                <li className={"navSub" + (el[0] === selectNav ? " active": "")}>
-                  <Link key={index} to={el[0]}>
-                    {index === 0 && <FontAwesomeIcon className='icon earth' icon={faEarthAmericas} />}
-                    {el[1]}
-                  </Link>
-                </li>
-              </>
-            })}
+              <li className={"navSub" + (navData[0][0] === selectNav ? " active": "")}>
+                <Link to={navData[0][0]}>
+                  <FontAwesomeIcon className='icon earth' icon={faEarthAmericas} />
+                  {navData[0][1]}
+                </Link>
+              </li>
+              <li className={"navSub" + (navData[1][0] === selectNav ? " active": "")}>
+                <Link to={navData[1][0]}>
+                  {navData[1][1]}
+                </Link>
+              </li>
+              <li className={"navSub" + (navData[2][0] === selectNav ? " active": "")}>
+                <Link to={navData[2][0]}>
+                  {navData[2][1]}
+                </Link>
+              </li>
+              <li className={"navSub" + (navData[3][0] === selectNav ? " active": "")}>
+                <Link to={navData[3][0]}>
+                  {navData[3][1]}
+                </Link>
+              </li>
+
             <li className='navMain'>COLLECTIVES</li>
             <li className='navSub'>
               <Link to={'#'}>

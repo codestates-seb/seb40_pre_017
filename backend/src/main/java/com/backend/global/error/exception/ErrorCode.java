@@ -14,6 +14,7 @@ public enum ErrorCode {
     // Member
     EMAIL_DUPLICATION(409, "Email Is Duplication"),
     MEMBER_NOT_FOUND(400, "Can't Find This Member"),
+    USERNAME_DUPLICATION(409, "UserName Is Duplicated"),
     LOGIN_FAILED(400, "Login input is invalid"),
     NOT_LOGIN_MEMBER(400, "Not Login Member"),
 
@@ -26,7 +27,6 @@ public enum ErrorCode {
     TOKEN_UNSUPPORTED(400, "Token Unsupported"),
     TOKEN_ILLEGAL_ARGUMENT(400, "Token Illegal Argument"),
 
-
     //Question
     QUESTION_NOT_FOUND(404, "Question Not Found"),
     TITLE_DUPLICATION(409, "Title Is Duplication"),
@@ -35,16 +35,27 @@ public enum ErrorCode {
 
     //Answer
     ANSWER_NOT_FOUND(404, "Answer Not Found"),
+    CANNOT_UPDATE_ANSWER(403, "Cannot Update Answer"),
+
+    CANNOT_DELETE_ANSWER(403, "Cannot Delete Answer"),
+
+    CANNOT_ACCEPT_ANSWER(403, "Need Authority to Accept Answer"),
+    CANNOT_UNACCEPT_ANSWER(403, "Need Authority to unAccept Answer"),
 
 
     //Tag
     TAG_NOT_FOUND(404, "Tag Not Found"),
 
     //Comment
-    COMMENT_NOT_FOUND(404, "Comment Not Found"),
+    COMMENT_NOT_FOUND(404,"Comment Not Found"),
+    CANNOT_UPDATE_COMMENT(403, "Cannot Update Comment"),
+    CANNOT_DELETE_COMMENT(403, "Cannot Delete Comment"),
 
     //Vote
-    VOTE_NOT_FOUND(404, "Vote Not Found");
+    VOTE_NOT_FOUND(404, "Vote Not Found"),
+    ALREADY_VOTED(400, "You Already Voted"),
+
+    CANNOT_VOTE_OWN_POST(400, "Cannot Vote Your Own Post");
 
 
     private final String message;
