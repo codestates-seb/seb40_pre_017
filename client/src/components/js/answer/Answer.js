@@ -33,7 +33,7 @@ export default function Answer({answer, id, answerId, item}) {
   return (
     <div className='answerWrap'>
       <div className='answerVote'>
-        <Vote item={answer.votes}/>
+        <Vote item={answer.votes} type={'answer'}/>
         <button 
           onClick={handleCheck} 
           className={check ? 'select answerCheck' : 'select'}
