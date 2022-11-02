@@ -43,5 +43,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy" : "https://12f2-182-221-10-69.jp.ngrok.io"
 }

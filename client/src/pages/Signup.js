@@ -34,7 +34,6 @@ export default function Signup() {
   const [passwordError, setPasswordError] = useState(false);
 
   const formSubmit = (e) =>{
-    console.log(data)
     e.preventDefault()
 
     let error = false
@@ -50,25 +49,24 @@ export default function Signup() {
 
     if(!error){
       console.log('제출')
-      // fetch("http://localhost:3001/users", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type" : "application/json",
-      //     "ngrok-skip-browser-warning": "skip"
-      //   },
-      //   body: JSON.stringify(data)
-      // })
-      // .then(() => {
-      //   localStorage.setItem("lastPath", "/");
-        
-        alert("Sign up Success!!")
-        
-        navigate("/login");
-      // })
-      // .catch((error) => {
-      //   alert(error)
-      //   console.error('Error', error);
-      // })
+      fetch("/users", {
+        method: "POST",
+        headers: new Headers({
+          "ngrok-skip-browser-warning": "69420",
+          "Content-Type" : "application/json"
+        }),
+        body: JSON.stringify(data)
+      })
+      .then((res) => {
+        console.log(res)
+        if(res.status !== 500) {
+          localStorage.setItem("lastPath", "/");
+          alert("Sign up Success!!")
+          navigate("/login");
+        }else{
+          alert('Your nickname or email is already in use.')
+        }
+      })
     }
     
   }
