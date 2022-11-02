@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -41,6 +42,19 @@ public class Answer extends Auditable {
     private List<AnswerDownVote> downVotes;
 
 
+    @Formula("(select\n" +
+            "            count(answer_up_vote.answer_id)          \n" +
+            "        from\n" +
+            "            answer_up_vote          \n" +
+            "        where\n" +
+            "             answer_up_vote.answer_id = answer_id)" +
+            "-(select\n" +
+            "            count(answer_down_vote.answer_id)          \n" +
+            "        from\n" +
+            "            answer_down_vote          \n" +
+            "        where\n" +
+            "            answer_id = answer_down_vote.answer_id)")
+    private Integer voteCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")

@@ -27,7 +27,7 @@ public enum ErrorCode {
 
     //Tag
     TAG_NOT_FOUND(404,"Tag Not Found"),
-
+    CONTAINS_NON_EXISTENT_TAGS(404,"Contains non-existent tags"),
     //Comment
     COMMENT_NOT_FOUND(404,"Comment Not Found"),
 

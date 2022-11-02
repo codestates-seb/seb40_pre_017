@@ -8,11 +8,9 @@ import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.dto.MemberResponse;
 import com.backend.domain.member.exception.MemberNotFound;
 import com.backend.domain.member.repository.MemberRepository;
-import com.backend.domain.question.domain.QQuestion;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.domain.QuestionTag;
 import com.backend.domain.question.dto.request.QuestionCreate;
-import com.backend.domain.question.dto.request.QuestionSearch;
 import com.backend.domain.question.dto.request.QuestionUpdate;
 import com.backend.domain.question.dto.response.DetailQuestionResponse;
 import com.backend.domain.question.dto.response.QuestionResponse;
@@ -31,11 +29,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.*;
 
-import static com.backend.domain.question.domain.QQuestion.*;
 import static com.backend.domain.question.domain.QQuestion.question;
 import static com.backend.domain.tag.domain.QTag.tag;
 import static java.util.stream.Collectors.*;
@@ -76,13 +72,14 @@ public class QuestionService {
     /**
      * 질문 + 질문의 작성자 + 질문의 답변
      */
+    @Transactional
     public DetailQuestionResponse get(Long id) {
 
 
         List<Question> questions = questionRepository.findQuestionWithMemberWithQuestionComments(id);
 
         Question question = questions.stream().findAny().orElseThrow(QuestionNotFound::new);
-
+        question.hit();
         List<String> tagsOfQuestion = questionRepository.findTagsOfQuestion(id);
         List<Answer> answersWithAnswerComment = questionRepository.findAnswersWithAnswerComment(id);
 
@@ -129,7 +126,7 @@ public class QuestionService {
                 .map(questionTuple ->
                         QuestionResponse.builder()
                                 .member(MemberResponse.toResponse(questionTuple.get(question).getMember()))
-                                .question(SimpleQuestionResponse.toSummaryResponse(Objects.requireNonNull(questionTuple.get(question)), questionTuple.get(question.answers.size()), questionTuple.get(question.upVotes.size().subtract(question.downVotes.size()))))
+                                .question(SimpleQuestionResponse.toSummaryResponse(Objects.requireNonNull(questionTuple.get(question)), questionTuple.get(question.answers.size())))
                                 .tags(questionTagMap.get(questionTuple.get(question).getId()))
                                 .build()
                 )
@@ -159,7 +156,7 @@ public class QuestionService {
     @Transactional
     public Long delete(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
-        questionRepository.delete(question);
+        questionRepository.deleteById(id);
 
         return id;
 

@@ -41,7 +41,7 @@ public class SimpleQuestionResponse {
     }
 
 
-    public static SimpleQuestionResponse toSummaryResponse(Question question,int AnswerSize, int voteCount) {
+    public static SimpleQuestionResponse toSummaryResponse(Question question,int AnswerSize) {
         return SimpleQuestionResponse.builder()
                 .viewCount(question.getView())
                 .isAnswered(question.getIsAnswered())
@@ -52,7 +52,7 @@ public class SimpleQuestionResponse {
                 .title(question.getTitle())
                 .summary(getSummary(question.getContent()))
                 .answerCount(AnswerSize)
-                .voteCount(voteCount)
+                .voteCount(question.getVoteCount())
                 .build();
 
 
@@ -69,7 +69,7 @@ public class SimpleQuestionResponse {
                 .title(question.getTitle())
                 .summary(question.getContent())
                 .answerCount(answerCount)
-                .voteCount(question.getUpVotes().size() - question.getDownVotes().size())
+                .voteCount(question.getVoteCount())
                 .build();
 
     }

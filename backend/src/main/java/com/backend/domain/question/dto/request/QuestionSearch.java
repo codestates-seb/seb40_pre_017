@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class QuestionSearch {
+public class  QuestionSearch {
 
     private String query;
     private List<String> tagNames;

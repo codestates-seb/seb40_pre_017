@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class QuestionSearchQuery {
     private String q;
 
+
     public QuestionSearchQuery(String q) {
         this.q = q;
     }
@@ -29,8 +30,8 @@ public class QuestionSearchQuery {
         while (m.find()) {
             tagNames.add(m.group().substring(1,m.group().length()-1));
         }
-
-
+        // asdf dfdf
+        // tagnames = [java]
         String noTagOneSpaceString = m.replaceAll("").replaceAll("\\s+", " ");
 
         return QuestionSearch.of(noTagOneSpaceString,tagNames);
