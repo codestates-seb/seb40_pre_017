@@ -1,4 +1,4 @@
-package com.backend.domain.member.repository;
+package com.backend.global.repository;
 
 import com.backend.domain.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

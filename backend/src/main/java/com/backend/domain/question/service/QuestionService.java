@@ -6,7 +6,7 @@ import com.backend.domain.comment.dto.SimpleQuestionCommentResponse;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.dto.MemberResponse;
 import com.backend.domain.member.exception.MemberNotFound;
-import com.backend.domain.member.repository.MemberRepository;
+import com.backend.global.repository.MemberRepository;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.domain.QuestionTag;
 import com.backend.domain.question.dto.request.QuestionCreate;
@@ -18,7 +18,6 @@ import com.backend.domain.question.dto.response.SimpleQuestionResponse;
 import com.backend.domain.question.exception.QuestionNotFound;
 import com.backend.domain.question.exception.TitleDuplication;
 import com.backend.domain.question.repository.QuestionRepository;
-import com.backend.domain.tag.domain.QTag;
 import com.backend.domain.tag.domain.Tag;
 import com.backend.domain.tag.dto.TagDto;
 import com.backend.domain.tag.service.TagService;
@@ -32,12 +31,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.backend.domain.question.domain.QQuestion.question;
 import static com.backend.domain.tag.domain.QTag.tag;
-import static com.backend.domain.vote.domain.QQuestionDownVote.questionDownVote;
-import static com.backend.domain.vote.domain.QQuestionUpVote.questionUpVote;
 import static java.util.stream.Collectors.*;
 
 @Service

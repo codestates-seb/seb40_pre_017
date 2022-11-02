@@ -26,7 +26,6 @@ public class AnswerController {
         this.answerService = answerService;
     }
 
-
     @PostMapping("/answer")
     public ResponseEntity<?> create(@CurrentMember AuthMember authMember,
             @PathVariable("id") @Positive Long id,
