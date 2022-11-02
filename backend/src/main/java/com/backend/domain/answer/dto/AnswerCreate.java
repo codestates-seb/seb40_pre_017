@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnswerPostDto {
+public class AnswerCreate {
 
     @NotBlank(message = "컨텐츠는 공백이 아니어야 합니다.")
     private String content;

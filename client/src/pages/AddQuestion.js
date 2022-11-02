@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Background from '../assets/imgs/Background.svg'
 import './AddQuestion.scss'
 import Inputbox from '../components/js/addContent/Inputbox'
 import { fetchCreate } from '../util/api'
 import  useFetch  from '../util/useFetch'
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/react-editor';
 
 export default function AddQuestion() {
   //회원정보 받아오기 (임시)
@@ -24,6 +26,7 @@ export default function AddQuestion() {
   const [ submitDis, setSubmitDis ] = useState(true);
 
 
+  const contentInput = useRef();
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -42,7 +45,7 @@ export default function AddQuestion() {
         "questionId": 55111502,
         "link": "https://stackoverflow.com/questions/55111503/convert-a-gdoc-into-image",
         title,
-        content,
+        content: contentInput.current.getInstance().getMarkdown(),
         "qcomment": []
     },
     "answer": []
@@ -82,8 +85,9 @@ export default function AddQuestion() {
             tags={tags} 
             setTags={setTags} 
             setSubmitDis={setSubmitDis}
+            contentInput={contentInput}
           />
-          <button onClick={handleSubmit} disabled={submitDis ? true : false}>Review your question</button>
+          <button className='blueBtn' onClick={handleSubmit} disabled={submitDis ? true : false}>Review your question</button>
         </div>
         
       </div>

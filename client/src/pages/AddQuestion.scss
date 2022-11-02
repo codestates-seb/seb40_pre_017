@@ -27,7 +27,7 @@
 .addContent{
     max-width: 850px;
 
-    button{
+    .blueBtn{
         font-size: 13px;
         cursor: pointer;
         height: 37px;
@@ -38,10 +38,10 @@
         border-radius: 3px;
         box-shadow: rgba(255,255,255,0.4) 0px 2px 0px 0px inset;
     }
-    button:hover{
+    .blueBtn:hover{
         background-color: #0074CC;
     }
-    button:disabled {
+    .blueBtn:disabled {
         background-color: #96CAFF;
         color: #FFFFFF;
         cursor:not-allowed;

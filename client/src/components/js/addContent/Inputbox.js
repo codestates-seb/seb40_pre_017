@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import AddContent from './AddContent'
 import '../../css/addContent/Inputbox.scss'
 
-export default function Inputbox({setTitle, setContent, tags, setTags, title, content, setSubmitDis}) {
+export default function Inputbox({setTitle, setContent, tags, setTags, title, content, setSubmitDis, contentInput}) {
   //유효성검사 해아함
 
 
@@ -55,18 +55,24 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
     if(e.target.name === 'title'){
       if(e.target.value.length < 5)setTitleNext(true);
     }
-    else if(e.target.name === 'content'){
-      if(e.target.value.length < 20) setContentNext(true);
-    }
+    
     else if(e.target.name === 'tag'){
       if(tags.length < 1) setTagNext(true);
       setTagBorder(true);
     }
+    else{
+      if(contentInput.current.getInstance().getMarkdown().length < 20) setContentNext(true);
+    }
+    console.log(1)
+  }
+  const appearContentNext = () => {
+    if(contentInput.current.getInstance().getMarkdown().length < 20) setContentNext(true);
+
+    console.log(1)
   }
 
   //next 버튼을 눌렀을때 다음 창 비활성화 풀리기
   const contentBox = useRef();
-  const contentInput = useRef();
   const tagbox = useRef();
   const tagInput = useRef();
   const clickNext = (e) => {
@@ -109,6 +115,7 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
         ></input>
         { titleNext ? 
           <button 
+            className='blueBtn'
             name='title' 
             onClick={clickNext}
             disabled={ nextTitleDis ? true : false }
@@ -121,13 +128,14 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
         <AddContent 
           content={content}
           setContent={setContent}
-          appearNext={appearNext}
+          appearNext={appearContentNext}
           contentInput={contentInput}
           setNextContentDis={setNextContentDis}
         />
         { contentNext ? 
           <button 
             name='content'
+            className='blueBtn'
             onClick={clickNext}
             disabled={ nextContentDis ? true : false}
           >Next</button> : null }
@@ -160,7 +168,13 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
             disabled={tags && tags.length >= 1 ? false:true}
           ></input>
         </div>
-        { tagNext ? <button name='tag' onClick={clickNext} disabled={nextTagDis ? true : false}>Next</button> : null }
+        { tagNext ? 
+          <button 
+            name='tag' 
+            className='blueBtn' 
+            onClick={clickNext} 
+            disabled={nextTagDis ? true : false}
+          >Next</button> : null }
       </div>
     </div>
   )
