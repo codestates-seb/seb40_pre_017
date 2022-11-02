@@ -54,7 +54,7 @@ public class QuestionCommentService {
         if(findComment.getMember().getId() == memberId) {
             findComment.patch(questionCommentUpdate);
         }else{
-            throw new CommentException(ErrorCode.HANDLE_ACCESS_DENIED);
+            throw new CommentException(ErrorCode.CANNOT_UPDATE_COMMENT);
         }
 
 
@@ -69,7 +69,7 @@ public class QuestionCommentService {
         if(findComment.getMember().getId() == memberId) {
             questionCommentRepository.delete(findComment);
         }else{
-            throw new CommentException(ErrorCode.HANDLE_ACCESS_DENIED);
+            throw new CommentException(ErrorCode.CANNOT_DELETE_COMMENT);
         }
 
 

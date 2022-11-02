@@ -11,9 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.net.URI;
 
 @RestController
 @RequestMapping("question/?/answer/{answer-id}")
@@ -31,10 +33,12 @@ public class AnswerCommentController {
 
         Long result = answerCommentService.create(authMember.getMemberId(), answerId, answerCommentCreate);
 
-
-        return ResponseEntity.status(HttpStatus.CREATED).body((new SingleResponseDto(result)));
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
+                .path("/{comment-id}")
+                .buildAndExpand(result)
+                .toUri();
+        return ResponseEntity.created(uri).build();
     }
-
     @PatchMapping("/comments/{comment-id}")
     public ResponseEntity<?> update(
             @CurrentMember AuthMember authMember,

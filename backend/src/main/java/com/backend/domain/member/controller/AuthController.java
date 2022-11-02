@@ -6,9 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +22,15 @@ public class AuthController {
     // 회원가입
     @PostMapping()
     public ResponseEntity<Long> signup(@RequestBody SignUpRequest signUpRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(authService.signup(signUpRequest));
+
+        authService.signup(signUpRequest);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/login")
+                .build()
+                .toUri();
+
+        return ResponseEntity.created(uri).build();
     }
 
     // 재발급

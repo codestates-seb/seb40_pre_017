@@ -2,8 +2,8 @@ package com.backend.domain.answer.application;
 
 import com.backend.domain.answer.dao.AnswerRepository;
 import com.backend.domain.answer.domain.Answer;
-import com.backend.domain.answer.dto.AnswerPatchDto;
-import com.backend.domain.answer.dto.AnswerPostDto;
+import com.backend.domain.answer.dto.AnswerUpdate;
+import com.backend.domain.answer.dto.AnswerCreate;
 import com.backend.domain.answer.exception.AnswerException;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.exception.MemberNotFound;
@@ -27,7 +27,7 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
     private final MemberRepository memberRepository;
-    public Long create(Long id,Long memberId, AnswerPostDto answerPostDto) {
+    public Long create(Long id,Long memberId, AnswerCreate answerPostDto) {
 
         Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
         Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
@@ -42,7 +42,7 @@ public class AnswerService {
         return savedAnswer.getId();
     }
 
-    public  Long update(@Positive Long answerId, Long memberId, AnswerPatchDto answerPatchDto) {
+    public  Long update(@Positive Long answerId, Long memberId, AnswerUpdate answerPatchDto) {
 
 
         Answer findAnswer = findVerifiedAnswer(answerId);
@@ -50,7 +50,7 @@ public class AnswerService {
         if (memberId == findAnswer.getMember().getId()) {
             findAnswer.patch(answerPatchDto);
         }else{
-            throw new AnswerException(ErrorCode.HANDLE_ACCESS_DENIED);
+            throw new AnswerException(ErrorCode.CANNOT_UPDATE_ANSWER);
         }
 
 
@@ -66,7 +66,7 @@ public class AnswerService {
         if (memberId == findAnswer.getMember().getId()) {
             answerRepository.delete(findAnswer);
         }else{
-            throw new AnswerException(ErrorCode.HANDLE_ACCESS_DENIED);
+            throw new AnswerException(ErrorCode.CANNOT_DELETE_ANSWER);
         }
 
         return findAnswer.getId();
@@ -83,7 +83,7 @@ public class AnswerService {
             if(findAnswer.getMember().getId() != memberId)
                 findAnswer.getMember().answerAccepted();
         }else{
-            throw new AnswerException(ErrorCode.HANDLE_ACCESS_DENIED);
+            throw new AnswerException(ErrorCode.CANNOT_ACCEPT_ANSWER);
         }
 
         return findAnswer.getId();
@@ -101,7 +101,7 @@ public class AnswerService {
             if(findAnswer.getMember().getId() != memberId)
                 findAnswer.getMember().answerUnAccepted();
         }else{
-            throw new AnswerException(ErrorCode.HANDLE_ACCESS_DENIED);
+            throw new AnswerException(ErrorCode.CANNOT_UNACCEPT_ANSWER);
         }
 
         return findAnswer.getId();
