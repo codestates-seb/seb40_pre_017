@@ -17,6 +17,7 @@ import com.backend.domain.question.dto.request.QuestionUpdate;
 import com.backend.domain.question.dto.response.DetailQuestionResponse;
 import com.backend.domain.question.dto.response.QuestionResponse;
 import com.backend.domain.question.dto.response.SimpleQuestionResponse;
+import com.backend.domain.question.exception.NotQuestionWriter;
 import com.backend.domain.question.exception.QuestionNotFound;
 import com.backend.domain.question.exception.TitleDuplication;
 import com.backend.domain.question.repository.QuestionRepository;
@@ -141,9 +142,14 @@ public class QuestionService {
 
 
     @Transactional
-    public Long update(Long id, QuestionUpdate questionUpdate) {
+    public Long update(Long memberId, Long id, QuestionUpdate questionUpdate) {
 
         Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
+        Long memberIdByQuestionId = questionRepository.getMemberIdByQuestionId(question.getId());
+
+        if (!memberIdByQuestionId.equals(memberId)) {
+            throw new NotQuestionWriter();
+        }
 
         if (!Objects.equals(question.getTitle(), questionUpdate.getTitle())) {
             existsSameTitle(questionUpdate.getTitle());
@@ -157,8 +163,15 @@ public class QuestionService {
     }
 
     @Transactional
-    public Long delete(Long id) {
+    public Long delete(Long memberId, Long id) {
         Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
+
+        Long memberIdByQuestionId = questionRepository.getMemberIdByQuestionId(question.getId());
+
+        if (!memberIdByQuestionId.equals(memberId)) {
+            throw new NotQuestionWriter();
+        }
+
         questionRepository.delete(question);
 
         return id;
