@@ -15,6 +15,12 @@ public enum ErrorCode {
     EMAIL_DUPLICATION(409,"Email Is Duplication"),
     MEMBER_NOT_FOUND(400,"Can't Find This Member"),
     LOGIN_FAILED(400,  "Login input is invalid"),
+    NOT_LOGIN_MEMBER(400,  "Not Login Member"),
+
+    // token
+    TOKEN_NOT_FOUND(400,  "Token Not Found"),
+    TOKEN_EXPIRED(400,  "Token Expired"),
+    TOKEN_INVALID(400,  "Token Invalid"),
 
     //Question
     QUESTION_NOT_FOUND(404,"Question Not Found"),

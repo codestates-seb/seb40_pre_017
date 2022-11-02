@@ -1,11 +1,13 @@
 package com.backend.domain.member.service;
 
 import com.backend.domain.member.domain.Member;
-import com.backend.domain.member.dto.MemberResponseDto;
-import com.backend.domain.member.dto.SignUpRequest;
-import com.backend.domain.member.dto.TokenDto;
+import com.backend.domain.member.dto.*;
+import com.backend.domain.member.exception.MemberNotFound;
+import com.backend.domain.member.exception.NotLoginMember;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.refreshtoken.domain.RefreshToken;
+import com.backend.domain.refreshtoken.exception.TokenInvalid;
+import com.backend.domain.refreshtoken.exception.TokenNotFound;
 import com.backend.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.backend.global.jwt.TokenProvider;
 import io.jsonwebtoken.Claims;
@@ -42,17 +44,18 @@ public class AuthService {
 
     // 토큰 재발급
     @Transactional
-    public Long reissue(String refreshToken,
-                        HttpServletResponse response) {
+    public ReissueResponse reissue(String refreshToken,
+                                   HttpServletResponse response) {
+
+        if (refreshToken == null) {
+            throw new TokenNotFound();
+        }
 
         Claims claims = tokenProvider.parseClaims(refreshToken);
 
-        if (claims == null) {
-            throw new RuntimeException("refreshToken 이 만료되었습니다.");
-        }
 
         Member member = memberRepository.findById(Long.parseLong(claims.getSubject()))
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
+                .orElseThrow(MemberNotFound::new);
 
         AuthMember authMember = AuthMember.of(member);
 
@@ -63,10 +66,10 @@ public class AuthService {
         String newATK = tokenDto.getAccessToken();
 
         RefreshToken savedRefreshToken = refreshTokenRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
+                .orElseThrow(NotLoginMember::new);
 
         if (!savedRefreshToken.getValue().equals(refreshToken)) {
-            throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
+            throw new TokenInvalid();
         }
 
         RefreshToken newRefreshToken = savedRefreshToken.updateValue(newRTK);
@@ -81,7 +84,7 @@ public class AuthService {
 
         response.setHeader("Authorization", "Bearer " + newATK);
 
-        return authMember.getMemberId();
+        return ReissueResponse.toResponse(member);
     }
 
     // 로그아웃
@@ -92,6 +95,8 @@ public class AuthService {
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("refreshToken")) {
                 cookie.setMaxAge(0);
+                cookie.setPath("/");
+                cookie.setHttpOnly(true);
                 response.addCookie(cookie);
             }
         }

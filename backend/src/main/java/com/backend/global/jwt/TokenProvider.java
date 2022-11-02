@@ -7,6 +7,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,13 +44,15 @@ public class TokenProvider {
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
+        Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
+        Date refreshTokenExpiresIn = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", authMember.getMemberId());
         claims.put("roles", authMember.getAuthorities());
+        claims.put("exp", accessTokenExpiresIn);
 
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
                 .setSubject(authMember.getEmail())                  // payload "sub": "name"
                 .setClaims(claims)      // payload "auth": "ROLE_USER"
@@ -57,7 +60,6 @@ public class TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)          // header "alg": "HS512"
                 .compact();
 
-        Date refreshTokenExpiresIn = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
                 .setSubject(authMember.getMemberId().toString())
@@ -90,7 +92,7 @@ public class TokenProvider {
     }
 
     // 토큰 검증
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token) throws AccessDeniedException {
 
         try {
             parseClaims(token);
@@ -98,20 +100,24 @@ public class TokenProvider {
         } catch (SignatureException e) {
             log.info("Invalid JWT signature");
             log.trace("Invalid JWT signature trace: {}", e);
+            throw new AccessDeniedException(e.getMessage(), e);
         } catch (MalformedJwtException e) {
             log.info("Invalid JWT token");
             log.trace("Invalid JWT token trace: {}", e);
+            throw new AccessDeniedException(e.getMessage(), e);
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT token");
             log.trace("Expired JWT token trace: {}", e);
+            throw new AccessDeniedException(e.getMessage(), e);
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT token");
             log.trace("Unsupported JWT token trace: {}", e);
+            throw new AccessDeniedException(e.getMessage(), e);
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.");
             log.trace("JWT claims string is empty trace: {}", e);
+            throw new AccessDeniedException(e.getMessage(), e);
         }
-        return false;
     }
 
     public Claims parseClaims(String accessToken) {
