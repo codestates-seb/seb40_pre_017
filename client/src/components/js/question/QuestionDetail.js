@@ -6,6 +6,10 @@ import Tags from '../tags/Tags'
 import '../../css/question/QuestionDetail.scss'
 import { Link } from 'react-router-dom'
 import { fetchDelete } from '../../../util/api'
+import { Viewer } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+
+
 
 export default function QuestionDetail({item, id}) {
 
@@ -22,7 +26,7 @@ export default function QuestionDetail({item, id}) {
       <Vote item={item.question.votes}/>
       <div className='detailMainWrap'>
         <div className='detailContent'>
-          <h3>{item.question.content}</h3>
+          <h3><Viewer initialValue={item.question.content}/></h3>
           <Tags item={item}/>
         </div>
 

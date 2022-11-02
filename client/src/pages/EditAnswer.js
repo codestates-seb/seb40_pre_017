@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import AddContent from '../components/js/addContent/AddContent';
 import { fetchPatch } from '../util/api';
@@ -19,14 +19,17 @@ export default function EditAnswer({items}) {
     ))
 
      //content
-     const [content, setContent] = useState(answerItem.content);
+    //  const [content, setContent] = useState(answerItem.content);
+    const content = answerItem.content;
+    const contentInput = useRef();
+
 
     const handleEdit = (e) => {
         e.preventDefault();
   
     //data 생성 & Patch (임시)
         let answer = item.answer.slice();
-        answer[0].content = content;
+        answer[0].content = contentInput.current.getInstance().getMarkdown();
         let data = { answer }
         fetchPatch("http://localhost:3001/items/", item.id, data);
   
@@ -41,7 +44,8 @@ export default function EditAnswer({items}) {
         <h2>Answer</h2>
         <AddContent 
         content={content}
-        setContent={setContent}  
+        // setContent={setContent} 
+        contentInput={contentInput} 
         />
         <button onClick={handleEdit} className='saveEdit'>Save Edits</button>
         <Link to={`/questions/${params.id}`}>

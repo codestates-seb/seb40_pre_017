@@ -4,6 +4,8 @@ import ProfileAnswer from '../profile/ProfileAnswer'
 import CommentList from '../comment/CommentList'
 import '../../css/answer/Answer.scss'
 import { Link } from 'react-router-dom'
+import { Viewer } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 // import { fetchCreate, fetchDelete } from '../../../util/api'
 
 export default function Answer({answer, id, answerId, item}) {
@@ -39,7 +41,7 @@ export default function Answer({answer, id, answerId, item}) {
       </div>
       
       <div className='answerMainWrap'>
-        <h3>{answer.content}</h3>
+        <h3><Viewer initialValue={answer.content}/></h3>
         <div className='detailBottomWrap'>
           <div className='detailEditWrap'>
             <button>Share</button>
