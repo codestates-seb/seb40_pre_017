@@ -1,5 +1,6 @@
 package com.backend.domain.question.service;
 
+import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.answer.dto.ComplexAnswerResponse;
 import com.backend.domain.comment.dto.SimpleAnswerCommentResponse;
 import com.backend.domain.comment.dto.SimpleQuestionCommentResponse;
@@ -7,6 +8,7 @@ import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.dto.MemberResponse;
 import com.backend.domain.member.exception.MemberNotFound;
 import com.backend.domain.member.repository.MemberRepository;
+import com.backend.domain.question.domain.QQuestion;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.domain.QuestionTag;
 import com.backend.domain.question.dto.request.QuestionCreate;
@@ -18,7 +20,6 @@ import com.backend.domain.question.dto.response.SimpleQuestionResponse;
 import com.backend.domain.question.exception.QuestionNotFound;
 import com.backend.domain.question.exception.TitleDuplication;
 import com.backend.domain.question.repository.QuestionRepository;
-import com.backend.domain.tag.domain.QTag;
 import com.backend.domain.tag.domain.Tag;
 import com.backend.domain.tag.dto.TagDto;
 import com.backend.domain.tag.service.TagService;
@@ -30,14 +31,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
+import static com.backend.domain.question.domain.QQuestion.*;
 import static com.backend.domain.question.domain.QQuestion.question;
 import static com.backend.domain.tag.domain.QTag.tag;
-import static com.backend.domain.vote.domain.QQuestionDownVote.questionDownVote;
-import static com.backend.domain.vote.domain.QQuestionUpVote.questionUpVote;
 import static java.util.stream.Collectors.*;
 
 @Service
@@ -54,7 +54,6 @@ public class QuestionService {
      * 1. dto에서 태그를 가져온다.
      * 2. 제목이 중복인지 확인한다.
      * 3. 태그를 등록한다 ( 있는 태그면 넘어가고 새 태그면 등록한다.)
-     * 4.
      */
     @Transactional
     public Long create(Long memberId, QuestionCreate questionCreate) {
@@ -68,21 +67,34 @@ public class QuestionService {
 
         Question question = Question.createQuestion(questionCreate, member, questionTags);
 
+
         return questionRepository.save(question).getId();
 
     }
 
-    @Transactional
-    public DetailQuestionResponse get(Long id){
 
-        Question question = questionRepository.findQuestionWithMemberWithAnswers(id).orElseThrow(QuestionNotFound::new);
-        question.hit();
+    /**
+     * 질문 + 질문의 작성자 + 질문의 답변
+     */
+    public DetailQuestionResponse get(Long id) {
+
+
+        List<Question> questions = questionRepository.findQuestionWithMemberWithQuestionComments(id);
+
+        Question question = questions.stream().findAny().orElseThrow(QuestionNotFound::new);
+
+        List<String> tagsOfQuestion = questionRepository.findTagsOfQuestion(id);
+        List<Answer> answersWithAnswerComment = questionRepository.findAnswersWithAnswerComment(id);
+
+
+
+
 
         List<SimpleQuestionCommentResponse> questionCommentResponses = question.getQuestionComments().stream()
                 .map(SimpleQuestionCommentResponse::of)
                 .collect(toList());
 
-        List<ComplexAnswerResponse> complexAnswerResponses = question.getAnswers().stream()
+        List<ComplexAnswerResponse> complexAnswerResponses = answersWithAnswerComment.stream()
                 .map(answer ->
                         ComplexAnswerResponse.of(answer, answer.getAnswerComments().stream()
                                 .map(SimpleAnswerCommentResponse::of)
@@ -90,42 +102,42 @@ public class QuestionService {
                 .collect(toList());
 
 
-        DetailQuestionResponse detailQuestionResponse = DetailQuestionResponse.of(question,complexAnswerResponses,questionCommentResponses);
+        DetailQuestionResponse detailQuestionResponse = DetailQuestionResponse.of(question, complexAnswerResponses, questionCommentResponses, tagsOfQuestion);
 
 
-    return detailQuestionResponse;
+        return detailQuestionResponse;
     }
 
 
+    /**
+     * 질문 + 질문의 멤버 + 답변
+     */
 
-    public MultiResponse<?> getList(PageRequest pageable, QuestionSearch questionSearch){
+    public MultiResponse<?> getList(PageRequest pageable) {
 
-        log.info("questionFindLIst= {}", questionRepository.findList(pageable,questionSearch).size());
+//        log.info("questionFindLIst= {}", questionRepository.findList(pageable).size());
 
-        List<Tuple> questionTags = questionRepository.findQuestionTags(pageable);
+        List<Tuple> questionTags = questionRepository.PageFindQuestionTags(pageable);
 
         Map<Long, List<String>> questionTagMap = questionTags.stream().collect(
                 groupingBy(tuple -> tuple.get(question.id),
-                mapping(tuple -> tuple.get(tag.name),toList())));
+                        mapping(tuple -> tuple.get(tag.name), toList())));
 
 
-        PageImpl<QuestionResponse> questionResponses = new PageImpl<>(questionRepository.findList(pageable, questionSearch)
+        PageImpl<QuestionResponse> questionResponses = new PageImpl<>(questionRepository.findList(pageable)
                 .stream()
-                .map(question -> QuestionResponse.builder()
-                        .member(MemberResponse.toResponse(question.getMember()))
-                        .question(SimpleQuestionResponse.toSummaryResponse(question))
-                        .tags(questionTagMap.get(question.getId()))
-                        .build()
+                .map(questionTuple ->
+                        QuestionResponse.builder()
+                                .member(MemberResponse.toResponse(questionTuple.get(question).getMember()))
+                                .question(SimpleQuestionResponse.toSummaryResponse(Objects.requireNonNull(questionTuple.get(question)), questionTuple.get(question.answers.size()), questionTuple.get(question.upVotes.size().subtract(question.downVotes.size()))))
+                                .tags(questionTagMap.get(questionTuple.get(question).getId()))
+                                .build()
                 )
-                .collect(toList()),pageable.of(), questionRepository.getCount());
+                .collect(toList()), pageable.of(), questionRepository.getCount());
 
-        log.info("getCount = {}" , questionRepository.getCount());
 
-        MultiResponse<?> multiResponse = MultiResponse.of(questionResponses);
-
-        return multiResponse;
+        return MultiResponse.of(questionResponses);
     }
-
 
 
     @Transactional
@@ -145,7 +157,7 @@ public class QuestionService {
     }
 
     @Transactional
-    public Long delete(Long id){
+    public Long delete(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
         questionRepository.delete(question);
 
@@ -155,17 +167,6 @@ public class QuestionService {
 
 
     /* 비즈니스 로직 경계 */
-
-    private Member getMember() {
-        Member member = Member.builder()
-                .email("thwn40@naver.com")
-                .password("asdf123")
-                .profileImage("sdlfkjasldkfj")
-                .reputation(0L)
-                .username("thwn400")
-                .build();
-        return member;
-    }
 
     private List<QuestionTag> makeQuestionTags(List<TagDto> questionCreate) {
 

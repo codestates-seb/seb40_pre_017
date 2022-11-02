@@ -20,6 +20,8 @@ spring:
 logging:
   level:
     org:
+      hibernate:
+        type: trace
       springframework:
         orm:
           jpa: DEBUG

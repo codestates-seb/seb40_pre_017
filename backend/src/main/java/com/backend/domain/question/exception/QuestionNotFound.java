@@ -9,4 +9,6 @@ public class QuestionNotFound extends BusinessException {
     public QuestionNotFound() {
         super(ErrorCode.QUESTION_NOT_FOUND.getMessage(),ErrorCode.QUESTION_NOT_FOUND);
     }
+
+
 }

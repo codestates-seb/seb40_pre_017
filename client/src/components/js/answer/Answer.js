@@ -31,11 +31,11 @@ export default function Answer({answer, id, answerId, item}) {
   return (
     <div className='answerWrap'>
       <div className='answerVote'>
+        <Vote item={answer.votes}/>
         <button 
           onClick={handleCheck} 
-          className={check ? 'answerCheck' : null}
-        >check</button>
-        <Vote item={answer.votes}/>
+          className={check ? 'select answerCheck' : 'select'}
+        ><i className="fa-solid fa-check"></i></button>
       </div>
       
       <div className='answerMainWrap'>

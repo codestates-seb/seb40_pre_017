@@ -109,7 +109,7 @@ public class Question extends Auditable {
         this.isAnswered = true;
     }
 
-    public void unaccept(){
+    public void unAccept(){
         this.isAnswered = false;
     }
 }

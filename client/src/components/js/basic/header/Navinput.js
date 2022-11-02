@@ -7,27 +7,21 @@ import Inputtab from './Inputtab';
 import Input from './Input';
 
 
-export default function Navinput() {
+export default function Navinput({changeInputData}) {
   
   const [isFocused, setIsFocused] = useState(false);
-  const [inputValue, setInputValue] = useState("");
 
   // 아이콘 클릭 시 인풋 포커스.
   const focusChange = (value) => {
     setIsFocused(value)
   }
-  // input 데이터 관리
-  const inputChange = (e) => {
-    setInputValue(e.target.value)
-    console.log(inputValue)
-  }
 
   return (
-    <form className='navInputArea' action='/search'>
+    <form className='navInputArea' onSubmit={(e)=> e.preventDefault()}>
       <label htmlFor="search" className='navIcon'>
         <FontAwesomeIcon className='hamburger' icon={faMagnifyingGlass} />
       </label>
-      <Input name="q" inputChange={inputChange} focusChange={focusChange} id="search"/>
+      <Input name="q" changeInputData={changeInputData} focusChange={focusChange} id="search"/>
 
       {isFocused ? <div className='inputTabArea'>
         <Inputtab />

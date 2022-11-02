@@ -1,20 +1,24 @@
 .detailPageWrap {
     display: flex;
-
+    position: relative;
+    max-width: 1264px;
     .detailPageNavbar{
         width: 164px;
+        min-width: 164px;
         background-color: #e8e7e3;
     }
 }
 
 .detailPageAside{
-        width: 300px;
-        background-color: #e8e7e3;
+    width: 300px;
+    min-width: 300px;
 }
 
 .detailPage{
     margin-top: 10px;
-    padding: 16px;
+    padding: 24px;
+    max-width: 1100px;
+    border-left: 1px solid #E3E6E8;
 }
 
 .detailHeadWrap{

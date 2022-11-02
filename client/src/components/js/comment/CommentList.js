@@ -75,10 +75,12 @@ export default function CommentList({item, type, temporary}) {
         
       {
         clickAdd ? 
-          <div>
+          <div className='commentWrap'>
             <input type='text' onChange={handleInput}></input>
-            <button onClick={handleSubmit}>Add Comment</button>
-            <button onClick={handleAddCancle}>Cancle</button>
+            <div className='commentBtnWrap'>
+              <button onClick={handleSubmit} className='AddComment'>Add Comment</button>
+              <button onClick={handleAddCancle} className='cancel'>Cancel</button>
+            </div>
           </div>
           :
           <button className='addCommentBtn' onClick={handleAdd}>Add a comment</button>
@@ -86,10 +88,12 @@ export default function CommentList({item, type, temporary}) {
 
       {
         editClick ?
-        <div>
+        <div className='commentWrap'>
           <input type='text' onChange={handleInput}></input>
-          <button onClick={handleEdit}>Save Edit</button>
-          <button onClick={handleEditCancle}>Cancle</button>
+          <div className='commentBtnWrap'>
+            <button onClick={handleEdit} className='AddComment'>Save Edit</button>
+            <button onClick={handleEditCancle} className='cancel'>Cancel</button>
+          </div>
         </div>
         :
         null

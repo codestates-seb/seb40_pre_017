@@ -1,14 +1,17 @@
 package com.backend.domain.question.dto.response;
 
 import com.backend.domain.answer.dto.ComplexAnswerResponse;
+
+
 import com.backend.domain.comment.dto.SimpleQuestionCommentResponse;
 import com.backend.domain.member.dto.MemberResponse;
 import com.backend.domain.question.domain.Question;
+
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Getter
 public class DetailQuestionResponse {
@@ -16,11 +19,13 @@ public class DetailQuestionResponse {
 
     private MemberResponse member;
 
+    private List<SimpleQuestionCommentResponse> questionComments;
+
     private SimpleQuestionResponse question;
 
     private List<ComplexAnswerResponse> answers;
 
-    private List<SimpleQuestionCommentResponse> questionComments;
+
 
 
 
@@ -33,15 +38,11 @@ public class DetailQuestionResponse {
         this.questionComments = questionComments;
     }
 
-    public static  DetailQuestionResponse of(Question question, List<ComplexAnswerResponse> complexAnswerResponses, List<SimpleQuestionCommentResponse> questionCommentResponses){
+    public static  DetailQuestionResponse of(Question question, List<ComplexAnswerResponse> complexAnswerResponses, List<SimpleQuestionCommentResponse> questionCommentResponses, List<String> tags){
         return DetailQuestionResponse.builder()
-                .question(SimpleQuestionResponse.toResponse(question))
+                .question(SimpleQuestionResponse.toResponse(question,complexAnswerResponses.size()))
                 .member(MemberResponse.toResponse(question.getMember()))
-                .tags(question
-                        .getQuestionTags()
-                        .stream()
-                        .map(questionTag -> questionTag.getTag().getName())
-                        .collect(Collectors.toList()))
+                .tags(tags)
                 //질문이랑 태그
                 .answers(complexAnswerResponses)
                 .questionComments(questionCommentResponses)
