@@ -102,7 +102,7 @@ public class AuthService {
     public void logout(String refreshToken, HttpServletRequest request, HttpServletResponse response) {
 
         refreshToken = Optional.ofNullable(refreshToken)
-                .orElseThrow(TokenNot:Found::new);
+                .orElseThrow(TokenNotFound::new);
         // request 에서 refreshToken 쿠키를 찾아 삭제
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
