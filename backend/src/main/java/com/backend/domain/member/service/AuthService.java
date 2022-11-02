@@ -10,8 +10,10 @@ import com.backend.domain.refreshtoken.exception.TokenInvalid;
 import com.backend.domain.refreshtoken.exception.TokenNotFound;
 import com.backend.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.backend.global.jwt.TokenProvider;
-import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
     private final MemberRepository memberRepository;
@@ -47,9 +51,8 @@ public class AuthService {
     public ReissueResponse reissue(String refreshToken,
                                    HttpServletResponse response) {
 
-        if (refreshToken == null) {
-            throw new TokenNotFound();
-        }
+        refreshToken = Optional.ofNullable(refreshToken)
+                .orElseThrow(TokenNotFound::new);
 
         Claims claims = tokenProvider.parseClaims(refreshToken);
 

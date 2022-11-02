@@ -30,7 +30,6 @@ public class AuthController {
     @GetMapping("/reissue")
     public ResponseEntity<ReissueResponse> reissue(@CookieValue(value = "refreshToken", required = false) String refreshToken,
                                                    HttpServletResponse response) {
-
         return ResponseEntity.ok(authService.reissue(refreshToken, response));
     }
 
