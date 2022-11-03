@@ -1,5 +1,6 @@
 package com.backend.domain.member.controller;
 
+import com.backend.domain.member.dto.MemberResponse;
 import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.dto.MemberUpdate;
 import com.backend.domain.member.dto.SignUpRequest;
@@ -48,10 +49,11 @@ public class MemberController {
         return ResponseEntity.ok(new SingleResponseDto(result));
     }
 
-
     @GetMapping("/me")
-    public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
-        return ResponseEntity.ok(memberService.getMyInfo());
+    public ResponseEntity<MemberResponseDto> getMyMemberInfo(
+            @CurrentMember AuthMember authMember
+    ) {
+        return ResponseEntity.ok(memberService.getMyInfo(authMember.getMemberId()));
     }
 
     @GetMapping("/{email}")

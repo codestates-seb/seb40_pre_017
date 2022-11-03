@@ -24,11 +24,13 @@ public class MemberResponseDto {
         this.reputation = reputation;
     }
 
+
     public static MemberResponseDto of(Member member) {
         return MemberResponseDto.builder()
                 .id(member.getId())
                 .build();
     }
+
 
     public Long getId() {
         return id;

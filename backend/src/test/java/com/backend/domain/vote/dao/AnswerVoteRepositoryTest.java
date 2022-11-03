@@ -1,45 +1,47 @@
-package com.backend.domain.answer.dao;
+package com.backend.domain.vote.dao;
 
+import com.backend.domain.answer.dao.AnswerRepository;
 import com.backend.domain.answer.domain.Answer;
-import com.backend.domain.answer.dto.AnswerCreate;
+
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.repository.QuestionRepository;
 import com.backend.domain.question.repository.QuestionRepositoryImpl;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import com.backend.domain.vote.domain.AnswerDownVote;
+import com.backend.domain.vote.domain.AnswerUpVote;
+import com.backend.global.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.jpa.repository.query.JpaQueryCreator;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
 
 @DataJpaTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class AnswerRepositoryTest {
+class AnswerVoteRepositoryTest {
+
+    @Autowired
+    private AnswerUpVoteRepository answerUpVoteRepository;
+
+    @Autowired
+    private AnswerDownVoteRepository answerDownVoteRepository;
+
+    @MockBean
+    private QuestionRepositoryImpl questionRepositoryImpl;
+
+    @Autowired
+    private QuestionRepository questionRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Autowired
     private AnswerRepository answerRepository;
 
 
-    @MockBean
-    private QuestionRepositoryImpl questionRepository;
-
-    @MockBean
-    private JPAQueryFactory jpaQueryFactory;
-
-
-
-
     @Test
-    void saveAnswerTest() {
+    void up() {
 
         //given
         Question question = Question.builder()
@@ -47,11 +49,14 @@ class AnswerRepositoryTest {
                 .view(0L)
                 .content("답변 생성 비즈니스로직 테스트용 질문입니다.")
                 .build();
+        Question savedQuestion = questionRepository.save(question);
+
         Member member = Member.builder()
                 .password("123456")
                 .username("가나다")
                 .email("abc@gmail.com")
                 .build();
+        Member savedMember = memberRepository.save(member);
 
         String content = "답변 생성 비즈니스 로직 테스트용 답변생성";
 
@@ -61,31 +66,34 @@ class AnswerRepositoryTest {
                 .question(question)
                 .isAccepted(false)
                 .build();
+        Answer savedAnswer = answerRepository.save(answer);
+
 
         //when
-        Answer savedAnswer = answerRepository.save(answer);
+        answerUpVoteRepository.up(savedAnswer.getId(), savedMember.getId());
 
         //then
-        assertNotNull(savedAnswer);
-        assertEquals(question.getTitle(), savedAnswer.getQuestion().getTitle());
-        assertEquals(answer.getContent(), savedAnswer.getContent());
-        assertEquals(member.getEmail(), savedAnswer.getMember().getEmail());
-
+        assertNotNull(answerUpVoteRepository.findById(1L));
     }
 
+
     @Test
-    void deleteAnswer() {
+    void undoUp() {
+
         //given
         Question question = Question.builder()
                 .title("가나다")
                 .view(0L)
                 .content("답변 생성 비즈니스로직 테스트용 질문입니다.")
                 .build();
+        Question savedQuestion = questionRepository.save(question);
+
         Member member = Member.builder()
                 .password("123456")
                 .username("가나다")
                 .email("abc@gmail.com")
                 .build();
+        Member savedMember = memberRepository.save(member);
 
         String content = "답변 생성 비즈니스 로직 테스트용 답변생성";
 
@@ -95,31 +103,35 @@ class AnswerRepositoryTest {
                 .question(question)
                 .isAccepted(false)
                 .build();
+        Answer savedAnswer = answerRepository.save(answer);
+
 
         //when
-        Answer savedAnswer = answerRepository.save(answer);
-        answerRepository.delete(answer);
+        answerUpVoteRepository.up(savedAnswer.getId(), savedMember.getId());
+        int result = answerUpVoteRepository.undoUp(savedAnswer.getId(), savedMember.getId());
 
         //then
-        Optional<Answer> OptionalAnswer = answerRepository.findById(1L);
-        assertTrue(OptionalAnswer.isEmpty());
+        assertEquals(1, result);
 
     }
 
-
     @Test
-    void findVerifiedAnswer() {
+    void down() {
+
         //given
         Question question = Question.builder()
                 .title("가나다")
                 .view(0L)
                 .content("답변 생성 비즈니스로직 테스트용 질문입니다.")
                 .build();
+        Question savedQuestion = questionRepository.save(question);
+
         Member member = Member.builder()
                 .password("123456")
                 .username("가나다")
                 .email("abc@gmail.com")
                 .build();
+        Member savedMember = memberRepository.save(member);
 
         String content = "답변 생성 비즈니스 로직 테스트용 답변생성";
 
@@ -129,11 +141,54 @@ class AnswerRepositoryTest {
                 .question(question)
                 .isAccepted(false)
                 .build();
-        //when
         Answer savedAnswer = answerRepository.save(answer);
-        Optional<Answer> findAnswer = answerRepository.findById(savedAnswer.getId());
 
-        assertTrue(findAnswer.isPresent());
-        assertTrue(findAnswer.get().getContent().equals(answer.getContent()));
+
+        //when
+        answerDownVoteRepository.down(savedAnswer.getId(), savedMember.getId());
+
+        //then
+        assertNotNull(answerDownVoteRepository.findById(1L));
     }
+
+
+    @Test
+    void undoDown() {
+
+        //given
+        Question question = Question.builder()
+                .title("가나다")
+                .view(0L)
+                .content("답변 생성 비즈니스로직 테스트용 질문입니다.")
+                .build();
+        Question savedQuestion = questionRepository.save(question);
+
+        Member member = Member.builder()
+                .password("123456")
+                .username("가나다")
+                .email("abc@gmail.com")
+                .build();
+        Member savedMember = memberRepository.save(member);
+
+        String content = "답변 생성 비즈니스 로직 테스트용 답변생성";
+
+        Answer answer = Answer.builder()
+                .content(content)
+                .member(member)
+                .question(question)
+                .isAccepted(false)
+                .build();
+        Answer savedAnswer = answerRepository.save(answer);
+
+
+        //when
+        answerDownVoteRepository.down(savedAnswer.getId(), savedMember.getId());
+        int result = answerDownVoteRepository.undoDown(savedAnswer.getId(), savedMember.getId());
+
+        //then
+        assertEquals(1, result);
+    }
+
+
+
 }

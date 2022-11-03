@@ -4,8 +4,10 @@ import com.backend.domain.member.domain.Member;
 import com.backend.global.util.Constant;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MemberResponse {
     private Long reputation;
     private Long userId;

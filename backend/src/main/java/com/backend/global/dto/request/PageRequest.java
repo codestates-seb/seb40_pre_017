@@ -7,9 +7,9 @@ import org.springframework.data.domain.Sort;
 public final class PageRequest  {
 
     private static final int MAX_SIZE = 2000;
-
     private int page;
     private int size = 15;
+
     private Sort.Direction direction;
 
     public void setPage(int page) {

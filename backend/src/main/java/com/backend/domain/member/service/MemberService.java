@@ -1,6 +1,7 @@
 package com.backend.domain.member.service;
 
 import com.backend.domain.member.domain.Member;
+import com.backend.domain.member.dto.MemberResponse;
 import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.dto.MemberUpdate;
 import com.backend.domain.member.dto.SignUpRequest;
@@ -60,8 +61,8 @@ public class MemberService {
 
     // 현재 SecurityContext 에 있는 유저 정보 가져오기
     @Transactional(readOnly = true)
-    public MemberResponseDto getMyInfo() {
-        return memberRepository.findById(SecurityUtil.getCurrentMemberId())
+    public MemberResponseDto getMyInfo(Long memberId) {
+        return memberRepository.findById(memberId)
                 .map(MemberResponseDto::of)
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
     }

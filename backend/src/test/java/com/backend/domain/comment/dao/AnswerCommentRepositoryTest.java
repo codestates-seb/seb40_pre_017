@@ -1,32 +1,28 @@
-package com.backend.domain.answer.dao;
+package com.backend.domain.comment.dao;
 
+import com.backend.domain.answer.dao.AnswerRepository;
 import com.backend.domain.answer.domain.Answer;
-import com.backend.domain.answer.dto.AnswerCreate;
+import com.backend.domain.comment.domain.AnswerComment;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.question.domain.Question;
-import com.backend.domain.question.repository.QuestionRepository;
 import com.backend.domain.question.repository.QuestionRepositoryImpl;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.jpa.repository.query.JpaQueryCreator;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
 
 @DataJpaTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class AnswerRepositoryTest {
+class AnswerCommentRepositoryTest {
 
     @Autowired
-    private AnswerRepository answerRepository;
+    private AnswerCommentRepository answerCommentRepository;
 
 
     @MockBean
@@ -36,10 +32,8 @@ class AnswerRepositoryTest {
     private JPAQueryFactory jpaQueryFactory;
 
 
-
-
     @Test
-    void saveAnswerTest() {
+    void saveAnswerComment() {
 
         //given
         Question question = Question.builder()
@@ -53,7 +47,7 @@ class AnswerRepositoryTest {
                 .email("abc@gmail.com")
                 .build();
 
-        String content = "답변 생성 비즈니스 로직 테스트용 답변생성";
+        String content = "답변 댓글 생성 비즈니스 로직 테스트용 답변생성";
 
         Answer answer = Answer.builder()
                 .content(content)
@@ -62,19 +56,21 @@ class AnswerRepositoryTest {
                 .isAccepted(false)
                 .build();
 
+        AnswerComment answerComment = AnswerComment.toEntity(content, answer, member);
+
+
         //when
-        Answer savedAnswer = answerRepository.save(answer);
+        AnswerComment savedAnswerComment = answerCommentRepository.save(answerComment);
 
         //then
-        assertNotNull(savedAnswer);
-        assertEquals(question.getTitle(), savedAnswer.getQuestion().getTitle());
-        assertEquals(answer.getContent(), savedAnswer.getContent());
-        assertEquals(member.getEmail(), savedAnswer.getMember().getEmail());
-
+        assertNotNull(savedAnswerComment);
+        assertEquals(answer.getContent(), savedAnswerComment.getAnswer().getContent());
+        assertEquals(answerComment.getContent(), savedAnswerComment.getContent());
+        assertEquals(member.getEmail(), savedAnswerComment.getMember().getEmail());
     }
 
     @Test
-    void deleteAnswer() {
+    void deleteAnswerComment() {
         //given
         Question question = Question.builder()
                 .title("가나다")
@@ -96,19 +92,21 @@ class AnswerRepositoryTest {
                 .isAccepted(false)
                 .build();
 
+        AnswerComment answerComment = AnswerComment.toEntity(content, answer, member);
+
         //when
-        Answer savedAnswer = answerRepository.save(answer);
-        answerRepository.delete(answer);
+        AnswerComment savedAnswerComment = answerCommentRepository.save(answerComment);
+        answerCommentRepository.delete(answerComment);
 
         //then
-        Optional<Answer> OptionalAnswer = answerRepository.findById(1L);
-        assertTrue(OptionalAnswer.isEmpty());
+        Optional<AnswerComment> optionalAnswerComment = answerCommentRepository.findById(1L);
+        assertTrue(optionalAnswerComment.isEmpty());
 
     }
 
 
     @Test
-    void findVerifiedAnswer() {
+    void findVerifiedAnswerComment() {
         //given
         Question question = Question.builder()
                 .title("가나다")
@@ -129,11 +127,13 @@ class AnswerRepositoryTest {
                 .question(question)
                 .isAccepted(false)
                 .build();
+        AnswerComment answerComment = AnswerComment.toEntity(content, answer, member);
         //when
-        Answer savedAnswer = answerRepository.save(answer);
-        Optional<Answer> findAnswer = answerRepository.findById(savedAnswer.getId());
 
-        assertTrue(findAnswer.isPresent());
-        assertTrue(findAnswer.get().getContent().equals(answer.getContent()));
+        AnswerComment savedAnswerComment = answerCommentRepository.save(answerComment);
+        Optional<AnswerComment> findAnswerComment = answerCommentRepository.findById(savedAnswerComment.getId());
+
+        assertTrue(findAnswerComment.isPresent());
+        assertTrue(findAnswerComment.get().getContent().equals(savedAnswerComment.getContent()));
     }
 }
