@@ -5,6 +5,7 @@ import com.backend.global.util.Constant;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDateTime;
 
@@ -83,9 +84,10 @@ public class SimpleQuestionResponse {
     }
 
     private static String questionLink(Question question) {
-        return Constant.URL.getUrl().
-                concat("/questions/").
-                concat(String.valueOf(question.getId()));
+        return ServletUriComponentsBuilder.fromCurrentRequest()
+                .replacePath("questions/").path(question.getId().toString())
+                .replaceQuery(null)
+                .toUriString();
     }
 
 }

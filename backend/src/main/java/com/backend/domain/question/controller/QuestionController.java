@@ -42,11 +42,11 @@ public class QuestionController {
     }
 
     @GetMapping("/questions")
-    public ResponseEntity<MultiResponse<?>> getList(PageRequest pageable) {
+    public ResponseEntity<MultiResponse<?>> getList(@ModelAttribute PageRequest pageable) {
         log.info("page= {}",pageable.getPage());
         log.info("offset = {}",pageable.getOffset());
         log.info("size = {}",pageable.getSize());
-        log.info("filters = {}",pageable.FiltersToEnum(pageable.getFilters()));
+        log.info("filters = {}",pageable.getFilterEnums());
 
 
         return ResponseEntity.ok(questionService.getList(pageable));

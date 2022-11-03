@@ -5,7 +5,10 @@ import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.dto.request.QuestionSearch;
 import com.backend.domain.question.exception.NoSuchElement;
 import com.backend.global.dto.request.PageRequest;
+import com.backend.global.dto.request.PageRequest.Filter;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +22,7 @@ import static com.backend.domain.comment.domain.QQuestionComment.questionComment
 import static com.backend.domain.question.domain.QQuestion.*;
 import static com.backend.domain.question.domain.QQuestionTag.*;
 import static com.backend.domain.tag.domain.QTag.tag;
+import static com.backend.global.dto.request.PageRequest.Filter.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -27,13 +31,30 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    private BooleanBuilder filtering(PageRequest pageable){
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        for (Filter filterEnum : pageable.getFilterEnums()) {
+            if(filterEnum.equals(NoAnswer)){
+                booleanBuilder.and(question.answers.size().eq(0));
+            }
+            if(filterEnum.equals(NoAcceptedAnswer)){
+                booleanBuilder.and(question.isAnswered.eq(false));
+            }
+        }
+
+        return booleanBuilder;
+    }
+
+
     @Override
     public List<Tuple> findList(PageRequest pageable) {
+
         List<Tuple> fetch = jpaQueryFactory
                 .select(question, question.answers.size())
                 .from(question)
                 .leftJoin(question.member)
                 .fetchJoin()
+                .where(filtering(pageable))
                 .limit(pageable.getSize())
                 .offset(pageable.getOffset())
                 .orderBy(question.id.asc())
@@ -108,7 +129,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                 .leftJoin(tag)
                 .on(questionTag.tag.id.eq(tag.id))
                 .limit(tagSize)
-                .where(question.id.goe(firstId))
+                .where(question.id.goe(firstId),filtering(pageable))
                 .orderBy(question.id.asc())
                 .fetch();
     }
@@ -184,6 +205,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                 .join(question)
                 .on(questionTag.question.id.eq(question.id))
                 .where(question.title.contains(questionSearch.getQuery()), questionTag.tag.id.in(tagIds))
+
                 .fetch();
     }
 
@@ -191,6 +213,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 
         return jpaQueryFactory.select(question.id, questionTag.id.count())
                 .from(questionTag)
+                .where(filtering(pageable))
                 .offset(pageable.getOffset())
                 .limit(pageable.getSize())
                 .groupBy(question.id)
