@@ -28,7 +28,7 @@ function App() {
     username: 'dummy',
     imageUrl: "https://i.imgur.com/GvsgVco.jpeg"});
   const [accessToken, setAccessToken] = useState(null);
-  console.log(accessToken)
+  // console.log(accessToken)
 
   useEffect(() => {
     if(!(islogined && accessToken)){

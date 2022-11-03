@@ -7,30 +7,45 @@ import '../../css/question/QuestionDetail.scss'
 import { Link } from 'react-router-dom'
 import { fetchDelete } from '../../../util/api'
 import { Viewer } from '@toast-ui/react-editor';
+import axios from 'axios'
+
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
 
 
 export default function QuestionDetail({item, id, accessToken}) {
+  
+  axios.defaults.headers.common["Authorization"] = accessToken;
 
   const handleDelete = () => {
     // 임시 DELETE
-    fetchDelete('http://localhost:3001/items/', item.id)
+    // fetchDelete('http://localhost:3001/items/', item.id)
 
     // api DELETE
     // fetchDelete(`/api/questions/${id}`)
-    fetch(`/api/questions/${id}`, {
-      method: "DELETE",
-      headers: new Headers({
-        "ngrok-skip-browser-warning": "69420",
-        "Content-Type" : "application/json"
-      })
+    // fetch(`/api/questions/${id}`, {
+    //   method: "DELETE",
+    //   headers: new Headers({
+    //     "ngrok-skip-browser-warning": "69420",
+    //     "Content-Type" : "application/json"
+    //   })
+    // })
+
+    axios.delete(`/api/questions/${id}`)
+    .then((res) => {
+      console.log(res)
+      // navigate(`/question${res}`)
+      // return res.json()
     })
+    .catch(error => {
+      console.log(error.response);
+    });
+    // navigate('/')
   }
 
   return (
     <div className='questionDetail'>
-      <Vote item={item.question.voteCount} type={'question'} id={item.question.questionId}/>
+      <Vote item={item.question.voteCount} type={'question'} id={item.question.questionId} accessToken={accessToken}/>
       <div className='detailMainWrap'>
         <div className='detailContent'>
           <h3><Viewer initialValue={item.question.summary}/></h3>
