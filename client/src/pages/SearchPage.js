@@ -8,7 +8,7 @@ import Category from '../components/js/category/Category';
 import axios from 'axios';
 
 
-export default function SearchPage({inputData, changeFilterData}) {
+export default function SearchPage({inputData}) {
 
   const [items, seItems] = useState(null);;
 

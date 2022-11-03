@@ -8,19 +8,20 @@ export default function Question({item}) {
   
   // 상세페이지 데이터 GET
   const [detailItem, setDetailItem] = useState();
-  useEffect(()=>{
-    axios.get(`/api/questions/${item.question.questionId}`, {
-      headers: {
-        "ngrok-skip-browser-warning": "69420"
-      }
-    })
-    .then(res => {
-      setDetailItem(res.data)
-    })
-    .catch(err => {
-      console.error(err)
-    })
-  }, [item])
+  
+  // useEffect(()=>{
+  //   axios.get(`/api/questions/${item.question.questionId}`, {
+  //     headers: {
+  //       "ngrok-skip-browser-warning": "69420"
+  //     }
+  //   })
+  //   .then(res => {
+  //     setDetailItem(res.data)
+  //   })
+  //   .catch(err => {
+  //     console.error(err)
+  //   })
+  // }, [item])
 
   const navigate = useNavigate();
   const clickTitle = () => {
@@ -46,9 +47,9 @@ export default function Question({item}) {
         </div>
       </div>
       <div className='questionList_profile'>
-            <img className='pic' src={item.member.profileImage} alt='profile'/>
-            <p>{item.member.username}</p>
-            <p>{item.question.createdAt}</p>
+        <img className='pic' src={item.member.profileImage} alt='profile'/>
+        <p>{item.member.username}</p>
+        <p>{item.question.createdAt}</p>
         </div>
     </div>
   )

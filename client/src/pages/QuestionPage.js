@@ -7,7 +7,7 @@ import Aside from '../components/js/aside/Aside';
 import Category from '../components/js/category/Category';
 import axios from 'axios';
 
-export default function QuestionPage({ inputData, filterData, changeFilterData}) {
+export default function QuestionPage({ filterData, changeFilterData}) {
 
   const [items, seItems] = useState(null);;
 
@@ -16,20 +16,20 @@ export default function QuestionPage({ inputData, filterData, changeFilterData})
       "filters" : filterData,
       "page" : 1
     };
-    axios.get('api/questions', {
+    axios.get('/api/questions', {
       params : params,
       headers: {
         "ngrok-skip-browser-warning": "69420"
       }
     })
     .then(res => {
-      console.log(res.data.items)
+      console.log(res)
       seItems(res.data.items)
     })
     .catch(err => {
       console.error(err)
     })
-  }, [inputData, filterData])
+  }, [filterData])
 
 
   //questionList Count
