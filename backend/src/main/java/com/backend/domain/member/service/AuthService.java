@@ -2,16 +2,22 @@ package com.backend.domain.member.service;
 
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.dto.MemberResponseDto;
+import com.backend.domain.member.dto.ReissueResponse;
 import com.backend.domain.member.dto.SignUpRequest;
 import com.backend.domain.member.dto.TokenDto;
 import com.backend.domain.member.exception.EmailDuplication;
+import com.backend.domain.member.exception.MemberNotFound;
+import com.backend.domain.member.exception.NotLoginMember;
 import com.backend.domain.member.exception.UserNameDuplication;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.refreshtoken.domain.RefreshToken;
+import com.backend.domain.refreshtoken.exception.TokenInvalid;
+import com.backend.domain.refreshtoken.exception.TokenNotFound;
 import com.backend.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.backend.global.jwt.TokenProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +25,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
     private final MemberRepository memberRepository;
@@ -35,7 +43,7 @@ public class AuthService {
         if (memberRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new EmailDuplication();
         }
-        if(memberRepository.existsByUsername((signUpRequest.getUsername()))){
+        if (memberRepository.existsByUsername((signUpRequest.getUsername()))) {
             throw new UserNameDuplication();
         }
         // 비밀번호 암호화
@@ -47,17 +55,17 @@ public class AuthService {
 
     // 토큰 재발급
     @Transactional
-    public Long reissue(String refreshToken,
-                        HttpServletResponse response) {
+    public ReissueResponse reissue(String refreshToken,
+                                   HttpServletResponse response) {
+
+        refreshToken = Optional.ofNullable(refreshToken)
+                .orElseThrow(TokenNotFound::new);
 
         Claims claims = tokenProvider.parseClaims(refreshToken);
 
-        if (claims == null) {
-            throw new RuntimeException("refreshToken 이 만료되었습니다.");
-        }
 
         Member member = memberRepository.findById(Long.parseLong(claims.getSubject()))
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
+                .orElseThrow(MemberNotFound::new);
 
         AuthMember authMember = AuthMember.of(member);
 
@@ -65,13 +73,13 @@ public class AuthService {
 
         TokenDto tokenDto = tokenProvider.generateTokenDto(authMember);
         String newRTK = tokenDto.getRefreshToken();
-        String newATK = tokenDto.getRefreshToken();
+        String newATK = tokenDto.getAccessToken();
 
         RefreshToken savedRefreshToken = refreshTokenRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
+                .orElseThrow(NotLoginMember::new);
 
         if (!savedRefreshToken.getValue().equals(refreshToken)) {
-            throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
+            throw new TokenInvalid();
         }
 
         RefreshToken newRefreshToken = savedRefreshToken.updateValue(newRTK);
@@ -86,21 +94,26 @@ public class AuthService {
 
         response.setHeader("Authorization", "Bearer " + newATK);
 
-        return authMember.getMemberId();
+        return ReissueResponse.toResponse(member);
     }
 
     // 로그아웃
     @Transactional
-    public void logout(String token, HttpServletRequest request, HttpServletResponse response) {
+    public void logout(String refreshToken, HttpServletRequest request, HttpServletResponse response) {
+
+        refreshToken = Optional.ofNullable(refreshToken)
+                .orElseThrow(TokenNotFound::new);
         // request 에서 refreshToken 쿠키를 찾아 삭제
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("refreshToken")) {
                 cookie.setMaxAge(0);
+                cookie.setPath("/");
+                cookie.setHttpOnly(true);
                 response.addCookie(cookie);
             }
         }
-        refreshTokenRepository.deleteByValue(token);
+        refreshTokenRepository.deleteByValue(refreshToken);
     }
 
 }

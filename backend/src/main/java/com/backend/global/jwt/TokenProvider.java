@@ -2,6 +2,7 @@ package com.backend.global.jwt;
 
 import com.backend.domain.member.dto.TokenDto;
 import com.backend.domain.member.service.AuthMember;
+import com.backend.domain.refreshtoken.exception.*;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -12,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletResponse;
 import java.security.Key;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,20 +22,28 @@ import java.util.stream.Collectors;
 @Component
 public class TokenProvider {
     /* 유저 정보로 JWT 토큰을 만들거나 토큰을 바탕으로 유저 정보를 가져옴
-    *  JWT 토큰 관련 암호화, 복호화, 검증 로직
-    */
+     *  JWT 토큰 관련 암호화, 복호화, 검증 로직
+     */
 
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
     @Value("${jwt.access-token-expiration-time}")
-    private static long ACCESS_TOKEN_EXPIRE_TIME;
-    @Value("${refresh-token-expiration-time}")
-    private static long REFRESH_TOKEN_EXPIRE_TIME;
+    private int ACCESS_TOKEN_EXPIRE_TIME;
+    @Value("${jwt.refresh-token-expiration-time}")
+    private int REFRESH_TOKEN_EXPIRE_TIME;
     private final Key key;
 
     public TokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64URL.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public Date getTokenExpiration(int expirationMinutes) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, expirationMinutes);
+        Date expiration = calendar.getTime();
+
+        return expiration;
     }
 
     public TokenDto generateTokenDto(AuthMember authMember) {
@@ -42,14 +52,14 @@ public class TokenProvider {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        long now = (new Date()).getTime();
+        Date accessTokenExpiresIn = getTokenExpiration(ACCESS_TOKEN_EXPIRE_TIME);
+        Date refreshTokenExpiresIn = getTokenExpiration(REFRESH_TOKEN_EXPIRE_TIME);
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", authMember.getMemberId());
         claims.put("roles", authMember.getAuthorities());
 
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
                 .setSubject(authMember.getEmail())                  // payload "sub": "name"
                 .setClaims(claims)      // payload "auth": "ROLE_USER"
@@ -60,7 +70,7 @@ public class TokenProvider {
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
                 .setSubject(authMember.getMemberId().toString())
-                .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
+                .setExpiration(refreshTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
@@ -84,7 +94,7 @@ public class TokenProvider {
         List<String> authorities = Arrays.stream(claims.get("roles").toString().split(","))
                 .collect(Collectors.toList());
 
-        AuthMember auth = AuthMember.of(claims.get("id",Long.class), authorities);
+        AuthMember auth = AuthMember.of(claims.get("id", Long.class), authorities);
         return new UsernamePasswordAuthenticationToken(auth, auth.getPassword(), auth.getAuthorities());
     }
 
@@ -97,27 +107,49 @@ public class TokenProvider {
         } catch (SignatureException e) {
             log.info("Invalid JWT signature");
             log.trace("Invalid JWT signature trace: {}", e);
+            throw new TokenSignatureInvalid();
         } catch (MalformedJwtException e) {
             log.info("Invalid JWT token");
             log.trace("Invalid JWT token trace: {}", e);
+            throw new TokenMalformed();
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT token");
             log.trace("Expired JWT token trace: {}", e);
+            throw new TokenExpired();
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT token");
             log.trace("Unsupported JWT token trace: {}", e);
+            throw new TokenUnsupported();
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.");
             log.trace("JWT claims string is empty trace: {}", e);
+            throw new TokenEmpty();
         }
-        return false;
     }
 
     public Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
+        } catch (SignatureException e) {
+            log.info("Invalid JWT signature");
+            log.trace("Invalid JWT signature trace: {}", e);
+            throw new TokenSignatureInvalid();
+        } catch (MalformedJwtException e) {
+            log.info("Malformed JWT token");
+            log.trace("Invalid JWT token trace: {}", e);
+            throw new TokenMalformed();
         } catch (ExpiredJwtException e) {
-            return e.getClaims();
+            log.info("Expired JWT token");
+            log.trace("Expired JWT token trace: {}", e);
+            throw new TokenExpired();
+        } catch (UnsupportedJwtException e) {
+            log.info("Unsupported JWT token");
+            log.trace("Unsupported JWT token trace: {}", e);
+            throw new TokenUnsupported();
+        } catch (IllegalArgumentException e) {
+            log.info("JWT claims string is empty.");
+            log.trace("JWT claims string is empty trace: {}", e);
+            throw new TokenEmpty();
         }
     }
 
