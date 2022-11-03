@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Background from '../assets/imgs/Background.svg'
 import './AddQuestion.scss'
 import Inputbox from '../components/js/addContent/Inputbox'
@@ -6,8 +6,10 @@ import { fetchCreate } from '../util/api'
 import  useFetch  from '../util/useFetch'
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
-export default function AddQuestion() {
+export default function AddQuestion({accessToken}) {
   //회원정보 받아오기 (임시)
   const [member] = useFetch("http://localhost:3001/member/");
   //회원정보 받아오기 (Api)
@@ -27,34 +29,40 @@ export default function AddQuestion() {
 
 
   const contentInput = useRef();
+
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // data 생성 & POST (임시)
-    let data = {
-    tags,
-    member,
-    "question": {
-        "isAnswered": false,
-        "viewCount": 0,
-        "acceptedAnswerId": 55152722,
-        "answerCount": 0,
-        "votes": 0,
-        "createdAt": 1552344257,
-        "modifiedAt": 1596034268,
-        "questionId": 55111502,
-        "link": "https://stackoverflow.com/questions/55111503/convert-a-gdoc-into-image",
-        title,
-        content: contentInput.current.getInstance().getMarkdown(),
-        "qcomment": []
-    },
-    "answer": []
-    }
-    fetchCreate("http://localhost:3001/items/", data)
-
     // data 생성 & POST (Api)
-    // let data = { title, content, tags }
+    let data = { title, content: contentInput.current.getInstance().getMarkdown(), tags }
+  //   let data = {
+  //     title : 'sdfasdfasfdasdfasdfasdf',
+  //     content : 'asdfddfasdfasdfasdfasdfasdfasdfㅁㄴㅇㅁㄴㅇㅁㄴㅇ',
+  //     tags : [
+  //         {name : 'java'},
+  //         {name : 'python'}
+  //     ]
+  // }
+
     // fetchCreate("/questions/", data)
+    fetch("/api/questions", {
+      method: "POST",
+      headers: new Headers({
+        "Authorization": accessToken,
+        "ngrok-skip-browser-warning": "69420",
+        "Content-Type" : "application/json"
+      }),
+      body: JSON.stringify(data)
+    })
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.error(err)
+    })
+    navigate('/')
   }
 
   return (

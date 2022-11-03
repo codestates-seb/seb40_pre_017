@@ -11,19 +11,26 @@ import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
 
 
-export default function QuestionDetail({item, id}) {
+export default function QuestionDetail({item, id, accessToken}) {
 
   const handleDelete = () => {
     // 임시 DELETE
     fetchDelete('http://localhost:3001/items/', item.id)
 
     // api DELETE
-    // fetchDelete('http://localhost:3001/questions/', id)
+    // fetchDelete(`/api/questions/${id}`)
+    fetch(`/api/questions/${id}`, {
+      method: "DELETE",
+      headers: new Headers({
+        "ngrok-skip-browser-warning": "69420",
+        "Content-Type" : "application/json"
+      })
+    })
   }
 
   return (
     <div className='questionDetail'>
-      <Vote item={item.question.voteCount} type={'question'}/>
+      <Vote item={item.question.voteCount} type={'question'} id={item.question.questionId}/>
       <div className='detailMainWrap'>
         <div className='detailContent'>
           <h3><Viewer initialValue={item.question.summary}/></h3>

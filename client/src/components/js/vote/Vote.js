@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import { fetchCreate } from '../../../util/api';
 import '../../css/vote/Vote.scss'
 
-export default function Vote({item, type}) {
+export default function Vote({item, type, id, accessToken}) {
 
   // 투표찬성
   const [clickUp, setClickUp] = useState(false);
@@ -12,6 +13,21 @@ export default function Vote({item, type}) {
         if(type === 'question'){
           //질문투표찬성
           ///questions/{id}/upvote
+          // fetchCreate(`/api/questions/${id}/upvote`)
+          fetch(`/api/questions/${id}/upvote`, {
+            method: "POST",
+            headers: new Headers({
+              "Authorization": `${accessToken}`,
+              "ngrok-skip-browser-warning": "69420",
+              "Content-Type" : "application/json"
+            })
+          })
+          .then(res => {
+            console.log(res)
+          })
+          .catch(err => {
+            console.error(err)
+          })
         }else if(type === 'answer'){
           //답변투표찬성
           ///question/{id}/answer/{answer-id}/upvote
