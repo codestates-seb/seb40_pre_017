@@ -3,7 +3,7 @@ import { fetchCreate } from '../../../util/api';
 import '../../css/vote/Vote.scss'
 
 export default function Vote({item, type, id, accessToken}) {
-
+  console.log(accessToken)
   // 투표찬성
   const [clickUp, setClickUp] = useState(false);
   const handleUp = () => {

@@ -10,6 +10,11 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 export default function AddQuestion({accessToken}) {
+  axios.defaults.headers.common["Authorization"] = accessToken;
+
+  console.log(accessToken)
+
+
   //회원정보 받아오기 (임시)
   const [member] = useFetch("http://localhost:3001/member/");
   //회원정보 받아오기 (Api)
@@ -46,22 +51,32 @@ export default function AddQuestion({accessToken}) {
   //     ]
   // }
 
-    // fetchCreate("/questions/", data)
-    fetch("/api/questions", {
-      method: "POST",
-      headers: new Headers({
-        "Authorization": accessToken,
-        "ngrok-skip-browser-warning": "69420",
-        "Content-Type" : "application/json"
-      }),
-      body: JSON.stringify(data)
-    })
-    .then(res => {
+    // fetchCreate("/questions", data)
+    // fetch("/api/questions", {
+    //   method: "POST",
+    //   headers: new Headers({
+    //     "Authorization": accessToken,
+    //     "ngrok-skip-browser-warning": "69420",
+    //     "Content-Type" : "application/json"
+    //   }),
+    //   body: JSON.stringify(data)
+    // })
+    // .then(res => {
+    //   console.log(res)
+    // })
+    // .catch(err => {
+    //   console.error(err)
+    // })
+    
+    axios.post(`/api/questions`, data)
+    .then((res) => {
       console.log(res)
+      navigate(`/question${res}`)
+      // return res.json()
     })
-    .catch(err => {
-      console.error(err)
-    })
+    .catch(error => {
+      console.log(error.response);
+    });
     navigate('/')
   }
 
