@@ -1,12 +1,41 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import QuestionList from '../components/js/questionPage/QuestionList'
 import { Link } from 'react-router-dom'
 import './searchPage.scss'
 import Pagination from '../components/js/questionPage/Pagination';
 import Aside from '../components/js/aside/Aside';
 import Category from '../components/js/category/Category';
+import axios from 'axios';
 
-export default function SearchPage({items}) {
+
+export default function SearchPage({inputData, filterData, changeFilterData}) {
+
+  const [items, seItems] = useState(null);;
+
+  useEffect(()=>{
+    let params = {
+      "q" : inputData,
+      "filters" : filterData,
+      "page" : 1
+    };
+
+    axios.get('api/questions', {
+      params : params,
+      headers: {
+        "ngrok-skip-browser-warning": "69420"
+      }
+    })
+    .then(res => {
+      console.log(res.data)
+      // seItems(res.data)
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  }, [inputData, filterData])
+
+
+
   //questionList Count
   let count = 0;
   if(items){
@@ -28,9 +57,8 @@ export default function SearchPage({items}) {
         <div className='countFilterWrap'>
           <span>{count} question</span>
           <div className='filterBtns'>
-            <button>Newest</button>
-            <button>Vote</button>
-            <button>Unanswered</button>
+            <button className={'' + (filterData === "NoAnswer" && "active")} onClick={changeFilterData} name='NoAnswer'>NoAnswer</button>
+            <button className={'' + (filterData === "NoAcceptedAnswer" && "active")} onClick={changeFilterData} name='NoAcceptedAnswer'>NoAcceptedAnswer</button>
           </div>
         </div>
         <QuestionList items={items}/>

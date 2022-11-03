@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Background from '../assets/imgs/Background.svg'
 import './AddQuestion.scss'
 import Inputbox from '../components/js/addContent/Inputbox'
 import { fetchCreate } from '../util/api'
 import  useFetch  from '../util/useFetch'
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/react-editor';
 
 export default function AddQuestion() {
   //회원정보 받아오기 (임시)
@@ -20,7 +22,11 @@ export default function AddQuestion() {
   //tag
   const [tags, setTags] = useState([]);
 
+  //submit 비활성화
+  const [ submitDis, setSubmitDis ] = useState(true);
 
+
+  const contentInput = useRef();
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -39,7 +45,7 @@ export default function AddQuestion() {
         "questionId": 55111502,
         "link": "https://stackoverflow.com/questions/55111503/convert-a-gdoc-into-image",
         title,
-        content,
+        content: contentInput.current.getInstance().getMarkdown(),
         "qcomment": []
     },
     "answer": []
@@ -55,13 +61,13 @@ export default function AddQuestion() {
     <div className='addOut'>
       <div className='addQuestion'>
         <div className='addHeadWrap'>
-          <img src={Background} alt='backgroundImg'/>
           <h1>Ask a public question</h1>
+          <img src={Background} alt='backgroundImg'/>
         </div>
         
         <div className='addContent'>
           <div className='addGuide'>
-            Writing a good question
+            <h3>Writing a good question</h3>
             You’re ready to ask a programming-related question and this form will help guide you through the process.
 
             Looking to ask a non-programming question? See the topics here to find a relevant site.
@@ -73,8 +79,15 @@ export default function AddQuestion() {
             Add “tags” which help surface your question to members of the community.
             Review your question and post it to the site.
           </div>
-          <Inputbox setTitle={setTitle} setContent={setContent} tags={tags} setTags={setTags}/>
-          <button onClick={handleSubmit}>Review your question</button>
+          <Inputbox 
+            setTitle={setTitle} 
+            setContent={setContent} 
+            tags={tags} 
+            setTags={setTags} 
+            setSubmitDis={setSubmitDis}
+            contentInput={contentInput}
+          />
+          <button className='blueBtn' onClick={handleSubmit} disabled={submitDis ? true : false}>Review your question</button>
         </div>
         
       </div>

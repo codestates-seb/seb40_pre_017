@@ -50,14 +50,14 @@ public class MemberController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<MemberResponseDto> getMyMemberInfo(
-            @CurrentMember AuthMember authMember
-    ) {
-        return ResponseEntity.ok(memberService.getMyInfo(authMember.getMemberId()));
+
+    public ResponseEntity<MemberResponse> getMyMemberInfo(@CurrentMember AuthMember authMember) {
+        Long memberId = authMember.getMemberId();
+        return ResponseEntity.ok(memberService.getMyInfo(memberId));
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<MemberResponseDto> getMemberInfo(@PathVariable String email) {
+    public ResponseEntity<MemberResponse> getMemberInfo(@PathVariable String email) {
         return ResponseEntity.ok(memberService.getMemberInfo(email));
     }
 }

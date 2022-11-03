@@ -2,7 +2,7 @@ import React from 'react'
 import '../../../css/basic/header/input.scss'
 
 
-export default function Input({name, searchQuestion, inputChange, id, focusChange}) {
+export default function Input({name, changeInputData, id, focusChange}) {
   return (
     <input 
     id={id} 
@@ -11,8 +11,11 @@ export default function Input({name, searchQuestion, inputChange, id, focusChang
     onBlur={() =>focusChange(false)} 
     className={(id === "search" ? " navInput": "navSmallInput")}
     type="text" 
-    onChange={inputChange}
-    onKeyPress={searchQuestion}
+    onKeyPress={(e)=> {
+      if(e.charCode === 13){
+        changeInputData(e)
+      }
+    }}
     placeholder="Search…" />
   )
 }

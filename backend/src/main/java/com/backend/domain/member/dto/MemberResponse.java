@@ -4,7 +4,10 @@ import com.backend.domain.member.domain.Member;
 import com.backend.global.util.Constant;
 import lombok.Builder;
 import lombok.Getter;
+
 import lombok.NoArgsConstructor;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 
 @Getter
 @NoArgsConstructor
@@ -35,9 +38,11 @@ public class MemberResponse {
     }
 
     private static String memberLink(Member member) {
-        return Constant.URL.getUrl().
-                concat("/member/").
-                concat(String.valueOf(member.getId()));
+        return ServletUriComponentsBuilder.fromCurrentRequest()
+                .replacePath("member/").path(member.getId().toString())
+                .replaceQuery(null)
+                .toUriString();
+
     }
 
 }

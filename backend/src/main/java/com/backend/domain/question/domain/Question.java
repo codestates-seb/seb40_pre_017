@@ -12,6 +12,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@DynamicUpdate
 public class Question extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +59,19 @@ public class Question extends Auditable {
 
     @OneToMany(mappedBy = "question",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuestionDownVote> downVotes;
+
+    @Formula("(select\n" +
+            "            count(upvotes3_.question_id) \n" +
+            "        from\n" +
+            "            question_up_vote upvotes3_ \n" +
+            "        where\n" +
+            "            question0_.question_id = upvotes3_.question_id)-(select\n" +
+            "            count(downvotes4_.question_id) \n" +
+            "        from\n" +
+            "            question_down_vote downvotes4_ \n" +
+            "        where\n" +
+            "            question0_.question_id = downvotes4_.question_id)")
+    private Integer voteCount;
 
     @OneToMany(mappedBy = "question",cascade = CascadeType.ALL)
     private List<QuestionComment> questionComments = new ArrayList<>();
@@ -109,7 +125,7 @@ public class Question extends Auditable {
         this.isAnswered = true;
     }
 
-    public void unaccept(){
+    public void unAccept(){
         this.isAnswered = false;
     }
 }

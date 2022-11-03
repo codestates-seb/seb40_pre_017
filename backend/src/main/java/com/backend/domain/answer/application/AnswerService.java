@@ -97,7 +97,7 @@ public class AnswerService {
 
         if(question.getMember().getId() == memberId ) {
             findAnswer.unAccept();
-            question.unaccept();
+            question.unAccept();
             if(findAnswer.getMember().getId() != memberId)
                 findAnswer.getMember().answerUnAccepted();
         }else{

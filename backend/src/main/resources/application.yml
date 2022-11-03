@@ -13,7 +13,7 @@ spring:
     show-sql: true      # (2) SQL 쿼리 출력
     properties:
       hibernate:
-        hibernate.default_batch_fetch_size: 1000
+
         format_sql: true  # (3) SQL pretty print
   profiles:
     active: local

@@ -5,6 +5,7 @@
       <option name="customHeaders">
         <set>
           <option value="RefreshToken" />
+          <option value="error" />
         </set>
       </option>
     </inspection_tool>
