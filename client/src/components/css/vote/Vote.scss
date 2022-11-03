@@ -16,6 +16,10 @@
     cursor: pointer;
 }
 
+.clickUp{
+    border-bottom: 17px solid #F48225;
+}
+
 .voteCount {
     font-size: 21px;
     margin: 20px 0px;
@@ -31,6 +35,10 @@
     padding: 0px;
     background-color: transparent;
     cursor: pointer;
+}
+
+.clickDown{
+    border-top: 17px solid #F48225;
 }
 
 .etcBtn {

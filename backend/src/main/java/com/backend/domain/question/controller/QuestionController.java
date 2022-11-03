@@ -32,7 +32,6 @@ public class QuestionController {
      Long memberId = authMember.getMemberId();
 
         return ResponseEntity.ok(questionService.create(memberId,questionCreate));
-
     }
 
     @GetMapping("/questions/{id}")
@@ -62,16 +61,19 @@ public class QuestionController {
 
 
     @PatchMapping("questions/{id}")
-    public ResponseEntity<Long> update(@PathVariable Long id, @Valid @RequestBody QuestionUpdate questionUpdate){
+    public ResponseEntity<Long> update(@CurrentMember AuthMember authMember, @PathVariable Long id, @Valid @RequestBody QuestionUpdate questionUpdate){
 
-        return ResponseEntity.ok(questionService.update(id, questionUpdate));
+        Long memberId = authMember.getMemberId();
+
+        return ResponseEntity.ok(questionService.update(memberId, id, questionUpdate));
     }
 
     @DeleteMapping("questions/{id}")
-    public ResponseEntity<Long> delete(@PathVariable Long id){
+    public ResponseEntity<Long> delete(@CurrentMember AuthMember authMember, @PathVariable Long id){
 
+        Long memberId = authMember.getMemberId();
 
-        return ResponseEntity.ok(questionService.delete(id));
+        return ResponseEntity.ok(questionService.delete(memberId, id));
 
 
     }
