@@ -47,7 +47,7 @@ public class QuestionController {
         log.info("offset = {}",pageable.getOffset());
         log.info("size = {}",pageable.getSize());
         log.info("filters = {}",pageable.getFilterEnums());
-
+        pageable.filtersToEnum(pageable.getFilters());
 
         return ResponseEntity.ok(questionService.getList(pageable));
     }
@@ -55,7 +55,9 @@ public class QuestionController {
     @GetMapping("/search")
     public ResponseEntity<MultiResponse<?>> getSearchList(PageRequest pageable, @ModelAttribute QuestionSearchQuery questionSearchQuery) {
 
+        pageable.filtersToEnum(pageable.getFilters());
         QuestionSearch questionSearch = questionSearchQuery.queryParsing(questionSearchQuery.getQ());
+
 
         return ResponseEntity.ok(questionSearchService.getList(pageable,questionSearch));
     }

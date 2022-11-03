@@ -8,7 +8,6 @@ import com.backend.global.dto.request.PageRequest;
 import com.backend.global.dto.request.PageRequest.Filter;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +32,10 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 
     private BooleanBuilder filtering(PageRequest pageable){
         BooleanBuilder booleanBuilder = new BooleanBuilder();
+        if(pageable.getFilterEnums()==null){
+            return null;
+        }
+
         for (Filter filterEnum : pageable.getFilterEnums()) {
             if(filterEnum.equals(NoAnswer)){
                 booleanBuilder.and(question.answers.size().eq(0));
