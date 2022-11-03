@@ -12,6 +12,8 @@ import EditQuestion from './pages/EditQuestion';
 import EditAnswer from './pages/EditAnswer';
 import SearchPage from './pages/SearchPage';
 
+// json-server --watch data.json --port 3001
+
 function App() {
   const navigate = useNavigate();
 
@@ -28,7 +30,7 @@ function App() {
 
   useEffect(() => {
     if(!(islogined && accessToken)){
-      console.log('reload')
+      // console.log('reload')
       fetch('/api/users/reissue',{
         method: "GET",
         headers: new Headers({

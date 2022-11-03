@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import AddContent from './AddContent'
 import '../../css/addContent/Inputbox.scss'
 
-export default function Inputbox({setTitle, setContent, tags, setTags, title, content, setSubmitDis, contentInput}) {
+export default function Inputbox({setTitle, tags, setTags, title, content, setSubmitDis, contentInput, type}) {
   //유효성검사 해아함
 
 
@@ -127,7 +127,6 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
         <p>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</p>
         <AddContent 
           content={content}
-          setContent={setContent}
           appearNext={appearContentNext}
           contentInput={contentInput}
           setNextContentDis={setNextContentDis}
@@ -148,7 +147,7 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
           <ul id='tags'>
             {tags.map((tag, index) => (
               <li key={index} className='tag'>
-                <span className='tag-title'>{tag.name}</span>
+                <span className='tag-title'>{type === 'add' ? tag.name : tag}</span>
                 <span className='tag-close-icon' 
                 onClick={() => removeTags(index)}>
                   &times;
