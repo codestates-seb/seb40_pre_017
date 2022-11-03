@@ -45,6 +45,7 @@ public class QuestionController {
         log.info("page= {}",pageable.getPage());
         log.info("offset = {}",pageable.getOffset());
         log.info("size = {}",pageable.getSize());
+        log.info("filters = {}",pageable.FiltersToEnum(pageable.getFilters()));
 
 
         return ResponseEntity.ok(questionService.getList(pageable));

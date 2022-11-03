@@ -1,6 +1,6 @@
 package com.backend.domain.tag.service;
 
-import com.backend.domain.tag.TagNotFound;
+import com.backend.domain.tag.exception.TagNotFound;
 import com.backend.domain.tag.domain.Tag;
 import com.backend.domain.tag.dto.TagDto;
 import com.backend.domain.tag.repository.TagRepository;

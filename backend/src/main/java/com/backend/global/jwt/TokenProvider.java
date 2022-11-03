@@ -104,7 +104,7 @@ public class TokenProvider {
         try {
             parseClaims(token);
             return true;
-        } catch (SignatureException e) {
+        } catch (SignatureException e ) {
             log.info("Invalid JWT signature");
             log.trace("Invalid JWT signature trace: {}", e);
             throw new TokenSignatureInvalid();
