@@ -1,6 +1,6 @@
 import './App.scss';
 import React, {useState, useEffect} from 'react'
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Layout from './components/js/basic/Layout';
 import Notfound from './components/js/basic/Notfound';
 import QuestionPage from './pages/QuestionPage';
@@ -8,15 +8,11 @@ import AddQuestion from './pages/AddQuestion'
 import DetailPage from './pages/DetailPage'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
-import useFetch from './util/useFetch';
 import EditQuestion from './pages/EditQuestion';
 import EditAnswer from './pages/EditAnswer';
 import SearchPage from './pages/SearchPage';
 
-// json-server --watch data.json --port 3001
-
 function App() {
-  const location = useLocation().pathname;
   const navigate = useNavigate();
 
   const [inputData, setInputData] = useState("");
@@ -58,25 +54,19 @@ function App() {
     }
   }, [])
 
-
   const changeInputData = (e) => {
     if(e.target.value !== ""){
       let temp = e.target.value;
       setInputData(e.target.value);      
       e.target.value = "";
-      navigate('/search?' + ('q=' + temp) + ('&tab=' + filterData));
+      navigate(`/search?q=${temp}`);
     }
   }
 
   const changeFilterData = (e) => {
     let temp = e.target.name;
     setFilterData(e.target.name)
-
-    if(location !== "/"){
-      navigate('/search?' + ('q=' + inputData) + ('&tab=' + temp));
-    }else{
-      navigate('/?' + ('tab=' + temp));
-    }
+    navigate(`/?filter=${temp}`);
   }
 
   const logoutControll = () => {
@@ -87,7 +77,6 @@ function App() {
       })
     })
     .then((res) => {
-      console.log(res)
       setMemberData(null);
       setAccessToken(null);
       setIslogined(false);
@@ -112,7 +101,6 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<Notfound />} />
         </Route>
-
         <Route path="/search" element={<Layout changeInputData={changeInputData} islogined={islogined} memberData={memberData} logoutControll={logoutControll} />}>
           <Route index element={<SearchPage inputData={inputData} />} />
           <Route path="*" element={<Notfound />} />

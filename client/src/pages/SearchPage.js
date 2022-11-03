@@ -6,7 +6,7 @@ import Pagination from '../components/js/questionPage/Pagination';
 import Aside from '../components/js/aside/Aside';
 import Category from '../components/js/category/Category';
 import axios from 'axios';
-
+import NoSearch from '../components/js/noSearch/NoSearch';
 
 export default function SearchPage({inputData}) {
 
@@ -66,7 +66,7 @@ export default function SearchPage({inputData}) {
   if(items){
     count = items.length;
   }
-
+  console.log(items)
   return (
     <div className='questionPageWrap'>
       <div className='questionPageNavbar'>
@@ -74,7 +74,7 @@ export default function SearchPage({inputData}) {
       </div>
       <div className='questionPage'>
         <div className='headAddWrap'>
-          <h1>All Questions</h1>
+          <h1>Search Results</h1>
           <Link to={'/add'}>
             <button>Ask Question</button>
           </Link>
@@ -82,6 +82,7 @@ export default function SearchPage({inputData}) {
         <div className='countFilterWrap'>
           <span>{count} question</span>
         </div>
+        {!items ? <NoSearch /> : <QuestionList items={items}/>}
         <QuestionList items={items}/>
         <Pagination/>
       </div>
