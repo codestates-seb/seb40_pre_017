@@ -19,22 +19,29 @@ public final class PageRequest {
 
     private int page;
     private int size = 15;
-    private Sort.Direction sort;
+    private Sort.Direction sort= Sort.Direction.DESC;
     private String filters;
     private List<Filter> filterEnums;
 
 
-    public PageRequest(int page, int size, Sort.Direction sort, String filters) {
+    public PageRequest(int page, String filters) {
         this.page = page <= 0 ? 1 : page;
-        this.size = size;
-        this.sort = sort;
         this.filters = filters;
-        this.filterEnums= Arrays.stream(filters.split(",")).map(Filter::valueOf).collect(Collectors.toList());
     }
 
     public long getOffset() {
 
         return (long) (Math.max(1,page)-1) *Math.min(size,MAX_SIZE);
+    }
+
+    public void filtersToEnum(String filters) {
+        if(filters==null||filters.isEmpty()||filters.isBlank()) {
+            this.filterEnums=null;
+        }
+        else{
+            List<Filter> filterEnums = Arrays.stream(filters.split(",")).map(Filter::valueOf).collect(Collectors.toList());
+            this.filterEnums=filterEnums;
+        }
     }
 
 
