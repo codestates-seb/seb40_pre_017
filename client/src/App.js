@@ -122,9 +122,9 @@ function App() {
         <Route path="/" element={<Layout changeInputData={changeInputData} islogined={islogined} memberData={memberData} logoutControll={logoutControll} />}>
           <Route index element={<QuestionPage inputData={inputData} filterData={filterData} changeFilterData={changeFilterData}/>} />
           <Route path="/add" element={<AddQuestion accessToken={accessToken}/>} />
-          <Route path="questions/:id" element={<DetailPage items={items} accessToken={accessToken}/>} />
-          <Route path="questions/:id/edit" element={<EditQuestion items={items}/>} />
-          <Route path="questions/:id/editanswer/:answerId" element={<EditAnswer items={items}/>} />
+          <Route path="questions/:id" element={<DetailPage accessToken={accessToken}/>} />
+          <Route path="questions/:id/edit" element={<EditQuestion accessToken={accessToken}/>} />
+          <Route path="questions/:id/editanswer/:answerId" element={<EditAnswer accessToken={accessToken}/>} />
           <Route path="/login" element={<Login setIslogined={setIslogined} setMemberData={setMemberData} setAccessToken={setAccessToken} />} />
           <Route path="/signup" element={<Signup />} />
           {/* path 확실하게 재수정 */}

@@ -7,7 +7,7 @@ import Category from '../components/js/category/Category';
 import './DetailPage.scss'
 import { Link } from 'react-router-dom'
 
-export default function DetailPage({items, accessToken}) {
+export default function DetailPage({accessToken}) {
 
   const location = useLocation();
   const { item } = location.state;
@@ -38,7 +38,7 @@ export default function DetailPage({items, accessToken}) {
         <div className='detailBodyWrap'>
           <div className='detailContentWrap'>
             <QuestionDetail item={item} id={item.question.questionId} accessToken={accessToken}/>
-            <AnswerList item={item} id={item.question.questionId}/>
+            <AnswerList item={item} id={item.question.questionId} accessToken={accessToken}/>
           </div>
           <div className='detailPageAside'>
             <Aside />

@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Background from '../assets/imgs/Background.svg'
 import './AddQuestion.scss'
 import Inputbox from '../components/js/addContent/Inputbox'
-import { fetchCreate } from '../util/api'
-import  useFetch  from '../util/useFetch'
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import axios from 'axios'
@@ -14,16 +12,10 @@ export default function AddQuestion({accessToken}) {
 
   console.log(accessToken)
 
-
-  //회원정보 받아오기 (임시)
-  const [member] = useFetch("http://localhost:3001/member/");
-  //회원정보 받아오기 (Api)
-  // const [member] = useFetch("/users/{ids}");
-
   //제목
   const [title, setTitle] = useState('');
 
-  //content
+  //content 삭제
   const [content, setContent] = useState('');
 
   //tag
@@ -31,7 +23,6 @@ export default function AddQuestion({accessToken}) {
 
   //submit 비활성화
   const [ submitDis, setSubmitDis ] = useState(true);
-
 
   const contentInput = useRef();
 
@@ -42,31 +33,6 @@ export default function AddQuestion({accessToken}) {
 
     // data 생성 & POST (Api)
     let data = { title, content: contentInput.current.getInstance().getMarkdown(), tags }
-  //   let data = {
-  //     title : 'sdfasdfasfdasdfasdfasdf',
-  //     content : 'asdfddfasdfasdfasdfasdfasdfasdfㅁㄴㅇㅁㄴㅇㅁㄴㅇ',
-  //     tags : [
-  //         {name : 'java'},
-  //         {name : 'python'}
-  //     ]
-  // }
-
-    // fetchCreate("/questions", data)
-    // fetch("/api/questions", {
-    //   method: "POST",
-    //   headers: new Headers({
-    //     "Authorization": accessToken,
-    //     "ngrok-skip-browser-warning": "69420",
-    //     "Content-Type" : "application/json"
-    //   }),
-    //   body: JSON.stringify(data)
-    // })
-    // .then(res => {
-    //   console.log(res)
-    // })
-    // .catch(err => {
-    //   console.error(err)
-    // })
     
     axios.post(`/api/questions`, data)
     .then((res) => {
