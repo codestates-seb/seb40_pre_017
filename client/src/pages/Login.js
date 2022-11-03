@@ -41,6 +41,7 @@ export default function Login({setIslogined, setMemberData, setAccessToken}) {
         body: JSON.stringify(data)
       })
       .then((res) => {
+        console.log(res)
         if(res.status === 200){
           let jwtToken = res.headers.get("Authorization");
           setAccessToken(jwtToken)

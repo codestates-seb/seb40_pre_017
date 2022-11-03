@@ -55,8 +55,9 @@ public class QuestionController {
     public ResponseEntity<MultiResponse<?>> getSearchList(PageRequest pageable, @ModelAttribute QuestionSearchQuery questionSearchQuery) {
 
         pageable.filtersToEnum(pageable.getFilters());
+        log.info("questionSearch get q = {}", questionSearchQuery.getQ());
         QuestionSearch questionSearch = questionSearchQuery.queryParsing(questionSearchQuery.getQ());
-
+        log.info("questionSearch = {}", questionSearch.getTagNames());
 
         return ResponseEntity.ok(questionSearchService.getList(pageable,questionSearch));
     }
