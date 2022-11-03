@@ -120,7 +120,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout changeInputData={changeInputData} islogined={islogined} memberData={memberData} logoutControll={logoutControll} />}>
-          <Route index element={<QuestionPage inputData={inputData} filterData={filterData} changeFilterData={changeFilterData} />} />
+          <Route index element={<QuestionPage inputData={inputData} filterData={filterData} changeFilterData={changeFilterData}/>} />
           <Route path="/add" element={<AddQuestion />} />
           <Route path="questions/:id" element={<DetailPage items={items}/>} />
           <Route path="questions/:id/edit" element={<EditQuestion items={items}/>} />

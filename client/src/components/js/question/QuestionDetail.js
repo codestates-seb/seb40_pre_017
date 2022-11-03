@@ -23,10 +23,10 @@ export default function QuestionDetail({item, id}) {
 
   return (
     <div className='questionDetail'>
-      <Vote item={item.question.votes} type={'question'}/>
+      <Vote item={item.question.voteCount} type={'question'}/>
       <div className='detailMainWrap'>
         <div className='detailContent'>
-          <h3><Viewer initialValue={item.question.content}/></h3>
+          <h3><Viewer initialValue={item.question.summary}/></h3>
           <Tags item={item}/>
         </div>
 

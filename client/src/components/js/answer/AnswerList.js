@@ -6,8 +6,8 @@ import { fetchPatch } from '../../../util/api';
 
 export default function AnswerList({item}) {
   let count = 0;
-  if(item.answer !== []){
-    count = item.answer.length;
+  if(item.answers !== []){
+    count = item.answers.length;
   }
 
   // Add answer 
@@ -18,24 +18,24 @@ export default function AnswerList({item}) {
     e.preventDefault();
 
     // data 생성 & POST (임시)
-    let answer = [
-      {
-        "answerId": 21187802,
-        "memberId": 21123802,
-        "createdAt": 1552234257,
-        "modifiedAt": 1523034268,
-        content: contentInput.current.getInstance().getMarkdown(),
-        "votes": 0,
-        "isAccepted": "true",
-        "reputation": 23,
-        "profileImage": "https://lh4.googleusercontent.com/-8o1Zs4lQprY/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rebPfyBOjde6DPW0bjTb2M1BSIwCg/mo/photo.jpg?sz=256",
-        "userName": "fulvio",
-        "link": "https://stackoverflow.com/users/11187800/fulvio",
-        "aComments": [
-        ]
-      }
-    ]
-    fetchPatch("http://localhost:3001/items/",item.id, { answer })
+    // let answer = [
+    //   {
+    //     "answerId": 21187802,
+    //     "memberId": 21123802,
+    //     "createdAt": 1552234257,
+    //     "modifiedAt": 1523034268,
+    //     content: contentInput.current.getInstance().getMarkdown(),
+    //     "votes": 0,
+    //     "isAccepted": "true",
+    //     "reputation": 23,
+    //     "profileImage": "https://lh4.googleusercontent.com/-8o1Zs4lQprY/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rebPfyBOjde6DPW0bjTb2M1BSIwCg/mo/photo.jpg?sz=256",
+    //     "userName": "fulvio",
+    //     "link": "https://stackoverflow.com/users/11187800/fulvio",
+    //     "aComments": [
+    //     ]
+    //   }
+    // ]
+    // fetchPatch("http://localhost:3001/items/",item.id, { answer })
 
     // data 생성 & POST (Api)
     // let data = { content: answerContent }
@@ -48,7 +48,7 @@ export default function AnswerList({item}) {
         <div className='answerCount'>{count} Answers</div>
         {/* <div>Sorted by:</div> */}
       </div>
-      {item.answer && item.answer.map((answer) => (
+      {item.answers && item.answers.map((answer) => (
         <div key={answer.answerId}>
           <Answer 
             answer={answer} 

@@ -9,7 +9,7 @@ export default function Profile({item}) {
       <p>asked createdAt ago</p>
       <div className='profileName'>
         <img src={item.profileImage} alt='profileImg'/>
-        <p className='username'>{item.userName}</p>
+        <p className='username'>{item.username}</p>
       </div>
       
     </div>
