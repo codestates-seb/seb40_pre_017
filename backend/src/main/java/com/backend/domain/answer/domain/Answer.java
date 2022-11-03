@@ -1,7 +1,6 @@
 package com.backend.domain.answer.domain;
 
-import com.backend.domain.answer.dto.AnswerPatchDto;
-import com.backend.domain.answer.dto.AnswerResponseDto;
+import com.backend.domain.answer.dto.AnswerUpdate;
 import com.backend.domain.comment.domain.AnswerComment;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.question.domain.Question;
@@ -75,13 +74,7 @@ public class Answer extends Auditable {
         this.question=question;
     }
 
-    public AnswerResponseDto toResponseDto() {
-        return AnswerResponseDto.builder()
-                .answerId(id)
-                .build();
-    }
-
-    public void patch(AnswerPatchDto dto) {
+    public void patch(AnswerUpdate dto) {
 
         if(dto.getContent() != null)
             this.content = dto.getContent();

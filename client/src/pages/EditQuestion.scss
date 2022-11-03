@@ -1,0 +1,47 @@
+.editQuestionWrap{
+    display: flex;
+    max-width: 1264px;
+
+    h2{
+        font-size: 21px;
+        margin-bottom: 20px;
+    }
+
+    .saveEdit{
+        font-size: 13px;
+        cursor: pointer;
+        height: 37px;
+        padding: 10px;
+        color: white;
+        background-color: #0A95FF;
+        border-color: transparent;
+        border-radius: 3px;
+        box-shadow: rgba(255,255,255,0.4) 0px 2px 0px 0px inset;
+    }
+    .saveEdit:hover{
+        background-color: #0074CC;
+    }
+
+    .cancel{
+        cursor: pointer;
+        margin-left: 15px;
+        background-color: transparent;
+        color: #0089DA;
+    }
+    .cancel:hover{
+        color:  #0A95FF;
+    }
+
+}
+
+.editQuestionNavbar{
+    width: 164px;
+}
+
+.editQuestionMain{
+    margin: 50px 23px 72px 23px;
+}
+
+.editQuestionAside{
+    width: 300px;
+}

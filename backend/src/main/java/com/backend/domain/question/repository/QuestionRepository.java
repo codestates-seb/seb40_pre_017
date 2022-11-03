@@ -12,5 +12,7 @@ public interface QuestionRepository extends JpaRepository<Question,Long>, Questi
     @Query("select count(q) from Question q")
     Long getCount();
 
+    @Query("select q.member.id from Question q where q.id = :questionId")
+    Long getMemberIdByQuestionId(Long questionId);
 
 }

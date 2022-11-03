@@ -1,28 +1,25 @@
 import React, {useState} from 'react'
 import './login.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Googlebtn from '../components/js/user/common/Googlebtn';
 import Githubbtn from '../components/js/user/common/Githubbtn';
 import Facebookbtn from '../components/js/user/common/Facebookbtn';
 import Input from '../components/js/user/common/Input';
 import Button from '../components/js/user/common/Button';
 import Inputerror from '../components/js/user/common/Inputerror';
-import  {setItemWithExpireTime}  from '../util/controlStorage'
 
 let content = ["Log in with Google", "Log in with Github", "Log in with Facebook"];
 
-export default function Login() {
+export default function Login({setIslogined, setMemberData, setAccessToken}) {
+  const navigate = useNavigate();
 
   const [data, setDate] = useState({});
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
-
-
   const formSubmit = (e) =>{
     e.preventDefault()
-    console.log(data)
     let error = false
 
     if(data.email === undefined){
@@ -35,45 +32,35 @@ export default function Login() {
     }
 
     if(!error){
-      // fetch("http://localhost:3001/users/login", {
-      //   method: "POST",
-      //   headers: {"Content-Type" : "application/json"},
-      //   body: JSON.stringify(data)
-      // })
-      // .then((res) => {
-      //   // 엑세스 토큰 정보 스토리지에 저장.
-      //   let jwtToken = res.headers.authorization;
-      //   localStorage.setItem("authorization", jwtToken);
-          // setItemWithExpireTime("authorization", jwtToken, 1000 * 60 * 30);
-        
-      //   return res.json();
-      // })
-      // .then((resData) => {
-      //   // 헤더에서 사용할 멤버 정보 스토리지에 저장.
-        // localStorage.setItem("member", resData.member);
-        
-        setItemWithExpireTime("isLogin", true, 1000 * 60 * 30);
-        setItemWithExpireTime("member", {"memberName" : "123", "memberEmail" : "email@naver.com"}, 1000 * 60 * 30);
-
-      //   // 접속한 경로에서 리다이렉트를 해줘야 함.
-      //   // 로그인 버튼 클릭 시 스토리지에 이전 경로를 lastPath로 저장.
-      //   // import { Link, useLocation } from 'react-router-dom';
-      //   // const location = useLocation().pathname;
-
-        let path = localStorage.getItem('lastPath')
-        // console.log(path)
-        window.location.href = path;
-      // })
-      // .catch((error) => {
-      //     console.error('Error', error);
-      // })
+      fetch("/users/login", {
+        method: "POST",
+        headers: new Headers({
+          "ngrok-skip-browser-warning": "69420",
+          "Content-Type" : "application/json"
+        }),
+        body: JSON.stringify(data)
+      })
+      .then((res) => {
+        if(res.status === 200){
+          let jwtToken = res.headers.get("Authorization");
+          setAccessToken(jwtToken)
+        }       
+        return res.json();
+      })
+      .then((resData) => {
+        if(resData.status !== 401) {
+          setIslogined(true);
+          setMemberData(resData);
+          navigate(localStorage.getItem('lastPath'));
+        }else{
+          alert('Please check your ID and password');
+        }
+      })
     }
   }
 
   const onChangeInput = (e) => {
     setDate({...data, [e.target.name] : e.target.value});
-    console.log(emailError)
-    console.log(passwordError)
     // 이메일 유효성 체크
 
     // 이메일 유효성이 확인되면 폼에서 생성한 에러 메세지 삭제.
@@ -101,7 +88,7 @@ export default function Login() {
 
           <Input labelName="Password" inputId="password" inputType="password" name="password" onChangeInput={onChangeInput} />
           {passwordError && <Inputerror text="Password cannot be empty." />}
-     
+
           <Button formSubmit={formSubmit} btnContent="Log in" />
         </form>
         <div className='loginLink'>

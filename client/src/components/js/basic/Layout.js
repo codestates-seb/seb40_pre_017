@@ -7,12 +7,10 @@ import '../../css/basic/Layout.scss';
 import { Link, useLocation } from 'react-router-dom';
 
 
-
-export default function Layout() {
+export default function Layout({changeInputData, islogined, memberData, logoutControll}) {
 
   const location = useLocation().pathname;
   let pageStyle = (location === '/login') || (location === '/signup');
-
 
   return (
     <>
@@ -25,7 +23,7 @@ export default function Layout() {
           </Main>
         </div> : 
         <div className='appLayout'>
-          <Header/>
+          <Header changeInputData={changeInputData} islogined={islogined} memberData={memberData} logoutControll={logoutControll} />
           <div />
           <Main>
             <Outlet/>

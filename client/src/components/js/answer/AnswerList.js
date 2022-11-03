@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Answer from './Answer'
 import '../../css/answer/AnswerList.scss'
 import AddContent from '../addContent/AddContent';
@@ -12,6 +12,7 @@ export default function AnswerList({item}) {
 
   // Add answer 
   const [ answerContent, setAnswerContent ] = useState('')
+  const contentInput = useRef();
 
   const handleAddAnswer = (e) => {
     e.preventDefault();
@@ -23,7 +24,7 @@ export default function AnswerList({item}) {
         "memberId": 21123802,
         "createdAt": 1552234257,
         "modifiedAt": 1523034268,
-        content: answerContent,
+        content: contentInput.current.getInstance().getMarkdown(),
         "votes": 0,
         "isAccepted": "true",
         "reputation": 23,
@@ -58,10 +59,14 @@ export default function AnswerList({item}) {
         </div>
       ))}
       <h1 className='yourAnswer'>Your Answer</h1>
-      <AddContent 
-      content={answerContent} 
-      setContent={setAnswerContent}
-      />
+      <div className='addAnswerInput'>
+        <AddContent 
+        content={answerContent} 
+        setContent={setAnswerContent}
+        type={'answer'}
+        contentInput={contentInput}
+        />
+      </div>
       <button className='postAnswerBtn' onClick={handleAddAnswer}>Post Your Answer</button>
     </div>
   )

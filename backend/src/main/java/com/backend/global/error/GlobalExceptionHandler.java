@@ -2,6 +2,7 @@ package com.backend.global.error;
 
 import com.backend.global.error.exception.BusinessException;
 import com.backend.global.error.exception.ErrorCode;
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,13 +31,19 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
     }
 
-    /*시큐리티 들어오면 추가*/
-//    @ExceptionHandler(AccessDeniedException.class)
-//    protected ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
-//        log.error("handleAccessDeniedException", e);
-//        final ErrorResponse response = ErrorResponse.of(ErrorCode.HANDLE_ACCESS_DENIED);
-//        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.HANDLE_ACCESS_DENIED.getStatus()));
-//    }
+    @ExceptionHandler(AccessDeniedException.class)
+    protected ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
+        log.error("handleAccessDeniedException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.HANDLE_ACCESS_DENIED);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.HANDLE_ACCESS_DENIED.getStatus()));
+    }
+
+    @ExceptionHandler(JwtException.class)
+    protected ResponseEntity<ErrorResponse> handleAccessDeniedException(JwtException e) {
+        log.error("handleAccessDeniedException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.HANDLE_ACCESS_DENIED);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.HANDLE_ACCESS_DENIED.getStatus()));
+    }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {

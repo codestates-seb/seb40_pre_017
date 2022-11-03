@@ -19,6 +19,8 @@ import static com.backend.domain.comment.domain.QQuestionComment.questionComment
 import static com.backend.domain.question.domain.QQuestion.*;
 import static com.backend.domain.question.domain.QQuestionTag.*;
 import static com.backend.domain.tag.domain.QTag.tag;
+import static com.backend.domain.vote.domain.QQuestionDownVote.questionDownVote;
+import static com.backend.domain.vote.domain.QQuestionUpVote.questionUpVote;
 
 @Repository
 @RequiredArgsConstructor

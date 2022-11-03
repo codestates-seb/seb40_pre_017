@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Inputbox from '../components/js/addContent/Inputbox'
 import { useState } from 'react';
 import { fetchPatch } from '../util/api';
 import { useParams, Link } from 'react-router-dom';
+import './EditQuestion.scss'
+import Category from '../components/js/category/Category';
+import Aside from '../components/js/aside/Aside';
 
 export default function EditQuestion({items}) {
     //id 파라미터 가져오기
@@ -16,8 +19,9 @@ export default function EditQuestion({items}) {
     //제목
     const [title, setTitle] = useState(item.question.title);
 
-  //content
-    const [content, setContent] = useState(item.question.content);
+    //content
+    const content = item.question.content
+    const contentInput = useRef();
 
   //tag
     const [tags, setTags] = useState(item.tags);
@@ -28,7 +32,7 @@ export default function EditQuestion({items}) {
       // data 생성 & Patch (임시)
       let question = Object.assign(item.question);
       question.title = title;
-      question.content = content;
+      question.content = contentInput.current.getInstance().getMarkdown();
       let data = {
       tags,
       question
@@ -41,19 +45,25 @@ export default function EditQuestion({items}) {
       // fetchPatch api에 맞게 추후 수정
     }
     return (
-      <div>
-        <Inputbox 
-            setTitle={setTitle} 
-            setContent={setContent} 
-            tags={tags} 
-            setTags={setTags} 
-            title={title} 
-            content={content}
-        />
-        <button onClick={handleEdit}>Save Edits</button>
-        <Link to={`/questions/${params.id}`}>
-            <button>Cancle</button>
-        </Link>
+      <div className='editQuestionWrap'>
+        <div className='editQuestionNavbar'><Category/></div>
+        <div className='editQuestionMain'>
+          <h2>Question</h2>
+          <Inputbox 
+              setTitle={setTitle} 
+              // setContent={setContent} 
+              tags={tags} 
+              setTags={setTags} 
+              title={title} 
+              content={content}
+              contentInput={contentInput}
+          />
+          <button onClick={handleEdit} className='saveEdit'>Save edits</button>
+          <Link to={`/questions/${params.id}`}>
+              <button className='cancel'>Cancel</button>
+          </Link>
+        </div>
+        <div className='editQuestionAside'><Aside/></div>
       </div>
     )
 }

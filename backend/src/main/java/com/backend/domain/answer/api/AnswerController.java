@@ -1,18 +1,19 @@
 package com.backend.domain.answer.api;
 
 import com.backend.domain.answer.application.AnswerService;
-import com.backend.domain.answer.dto.AnswerPatchDto;
-import com.backend.domain.answer.dto.AnswerPostDto;
+import com.backend.domain.answer.dto.AnswerUpdate;
+import com.backend.domain.answer.dto.AnswerCreate;
 import com.backend.domain.member.service.AuthMember;
 import com.backend.global.Annotation.CurrentMember;
 import com.backend.global.dto.Response.SingleResponseDto;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/question/{id}")
@@ -29,11 +30,15 @@ public class AnswerController {
     @PostMapping("/answer")
     public ResponseEntity<?> create(@CurrentMember AuthMember authMember,
             @PathVariable("id") @Positive Long id,
-            @Valid @RequestBody AnswerPostDto answerPostDto) {
+            @Valid @RequestBody AnswerCreate answerCreate) {
 
-       Long result = answerService.create(id, authMember.getMemberId(), answerPostDto);
+       Long result = answerService.create(id, authMember.getMemberId(), answerCreate);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
+                .path("/{answer-id}")
+                .buildAndExpand(result)
+                .toUri();
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new SingleResponseDto(result));
+        return ResponseEntity.created(uri).build();
 
     }
 
@@ -41,9 +46,9 @@ public class AnswerController {
     public ResponseEntity<?> update( @CurrentMember AuthMember authMember,
             @PathVariable("id") @Positive Long id,
             @PathVariable("answer-id") @Positive Long answerId,
-            @Valid @RequestBody AnswerPatchDto answerPatchDto) {
+            @Valid @RequestBody AnswerUpdate answerUpdate) {
 
-        Long result = answerService.update(answerId, authMember.getId(), answerPatchDto);
+        Long result = answerService.update(answerId, authMember.getId(), answerUpdate);
 
         return ResponseEntity.ok(new SingleResponseDto<>(result));
     }
