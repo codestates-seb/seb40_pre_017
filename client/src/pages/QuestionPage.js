@@ -23,8 +23,8 @@ export default function QuestionPage({ inputData, filterData, changeFilterData})
       }
     })
     .then(res => {
-      console.log(res)
-      // seItems(res.data)
+      console.log(res.data.items)
+      seItems(res.data.items)
     })
     .catch(err => {
       console.error(err)
