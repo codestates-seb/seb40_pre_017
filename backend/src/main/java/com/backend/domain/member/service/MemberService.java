@@ -1,10 +1,12 @@
 package com.backend.domain.member.service;
 
 import com.backend.domain.member.domain.Member;
+import com.backend.domain.member.dto.MemberResponse;
 import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.dto.MemberUpdate;
 import com.backend.domain.member.dto.SignUpRequest;
 import com.backend.domain.member.exception.MemberNotFound;
+import com.backend.domain.member.exception.NotLoginMember;
 import com.backend.domain.member.exception.UserNameDuplication;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.global.util.SecurityUtil;
@@ -12,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -39,7 +39,7 @@ public class MemberService {
 
     public Long update(Long memberId, MemberUpdate memberUpdate) {
 
-        if(memberRepository.existsByUsername((memberUpdate.getUsername()))){
+        if (memberRepository.existsByUsername((memberUpdate.getUsername()))) {
             throw new UserNameDuplication();
         }
 
@@ -52,12 +52,11 @@ public class MemberService {
         return memberId;
     }
 
-    //
     @Transactional(readOnly = true)
-    public MemberResponseDto getMemberInfo(String email) {
-        return memberRepository.findByEmail(email)
-                .map(MemberResponseDto::of)
-                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+    public MemberResponse getMemberInfo(String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(MemberNotFound::new);
+        return MemberResponse.toResponse(member);
     }
 
     // 현재 SecurityContext 에 있는 유저 정보 가져오기
@@ -65,7 +64,7 @@ public class MemberService {
     public MemberResponseDto getMyInfo() {
         return memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .map(MemberResponseDto::of)
-                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+                .orElseThrow(NotLoginMember::new);
     }
 
 

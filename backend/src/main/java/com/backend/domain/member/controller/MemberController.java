@@ -1,18 +1,15 @@
 package com.backend.domain.member.controller;
 
+import com.backend.domain.member.dto.MemberResponse;
 import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.dto.MemberUpdate;
 import com.backend.domain.member.dto.SignUpRequest;
-import com.backend.domain.member.exception.EmailDuplication;
-import com.backend.domain.member.exception.UserNameDuplication;
-import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.member.service.AuthMember;
 import com.backend.domain.member.service.MemberService;
 import com.backend.global.Annotation.CurrentMember;
 import com.backend.global.dto.Response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -59,7 +56,7 @@ public class MemberController {
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<MemberResponseDto> getMemberInfo(@PathVariable String email) {
+    public ResponseEntity<MemberResponse> getMemberInfo(@PathVariable String email) {
         return ResponseEntity.ok(memberService.getMemberInfo(email));
     }
 }

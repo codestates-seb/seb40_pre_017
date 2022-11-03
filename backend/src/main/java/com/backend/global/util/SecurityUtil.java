@@ -1,6 +1,7 @@
 package com.backend.global.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -16,8 +17,7 @@ public class SecurityUtil {
 
         if (authentication == null || authentication.getName() == null) {
             log.error("SecurityContext 에 인증 정보가 없습니다.");
-            // TODO: 전역 에러 처리
-            throw new RuntimeException("SecurityContext 에 인증 정보가 없습니다.");
+            throw new AccessDeniedException("SecurityContext 에 인증 정보가 없습니다.");
         }
 
         return Long.parseLong(authentication.getName());
