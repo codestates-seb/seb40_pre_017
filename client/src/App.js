@@ -19,7 +19,7 @@ function App() {
   const navigate = useNavigate();
   // 검색 state
   const [inputData, setInputData] = useState("");
-  const [filterData, setFilterData] = useState("newest");
+  const [filterData, setFilterData] = useState("NoAnswer");
   
   // 로그인 state
   const [islogined, setIslogined] = useState(false);
@@ -28,12 +28,12 @@ function App() {
     username: 'dummy',
     imageUrl: "https://i.imgur.com/GvsgVco.jpeg"});
   const [accessToken, setAccessToken] = useState(null);
-
+  console.log(accessToken)
 
   useEffect(() => {
     if(!(islogined && accessToken)){
       console.log('reload')
-      fetch('/users/reissue',{
+      fetch('/api/users/reissue',{
         method: "GET",
         headers: new Headers({
           "ngrok-skip-browser-warning": "69420"
@@ -120,7 +120,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout changeInputData={changeInputData} islogined={islogined} memberData={memberData} logoutControll={logoutControll} />}>
-          <Route index element={<QuestionPage filterData={filterData} changeFilterData={changeFilterData} />} />
+          <Route index element={<QuestionPage inputData={inputData} filterData={filterData} changeFilterData={changeFilterData} />} />
           <Route path="/add" element={<AddQuestion />} />
           <Route path="questions/:id" element={<DetailPage items={items}/>} />
           <Route path="questions/:id/edit" element={<EditQuestion items={items}/>} />

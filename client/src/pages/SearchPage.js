@@ -15,14 +15,19 @@ export default function SearchPage({inputData, filterData, changeFilterData}) {
   useEffect(()=>{
     let params = {
       "q" : inputData,
-      "tab" : filterData
+      "filters" : filterData,
+      "page" : 1
     };
 
-    axios.get('http://localhost:3001/items', {
-      params : params
+    axios.get('api/questions', {
+      params : params,
+      headers: {
+        "ngrok-skip-browser-warning": "69420"
+      }
     })
     .then(res => {
-      seItems(res.data)
+      console.log(res.data)
+      // seItems(res.data)
     })
     .catch(err => {
       console.error(err)
@@ -52,9 +57,8 @@ export default function SearchPage({inputData, filterData, changeFilterData}) {
         <div className='countFilterWrap'>
           <span>{count} question</span>
           <div className='filterBtns'>
-            <button className={'' + (filterData === "newest" && "active")} onClick={changeFilterData} name='newest'>Newest</button>
-            <button className={'' + (filterData === "vote" && "active")} onClick={changeFilterData} name='vote'>Vote</button>
-            <button className={'' + (filterData === "unanswered" && "active")} onClick={changeFilterData} name='unanswered'>Unanswered</button>
+            <button className={'' + (filterData === "NoAnswer" && "active")} onClick={changeFilterData} name='NoAnswer'>NoAnswer</button>
+            <button className={'' + (filterData === "NoAcceptedAnswer" && "active")} onClick={changeFilterData} name='NoAcceptedAnswer'>NoAcceptedAnswer</button>
           </div>
         </div>
         <QuestionList items={items}/>

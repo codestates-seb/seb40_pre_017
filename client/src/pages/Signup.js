@@ -49,7 +49,7 @@ export default function Signup() {
 
     if(!error){
       console.log('제출')
-      fetch("/users", {
+      fetch("/api/users", {
         method: "POST",
         headers: new Headers({
           "ngrok-skip-browser-warning": "69420",

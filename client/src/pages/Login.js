@@ -32,7 +32,7 @@ export default function Login({setIslogined, setMemberData, setAccessToken}) {
     }
 
     if(!error){
-      fetch("/users/login", {
+      fetch("/api/users/login", {
         method: "POST",
         headers: new Headers({
           "ngrok-skip-browser-warning": "69420",

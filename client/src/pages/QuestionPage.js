@@ -7,16 +7,16 @@ import Aside from '../components/js/aside/Aside';
 import Category from '../components/js/category/Category';
 import axios from 'axios';
 
-export default function QuestionPage({ filterData, changeFilterData}) {
+export default function QuestionPage({ inputData, filterData, changeFilterData}) {
 
   const [items, seItems] = useState(null);;
 
   useEffect(()=>{
     let params = {
-      "tab" : filterData
+      "filters" : filterData,
+      "page" : 1
     };
-
-    axios.get('/questions', {
+    axios.get('api/questions', {
       params : params,
       headers: {
         "ngrok-skip-browser-warning": "69420"
@@ -24,12 +24,12 @@ export default function QuestionPage({ filterData, changeFilterData}) {
     })
     .then(res => {
       console.log(res)
-      seItems(res.data)
+      // seItems(res.data)
     })
     .catch(err => {
       console.error(err)
     })
-  }, [filterData])
+  }, [inputData, filterData])
 
 
   //questionList Count
@@ -53,9 +53,8 @@ export default function QuestionPage({ filterData, changeFilterData}) {
         <div className='countFilterWrap'>
           <span>{count} question</span>
           <div className='filterBtns'>
-            <button className={'' + (filterData === "newest" && "active")} onClick={changeFilterData} name='newest'>Newest</button>
-            <button className={'' + (filterData === "vote" && "active")} onClick={changeFilterData} name='vote'>Vote</button>
-            <button className={'' + (filterData === "unanswered" && "active")} onClick={changeFilterData} name='unanswered'>Unanswered</button>
+            <button className={'' + (filterData === "NoAnswer" && "active")} onClick={changeFilterData} name='NoAnswer'>NoAnswer</button>
+            <button className={'' + (filterData === "NoAcceptedAnswer" && "active")} onClick={changeFilterData} name='NoAcceptedAnswer'>NoAcceptedAnswer</button>
           </div>
         </div>
         <QuestionList items={items}/>
