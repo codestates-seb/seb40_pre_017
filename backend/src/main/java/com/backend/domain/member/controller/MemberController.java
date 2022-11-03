@@ -51,8 +51,9 @@ public class MemberController {
 
 
     @GetMapping("/me")
-    public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
-        return ResponseEntity.ok(memberService.getMyInfo());
+    public ResponseEntity<MemberResponse> getMyMemberInfo(@CurrentMember AuthMember authMember) {
+        Long memberId = authMember.getMemberId();
+        return ResponseEntity.ok(memberService.getMyInfo(memberId));
     }
 
     @GetMapping("/{email}")

@@ -6,10 +6,8 @@ import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.dto.MemberUpdate;
 import com.backend.domain.member.dto.SignUpRequest;
 import com.backend.domain.member.exception.MemberNotFound;
-import com.backend.domain.member.exception.NotLoginMember;
 import com.backend.domain.member.exception.UserNameDuplication;
 import com.backend.domain.member.repository.MemberRepository;
-import com.backend.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -61,11 +59,10 @@ public class MemberService {
 
     // 현재 SecurityContext 에 있는 유저 정보 가져오기
     @Transactional(readOnly = true)
-    public MemberResponseDto getMyInfo() {
-        return memberRepository.findById(SecurityUtil.getCurrentMemberId())
-                .map(MemberResponseDto::of)
-                .orElseThrow(NotLoginMember::new);
+    public MemberResponse getMyInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFound::new);
+        return MemberResponse.toResponse(member);
     }
-
 
 }
