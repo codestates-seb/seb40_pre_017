@@ -7,28 +7,35 @@ const BLOG_URL = 'http://localhost:3000/items/';
 
 
 export const fetchCreate = (url, data) => {
-    fetch(url, {
-        method: "POST",
-        headers: {"Content-Type" : "application/json"},
-        body: JSON.stringify(data)
-    })
-    .then(() => {
-        window.location.href = BASE_URL;
-    })
-    .catch((error) => {
-        console.error('Error', error);
-    })
+  fetch(url, {
+    method: "POST",
+    headers: new Headers({
+      "ngrok-skip-browser-warning": "69420",
+      "Content-Type" : "application/json"
+    }),
+    body: JSON.stringify(data)
+  })
+  .then(res => {
+    console.log(res)
+  })
+  .catch(err => {
+    console.error(err)
+  })
 }
 
-export const fetchDelete = (url, id) => {
-    fetch(`${url}${id}`, {
+export const fetchDelete = (url) => {
+    fetch(url, {
       method: "DELETE",
+      headers: new Headers({
+        "ngrok-skip-browser-warning": "69420",
+        "Content-Type" : "application/json"
+      })
     })
-    .then(() => {
-      window.location.href = BASE_URL;
+    .then(res => {
+      console.log(res)
     })
-    .catch((error) => {
-      console.error('Error', error);
+    .catch(err => {
+      console.error(err)
     })
 }
 

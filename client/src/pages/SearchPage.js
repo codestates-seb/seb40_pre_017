@@ -8,31 +8,56 @@ import Category from '../components/js/category/Category';
 import axios from 'axios';
 
 
-export default function SearchPage({inputData, filterData, changeFilterData}) {
+export default function SearchPage({inputData, changeFilterData}) {
 
   const [items, seItems] = useState(null);;
 
   useEffect(()=>{
-    let params = {
-      "q" : inputData,
-      "filters" : filterData,
-      "page" : 1
-    };
+    // let params = {
+    //   "q" : inputData,
+    //   "page" : 1
+    // };
+    // console.log(params)
 
-    axios.get('api/questions', {
-      params : params,
-      headers: {
-        "ngrok-skip-browser-warning": "69420"
-      }
+    // axios.get('/api/search', {
+    //   params : params,
+    //   headers: {
+    //     "ngrok-skip-browser-warning": "69420"
+    //   }
+    // })
+    // .then(res => {
+    //   console.log(res.data.items)
+    //   seItems(res.data.items)
+    // })
+    // .catch(err => {
+    //   console.error(err)
+    // })
+    let params = {
+      "q": inputData,
+      "page": 1
+    };
+    
+    let query = Object.keys(params)
+    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+    .join('&');
+    
+    let url = '/api/search?' + query;
+
+    fetch(url, {
+      method: "GET",
+      headers: new Headers({
+        "ngrok-skip-browser-warning": "69420",
+      }),
     })
-    .then(res => {
-      console.log(res.data)
-      // seItems(res.data)
+    .then((res) => {
+      console.log(res)
+      return res.json()
     })
-    .catch(err => {
-      console.error(err)
+    .then((resData) => {
+      console.log(resData.items)
+      seItems(resData.items)
     })
-  }, [inputData, filterData])
+  }, [inputData])
 
 
 
@@ -56,10 +81,6 @@ export default function SearchPage({inputData, filterData, changeFilterData}) {
         </div>
         <div className='countFilterWrap'>
           <span>{count} question</span>
-          <div className='filterBtns'>
-            <button className={'' + (filterData === "NoAnswer" && "active")} onClick={changeFilterData} name='NoAnswer'>NoAnswer</button>
-            <button className={'' + (filterData === "NoAcceptedAnswer" && "active")} onClick={changeFilterData} name='NoAcceptedAnswer'>NoAcceptedAnswer</button>
-          </div>
         </div>
         <QuestionList items={items}/>
         <Pagination/>
