@@ -1,26 +1,27 @@
 import React, { useRef } from 'react'
 import Inputbox from '../components/js/addContent/Inputbox'
 import { useState } from 'react';
-import { fetchPatch } from '../util/api';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
 import './EditQuestion.scss'
 import Category from '../components/js/category/Category';
 import Aside from '../components/js/aside/Aside';
+import axios from 'axios';
 
-export default function EditQuestion({items}) {
+export default function EditQuestion({items, accessToken}) {
+  axios.defaults.headers.common["Authorization"] = accessToken;
+
     //id 파라미터 가져오기
     let params  = useParams();
-    
-  //params로 questionData 가져오기
-    let item = items.filter(item => (
-    item.question.questionId === Number(params.id)
-    ))[0]
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { item } = location.state;
 
     //제목
     const [title, setTitle] = useState(item.question.title);
 
     //content
-    const content = item.question.content
+    const content = item.question.summary
     const contentInput = useRef();
 
   //tag
@@ -29,20 +30,16 @@ export default function EditQuestion({items}) {
     const handleEdit = (e) => {
       e.preventDefault();
 
-      // data 생성 & Patch (임시)
-      let question = Object.assign(item.question);
-      question.title = title;
-      question.content = contentInput.current.getInstance().getMarkdown();
-      let data = {
-      tags,
-      question
-      }
-      fetchPatch("http://localhost:3001/items/", item.id, data);
-
       // data 생성 & Patch (Api)
-      // let data = { title, content, tags }
-      // fetchPatch("/questions", id, data)
-      // fetchPatch api에 맞게 추후 수정
+      let data = { title, content:contentInput.current.getInstance().getMarkdown(), tags }
+
+      axios.patch(`/api/questions/${item.question.questionId}`, data)
+      .then((res) => {
+        navigate(`/`)
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
     }
     return (
       <div className='editQuestionWrap'>

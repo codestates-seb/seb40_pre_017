@@ -123,7 +123,7 @@ function App() {
           <Route index element={<QuestionPage inputData={inputData} filterData={filterData} changeFilterData={changeFilterData}/>} />
           <Route path="/add" element={<AddQuestion accessToken={accessToken}/>} />
           <Route path="questions/:id" element={<DetailPage items={items} accessToken={accessToken}/>} />
-          <Route path="questions/:id/edit" element={<EditQuestion items={items}/>} />
+          <Route path="questions/:id/edit" element={<EditQuestion items={items} accessToken={accessToken}/>} />
           <Route path="questions/:id/editanswer/:answerId" element={<EditAnswer items={items}/>} />
           <Route path="/login" element={<Login setIslogined={setIslogined} setMemberData={setMemberData} setAccessToken={setAccessToken} />} />
           <Route path="/signup" element={<Signup />} />
