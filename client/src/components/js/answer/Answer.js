@@ -80,7 +80,7 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
               <button onClick={clickEdit}>Edit</button>
             <button onClick={handleDelete}>Delete</button>
           </div>
-          <ProfileAnswer item={answer}/>
+          <ProfileAnswer item={answer} time={answer.createdAt}/>
         </div>
         <CommentList item={answer.answerComments} id={id} answerId={answerId} type={'answer'} temporary={item}/>
       </div>

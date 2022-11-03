@@ -6,6 +6,7 @@ import Category from '../components/js/category/Category';
 
 import './DetailPage.scss'
 import { Link } from 'react-router-dom'
+import createdAt from '../components/js/createdAt/CreatedAt';
 
 export default function DetailPage({accessToken}) {
 
@@ -28,9 +29,9 @@ export default function DetailPage({accessToken}) {
 
           <div className='detailDateWrap'>
             <p>Asked</p>
-            <p className='detailDateValue'>{item.question.createdAt}</p>
+            <p className='detailDateValue'>{createdAt(item.question.createdAt)}</p>
             <p>Modefied</p>
-            <p className='detailDateValue'>{item.question.modifiedAt}</p>
+            <p className='detailDateValue'>{createdAt(item.question.modifiedAt)}</p>
             <p>Viewed</p>
             <p className='detailDateValue'>{item.question.viewCount} times</p>
           </div>

@@ -9,6 +9,9 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   useEffect(() => {
     if(type === 'question'){
       axios.post(`/api/question/${id}/upvote`)
+      .then(res => {
+        
+      })
       .catch(error => {
         console.log(error.response.data.message);
         if(error.response.data.message === 'You Already Voted'){

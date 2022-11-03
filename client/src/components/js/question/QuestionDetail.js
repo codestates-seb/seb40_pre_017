@@ -51,7 +51,7 @@ export default function QuestionDetail({item, id, accessToken}) {
               <button onClick={clickEdit}>Edit</button>
             <button onClick={handleDelete}>Delete</button>
           </div>
-          <Profile item={item.member}/>
+          <Profile item={item.member} time={item.question.createdAt}/>
         </div>
         <CommentList item={item.questionComments} id={item.question.questionId} type={'question'} accessToken={accessToken}/>
       </div>
