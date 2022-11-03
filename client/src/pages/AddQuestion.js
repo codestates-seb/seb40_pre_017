@@ -10,13 +10,8 @@ import { useNavigate } from 'react-router-dom'
 export default function AddQuestion({accessToken}) {
   axios.defaults.headers.common["Authorization"] = accessToken;
 
-  console.log(accessToken)
-
   //제목
   const [title, setTitle] = useState('');
-
-  //content 삭제
-  const [content, setContent] = useState('');
 
   //tag
   const [tags, setTags] = useState([]);
@@ -37,8 +32,7 @@ export default function AddQuestion({accessToken}) {
     axios.post(`/api/questions`, data)
     .then((res) => {
       console.log(res)
-      navigate(`/question${res}`)
-      // return res.json()
+      navigate(`/`)
     })
     .catch(error => {
       console.log(error.response);
@@ -70,11 +64,11 @@ export default function AddQuestion({accessToken}) {
           </div>
           <Inputbox 
             setTitle={setTitle} 
-            setContent={setContent} 
             tags={tags} 
             setTags={setTags} 
             setSubmitDis={setSubmitDis}
             contentInput={contentInput}
+            type={'add'}
           />
           <button className='blueBtn' onClick={handleSubmit} disabled={submitDis ? true : false}>Review your question</button>
         </div>

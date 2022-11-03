@@ -23,7 +23,6 @@ export default function QuestionPage({ inputData, filterData, changeFilterData})
       }
     })
     .then(res => {
-      console.log(res.data.items)
       seItems(res.data.items)
     })
     .catch(err => {
