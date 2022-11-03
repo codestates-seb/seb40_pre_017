@@ -7,7 +7,7 @@ import Category from '../components/js/category/Category';
 import Aside from '../components/js/aside/Aside';
 import axios from 'axios';
 
-export default function EditQuestion({items, accessToken}) {
+export default function EditQuestion({accessToken}) {
   axios.defaults.headers.common["Authorization"] = accessToken;
 
     //id 파라미터 가져오기

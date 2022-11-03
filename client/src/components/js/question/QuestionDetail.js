@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
 import CommentList from '../comment/CommentList'
 import Profile from '../profile/Profile'
 import Vote from '../vote/Vote'
 import Tags from '../tags/Tags'
 import '../../css/question/QuestionDetail.scss'
-import { Link } from 'react-router-dom'
 import { Viewer } from '@toast-ui/react-editor';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
@@ -22,8 +20,7 @@ export default function QuestionDetail({item, id, accessToken}) {
     axios.delete(`/api/questions/${id}`)
     .then((res) => {
       console.log(res)
-      // navigate(`/question${res}`)
-      // return res.json()
+      navigate(`/`)
     })
     .catch(error => {
       console.log(error.response);
@@ -31,22 +28,7 @@ export default function QuestionDetail({item, id, accessToken}) {
     // navigate('/')
   }
 
-  // edit 데이터 GET
-  // const [detailItem, setDetailItem] = useState();
-  // useEffect(()=>{
-  //   axios.get(`/api/questions/${item.question.questionId}`, {
-  //     headers: {
-  //       "ngrok-skip-browser-warning": "69420"
-  //     }
-  //   })
-  //   .then(res => {
-  //     setDetailItem(res.data)
-  //   })
-  //   .catch(err => {
-  //     console.error(err)
-  //   })
-  // }, [item])
-
+  // Edit 데이터 GET
   const navigate = useNavigate();
   const clickEdit = () => {
     navigate(`/questions/${id}/edit`, {
@@ -71,8 +53,8 @@ export default function QuestionDetail({item, id, accessToken}) {
           </div>
           <Profile item={item.member}/>
         </div>
-        <CommentList item={item.question.qcomment} type={'question'} temporary={item}/>
-      </div>      
+        <CommentList item={item.questionComments} id={item.question.questionId} type={'question'} accessToken={accessToken}/>
+      </div>
     </div>
   )
 }

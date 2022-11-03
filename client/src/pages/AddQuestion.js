@@ -24,7 +24,6 @@ export default function AddQuestion({accessToken}) {
   //submit 비활성화
   const [ submitDis, setSubmitDis ] = useState(true);
 
-
   const contentInput = useRef();
 
   const navigate = useNavigate();
