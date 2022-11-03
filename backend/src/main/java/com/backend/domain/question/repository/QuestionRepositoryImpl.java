@@ -8,6 +8,7 @@ import com.backend.global.dto.request.PageRequest;
 import com.backend.global.dto.request.PageRequest.Filter;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -200,15 +201,23 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
         return fetch;
     }
 
+    public BooleanExpression inTagIds(List<Long> tagIds){
+        if(tagIds.size()==0){
+            return null;
+        }
+        return questionTag.tag.id.in(tagIds);
+    }
+
     @Override
     public List<Long> findQuestionIdBySearch(QuestionSearch questionSearch, List<Long> tagIds) {
+
+
 
         return jpaQueryFactory.selectDistinct(question.id)
                 .from(questionTag)
                 .join(question)
                 .on(questionTag.question.id.eq(question.id))
-                .where(question.title.contains(questionSearch.getQuery()), questionTag.tag.id.in(tagIds))
-
+                .where(question.title.contains(questionSearch.getQuery()), inTagIds(tagIds))
                 .fetch();
     }
 
