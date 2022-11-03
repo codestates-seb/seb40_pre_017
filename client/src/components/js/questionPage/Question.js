@@ -3,9 +3,10 @@ import '../../css/questionPage/Question.scss'
 import { useNavigate } from 'react-router-dom'
 import Tags from '../tags/Tags'
 import axios from 'axios'
+import createdAt from '../createdAt/CreatedAt'
 
 export default function Question({item}) {
-  
+
   // 상세페이지 데이터 GET
   const [detailItem, setDetailItem] = useState();
   
@@ -47,9 +48,9 @@ export default function Question({item}) {
         </div>
       </div>
       <div className='questionList_profile'>
-        <img className='pic' src={item.member.profileImage} alt='profile'/>
-        <p>{item.member.username}</p>
-        <p>{item.question.createdAt}</p>
+            <img className='pic' src={item.member.profileImage} alt='profile'/>
+            <p>{item.member.username}</p>
+            <p>{createdAt(item.question.createdAt)}</p>
         </div>
     </div>
   )

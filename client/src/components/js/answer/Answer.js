@@ -65,7 +65,7 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
   return (
     <div className='answerWrap'>
       <div className='answerVote'>
-        <Vote item={answer.voteCount} id={answerId} type={'answer'}/>
+        <Vote item={answer.voteCount} id={id} answerid={answerId} type={'answer'}/>
         <button 
           onClick={handleCheck} 
           className={check ? 'select answerCheck' : 'select'}
@@ -80,7 +80,7 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
               <button onClick={clickEdit}>Edit</button>
             <button onClick={handleDelete}>Delete</button>
           </div>
-          <ProfileAnswer item={answer}/>
+          <ProfileAnswer item={answer} time={answer.createdAt}/>
         </div>
         <CommentList item={answer.answerComments} id={id} answerId={answerId} type={'answer'} temporary={item}/>
       </div>

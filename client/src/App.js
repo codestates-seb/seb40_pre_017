@@ -8,12 +8,14 @@ import AddQuestion from './pages/AddQuestion'
 import DetailPage from './pages/DetailPage'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
-import useFetch from './util/useFetch';
 import EditQuestion from './pages/EditQuestion';
 import EditAnswer from './pages/EditAnswer';
 import SearchPage from './pages/SearchPage';
+<<<<<<< HEAD
 
 // json-server --watch data.json --port 3001
+=======
+>>>>>>> Refector/전체수정
 
 function App() {
   const location = useLocation().pathname;
@@ -32,7 +34,7 @@ function App() {
 
   useEffect(() => {
     if(!(islogined && accessToken)){
-      console.log('reload')
+      // console.log('reload')
       fetch('/api/users/reissue',{
         method: "GET",
         headers: new Headers({

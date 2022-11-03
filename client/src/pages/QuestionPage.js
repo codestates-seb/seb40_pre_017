@@ -23,7 +23,10 @@ export default function QuestionPage({ filterData, changeFilterData}) {
       }
     })
     .then(res => {
+<<<<<<< HEAD
       console.log(res)
+=======
+>>>>>>> Refector/전체수정
       seItems(res.data.items)
     })
     .catch(err => {
