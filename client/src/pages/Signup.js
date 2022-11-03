@@ -59,13 +59,17 @@ export default function Signup() {
       })
       .then((res) => {
         console.log(res)
-        if(res.status !== 500) {
+        if(res.status === 201) {
           localStorage.setItem("lastPath", "/");
           alert("Sign up Success!!")
           navigate("/login");
         }else{
-          alert('Your nickname or email is already in use.')
+          return res.json()
         }
+      })
+      .then(data => {
+        // alert('Your nickname or email is already in use.')
+        alert(data.message)
       })
     }
     

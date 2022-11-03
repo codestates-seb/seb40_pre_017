@@ -92,7 +92,7 @@ function App() {
   }
   // 로그아웃
   const logoutControll = () => {
-    fetch('/users/logout',{
+    fetch('/api/users/logout',{
       method: "DELETE",
       headers: new Headers({
         "ngrok-skip-browser-warning": "69420"

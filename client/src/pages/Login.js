@@ -49,12 +49,13 @@ export default function Login({setIslogined, setMemberData, setAccessToken}) {
         return res.json();
       })
       .then((resData) => {
+        console.log(resData)
         if(resData.status !== 401) {
           setIslogined(true);
           setMemberData(resData);
           navigate(localStorage.getItem('lastPath'));
         }else{
-          alert('Please check your ID and password');
+          alert("Please check your ID and password");
         }
       })
     }
