@@ -56,7 +56,7 @@ public enum ErrorCode {
     //Vote
     VOTE_NOT_FOUND(404, "Vote Not Found"),
     ALREADY_VOTED(400, "You Already Voted"),
-
+    NONE_STILL_VOTED(404, "None Still Voted"),
     CANNOT_VOTE_OWN_POST(400, "Cannot Vote Your Own Post");
 
 
