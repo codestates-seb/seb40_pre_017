@@ -1,11 +1,15 @@
 .detailPageWrap {
     display: flex;
     position: relative;
+    width: 100%;
     max-width: 1264px;
     .detailPageNavbar{
         width: 164px;
         min-width: 164px;
         background-color: #e8e7e3;
+        @media screen and (max-width: 840px) {
+            display: none;
+        }
     }
 }
 

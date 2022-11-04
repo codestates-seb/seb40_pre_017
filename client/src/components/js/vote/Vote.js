@@ -8,11 +8,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   // 투표된상태확인
   const [voteInfo, setVoteInfo ] = useState();
   useEffect(() => {
-    axios.get(`/api/questions/${id}/votes`, {
-      headers: {
-        "ngrok-skip-browser-warning": "69420"
-      }
-    })
+    axios.get(`/api/question/${id}/votes`)
     .then((res) => {
       console.log(res)
       setVoteInfo(res.data)
@@ -43,6 +39,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         if(type === 'question'){
           //질문투표찬성
           ///questions/{id}/upvote
+          console.log(`/api/question/${id}/upvote`)
           axios.post(`/api/question/${id}/upvote`)
           .then((res) => {
             console.log(res)
@@ -53,7 +50,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         }else if(type === 'answer'){
           //답변투표찬성
           ///question/{id}/answer/{answer-id}/upvote
-          axios.post(`/api/question/${id}/answer/${answerId}/upvote`)
+          axios.post(`/api/questions/${id}/answer/${answerId}/upvote`)
           .then((res) => {
             console.log(res)
           })
@@ -67,7 +64,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         if(type === 'question'){
           //질문투표찬성 취소
           ///questions/{id}/upvote/undo
-          axios.post(`/api/question/${id}/upvote/undo`)
+          axios.post(`/api/questions/${id}/upvote/undo`)
           .then((res) => {
             console.log(res)
           })
@@ -77,7 +74,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         }else if(type === 'answer'){
           //답변투표찬성 취소
           ///question/{id}/answer/{answer-id}/upvote/undo
-          axios.post(`/api/question/${id}/answer/${answerId}/upvote/undo`)
+          axios.post(`/api/questions/${id}/answer/${answerId}/upvote/undo`)
           .then((res) => {
             console.log(res)
           })
@@ -99,7 +96,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         if(type === 'question'){
           //질문투표반대
           ///questions/{id}/downvote
-          axios.post(`/api/question/${id}/downvote`)
+          axios.post(`/api/questions/${id}/downvote`)
           .then((res) => {
             console.log(res)
           })
@@ -109,7 +106,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         }else if(type === 'answer'){
           //답변투표반대
           ///question/{id}/answer/{answer-id}/downvote
-          axios.post(`/api/question/${id}/answer/${answerId}/downvote`)
+          axios.post(`/api/questions/${id}/answer/${answerId}/downvote`)
           .then((res) => {
             console.log(res)
           })
@@ -123,7 +120,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         if(type === 'question'){
           //질문투표반대 취소
           ///questions/{id}/downvote/undo
-          axios.post(`/api/question/${id}/downvote/undo`)
+          axios.post(`/api/questions/${id}/downvote/undo`)
           .then((res) => {
             console.log(res)
           })
@@ -133,7 +130,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         }else if(type === 'answer'){
           //답변투표반대 취소
           ///question/{id}/answer/{answer-id}/downvote/undo
-          axios.post(`/api/question/${id}/answer/${answerId}/downvote/undo`)
+          axios.post(`/api/questions/${id}/answer/${answerId}/downvote/undo`)
           .then((res) => {
             console.log(res)
           })
