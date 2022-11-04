@@ -1,0 +1,17 @@
+.pagenation{
+    margin-left: 26px;
+    margin-bottom: 100px;
+}
+
+.pageBtn{
+    width: 26px;
+    height: 26px;
+    border: 1px solid #D6D9DC;
+    background-color: transparent;
+    border-radius: 3px;
+    margin-right: 4px;
+    cursor: pointer;
+}
+.pageBtn:hover{
+    background-color: #D6D9DC;
+}

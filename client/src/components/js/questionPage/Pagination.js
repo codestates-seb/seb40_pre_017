@@ -1,4 +1,5 @@
 import React from 'react'
+import '../../css/questionPage/Pagination.scss'
 
 export default function Pagination({ page, setPage, pageInfo }) {
   let btn = Array.from({length:pageInfo.totalPages}, (_,idx)=> idx + 1);
@@ -11,7 +12,7 @@ export default function Pagination({ page, setPage, pageInfo }) {
       {btn.map(el => (
         <button 
           name={el} 
-          onClick={handleClick} 
+          onClick={handleClick}
           className={page === el ? 'click pageBtn' : 'pageBtn'}
         >{el}</button>
       ))}
