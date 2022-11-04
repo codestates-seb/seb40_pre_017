@@ -1,0 +1,14 @@
+spring:
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: admin
+    password: ${DB_RDS_PASSWORD}
+    url: ${DB_RDS_SERVER}
+
+  jpa:
+    hibernate:
+      ddl-auto: update # create | create-drop | update | validate | none
+    properties:
+      hibernate:
+        format_sql: true
