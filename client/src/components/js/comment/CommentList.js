@@ -98,7 +98,6 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
     setEditClick(false);
   }
 
-  
   return (
     <div className='commentList'>
       {item && item.map(content => (
@@ -111,6 +110,8 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
           setEditValue={setEditValue} 
           setCommentId={setCommentId}
           accessToken={accessToken}
+          answerId={answerId}
+          commentId={commentId}
         />
         </div>
       ))}

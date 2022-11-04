@@ -4,11 +4,13 @@ import '../../css/comment/Comment.scss'
 import createdAt from '../createdAt/CreatedAt';
 import { useParams, useNavigate } from 'react-router-dom';
 
-export default function Comment({id, content, setEditClick, type, setEditValue, setCommentId, accessToken}) {
+export default function Comment({id, content, setEditClick, type, setEditValue, setCommentId, accessToken, answerId}) {
   let params  = useParams();
 
   axios.defaults.headers.common["Authorization"] = accessToken;
 
+  console.log(content.userName)
+  console.log(window.localStorage.getItem("member"))
 
   // click edit
   const clickEdit = () => {
@@ -38,11 +40,10 @@ export default function Comment({id, content, setEditClick, type, setEditValue, 
       }
     }else if(type === 'answer'){
       if (window.confirm("Are you sure you want to delete the comment?") === true) {
-        console.log(`/api/question/${id}/answer/${content.answerCommentId}/comments/${content.answerCommentId}`)
-        axios.delete(`/api/question/${id}/answer/${content.answerCommentId}/comments/${content.answerCommentId}`)
+        axios.delete(`/api/question/${id}/answer/${answerId}/comments/${content.answerCommentId}`)
         .then((res) => {
           if(res.status === 200) {
-            // window.location.href = `/questions/${params.id}`;
+            window.location.href = `/questions/${params.id}`;
           }
         })
         .catch(error => {
@@ -57,8 +58,12 @@ export default function Comment({id, content, setEditClick, type, setEditValue, 
       <div className='commentContent'>{content.content} -</div>
       <div className='commentName'>{content.userName}</div>
       <div className='commentTime'>{createdAt(content.createdAt)} ago</div>
-      <i className="fa-solid fa-pencil" onClick={clickEdit}></i>
-      <i className="fa-solid fa-trash-can" onClick={handleDelete}></i>
+      {content.userName === window.localStorage.getItem("member") && 
+      <>
+        <i className="fa-solid fa-pencil" onClick={clickEdit}></i>
+        <i className="fa-solid fa-trash-can" onClick={handleDelete}></i>
+      </>
+      }
     </div>
   )
 }

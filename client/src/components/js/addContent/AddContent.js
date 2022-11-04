@@ -4,6 +4,7 @@ import '../../css/addContent/AddContent.scss'
 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
+import axios from 'axios';
 
 export default function AddContent({content, appearNext, contentInput, setNextContentDis, type}) {
 
@@ -35,16 +36,23 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
           initialEditType="markdown"
           useCommandShortcut={true}
           toolbarItems={[
-            ['bold', 'italic', 'strike'],
-            ['code', 'codeblock'],
-            ['hr', 'quote'],
-            ['ul', 'ol', 'task', 'indent', 'outdent'],
-            ['table', 'image', 'link'],
+            ['bold', 'italic'],
+            ['link','quote', 'code', 'image', 'codeblock'],
+            [],
+            [],
+            // ['indent', 'outdent','task','table', 'ul','ol' ],
           ]}
           onChange={inputContent}
           onFocus={appearNext}
           ref={contentInput}
           disabled={handledisabled}
+          hooks={{
+            addImageBlobHook: async (blob, callback) => {
+                console.log(blob);
+                const imgUrl = await axios.post('/api')
+                callback('/api', '이미지');
+              }
+            }}
         />
       </div>
         {/* <input 

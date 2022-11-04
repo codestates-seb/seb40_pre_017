@@ -3,13 +3,15 @@
 }
 
 .detailMainWrap {
-    margin: 0px 30px;
+    flex-grow: 1;
+    // margin: 0px 30px;
+    padding: 0px 30px;
     display: flex;
     flex-direction: column;
 }
 
 .detailContent {
-
+    
     h3 {
         font-size: 15px;
         line-height: 20px;
