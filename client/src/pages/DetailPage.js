@@ -1,6 +1,6 @@
 import AnswerList from '../components/js/answer/AnswerList'
 import QuestionDetail from '../components/js/question/QuestionDetail'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Aside from '../components/js/aside/Aside';
 import Category from '../components/js/category/Category';
 
@@ -14,9 +14,6 @@ export default function DetailPage({accessToken}) {
   axios.defaults.headers.common["Authorization"] = accessToken;
 
   let params = useParams();
-  console.log(params)
-  const location = useLocation();
-  // const { item } = location.state;
 
   const [item, setItem] = useState(null);
   
@@ -27,7 +24,6 @@ export default function DetailPage({accessToken}) {
       }
     })
     .then(res => {
-      console.log(res)
       setItem(res.data)
     })
   }, []);

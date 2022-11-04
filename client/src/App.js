@@ -30,7 +30,7 @@ function App() {
 
   useEffect(() => {
     if(!(islogined && accessToken)){
-      // console.log('reload')
+      console.log('reload')
       fetch('/api/users/reissue',{
         method: "GET",
         headers: new Headers({
