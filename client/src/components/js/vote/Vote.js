@@ -8,7 +8,11 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   // 투표된상태확인
   const [voteInfo, setVoteInfo ] = useState();
   useEffect(() => {
-    axios.get(`/api/questions/${id}/votes`)
+    axios.get(`/api/questions/${id}/votes`, {
+      headers: {
+        "ngrok-skip-browser-warning": "69420"
+      }
+    })
     .then((res) => {
       console.log(res)
       setVoteInfo(res.data)
@@ -17,14 +21,17 @@ export default function Vote({item, type, id, answerId, accessToken}) {
       console.log(error.response);
     });
 
-    // if(type === 'question'){
-    //   if(voteInfo.questionUpVote)setClickUp(true)
-    //   else if(voteInfo.questionDownVote)setClickDown(true)
-    // }else if( type === 'answer'){
-    //   let answerVote = voteInfo.answerVoteStates.filter(el => el.answerId === answerId);
-    //   if(answerVote.answerUpVote)setClickUp(true)
-    //   else if(answerVote.answerDownVote)setClickDown(true)
-    // }
+    if(voteInfo){
+      if(type === 'question'){
+        if(voteInfo.questionUpVote)setClickUp(true)
+        else if(voteInfo.questionDownVote)setClickDown(true)
+      }else if( type === 'answer'){
+        let answerVote = voteInfo.answerVoteStates.filter(el => el.answerId === answerId);
+        if(answerVote.answerUpVote)setClickUp(true)
+        else if(answerVote.answerDownVote)setClickDown(true)
+      }
+    }
+    
   },[])
 
   // 투표찬성
