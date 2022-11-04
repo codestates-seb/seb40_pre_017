@@ -9,8 +9,8 @@ export default function ProfileAnswer({item, time}) {
     <div className='profileWrapA'>
       <p>{createdAt(time)}</p>
       <div className='profileName'>
-        <img src={item.profileImage} alt='profileImg'/>
-        <p className='username'>{item.userName}</p>
+        <img src={item.answerMember.profileImage} alt='profileImg'/>
+        <p className='username'>{item.answerMember.username}</p>
       </div>
       
     </div>

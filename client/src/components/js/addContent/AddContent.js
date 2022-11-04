@@ -10,7 +10,7 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
 
   const inputContent = () => {
     if(type !== 'answer'){
-      if(contentInput.current.getInstance().getMarkdown().length >= 20){
+      if(contentInput.current.getInstance().getMarkdown().length >= 30){
         setNextContentDis(false);
       }else{
         setNextContentDis(true);

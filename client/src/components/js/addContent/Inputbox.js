@@ -12,7 +12,7 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
     setTitle(e.target.value);
 
     //next 버튼 비활성화 & 활성화
-    if(e.target.value.length >= 5){
+    if(e.target.value.length >= 15){
       setNextTitleDis(false);
     }
     else{
@@ -40,7 +40,6 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
   // tag 삭제
   const removeTags = (indexToRemove) => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
-    console.log(indexToRemove)
   };
 
   //next버튼
@@ -61,14 +60,11 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
       setTagBorder(true);
     }
     else{
-      if(contentInput.current.getInstance().getMarkdown().length < 20) setContentNext(true);
+      if(contentInput.current.getInstance().getMarkdown().length < 30) setContentNext(true);
     }
-    console.log(1)
   }
   const appearContentNext = () => {
-    if(contentInput.current.getInstance().getMarkdown().length < 20) setContentNext(true);
-
-    console.log(1)
+    if(contentInput.current.getInstance().getMarkdown().length < 30) setContentNext(true);
   }
 
   //next 버튼을 눌렀을때 다음 창 비활성화 풀리기
@@ -83,7 +79,6 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
     else if(e.target.name === 'content'){
       tagbox.current.classList.remove('disable');
       tagInput.current.disabled = false;
-      console.log(1)
     }
     else if(e.target.name === 'tag'){
       setSubmitDis(false);
@@ -122,7 +117,7 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
           >Next</button> : null }
       </div>
 
-      <div className={content&& content.length > 20 ? 'inputbox' :'inputbox disable'} ref={contentBox}>
+      <div className={content&& content.length >= 30 ? 'inputbox' :'inputbox disable'} ref={contentBox}>
         <h3>What are the details of your problem?</h3>
         <p>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</p>
         <AddContent 
@@ -147,7 +142,7 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
           <ul id='tags'>
             {tags.map((tag, index) => (
               <li key={index} className='tag'>
-                <span className='tag-title'>{type === 'add' ? tag.name : tag}</span>
+                <span className='tag-title'>{tag.name}</span>
                 <span className='tag-close-icon' 
                 onClick={() => removeTags(index)}>
                   &times;

@@ -10,20 +10,21 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   useEffect(() => {
     axios.get(`/api/questions/${id}/votes`)
     .then((res) => {
+      console.log(res)
       setVoteInfo(res.data)
     })
     .catch(error => {
       console.log(error.response);
     });
 
-    if(type === 'question'){
-      if(voteInfo.questionUpVote)setClickUp(true)
-      else if(voteInfo.questionDownVote)setClickDown(true)
-    }else if( type === 'answer'){
-      let answerVote = voteInfo.answerVoteStates.filter(el => el.answerId === answerId);
-      if(answerVote.answerUpVote)setClickUp(true)
-      else if(answerVote.answerDownVote)setClickDown(true)
-    }
+    // if(type === 'question'){
+    //   if(voteInfo.questionUpVote)setClickUp(true)
+    //   else if(voteInfo.questionDownVote)setClickDown(true)
+    // }else if( type === 'answer'){
+    //   let answerVote = voteInfo.answerVoteStates.filter(el => el.answerId === answerId);
+    //   if(answerVote.answerUpVote)setClickUp(true)
+    //   else if(answerVote.answerDownVote)setClickDown(true)
+    // }
   },[])
 
   // 투표찬성

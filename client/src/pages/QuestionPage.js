@@ -61,7 +61,7 @@ export default function QuestionPage({ filterData, changeFilterData}) {
           </div>
         </div>
         <QuestionList items={items}/>
-        <Pagination page={page} setPage={setPage} pageInfo={pageInfo}/>
+        {pageInfo && <Pagination page={page} setPage={setPage} pageInfo={pageInfo}/>}
       </div>
       <div className='questionPageAside'>
         <Aside />

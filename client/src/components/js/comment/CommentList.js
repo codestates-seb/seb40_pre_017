@@ -39,9 +39,9 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       .catch(error => {
         console.log(error.response);
       });
-
+      // /question/{id}/answer/{answer-id}/comments
     }else if(type === 'answer'){
-      axios.post(`/api/question/${id}/answer/${answerId}comments`, data)
+      axios.post(`/api/question/${id}/answer/${answerId}/comments`, data)
       .then((res) => {
         console.log(res)
       })
@@ -66,7 +66,7 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       });
     }else if( type === 'answer'){
       // fetchPatch("question/{id}/answer/{answer-id}/comments/{comment-id}")
-      axios.patch(`/api/question/${id}/answer/{answer-id}/comments/${commentId}`, data)
+      axios.patch(`/api/question/${id}/answer/${answerId}/comments/${commentId}`, data)
       .then((res) => {
         console.log(res)
       })

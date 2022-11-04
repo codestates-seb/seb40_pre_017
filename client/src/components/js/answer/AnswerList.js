@@ -23,11 +23,12 @@ export default function AnswerList({item, accessToken}) {
 
     // data 생성 & POST (Api)
     let data = { content: contentInput.current.getInstance().getMarkdown() }
-    console.log(data)
     axios.post(`/api/question/${item.question.questionId}/answer`, data)
     .then((res) => {
-      console.log(res)
+      console.log(res.data)
       // window.location.reload();
+      window.location.replace(`/questions/${item.question.questionId}`)
+
     })
     .catch(error => {
       console.log(error.response);

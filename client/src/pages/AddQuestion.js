@@ -36,8 +36,7 @@ export default function AddQuestion({accessToken}) {
     .catch(error => {
       console.log(error.response);
     });
-    navigate('/')
-    // window.location.replace('/')
+    window.location.replace('/')
   }
 
   return (

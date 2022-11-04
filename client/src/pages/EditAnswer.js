@@ -22,10 +22,10 @@ export default function EditAnswer({accessToken}) {
   
     // data 생성 & Patch (Api)
         let data = { content: contentInput.current.getInstance().getMarkdown() }
-        axios.patch(`/question/${params.id}/answer/${params.answerId}`, data)
+        axios.patch(`/api/question/${item.question.questionId}/answer/${answer.answerId}`, data)
         .then((res) => {
-            navigate(`/questions/${item.question.questionId}`)
-            // window.location.replace(`/questions/${item.question.questionId}`)
+            // navigate(`/questions/${item.question.questionId}`)
+            window.location.replace(`/questions/${item.question.questionId}`)
         })
         .catch(error => {
             console.log(error.response);

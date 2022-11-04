@@ -20,7 +20,7 @@ export default function QuestionDetail({item, id, accessToken}) {
     axios.delete(`/api/questions/${id}`)
     .then((res) => {
       console.log(res)
-      navigate(`/`)
+      window.location.replace('/')
     })
     .catch(error => {
       console.log(error.response);
