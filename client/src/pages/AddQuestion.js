@@ -31,13 +31,13 @@ export default function AddQuestion({accessToken}) {
     
     axios.post(`/api/questions`, data)
     .then((res) => {
-      console.log(res)
-      navigate(`/`)
+      console.log(res.data)
+      navigate(`/questions/${res.data}`)
     })
     .catch(error => {
       console.log(error.response);
+      navigate('/')
     });
-    navigate('/')
   }
 
   return (
