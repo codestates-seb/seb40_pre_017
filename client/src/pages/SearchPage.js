@@ -85,7 +85,7 @@ export default function SearchPage({inputData}) {
           <span>{count} question</span>
         </div>
         {!items ? <NoSearch /> : <QuestionList items={items}/>}
-        <QuestionList items={items}/>
+        {/* <QuestionList items={items}/> */}
         {pageInfo && <Pagination page={page} setPage={setPage} pageInfo={pageInfo}/>}
       </div>
       <div className='questionPageAside'>

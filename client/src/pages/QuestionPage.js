@@ -30,6 +30,7 @@ export default function QuestionPage({accessToken, filterData, changeFilterData}
     .then(res => {
       seItems(res.data.items)
       setPageInfo(res.data.pageInfo)
+      console.log(pageInfo)
     })
     .catch(err => {
       console.error(err)
