@@ -51,10 +51,13 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
     }else if(type === 'answer'){
       axios.post(`/api/question/${id}/answer/${answerId}/comments`, data)
       .then((res) => {
-        console.log(res.status)
+        if(res.status === 201) {
+          console.log(res)
+          window.location.href = `/questions/${params.id}`;
+        }
       })
       .catch(error => {
-        console.log(error.response);
+        alert(error.response.data.errors[0].reason);
       });
     }
     setClickAdd(false);
@@ -78,10 +81,12 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       // fetchPatch("question/{id}/answer/{answer-id}/comments/{comment-id}")
       axios.patch(`/api/question/${id}/answer/${answerId}/comments/${commentId}`, data)
       .then((res) => {
-        console.log(res)
+        if(res.status === 200) {
+          window.location.href = `/questions/${params.id}`;
+        }
       })
       .catch(error => {
-        console.log(error.response);
+        alert(error.response.data.errors[0].reason);
       });
     }
     setEditClick(false);
