@@ -33,13 +33,6 @@ export default function QuestionPage({ filterData, changeFilterData}) {
     })
   }, [filterData, page])
 
-
-  //questionList Count
-  let count = 0;
-  if(items){
-    count = items.length;
-  }
-
   return (
     <div className='questionPageWrap'>
       <div className='questionPageNavbar'>
@@ -53,7 +46,7 @@ export default function QuestionPage({ filterData, changeFilterData}) {
           </Link>
         </div>
         <div className='countFilterWrap'>
-          <span>{count} question</span>
+          {pageInfo && <span>{pageInfo.totalElements} question</span>}
           <div className='filterBtns'>
             <button className={'' + (filterData === "NoAnswer" && "active")} onClick={changeFilterData} name='NoAnswer'>NoAnswer</button>
             <button className={'' + (filterData === "NoAcceptedAnswer" && "active")} onClick={changeFilterData} name='NoAcceptedAnswer'>NoAcceptedAnswer</button>
