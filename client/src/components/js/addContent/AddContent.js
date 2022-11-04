@@ -34,13 +34,13 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
           min-height="250px"
           initialEditType="markdown"
           useCommandShortcut={true}
-          toolbarItems={
-            [['heading', 'bold', 'italic', 'code'],
-            ['link', 'quote','codeblock','image','table'],
-            [],
-            [],
-            ['ul', 'ol','task','hr']]
-          }
+          toolbarItems={[
+            ['bold', 'italic', 'strike'],
+            ['code', 'codeblock'],
+            ['hr', 'quote'],
+            ['ul', 'ol', 'task', 'indent', 'outdent'],
+            ['table', 'image', 'link'],
+          ]}
           onChange={inputContent}
           onFocus={appearNext}
           ref={contentInput}
