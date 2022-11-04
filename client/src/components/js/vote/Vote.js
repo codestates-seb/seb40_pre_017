@@ -38,7 +38,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           ///questions/{id}/upvote
           axios.post(`/api/questions/${id}/upvote`)
           .then((res) => {
-            console.log(res)
+            console.log(res);
           })
           .catch(error => {
             console.log(error.response);

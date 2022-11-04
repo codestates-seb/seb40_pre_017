@@ -31,7 +31,10 @@ p {
 
 .question_mainBox {
     margin-left: 100px;
+    max-width: 600px;
     h2 {
+        overflow: hidden;
+        text-overflow: ellipsis;
         font-size: 17px;
         color: #009FE2;
         margin-bottom: 5px;
@@ -42,6 +45,8 @@ p {
         cursor: pointer;
     }
     p {
+        overflow: hidden;
+        text-overflow: ellipsis;
         color: #3B4045;
         line-height: 17px;
     }
