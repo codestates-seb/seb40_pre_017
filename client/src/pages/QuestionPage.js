@@ -9,12 +9,14 @@ import axios from 'axios';
 
 export default function QuestionPage({ filterData, changeFilterData}) {
 
-  const [items, seItems] = useState(null);;
+  const [items, seItems] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pageInfo, setPageInfo] = useState();
 
   useEffect(()=>{
     let params = {
       "filters" : filterData,
-      "page" : 1
+      "page" : page
     };
     axios.get('/api/questions', {
       params : params,
@@ -23,16 +25,14 @@ export default function QuestionPage({ filterData, changeFilterData}) {
       }
     })
     .then(res => {
-<<<<<<< HEAD
       console.log(res)
-=======
->>>>>>> Refector/전체수정
       seItems(res.data.items)
+      setPageInfo(res.data.pageInfo)
     })
     .catch(err => {
       console.error(err)
     })
-  }, [filterData])
+  }, [filterData, page])
 
 
   //questionList Count
@@ -61,7 +61,7 @@ export default function QuestionPage({ filterData, changeFilterData}) {
           </div>
         </div>
         <QuestionList items={items}/>
-        <Pagination/>
+        <Pagination page={page} setPage={setPage} pageInfo={pageInfo}/>
       </div>
       <div className='questionPageAside'>
         <Aside />
