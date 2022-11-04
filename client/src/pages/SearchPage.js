@@ -10,7 +10,9 @@ import NoSearch from '../components/js/noSearch/NoSearch';
 
 export default function SearchPage({inputData}) {
 
-  const [items, seItems] = useState(null);;
+  const [items, seItems] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pageInfo, setPageInfo] = useState();
 
   useEffect(()=>{
     // let params = {
@@ -34,7 +36,7 @@ export default function SearchPage({inputData}) {
     // })
     let params = {
       "q": inputData,
-      "page": 1
+      "page": page
     };
     
     let query = Object.keys(params)
@@ -50,14 +52,14 @@ export default function SearchPage({inputData}) {
       }),
     })
     .then((res) => {
-      console.log(res)
       return res.json()
     })
     .then((resData) => {
-      console.log(resData.items)
+      console.log(resData)
       seItems(resData.items)
+      setPageInfo(resData.pageInfo)
     })
-  }, [inputData])
+  }, [inputData, page])
 
 
 
@@ -84,7 +86,7 @@ export default function SearchPage({inputData}) {
         </div>
         {!items ? <NoSearch /> : <QuestionList items={items}/>}
         <QuestionList items={items}/>
-        <Pagination/>
+        {pageInfo && <Pagination page={page} setPage={setPage} pageInfo={pageInfo}/>}
       </div>
       <div className='questionPageAside'>
         <Aside />
