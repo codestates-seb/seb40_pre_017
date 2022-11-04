@@ -1,22 +1,23 @@
 import AnswerList from '../components/js/answer/AnswerList'
 import QuestionDetail from '../components/js/question/QuestionDetail'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import Aside from '../components/js/aside/Aside';
 import Category from '../components/js/category/Category';
 
 import './DetailPage.scss'
-import { Link } from 'react-router-dom'
 import createdAt from '../components/js/createdAt/CreatedAt';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function DetailPage({accessToken}) {
+export default function DetailPage({ accessToken }) {
   axios.defaults.headers.common["Authorization"] = accessToken;
-
-  let params = useParams();
-
+  
   const [item, setItem] = useState(null);
   
+  const navigate = useNavigate();
+  
+  let params = useParams();
+
   useEffect(()=>{
     axios.get(`/api/questions/${params.id}`, {
       headers: {
@@ -28,6 +29,16 @@ export default function DetailPage({accessToken}) {
     })
   }, []);
 
+  const createQuestion = () => {
+    if(accessToken) {
+      navigate("/add")
+    }else{
+      alert('This service requires login')
+      localStorage.setItem("lastPath", `/questions/${params.id}`);
+      navigate("/login")
+    }
+  }
+
   return (
     <div className='detailPageWrap'>
       <div className='detailPageNavbar'>
@@ -37,9 +48,8 @@ export default function DetailPage({accessToken}) {
         <div className='detailHeadWrap'>
           <div className='detailTitleWrap'>
             {item !== null && <h1>{item.question.title}</h1>}
-            <Link to={'/add'}>
-              <button>Ask Question</button>
-            </Link>
+
+            <button onClick={createQuestion}>Ask Question</button>
           </div>
           {item !== null && 
           <div className='detailDateWrap'>
@@ -56,7 +66,7 @@ export default function DetailPage({accessToken}) {
           <div className='detailContentWrap'>
           {item !== null && 
           <>
-            <QuestionDetail item={item} id={item.question.questionId} accessToken={accessToken}/>
+            <QuestionDetail item={item} id={item.question.questionId} accessToken={accessToken} />
             <AnswerList item={item} id={item.question.questionId} accessToken={accessToken}/>
           </>
           }

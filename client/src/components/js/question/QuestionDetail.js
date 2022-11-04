@@ -11,8 +11,7 @@ import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
 
 
-export default function QuestionDetail({item, id, accessToken}) {
-  
+export default function QuestionDetail({item, id, accessToken }) {
   axios.defaults.headers.common["Authorization"] = accessToken;
 
   // 삭제
@@ -52,8 +51,13 @@ export default function QuestionDetail({item, id, accessToken}) {
         <div className='detailBottomWrap'>
           <div className='detailEditWrap'>
             <button>Share</button>
+            {item.member.username === window.localStorage.getItem("member") && 
+            <>
               <button onClick={clickEdit}>Edit</button>
-            <button onClick={handleDelete}>Delete</button>
+              <button onClick={handleDelete}>Delete</button>
+            </>
+            
+            }
           </div>
           <Profile item={item.member} time={item.question.createdAt}/>
         </div>
