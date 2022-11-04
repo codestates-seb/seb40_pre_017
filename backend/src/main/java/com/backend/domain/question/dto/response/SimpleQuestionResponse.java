@@ -56,7 +56,6 @@ public class SimpleQuestionResponse {
                 .voteCount(question.getVoteCount())
                 .build();
 
-
     }
 
     public static SimpleQuestionResponse toResponse(Question question, int answerCount) {

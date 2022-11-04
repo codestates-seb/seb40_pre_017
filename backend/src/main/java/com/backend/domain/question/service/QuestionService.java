@@ -86,8 +86,6 @@ public class QuestionService {
 
 
 
-
-
         List<SimpleQuestionCommentResponse> questionCommentResponses = question.getQuestionComments().stream()
                 .map(SimpleQuestionCommentResponse::of)
                 .collect(toList());

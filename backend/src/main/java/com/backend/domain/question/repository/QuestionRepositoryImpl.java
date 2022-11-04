@@ -19,13 +19,15 @@ import java.util.List;
 import static com.backend.domain.answer.domain.QAnswer.answer;
 import static com.backend.domain.comment.domain.QAnswerComment.answerComment;
 import static com.backend.domain.comment.domain.QQuestionComment.questionComment;
+import static com.backend.domain.member.domain.QMember.member;
 import static com.backend.domain.question.domain.QQuestion.*;
 import static com.backend.domain.question.domain.QQuestionTag.*;
 import static com.backend.domain.tag.domain.QTag.tag;
 import static com.backend.global.dto.request.PageRequest.Filter.*;
 import static com.backend.domain.vote.domain.QQuestionDownVote.questionDownVote;
 import static com.backend.domain.vote.domain.QQuestionUpVote.questionUpVote;
-
+import static com.backend.domain.vote.domain.QAnswerDownVote.answerDownVote;
+import static com.backend.domain.vote.domain.QAnswerUpVote.answerUpVote;
 
 @Repository
 @RequiredArgsConstructor
@@ -189,8 +191,9 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                 .where(question.id.eq(id))
                 .fetch();
 
-
     }
+
+
 
     @Override
     public List<Long> findByTagNames(List<String> tagNames) {

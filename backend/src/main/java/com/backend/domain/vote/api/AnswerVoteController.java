@@ -28,7 +28,6 @@ public class AnswerVoteController {
 
         answerVoteService.up(answerId, authMember.getMemberId());
 
-
         return ResponseEntity.ok(answerId);
     }
 

@@ -7,12 +7,7 @@ import com.backend.domain.member.dto.MemberUpdate;
 import com.backend.domain.member.dto.SignUpRequest;
 import com.backend.domain.member.exception.MemberNotFound;
 import com.backend.domain.member.exception.UserNameDuplication;
-<<<<<<< HEAD
 import com.backend.global.repository.MemberRepository;
-import com.backend.global.util.SecurityUtil;
-=======
-import com.backend.domain.member.repository.MemberRepository;
->>>>>>> dev
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

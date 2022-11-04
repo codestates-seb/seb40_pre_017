@@ -169,7 +169,7 @@ class AnswerServiceTest {
 
 
         answer.unAccept();
-        question.unaccept();
+        question.unAccept();
         member.answerUnAccepted();
 
         assertFalse(answer.getIsAccepted());

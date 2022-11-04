@@ -9,7 +9,10 @@ import com.backend.domain.member.service.AuthMember;
 import com.backend.domain.member.service.AuthService;
 import com.backend.domain.member.service.MemberService;
 import com.backend.global.repository.MemberRepository;
+
+import static org.mockito.ArgumentMatchers.doubleThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -22,12 +25,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -60,6 +65,8 @@ class MemberControllerTest {
                 .email(TestUserDetailService.UserName)
                 .username("가나다")
                 .password("123456")
+                .reputation(0L)
+                .profileImage("https://unsplash.com/photos/o-WP2j3o2lQ")
                 .build();
 
         memberRepository.save(member);
@@ -91,13 +98,17 @@ class MemberControllerTest {
 
     @Test
     void getMyMemberInfo() throws Exception {
-       //given
-        MemberResponseDto memberResponseDto = MemberResponseDto.builder()
-                .id(1L)
+        //given
+        MemberResponse memberResponse = MemberResponse.builder()
+                .profileImage("https://unsplash.com/photos/o-WP2j3o2lQ")
+                .reputation(0L)
+                .userId(1L)
+                .username("가나다")
+                .link("https://unsplash.com/photos/X8aCMv55Dw4")
                 .build();
 
         given(memberService.getMyInfo(Mockito.anyLong()))
-                .willReturn(memberResponseDto);
+                .willReturn(memberResponse);
 
         //when
         ResultActions actions = mockMvc.perform(
@@ -106,10 +117,40 @@ class MemberControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         );
-        actions.andExpect(status().isOk());
+        actions.andExpect(status().isOk())
+                .andDo(print());
+
     }
 
     @Test
-    void getMemberInfo() {
+    void getMemberInfo() throws Exception {
+        //given
+        String email = "user@example.com";
+
+        MemberResponse memberResponse = MemberResponse.builder()
+                .profileImage("https://unsplash.com/photos/o-WP2j3o2lQ")
+                .reputation(0L)
+                .userId(1L)
+                .username("가나다")
+                .link("https://unsplash.com/photos/X8aCMv55Dw4")
+                .build();
+
+        given(memberService.getMemberInfo(Mockito.anyString()))
+                .willReturn(memberResponse);
+
+        //when
+        ResultActions actions = mockMvc.perform(
+                get("/user/{email}",email)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+        actions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.userId").value(memberResponse.getUserId()))
+                .andExpect(jsonPath("$.username").value(memberResponse.getUsername()))
+                .andExpect(jsonPath("$.profileImage").value(memberResponse.getProfileImage()))
+                .andExpect(jsonPath("$.reputation").value(memberResponse.getReputation()))
+                .andExpect(jsonPath("$.link").value(memberResponse.getLink()));
+
+
     }
 }

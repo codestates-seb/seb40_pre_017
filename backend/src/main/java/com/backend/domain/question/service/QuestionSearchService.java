@@ -2,7 +2,6 @@ package com.backend.domain.question.service;
 
 
 import com.backend.domain.member.dto.MemberResponse;
-import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.question.dto.request.QuestionSearch;
 import com.backend.domain.question.dto.response.QuestionResponse;
 import com.backend.domain.question.dto.response.SimpleQuestionResponse;
@@ -11,6 +10,7 @@ import com.backend.domain.tag.exception.ContainsNotExistentTags;
 import com.backend.domain.tag.service.TagService;
 import com.backend.global.dto.Response.MultiResponse;
 import com.backend.global.dto.request.PageRequest;
+import com.backend.global.repository.MemberRepository;
 import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
