@@ -48,7 +48,6 @@ export default function DetailPage({ accessToken }) {
         <div className='detailHeadWrap'>
           <div className='detailTitleWrap'>
             {item !== null && <h1>{item.question.title}</h1>}
-
             <button onClick={createQuestion}>Ask Question</button>
           </div>
           {item !== null && 

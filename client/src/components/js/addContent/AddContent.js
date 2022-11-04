@@ -40,7 +40,7 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
             ['link','quote', 'code', 'image', 'codeblock'],
             [],
             [],
-            ['indent', 'outdent','task','table', 'ul','ol' ],
+            // ['indent', 'outdent','task','table', 'ul','ol' ],
           ]}
           onChange={inputContent}
           onFocus={appearNext}
