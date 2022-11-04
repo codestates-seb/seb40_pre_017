@@ -10,7 +10,7 @@ spring:
 
         format_sql: true  # (3) SQL pretty print
   profiles:
-    active: server
+    active: server # local / server
 logging:
   level:
     org:
