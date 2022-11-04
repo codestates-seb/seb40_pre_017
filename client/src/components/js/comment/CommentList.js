@@ -50,6 +50,7 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       });
     }
     setClickAdd(false);
+    // window.location.replace(`/questions/${id}`)
   }
 
   //comment Edit
@@ -74,6 +75,7 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       });
     }
     setEditClick(false);
+    // window.location.replace(`/questions/${id}`)
   }
 
   //edit 취소

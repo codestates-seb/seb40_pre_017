@@ -24,7 +24,8 @@ export default function EditAnswer({accessToken}) {
         let data = { content: contentInput.current.getInstance().getMarkdown() }
         axios.patch(`/question/${params.id}/answer/${params.answerId}`, data)
         .then((res) => {
-            navigate(`/api/questions/${item.question.questionId}`)
+            navigate(`/questions/${item.question.questionId}`)
+            // window.location.replace(`/questions/${item.question.questionId}`)
         })
         .catch(error => {
             console.log(error.response);
@@ -43,6 +44,6 @@ export default function EditAnswer({accessToken}) {
         <Link to={`/questions/${params.id}`}>
             <button className='cancel'>Cancel</button>
         </Link>
-      </div>
-  )
+    </div>
+    )
 }

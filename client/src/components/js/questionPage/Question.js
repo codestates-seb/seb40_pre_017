@@ -8,7 +8,7 @@ import createdAt from '../createdAt/CreatedAt'
 export default function Question({item}) {
 
   // 상세페이지 데이터 GET
-  const [detailItem, setDetailItem] = useState();
+  // const [detailItem, setDetailItem] = useState();
   
   // useEffect(()=>{
   //   axios.get(`/api/questions/${item.question.questionId}`, {
@@ -24,13 +24,17 @@ export default function Question({item}) {
   //   })
   // }, [item])
 
+  // const navigate = useNavigate();
+  // const clickTitle = () => {
+  //   navigate(`/questions/${item.question.questionId}`, {
+  //     state: {
+  //       item : detailItem
+  //     }
+  //   })
+  // }
   const navigate = useNavigate();
   const clickTitle = () => {
-    navigate(`/questions/${item.question.questionId}`, {
-      state: {
-        item : detailItem
-      }
-    })
+    navigate(`/questions/${item.question.questionId}`)
   }
 
   return (

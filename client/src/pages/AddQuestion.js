@@ -32,12 +32,12 @@ export default function AddQuestion({accessToken}) {
     axios.post(`/api/questions`, data)
     .then((res) => {
       console.log(res)
-      navigate(`/`)
     })
     .catch(error => {
       console.log(error.response);
     });
     navigate('/')
+    // window.location.replace('/')
   }
 
   return (

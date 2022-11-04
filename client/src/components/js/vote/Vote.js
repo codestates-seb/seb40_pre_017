@@ -53,6 +53,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
             console.log(error.response);
           });
         }
+        // window.location.replace(`/questions/${id}`)
       }else if(clickUp){
         setClickUp(false);
         if(type === 'question'){
@@ -76,6 +77,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
             console.log(error.response);
           });
         }
+        // window.location.replace(`/questions/${id}`)
       }
     }
   }
@@ -107,6 +109,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
             console.log(error.response);
           });
         }
+        // window.location.replace(`/questions/${id}`)
       }else if(clickDown){
         setClickDown(false);
         if(type === 'question'){
@@ -130,10 +133,10 @@ export default function Vote({item, type, id, answerId, accessToken}) {
             console.log(error.response);
           });
         }
+        // window.location.replace(`/questions/${id}`)
       }
     }
   }
-
 
   return (
     <div className='voteWrap'>

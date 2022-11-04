@@ -30,7 +30,7 @@ export default function DetailPage({accessToken}) {
     .catch(err => {
       console.error(err)
     })
-  }, [item])
+  }, [params.id])
 
   return (
     <div className='detailPageWrap'>

@@ -35,6 +35,7 @@ export default function Comment({id, content, setEditClick, type, setEditValue, 
       axios.delete(`/api/question/${id}/answer/${content.answerCommentId}comments/${content.answerCommentId}`)
       .then((res) => {
         console.log(res)
+        // window.location.replace(`/questions/${id}`)
       })
       .catch(error => {
         console.log(error.response);
