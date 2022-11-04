@@ -35,7 +35,8 @@ export default function EditQuestion({accessToken}) {
 
       axios.patch(`/api/questions/${item.question.questionId}`, data)
       .then((res) => {
-        navigate(`/`)
+        console.log(res)
+        navigate(`/questions/${params.id}`)
       })
       .catch(error => {
         console.log(error.response);
