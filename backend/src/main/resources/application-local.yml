@@ -5,7 +5,9 @@ spring:
       enabled: true
       path: /h2
   datasource:
-    url: jdbc:h2:mem:test
+    url: jdbc:h2:mem:test;MODE=MYSQL
+    hikari:
+      jdbc-url:jdbc:h2:mem:test;MODE=MYSQL
   # JPA
   jpa:
     hibernate:
@@ -15,6 +17,9 @@ spring:
       hibernate:
         default_batch_fetch_size: 1000
         format_sql: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        storage_engine: innodb
+
 
 # logging
 logging:
