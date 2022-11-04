@@ -5,44 +5,26 @@ import '../../css/vote/Vote.scss'
 export default function Vote({item, type, id, answerId, accessToken}) {
   axios.defaults.headers.common["Authorization"] = accessToken;
 
-  // 투표된상태이면 알람창
+  // 투표된상태확인
+  const [voteInfo, setVoteInfo ] = useState();
   useEffect(() => {
+    axios.get(`/api/questions/${id}/votes`)
+    .then((res) => {
+      setVoteInfo(res.data)
+    })
+    .catch(error => {
+      console.log(error.response);
+    });
+
     if(type === 'question'){
-      axios.post(`/api/question/${id}/upvote`)
-      .then(res => {
-        
-      })
-      .catch(error => {
-        console.log(error.response.data.message);
-        if(error.response.data.message === 'You Already Voted'){
-          setClickUp(true);
-        }
-      });
-
-      axios.post(`/api/question/${id}/downvote`)
-          .catch(error => {
-            if(error.response.data.message === 'You Already Voted'){
-              setClickDown(true);
-            }
-          });
-    }else if(type === 'answer'){
-      axios.post(`/api/question/${id}/upvote`)
-      .catch(error => {
-        console.log(error.response.data.message);
-        if(error.response.data.message === 'You Already Voted'){
-          setClickUp(true);
-        }
-      });
-
-      axios.post(`/api/question/${id}/answer/${answerId}/downvote`)
-      .catch(error => {
-        if(error.response.data.message === 'You Already Voted'){
-          setClickUp(true);
-        }
-      });
+      if(voteInfo.questionUpVote)setClickUp(true)
+      else if(voteInfo.questionDownVote)setClickDown(true)
+    }else if( type === 'answer'){
+      let answerVote = voteInfo.answerVoteStates.filter(el => el.answerId === answerId);
+      if(answerVote.answerUpVote)setClickUp(true)
+      else if(answerVote.answerDownVote)setClickDown(true)
     }
-    
-  },[item])
+  },[])
 
   // 투표찬성
   const [clickUp, setClickUp] = useState(false);
