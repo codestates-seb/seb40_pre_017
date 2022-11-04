@@ -47,9 +47,9 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       .catch(error => {
         alert(error.response.data.errors[0].reason);
       });
-
+      // /question/{id}/answer/{answer-id}/comments
     }else if(type === 'answer'){
-      axios.post(`/api/question/${id}/answer/${answerId}comments`, data)
+      axios.post(`/api/question/${id}/answer/${answerId}/comments`, data)
       .then((res) => {
         console.log(res.status)
       })
@@ -58,6 +58,7 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       });
     }
     setClickAdd(false);
+    // window.location.replace(`/questions/${id}`)
   }
 
   //comment Edit
@@ -75,7 +76,7 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       });
     }else if( type === 'answer'){
       // fetchPatch("question/{id}/answer/{answer-id}/comments/{comment-id}")
-      axios.patch(`/api/question/${id}/answer/{answer-id}/comments/${commentId}`, data)
+      axios.patch(`/api/question/${id}/answer/${answerId}/comments/${commentId}`, data)
       .then((res) => {
         console.log(res)
       })
@@ -84,6 +85,7 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       });
     }
     setEditClick(false);
+    // window.location.replace(`/questions/${id}`)
   }
 
   //edit 취소

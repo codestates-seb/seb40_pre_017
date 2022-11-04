@@ -38,6 +38,7 @@ export default function AddQuestion({accessToken}) {
       console.log(error.response);
       navigate('/')
     });
+    // window.location.replace('/')
   }
 
   return (

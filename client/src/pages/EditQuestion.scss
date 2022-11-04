@@ -32,6 +32,27 @@
         color:  #0A95FF;
     }
 
+
+    .blueBtn{
+        font-size: 13px;
+        cursor: pointer;
+        height: 37px;
+        padding: 10px;
+        color: white;
+        background-color: #0A95FF;
+        border-color: transparent;
+        border-radius: 3px;
+        box-shadow: rgba(255,255,255,0.4) 0px 2px 0px 0px inset;
+    }
+    .blueBtn:hover{
+        background-color: #0074CC;
+    }
+    .blueBtn:disabled {
+        background-color: #96CAFF;
+        color: #FFFFFF;
+        cursor:not-allowed;
+    }
+
 }
 
 .editQuestionNavbar{

@@ -16,7 +16,8 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
   // 답변 삭제
   const handleDelete = () => {
     // api DELETE
-    axios.delete(`/question/${id}/answer/${answerId}/`)
+    // /question/{id}/answer/{answer-id}
+    axios.delete(`/api/question/${item.question.questionId}/answer/${answerId}`)
     .then((res) => {
       console.log(res)
     })
@@ -30,7 +31,7 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
   const handleCheck = () => {
     if(!check){
       // fetchCreate(`/question/${id}/answer/${answerId}/accept`)
-      axios.post(`/question/${id}/answer/${answerId}/accept`)
+      axios.post(`/api/question/${id}/answer/${answerId}/accept`)
       .then((res) => {
         console.log(res)
       })
@@ -40,7 +41,7 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
       setCheck(true);
     }else{
       // fetchCreate(`/question/${id}/answer/${answerId}/accept/undo`)
-      axios.post(`/question/${id}/answer/${answerId}/accept/undo`)
+      axios.post(`/api/question/${id}/answer/${answerId}/accept/undo`)
       .then((res) => {
         console.log(res)
       })
@@ -82,7 +83,7 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
           </div>
           <ProfileAnswer item={answer} time={answer.createdAt}/>
         </div>
-        <CommentList item={answer.answerComments} id={id} answerId={answerId} type={'answer'} temporary={item}/>
+        <CommentList item={answer.answerComments} id={id} answerId={answerId} type={'answer'} accessToken={accessToken}/>
       </div>
     </div>
   )
