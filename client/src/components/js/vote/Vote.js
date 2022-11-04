@@ -36,12 +36,8 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         if(type === 'question'){
           //질문투표찬성
           ///questions/{id}/upvote
-<<<<<<< HEAD
           console.log(`/api/question/${id}/upvote`)
           axios.post(`/api/question/${id}/upvote`)
-=======
-          axios.post(`/api/questions/${id}/upvote`)
->>>>>>> fbc0555309eec5e8ec48dbd15ac5e095dfc4c9d5
           .then((res) => {
             console.log(res)
           })
