@@ -42,15 +42,10 @@ export default function EditQuestion({accessToken}) {
         console.log(error.response);
       });
     }
-
-    const t = () => {
-      console.log(tags)
-    }
     return (
       <div className='editQuestionWrap'>
         <div className='editQuestionNavbar'><Category/></div>
         <div className='editQuestionMain'>
-          <button onClick={t}>ddd</button>
           <h2>Question</h2>
           <Inputbox 
               setTitle={setTitle} 
