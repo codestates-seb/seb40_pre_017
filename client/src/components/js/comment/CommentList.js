@@ -111,6 +111,8 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
           setEditValue={setEditValue} 
           setCommentId={setCommentId}
           accessToken={accessToken}
+          answerId={answerId}
+          commentId={commentId}
         />
         </div>
       ))}
