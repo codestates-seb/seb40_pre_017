@@ -1,7 +1,7 @@
 .editQuestionWrap{
     display: flex;
     max-width: 1264px;
-
+    width: 100%;
     h2{
         font-size: 21px;
         margin-bottom: 20px;
@@ -35,14 +35,24 @@
 }
 
 .editQuestionNavbar{
+    position: relative;
     width: 164px;
+    min-width: 164px;
+    @media screen and (max-width: 640px) {
+        display: none;
+    }
 }
 
 .editQuestionMain{
+    flex-grow: 1;
     margin: 50px 23px 72px 23px;
 }
 
 .editQuestionAside{
     padding-top: 110px;
     width: 300px;
+    min-width: 300px;
+    @media screen and (max-width: 1350px) {
+        display: none;
+    }
 }
