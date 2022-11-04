@@ -17,17 +17,14 @@ export default function Vote({item, type, id, answerId, accessToken}) {
       console.log(error.response);
     });
 
-    if(voteInfo){
-      if(type === 'question'){
-        if(voteInfo.questionUpVote)setClickUp(true)
-        else if(voteInfo.questionDownVote)setClickDown(true)
-      }else if( type === 'answer'){
-        let answerVote = voteInfo.answerVoteStates.filter(el => el.answerId === answerId);
-        if(answerVote.answerUpVote)setClickUp(true)
-        else if(answerVote.answerDownVote)setClickDown(true)
-      }
-    }
-    
+    // if(type === 'question'){
+    //   if(voteInfo.questionUpVote)setClickUp(true)
+    //   else if(voteInfo.questionDownVote)setClickDown(true)
+    // }else if( type === 'answer'){
+    //   let answerVote = voteInfo.answerVoteStates.filter(el => el.answerId === answerId);
+    //   if(answerVote.answerUpVote)setClickUp(true)
+    //   else if(answerVote.answerDownVote)setClickDown(true)
+    // }
   },[])
 
   // 투표찬성
@@ -39,8 +36,12 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         if(type === 'question'){
           //질문투표찬성
           ///questions/{id}/upvote
+<<<<<<< HEAD
           console.log(`/api/question/${id}/upvote`)
           axios.post(`/api/question/${id}/upvote`)
+=======
+          axios.post(`/api/questions/${id}/upvote`)
+>>>>>>> fbc0555309eec5e8ec48dbd15ac5e095dfc4c9d5
           .then((res) => {
             console.log(res)
           })
