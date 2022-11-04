@@ -2,8 +2,14 @@ import React, { useState } from 'react'
 import Comment from './Comment'
 import '../../css/comment/CommentList.scss'
 import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
 
 export default function CommentList({item, id, answerId, type, accessToken}) {
+
+  let params  = useParams();
+  const navigate = useNavigate();
+
+
   axios.defaults.headers.common["Authorization"] = accessToken;
   const [clickAdd, setClickAdd] = useState(false);
   const [editValue, setEditValue] = useState('');
@@ -30,20 +36,22 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
   //comment submit
   const handleSubmit = () => {
     
-
     if(type === 'question'){    
       axios.post(`/api/question/${id}/comments`, data)
       .then((res) => {
-        console.log(res)
+        if(res.status === 201) {
+          console.log(res)
+          window.location.href = `/questions/${params.id}`;
+        }
       })
       .catch(error => {
-        console.log(error.response);
+        alert(error.response.data.errors[0].reason);
       });
 
     }else if(type === 'answer'){
       axios.post(`/api/question/${id}/answer/${answerId}comments`, data)
       .then((res) => {
-        console.log(res)
+        console.log(res.status)
       })
       .catch(error => {
         console.log(error.response);
@@ -58,10 +66,12 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
     if(type === 'question'){
       axios.patch(`/api/question/${id}/comments/${commentId}`, data)
       .then((res) => {
-        console.log(res)
+        if(res.status === 200) {
+          window.location.href = `/questions/${params.id}`;
+        }
       })
       .catch(error => {
-        console.log(error.response);
+        alert(error.response.data.errors[0].reason);
       });
     }else if( type === 'answer'){
       // fetchPatch("question/{id}/answer/{answer-id}/comments/{comment-id}")
