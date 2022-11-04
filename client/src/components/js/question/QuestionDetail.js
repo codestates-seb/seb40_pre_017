@@ -17,16 +17,20 @@ export default function QuestionDetail({item, id, accessToken}) {
 
   // 삭제
   const handleDelete = () => {
-    axios.delete(`/api/questions/${id}`)
-    .then((res) => {
-      console.log(res)
-      navigate(`/`)
-    })
-    .catch(error => {
-      console.log(error.response);
-    });
-    // navigate('/')
+    if (window.confirm("Are you sure you want to delete the question?") === true) {
+      axios.delete(`/api/questions/${id}`)
+      .then((res) => {
+        console.log(res)
+        navigate(`/`)
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+      // navigate('/')
+    }
   }
+ 
+ 
 
   // Edit 데이터 GET
   const navigate = useNavigate();
