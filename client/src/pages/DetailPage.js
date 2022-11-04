@@ -11,26 +11,25 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function DetailPage({accessToken}) {
-  let params = useParams();
+  axios.defaults.headers.common["Authorization"] = accessToken;
 
+  let params = useParams();
+  console.log(params)
   const location = useLocation();
   // const { item } = location.state;
 
-  const [item, setItem] = useState();
+  const [item, setItem] = useState(null);
   
-    console.log(item)
-    
-  useEffect( ()=>{
-const getPosts = async () => {
-    const posts = await axios.get(`/api/questions/${params.id}`, {
+  useEffect(()=>{
+    axios.get(`/api/questions/${params.id}`, {
       headers: {
         "ngrok-skip-browser-warning": "69420"
-        }
-      });
-      setItem(posts.data)
-    };
-
-    getPosts();
+      }
+    })
+    .then(res => {
+      console.log(res)
+      setItem(res.data)
+    })
   }, []);
 
   return (
@@ -41,12 +40,12 @@ const getPosts = async () => {
       <div className='detailPage'>
         <div className='detailHeadWrap'>
           <div className='detailTitleWrap'>
-            <h1>{item.question.title}</h1>
+            {item !== null && <h1>{item.question.title}</h1>}
             <Link to={'/add'}>
               <button>Ask Question</button>
             </Link>
           </div>
-
+          {item !== null && 
           <div className='detailDateWrap'>
             <p>Asked</p>
             <p className='detailDateValue'>{createdAt(item.question.createdAt)}</p>
@@ -55,11 +54,16 @@ const getPosts = async () => {
             <p>Viewed</p>
             <p className='detailDateValue'>{item.question.viewCount} times</p>
           </div>
+          }
         </div>
         <div className='detailBodyWrap'>
           <div className='detailContentWrap'>
+          {item !== null && 
+          <>
             <QuestionDetail item={item} id={item.question.questionId} accessToken={accessToken}/>
             <AnswerList item={item} id={item.question.questionId} accessToken={accessToken}/>
+          </>
+          }
           </div>
           <div className='detailPageAside'>
             <Aside />
