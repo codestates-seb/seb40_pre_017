@@ -98,7 +98,6 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
     setEditClick(false);
   }
 
-  
   return (
     <div className='commentList'>
       {item && item.map(content => (

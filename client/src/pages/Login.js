@@ -48,8 +48,9 @@ export default function Login({setIslogined, setMemberData, setAccessToken}) {
       })
       .then((resData) => {
         if(resData.status !== 401) {
-          setIslogined(true);
           setMemberData(resData);
+          localStorage.setItem("member", resData.username);
+          setIslogined(true);
           navigate(localStorage.getItem('lastPath'));
         }else{
           alert("Please check your ID and password");

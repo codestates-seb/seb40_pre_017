@@ -1,17 +1,20 @@
 import React, {useState, useEffect} from 'react'
 import QuestionList from '../components/js/questionPage/QuestionList'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import './QuestionPage.scss'
 import Pagination from '../components/js/questionPage/Pagination';
 import Aside from '../components/js/aside/Aside';
 import Category from '../components/js/category/Category';
 import axios from 'axios';
 
-export default function QuestionPage({ filterData, changeFilterData}) {
+export default function QuestionPage({accessToken, filterData, changeFilterData}) {
 
   const [items, seItems] = useState(null);
   const [page, setPage] = useState(1);
   const [pageInfo, setPageInfo] = useState();
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(()=>{
     let params = {
@@ -32,7 +35,16 @@ export default function QuestionPage({ filterData, changeFilterData}) {
       console.error(err)
     })
   }, [filterData, page])
-
+  
+  const createQuestion = () => {
+    if(accessToken) {
+      navigate("/add")
+    }else{
+      alert('This service requires login')
+      localStorage.setItem("lastPath", `${location.pathname}`);
+      navigate("/login")
+    }
+  }
 
   //questionList Count
   let count = 0;
@@ -48,9 +60,7 @@ export default function QuestionPage({ filterData, changeFilterData}) {
       <div className='questionPage'>
         <div className='headAddWrap'>
           <h1>All Questions</h1>
-          <Link to={'/add'}>
-            <button>Ask Question</button>
-          </Link>
+          <button onClick={createQuestion}>Ask Question</button>
         </div>
         <div className='countFilterWrap'>
           <span>{count} question</span>

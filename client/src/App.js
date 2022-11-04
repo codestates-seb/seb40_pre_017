@@ -22,8 +22,8 @@ function App() {
   
   const [islogined, setIslogined] = useState(false);
   const [memberData, setMemberData] = useState({
-    email: 'dummy@gmail.com',
-    username: 'dummy',
+    email: '',
+    username: '',
     imageUrl: "https://i.imgur.com/GvsgVco.jpeg"
   });
   const [accessToken, setAccessToken] = useState(null);
@@ -31,11 +31,9 @@ function App() {
   useEffect(() => {
     if(!(islogined && accessToken)){
       console.log('reload')
+      window.localStorage.removeItem("member");        
       fetch('/api/users/reissue',{
         method: "GET",
-        headers: new Headers({
-          "ngrok-skip-browser-warning": "69420"
-        })
       })
       .then((res) => {
         let jwtToken = res.headers.get("Authorization");
@@ -48,6 +46,7 @@ function App() {
       .then((data) => {
         if(data.status !== 400) {
           setMemberData(data);
+          localStorage.setItem("member", data.username);
         }
       })
       .catch((err) => {
@@ -82,6 +81,8 @@ function App() {
       setMemberData(null);
       setAccessToken(null);
       setIslogined(false);
+      window.localStorage.removeItem("member");        
+
       alert("Logout Success!!");
       window.location.href = "/";
     })
@@ -94,9 +95,9 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout changeInputData={changeInputData} islogined={islogined} memberData={memberData} logoutControll={logoutControll} />}>
-          <Route index element={<QuestionPage filterData={filterData} changeFilterData={changeFilterData}/>} />
+          <Route index element={<QuestionPage accessToken={accessToken} filterData={filterData} changeFilterData={changeFilterData}/>} />
           <Route path="/add" element={<AddQuestion accessToken={accessToken}/>} />
-          <Route path="questions/:id" element={<DetailPage accessToken={accessToken}/>} />
+          <Route path="questions/:id" element={<DetailPage accessToken={accessToken} />} />
           <Route path="questions/:id/edit" element={<EditQuestion accessToken={accessToken}/>} />
           <Route path="questions/:id/editanswer/:answerId" element={<EditAnswer accessToken={accessToken}/>} />
           <Route path="/login" element={<Login setIslogined={setIslogined} setMemberData={setMemberData} setAccessToken={setAccessToken} />} />
@@ -104,7 +105,7 @@ function App() {
           <Route path="*" element={<Notfound />} />
         </Route>
         <Route path="/search" element={<Layout changeInputData={changeInputData} islogined={islogined} memberData={memberData} logoutControll={logoutControll} />}>
-          <Route index element={<SearchPage inputData={inputData} />} />
+          <Route index element={<SearchPage accessToken={accessToken} inputData={inputData} />} />
           <Route path="*" element={<Notfound />} />
         </Route>
       </Routes>

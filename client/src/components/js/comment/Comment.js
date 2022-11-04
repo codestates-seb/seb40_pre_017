@@ -4,11 +4,13 @@ import '../../css/comment/Comment.scss'
 import createdAt from '../createdAt/CreatedAt';
 import { useParams, useNavigate } from 'react-router-dom';
 
-export default function Comment({id, content, setEditClick, type, setEditValue, setCommentId, accessToken}) {
+export default function Comment({id, content, setEditClick, type, setEditValue, setCommentId, accessToken }) {
   let params  = useParams();
 
   axios.defaults.headers.common["Authorization"] = accessToken;
 
+  console.log(content.userName)
+  console.log(window.localStorage.getItem("member"))
 
   // click edit
   const clickEdit = () => {
@@ -57,8 +59,12 @@ export default function Comment({id, content, setEditClick, type, setEditValue, 
       <div className='commentContent'>{content.content} -</div>
       <div className='commentName'>{content.userName}</div>
       <div className='commentTime'>{createdAt(content.createdAt)} ago</div>
-      <i className="fa-solid fa-pencil" onClick={clickEdit}></i>
-      <i className="fa-solid fa-trash-can" onClick={handleDelete}></i>
+      {content.userName === window.localStorage.getItem("member") && 
+      <>
+        <i className="fa-solid fa-pencil" onClick={clickEdit}></i>
+        <i className="fa-solid fa-trash-can" onClick={handleDelete}></i>
+      </>
+      }
     </div>
   )
 }
