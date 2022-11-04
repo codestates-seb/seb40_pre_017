@@ -38,13 +38,15 @@ export default function Comment({id, content, setEditClick, type, setEditValue, 
       }
     }else if(type === 'answer'){
       if (window.confirm("Are you sure you want to delete the comment?") === true) {
-        axios.delete(`/api/question/${id}/answer/${content.answerCommentId}comments/${content.answerCommentId}`)
+        console.log(`/api/question/${id}/answer/${content.answerCommentId}/comments/${content.answerCommentId}`)
+        axios.delete(`/api/question/${id}/answer/${content.answerCommentId}/comments/${content.answerCommentId}`)
         .then((res) => {
           if(res.status === 200) {
-            window.location.href = `/questions/${params.id}`;
+            // window.location.href = `/questions/${params.id}`;
           }
         })
         .catch(error => {
+          console.log(error)
           alert(error.response.data.errors[0].reason);
         });
       }
