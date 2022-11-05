@@ -51,6 +51,10 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 
 	}
 
+
+
+
+	/* 검색 전체 조회 페이징 */
 	@Override
 	public List<Tuple> findList(PageRequest pageable, QuestionSearch questionSearch,
 								List<Long> questionIdHasKeywordAndTag) {
@@ -68,6 +72,12 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 				.fetch();
 	}
 
+
+
+
+
+
+	/* 상세 조회 - 질문 */
 	@Override
 	public List<Question> findQuestionWithMemberWithQuestionComments(Long id) {
 
@@ -81,6 +91,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 
 	}
 
+	/* 상세 조회 - 답변 */
 	@Override
 	public List<Answer> findAnswersWithAnswerComment(Long id) {
 
@@ -112,8 +123,8 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 				.leftJoin(tag)
 				.on(questionTag.tag.id.eq(tag.id))
 				.limit(tagSize)
-				.where(question.id.goe(firstId), filtering(pageable))
-				.orderBy(question.id.desc())
+				.where(question.id.loe(firstId), filtering(pageable))
+				.orderBy(question.id.desc(),questionTag.id.asc())
 				.fetch();
 	}
 
@@ -141,8 +152,11 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 				.leftJoin(tag)
 				.on(questionTag.tag.id.eq(tag.id))
 				.limit(tagSize)
-				.where(question.id.goe(firstId))
-				.orderBy(question.id.desc())
+				.where(question.id.loe(firstId))
+				.orderBy(question.id.desc(),questionTag.id.asc())
+
+
+
 				.fetch();
 
 	}
@@ -173,13 +187,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 
 	}
 
-	public BooleanExpression inTagIds(List<Long> tagIds) {
 
-		if (tagIds.size() == 0) {
-			return null;
-		}
-		return questionTag.tag.id.in(tagIds);
-	}
 
 	@Override
 	public List<Long> findQuestionIdBySearch(QuestionSearch questionSearch, List<Long> tagIds) {
@@ -189,6 +197,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 				.join(question)
 				.on(questionTag.question.id.eq(question.id))
 				.where(question.title.contains(questionSearch.getQuery()), inTagIds(tagIds))
+				.orderBy(question.id.desc())
 				.fetch();
 	}
 
@@ -200,6 +209,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 				.offset(pageable.getOffset())
 				.limit(pageable.getSize())
 				.groupBy(question.id)
+				.orderBy(question.id.desc())
 				.fetch();
 
 	}
@@ -214,6 +224,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 				.offset(pageable.getOffset())
 				.limit(pageable.getSize())
 				.groupBy(question.id)
+				.orderBy(question.id.desc())
 				.fetch();
 	}
 
@@ -239,6 +250,14 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 		if (tagSizeQuery.size() == 0) {
 			throw new NoSuchElement();
 		}
+	}
+
+	public BooleanExpression inTagIds(List<Long> tagIds) {
+
+		if (tagIds.size() == 0) {
+			return null;
+		}
+		return questionTag.tag.id.in(tagIds);
 	}
 
 }
