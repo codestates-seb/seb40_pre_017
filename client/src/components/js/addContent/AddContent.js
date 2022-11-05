@@ -44,7 +44,7 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
           ]}
           onChange={inputContent}
           onFocus={appearNext}
-          onBlur={() => {setContentGuide(false)}}
+          onBlur={() => setContentGuide(false)}
           ref={contentInput}
           disabled={handledisabled}
           hooks={{

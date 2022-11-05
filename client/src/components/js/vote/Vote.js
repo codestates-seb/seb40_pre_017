@@ -8,9 +8,11 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   // 투표된상태확인
   // const [ voteInfo, setVoteInfo ] = useState(null);
   let voteInfo = '';
+  
   useEffect(() => {
     axios.get(`/api/questions/${id}/votes`)
     .then((res) => {
+      console.log(res)
       // setVoteInfo(res.data)
       voteInfo = res.data;
       if(type === 'question'){
@@ -40,7 +42,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           //질문투표찬성
           ///questions/{id}/upvote
           // console.log(`/api/question/${id}/upvote`)
-          axios.post(`/api/question/${id}/upvote`)
+          axios.post(`/api/questions/${id}/upvote`)
           .then((res) => {
             console.log(res);
           })
@@ -50,7 +52,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         }else if(type === 'answer'){
           //답변투표찬성
           ///question/{id}/answer/{answer-id}/upvote
-          axios.post(`/api/question/${id}/answer/${answerId}/upvote`)
+          axios.post(`/api/questions/${id}/answer/${answerId}/upvote`)
           .then((res) => {
             console.log(res)
           })
@@ -64,7 +66,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         if(type === 'question'){
           //질문투표찬성 취소
           ///questions/{id}/upvote/undo
-          axios.post(`/api/question/${id}/upvote/undo`)
+          axios.post(`/api/questions/${id}/upvote/undo`)
           .then((res) => {
             console.log(res)
           })
