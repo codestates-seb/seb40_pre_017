@@ -1,5 +1,7 @@
 package com.backend.domain.question.controller;
 
+import java.util.Objects;
+
 import com.backend.domain.member.service.AuthMember;
 import com.backend.domain.question.dto.request.QuestionCreate;
 import com.backend.domain.question.dto.request.QuestionSearch;
@@ -17,6 +19,7 @@ import com.backend.global.dto.request.PageRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -85,6 +88,10 @@ public class QuestionController {
 
     @GetMapping("questions/{id}/votes")
     public ResponseEntity<VoteStateResponse> getVotes(@CurrentMember AuthMember authMember, @PathVariable Long id) {
+
+        if(Objects.isNull(authMember)){
+            return ResponseEntity.ok().build();
+        }
 
         Long memberId = authMember.getMemberId();
         VoteStateResponse votes = voteService.getVotes(memberId, id);
