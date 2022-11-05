@@ -4,13 +4,14 @@ import '../../css/addContent/AddContent.scss'
 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
+import axios from 'axios';
 
-export default function AddContent({content, setContent, appearNext, contentInput, setNextContentDis, type}) {
+export default function AddContent({content, appearNext, contentInput, setNextContentDis, type}) {
 
 
   const inputContent = () => {
     if(type !== 'answer'){
-      if(contentInput.current.getInstance().getMarkdown().length >= 20){
+      if(contentInput.current.getInstance().getMarkdown().length >= 30){
         setNextContentDis(false);
       }else{
         setNextContentDis(true);
@@ -34,17 +35,24 @@ export default function AddContent({content, setContent, appearNext, contentInpu
           min-height="250px"
           initialEditType="markdown"
           useCommandShortcut={true}
-          toolbarItems={
-            [['heading', 'bold', 'italic', 'code'],
-            ['link', 'quote','codeblock','image','table'],
+          toolbarItems={[
+            ['bold', 'italic'],
+            ['link','quote', 'code', 'image', 'codeblock'],
             [],
             [],
-            ['ul', 'ol','task','hr']]
-          }
+            // ['indent', 'outdent','task','table', 'ul','ol' ],
+          ]}
           onChange={inputContent}
           onFocus={appearNext}
           ref={contentInput}
           disabled={handledisabled}
+          hooks={{
+            addImageBlobHook: async (blob, callback) => {
+                console.log(blob);
+                const imgUrl = await axios.post('/api')
+                callback('/api', '이미지');
+              }
+            }}
         />
       </div>
         {/* <input 

@@ -1,9 +1,32 @@
-import React, { useState } from 'react'
-import { fetchCreate } from '../../../util/api';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import '../../css/vote/Vote.scss'
 
-export default function Vote({item, type, id, accessToken}) {
-  console.log(accessToken)
+export default function Vote({item, type, id, answerId, accessToken}) {
+  axios.defaults.headers.common["Authorization"] = accessToken;
+
+  // 투표된상태확인
+  const [voteInfo, setVoteInfo ] = useState();
+  useEffect(() => {
+    axios.get(`/api/question/${id}/votes`)
+    .then((res) => {
+      console.log(res)
+      setVoteInfo(res.data)
+    })
+    .catch(error => {
+      console.log(error.response);
+    });
+
+    // if(type === 'question'){
+    //   if(voteInfo.questionUpVote)setClickUp(true)
+    //   else if(voteInfo.questionDownVote)setClickDown(true)
+    // }else if( type === 'answer'){
+    //   let answerVote = voteInfo.answerVoteStates.filter(el => el.answerId === answerId);
+    //   if(answerVote.answerUpVote)setClickUp(true)
+    //   else if(answerVote.answerDownVote)setClickDown(true)
+    // }
+  },[])
+
   // 투표찬성
   const [clickUp, setClickUp] = useState(false);
   const handleUp = () => {
@@ -13,35 +36,50 @@ export default function Vote({item, type, id, accessToken}) {
         if(type === 'question'){
           //질문투표찬성
           ///questions/{id}/upvote
-          // fetchCreate(`/api/questions/${id}/upvote`)
-          fetch(`/api/questions/${id}/upvote`, {
-            method: "POST",
-            headers: new Headers({
-              "Authorization": `${accessToken}`,
-              "ngrok-skip-browser-warning": "69420",
-              "Content-Type" : "application/json"
-            })
-          })
-          .then(res => {
+          console.log(`/api/question/${id}/upvote`)
+          axios.post(`/api/question/${id}/upvote`)
+          .then((res) => {
             console.log(res)
           })
-          .catch(err => {
-            console.error(err)
-          })
+          .catch(error => {
+            console.log(error.response);
+          });
         }else if(type === 'answer'){
           //답변투표찬성
           ///question/{id}/answer/{answer-id}/upvote
+          axios.post(`/api/questions/${id}/answer/${answerId}/upvote`)
+          .then((res) => {
+            console.log(res)
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
         }
-        
+        // window.location.replace(`/questions/${id}`)
       }else if(clickUp){
         setClickUp(false);
         if(type === 'question'){
           //질문투표찬성 취소
           ///questions/{id}/upvote/undo
+          axios.post(`/api/questions/${id}/upvote/undo`)
+          .then((res) => {
+            console.log(res)
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
         }else if(type === 'answer'){
           //답변투표찬성 취소
           ///question/{id}/answer/{answer-id}/upvote/undo
+          axios.post(`/api/questions/${id}/answer/${answerId}/upvote/undo`)
+          .then((res) => {
+            console.log(res)
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
         }
+        // window.location.replace(`/questions/${id}`)
       }
     }
   }
@@ -55,23 +93,52 @@ export default function Vote({item, type, id, accessToken}) {
         if(type === 'question'){
           //질문투표반대
           ///questions/{id}/downvote
+          axios.post(`/api/questions/${id}/downvote`)
+          .then((res) => {
+            console.log(res)
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
         }else if(type === 'answer'){
           //답변투표반대
           ///question/{id}/answer/{answer-id}/downvote
+          axios.post(`/api/questions/${id}/answer/${answerId}/downvote`)
+          .then((res) => {
+            console.log(res)
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
         }
+        // window.location.replace(`/questions/${id}`)
       }else if(clickDown){
         setClickDown(false);
         if(type === 'question'){
           //질문투표반대 취소
           ///questions/{id}/downvote/undo
+          axios.post(`/api/questions/${id}/downvote/undo`)
+          .then((res) => {
+            console.log(res)
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
         }else if(type === 'answer'){
           //답변투표반대 취소
           ///question/{id}/answer/{answer-id}/downvote/undo
+          axios.post(`/api/questions/${id}/answer/${answerId}/downvote/undo`)
+          .then((res) => {
+            console.log(res)
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
         }
+        // window.location.replace(`/questions/${id}`)
       }
     }
   }
-
 
   return (
     <div className='voteWrap'>

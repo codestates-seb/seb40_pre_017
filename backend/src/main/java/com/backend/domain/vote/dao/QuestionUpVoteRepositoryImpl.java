@@ -26,13 +26,9 @@ import static com.backend.domain.vote.domain.QQuestionUpVote.questionUpVote;
 @RequiredArgsConstructor
 @Slf4j
 @Repository
-public class VoteRepository {
+public class QuestionUpVoteRepositoryImpl implements QuestionUpVoteRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
-
-    public void savedaf(){
-
-    }
 
 
     public VoteStateResponse getVotes(Long memberId, Long questionId) {

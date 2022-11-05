@@ -1,10 +1,19 @@
 import React, { useState } from 'react'
 import Comment from './Comment'
 import '../../css/comment/CommentList.scss'
-import { fetchCreate, fetchPatch } from '../../../util/api';
+import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
 
-export default function CommentList({item, type, temporary}) {
+export default function CommentList({item, id, answerId, type, accessToken}) {
+
+  let params  = useParams();
+  const navigate = useNavigate();
+
+
+  axios.defaults.headers.common["Authorization"] = accessToken;
   const [clickAdd, setClickAdd] = useState(false);
+  const [editValue, setEditValue] = useState('');
+  const [commentId, setCommentId] = useState('');
 
   // comment 추가
   const handleAdd = () => {
@@ -22,41 +31,66 @@ export default function CommentList({item, type, temporary}) {
     setContent(e.target.value);
   }
 
+  let data = { content }
+
   //comment submit
   const handleSubmit = () => {
-    // data POST 임시
-    let data = Object.assign(temporary.question)
-    data.qcomment = [
-      {
-        "qCommnetId": 31187802,
-        "memberId": 21187802,
-        "userName": "baptiste",
-        "link": "https://stackoverflow.com/users/11187800/fulvio",
-        "content": content,
-        "createdAt": 1552344257,
-        "modifiedAt": 1596034268
-      }
-    ]
     
-    if(type === 'question'){
-      fetchPatch("http://localhost:3001/items/",temporary.id, { question: data })
-    
-      // fetchCreate("/question/{id}/comments", data)
+    if(type === 'question'){    
+      axios.post(`/api/question/${id}/comments`, data)
+      .then((res) => {
+        if(res.status === 201) {
+          console.log(res)
+          window.location.href = `/questions/${params.id}`;
+        }
+      })
+      .catch(error => {
+        alert(error.response.data.errors[0].reason);
+      });
+      // /question/{id}/answer/{answer-id}/comments
     }else if(type === 'answer'){
-      // fetchCreate("/question/{id}/answer/{answer-id}comments", data)
+      axios.post(`/api/question/${id}/answer/${answerId}/comments`, data)
+      .then((res) => {
+        if(res.status === 201) {
+          console.log(res)
+          window.location.href = `/questions/${params.id}`;
+        }
+      })
+      .catch(error => {
+        alert(error.response.data.errors[0].reason);
+      });
     }
     setClickAdd(false);
+    // window.location.replace(`/questions/${id}`)
   }
 
   //comment Edit
   const [editClick, setEditClick] = useState(false);
   const handleEdit = () => {
     if(type === 'question'){
-      // fetchPatch("/question/{id}/comments/{comment-id}")
+      axios.patch(`/api/question/${id}/comments/${commentId}`, data)
+      .then((res) => {
+        if(res.status === 200) {
+          window.location.href = `/questions/${params.id}`;
+        }
+      })
+      .catch(error => {
+        alert(error.response.data.errors[0].reason);
+      });
     }else if( type === 'answer'){
       // fetchPatch("question/{id}/answer/{answer-id}/comments/{comment-id}")
+      axios.patch(`/api/question/${id}/answer/${answerId}/comments/${commentId}`, data)
+      .then((res) => {
+        if(res.status === 200) {
+          window.location.href = `/questions/${params.id}`;
+        }
+      })
+      .catch(error => {
+        alert(error.response.data.errors[0].reason);
+      });
     }
     setEditClick(false);
+    // window.location.replace(`/questions/${id}`)
   }
 
   //edit 취소
@@ -64,12 +98,21 @@ export default function CommentList({item, type, temporary}) {
     setEditClick(false);
   }
 
-
   return (
     <div className='commentList'>
       {item && item.map(content => (
         <div className='commentLine'>
-        <Comment content={content} setEditClick={setEditClick} type={type}/>
+        <Comment 
+          id={id}
+          content={content} 
+          setEditClick={setEditClick} 
+          type={type} 
+          setEditValue={setEditValue} 
+          setCommentId={setCommentId}
+          accessToken={accessToken}
+          answerId={answerId}
+          commentId={commentId}
+        />
         </div>
       ))}
         
@@ -89,7 +132,7 @@ export default function CommentList({item, type, temporary}) {
       {
         editClick ?
         <div className='commentWrap'>
-          <input type='text' onChange={handleInput}></input>
+          <input type='text' onChange={handleInput} defaultValue={editValue}></input>
           <div className='commentBtnWrap'>
             <button onClick={handleEdit} className='AddComment'>Save Edit</button>
             <button onClick={handleEditCancle} className='cancel'>Cancel</button>

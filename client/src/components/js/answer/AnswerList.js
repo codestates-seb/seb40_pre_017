@@ -2,9 +2,17 @@ import React, { useRef, useState } from 'react'
 import Answer from './Answer'
 import '../../css/answer/AnswerList.scss'
 import AddContent from '../addContent/AddContent';
-import { fetchPatch } from '../../../util/api';
+import axios from 'axios'
+import { useNavigate, useLocation } from 'react-router-dom'
 
-export default function AnswerList({item}) {
+
+export default function AnswerList({item, accessToken}) {
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  axios.defaults.headers.common["Authorization"] = accessToken;
+
   let count = 0;
   if(item.answers !== []){
     count = item.answers.length;
@@ -16,30 +24,24 @@ export default function AnswerList({item}) {
 
   const handleAddAnswer = (e) => {
     e.preventDefault();
-
-    // data 생성 & POST (임시)
-    // let answer = [
-    //   {
-    //     "answerId": 21187802,
-    //     "memberId": 21123802,
-    //     "createdAt": 1552234257,
-    //     "modifiedAt": 1523034268,
-    //     content: contentInput.current.getInstance().getMarkdown(),
-    //     "votes": 0,
-    //     "isAccepted": "true",
-    //     "reputation": 23,
-    //     "profileImage": "https://lh4.googleusercontent.com/-8o1Zs4lQprY/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rebPfyBOjde6DPW0bjTb2M1BSIwCg/mo/photo.jpg?sz=256",
-    //     "userName": "fulvio",
-    //     "link": "https://stackoverflow.com/users/11187800/fulvio",
-    //     "aComments": [
-    //     ]
-    //   }
-    // ]
-    // fetchPatch("http://localhost:3001/items/",item.id, { answer })
-
-    // data 생성 & POST (Api)
-    // let data = { content: answerContent }
-    // fetchCreate(`/questions/${id}/answer`, data)
+    console.log(item)
+    if(accessToken) {
+      // data 생성 & POST (Api)
+      let data = { content: contentInput.current.getInstance().getMarkdown() }
+      axios.post(`/api/question/${item.question.questionId}/answer`, data)
+      .then((res) => {
+        console.log(res.data)
+        // window.location.reload();
+        window.location.replace(`/questions/${item.question.questionId}`)
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+    }else{
+      alert('This service requires login')
+      localStorage.setItem("lastPath", `${location.pathname}`);
+      navigate("/login")
+    }
   }
 
   return (
@@ -55,6 +57,7 @@ export default function AnswerList({item}) {
             id={item.question.questionId} 
             answerId={answer.answerId} 
             item={item}
+            accessToken={accessToken}
           />
         </div>
       ))}

@@ -3,6 +3,7 @@ package com.backend.domain.vote.domain;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.question.domain.Question;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,12 +36,17 @@ public class QuestionDownVote  {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
 
-    @PrePersist
-    public void createDate() {
-        this.createdAt = LocalDateTime.now();
+    @Builder
+    public QuestionDownVote(Member member, Question question) {
+        this.member = member;
+        this.question = question;
     }
 
+    public static QuestionDownVote toEntity(Member member, Question question) {
+       return  QuestionDownVote.builder()
+                .member(member)
+                .question(question)
+                .build();
+    }
 }

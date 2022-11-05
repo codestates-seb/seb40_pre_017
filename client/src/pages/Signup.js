@@ -12,21 +12,12 @@ import Inputerror from '../components/js/user/common/Inputerror';
 
 
 let content = ["Log in with Google", "Log in with Github", "Log in with Facebook"];
-// 이메일 형식이여야 함.
 let emailExptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-//  비밀번호에 문자, 숫자, 특수문자가 각각 최소 1개 이상은 들어있어야 되고, 최소 8자리에서 최대 16자리.
 let passwordExptext = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/;
 
 
 export default function Signup() {
   const navigate = useNavigate();
-
-  // 어떤 경로에서 로그인 페이지로 접속했는지 확인 후 로그인 성공시 해당 페이지로 이동.
-  // 닉네임 입력 검사 -> 닉네임 입효성 판단 boolean -> p태그 보여줌
-  // 이메일 유효성 검사 -> 이메일 유효성 판단 boolean -> p태그 보여줌
-  // 이메일 입력 길이 먼저 검사.
-  // 입력한 값이 있으면 이메일 주소 형식인지 확인.
-  // 비밀번호 유효성 검사 -> 비밀번호 유효성 판단 boolean -> p태그 보여줌
 
   const [data, setDate] = useState({});
 
@@ -37,7 +28,7 @@ export default function Signup() {
     e.preventDefault()
 
     let error = false
-
+    
     if(!emailExptext.test(data.email)){
       setEmailError(true);
       error = true;
@@ -48,7 +39,6 @@ export default function Signup() {
     }
 
     if(!error){
-      console.log('제출')
       fetch("/api/users", {
         method: "POST",
         headers: new Headers({
@@ -58,14 +48,16 @@ export default function Signup() {
         body: JSON.stringify(data)
       })
       .then((res) => {
-        console.log(res)
-        if(res.status !== 500) {
+        if(res.status === 201) {
           localStorage.setItem("lastPath", "/");
           alert("Sign up Success!!")
           navigate("/login");
         }else{
-          alert('Your nickname or email is already in use.')
+          return res.json()
         }
+      })
+      .then(data => {
+        alert(data.message)
       })
     }
     
@@ -73,9 +65,6 @@ export default function Signup() {
 
   const onChangeInput = (e) => {
     setDate({...data, [e.target.name] : e.target.value});
-    // 이메일 유효성 체크
-
-    // 이메일 유효성이 확인되면 폼에서 생성한 에러 메세지 삭제.
     if(emailExptext.test(data.email)){
       setEmailError(false);
     }
@@ -128,7 +117,6 @@ export default function Signup() {
             <p>Passwords must contain at least eight characters, including at least 1 letter and 1 number.</p>
             <div className='checkBot'></div>
             <Button formSubmit={formSubmit} btnContent="Sign up" />
-            {/* <p>By clicking “Sign up”, you agree to our terms of service, privacy policy and cookie policy</p> */}
           </form>
 
           <div className='loginLink'>

@@ -14,7 +14,6 @@ export default function Login({setIslogined, setMemberData, setAccessToken}) {
   const navigate = useNavigate();
 
   const [data, setDate] = useState({});
-
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
@@ -41,7 +40,6 @@ export default function Login({setIslogined, setMemberData, setAccessToken}) {
         body: JSON.stringify(data)
       })
       .then((res) => {
-        console.log(res)
         if(res.status === 200){
           let jwtToken = res.headers.get("Authorization");
           setAccessToken(jwtToken)
@@ -50,11 +48,12 @@ export default function Login({setIslogined, setMemberData, setAccessToken}) {
       })
       .then((resData) => {
         if(resData.status !== 401) {
-          setIslogined(true);
           setMemberData(resData);
+          localStorage.setItem("member", resData.username);
+          setIslogined(true);
           navigate(localStorage.getItem('lastPath'));
         }else{
-          alert('Please check your ID and password');
+          alert("Please check your ID and password");
         }
       })
     }
@@ -62,9 +61,7 @@ export default function Login({setIslogined, setMemberData, setAccessToken}) {
 
   const onChangeInput = (e) => {
     setDate({...data, [e.target.name] : e.target.value});
-    // 이메일 유효성 체크
 
-    // 이메일 유효성이 확인되면 폼에서 생성한 에러 메세지 삭제.
     if(data.email !== undefined){
       setEmailError(false);
     }
