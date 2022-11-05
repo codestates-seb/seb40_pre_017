@@ -6,7 +6,7 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import axios from 'axios';
 
-export default function AddContent({content, appearNext, contentInput, setNextContentDis, type}) {
+export default function AddContent({content, appearNext, contentInput, setNextContentDis, type, setContentGuide}) {
 
 
   const inputContent = () => {
@@ -44,6 +44,7 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
           ]}
           onChange={inputContent}
           onFocus={appearNext}
+          onBlur={() => {setContentGuide(false)}}
           ref={contentInput}
           disabled={handledisabled}
           hooks={{

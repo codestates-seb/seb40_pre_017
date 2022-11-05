@@ -3,8 +3,10 @@ const createdAt = (date) => {
 
     const dayjs = require('dayjs')
     const relativeTime = require('dayjs/plugin/relativeTime')
+    const utc = require('dayjs/plugin/utc')
     dayjs.extend(relativeTime)
-    let createdAt = dayjs(date).fromNow()
+    dayjs.extend(utc)
+    let createdAt = dayjs(date).utc(true).fromNow()
 
     return createdAt
 }

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import AddContent from './AddContent'
+import Guide from './Guide'
 import '../../css/addContent/Inputbox.scss'
 
 export default function Inputbox({setTitle, tags, setTags, title, content, setSubmitDis, contentInput, type}) {
@@ -47,24 +48,44 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
   const [contentNext, setContentNext] = useState(false);
   const [tagNext, setTagNext] =useState(false);
 
+  //focus가이드창
+  const [titleGuide, setTitleGuide] = useState(false);
+  const [contentGuide, setContentGuide] = useState(false);
+  const [tagGuide, setTagGuide] = useState(false);
+
   //next 버튼 onfocus일때 나타나기
   const [ nextTitleDis, setNextTitleDis ] = useState(true);
   const [ nextTagDis, setNextTagDis ] =useState(true);
   const appearNext = (e) => {
     if(e.target.name === 'title'){
       if(e.target.value.length < 5)setTitleNext(true);
+      if(type === 'add'){
+        setTitleGuide(true);
+      }
     }
     
     else if(e.target.name === 'tag'){
       if(tags.length < 1) setTagNext(true);
       setTagBorder(true);
+      if(type === 'add'){
+        setTagGuide(true)
+      }
     }
-    else{
-      if(contentInput.current.getInstance().getMarkdown().length < 30) setContentNext(true);
-    }
+    // else{
+    //   if(contentInput.current.getInstance().getMarkdown().length < 30) setContentNext(true);
+    // }
   }
   const appearContentNext = () => {
     if(contentInput.current.getInstance().getMarkdown().length < 30) setContentNext(true);
+    if(type === 'add'){
+      setContentGuide(true);
+    }
+  }
+
+  const blur = (e) => {
+    if(e.target.name === 'title'){
+      setTitleGuide(false);
+    }
   }
 
   //next 버튼을 눌렀을때 다음 창 비활성화 풀리기
@@ -88,6 +109,7 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
   const [tagBorder, setTagBorder] = useState(false);
   const tagBlur = () => {
     setTagBorder(false);
+    setTagGuide(false);
   }
 
 
@@ -97,7 +119,8 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
 
   return (
     <div>
-      <div className='inputbox'>
+      <div className='inputBoxWrap'>
+        <div className='inputbox'>
         <h3>Title</h3>
         <p>Be specific and imagine you’re asking a question to another person.</p>
         <input 
@@ -105,6 +128,7 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
           name='title'
           type='text' 
           onFocus={appearNext}
+          onBlur={blur}
           onChange={inputTitle} 
           value={title}
         ></input>
@@ -115,60 +139,74 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
             onClick={clickNext}
             disabled={ nextTitleDis ? true : false }
           >Next</button> : null }
-      </div>
-
-      <div className={content&& content.length >= 30 ? 'inputbox' :'inputbox disable'} ref={contentBox}>
-        <h3>What are the details of your problem?</h3>
-        <p>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</p>
-        <AddContent 
-          content={content}
-          appearNext={appearContentNext}
-          contentInput={contentInput}
-          setNextContentDis={setNextContentDis}
-        />
-        { contentNext ? 
-          <button 
-            name='content'
-            className='blueBtn'
-            onClick={clickNext}
-            disabled={ nextContentDis ? true : false}
-          >Next</button> : null }
-      </div>
-
-      <div className={tags && tags.length >= 1 ? 'inputbox':'inputbox disable'} ref={tagbox}>
-        <h3>Tags</h3>
-        <p>Add up to 5 tags to describe what your question is about. Start typing to see suggestions.</p>
-        <div className={tagBorder ? 'tagFocus tagBox' : 'tagBox'}>
-          <ul id='tags'>
-            {tags.map((tag, index) => (
-              <li key={index} className='tag'>
-                <span className='tag-title'>{tag.name}</span>
-                <span className='tag-close-icon' 
-                onClick={() => removeTags(index)}>
-                  &times;
-                </span>
-              </li>
-            ))}
-          </ul>
-          <input 
-            className='tagTextInput' 
-            name='tag'
-            type='text' 
-            onFocus={appearNext}
-            onBlur={tagBlur}
-            ref={tagInput}
-            onKeyUp={(event) => (event.key === 'Enter' ? inputTag(event) : null)}
-            placeholder='Press enter to add tags'
-            disabled={tags && tags.length >= 1 ? false:true}
-          ></input>
         </div>
-        { tagNext ? 
-          <button 
-            name='tag' 
-            className='blueBtn' 
-            onClick={clickNext} 
-            disabled={nextTagDis ? true : false}
-          >Next</button> : null }
+        <div>
+          {titleGuide ? <Guide type={'title'}/> : null}
+        </div>
+      </div>
+      
+      <div className='inputBoxWrap'>
+        <div className={content&& content.length >= 30 ? 'inputbox' :'inputbox disable'} ref={contentBox}>
+          <h3>What are the details of your problem?</h3>
+          <p>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</p>
+          <AddContent 
+            content={content}
+            appearNext={appearContentNext}
+            contentInput={contentInput}
+            setNextContentDis={setNextContentDis}
+            setContentGuide={setContentGuide}
+          />
+          { contentNext ? 
+            <button 
+              name='content'
+              className='blueBtn'
+              onClick={clickNext}
+              disabled={ nextContentDis ? true : false}
+            >Next</button> : null }
+        </div>
+        <div>
+            {contentGuide ? <Guide type={'content'}/> : null}
+        </div>
+      </div>
+      <div className='inputBoxWrap'>
+        <div className={tags && tags.length >= 1 ? 'inputbox':'inputbox disable'} ref={tagbox}>
+          <h3>Tags</h3>
+          <p>Add up to 5 tags to describe what your question is about. Start typing to see suggestions.</p>
+          <div className={tagBorder ? 'tagFocus tagBox' : 'tagBox'}>
+            <ul id='tags'>
+              {tags.map((tag, index) => (
+                <li key={index} className='tag'>
+                  <span className='tag-title'>{tag.name}</span>
+                  <span className='tag-close-icon' 
+                  onClick={() => removeTags(index)}>
+                    &times;
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <input 
+              className='tagTextInput' 
+              name='tag'
+              type='text' 
+              onFocus={appearNext}
+              onBlur={tagBlur}
+              ref={tagInput}
+              onKeyUp={(event) => (event.key === 'Enter' ? inputTag(event) : null)}
+              placeholder='Press enter to add tags'
+              disabled={tags && tags.length >= 1 ? false:true}
+            ></input>
+          </div>
+          { tagNext ? 
+            <button 
+              name='tag' 
+              className='blueBtn' 
+              onClick={clickNext} 
+              disabled={nextTagDis ? true : false}
+            >Next</button> : null }
+        </div>
+        <div>
+            {tagGuide ? <Guide type={'tag'}/> : null}
+        </div>
       </div>
     </div>
   )

@@ -1,0 +1,31 @@
+.guide{
+    border: 1px solid #D6D9DC;
+    border-radius: 3px;
+    width: 331px;
+    line-height: 15.6px;
+
+    .title{
+        background-color: #F8F9F9;
+        padding: 15px;
+        border: 0px;
+        border-bottom: 1px solid #D6D9DC;
+    }
+    img{
+        width: 50px;
+        height: 50px;
+    }
+
+    .bottom{
+        padding: 15px 30px 15px 15px;
+        display: flex;
+    }
+
+    .content{
+        flex-direction: column;
+        margin-left: 15px;
+        
+        .first{
+            margin-bottom: 15px;
+        }
+    }
+}
