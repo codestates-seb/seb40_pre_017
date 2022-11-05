@@ -1,6 +1,7 @@
 package com.backend.domain.vote.dao;
 
 
+import com.backend.domain.member.domain.QMember;
 import com.backend.domain.vote.dto.projection.QVoteCountProjection;
 import com.backend.domain.vote.dto.projection.VoteCountProjection;
 import com.backend.domain.vote.dto.response.VoteStateResponse;
@@ -101,4 +102,6 @@ public class VoteRepository {
 
 
 }
+
+
 
