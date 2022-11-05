@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.backend.domain.answer.domain.QAnswer.*;
+import static com.backend.domain.answer.domain.QAnswer.answer;
 import static com.backend.domain.question.domain.QQuestion.question;
 import static com.backend.domain.vote.domain.QAnswerDownVote.answerDownVote;
 import static com.backend.domain.vote.domain.QAnswerUpVote.answerUpVote;
@@ -26,7 +26,7 @@ import static com.backend.domain.vote.domain.QQuestionUpVote.questionUpVote;
 @RequiredArgsConstructor
 @Slf4j
 @Repository
-public class QuestionUpVoteRepositoryImpl implements QuestionUpVoteRepositoryCustom {
+public class VoteRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
@@ -100,13 +100,6 @@ public class QuestionUpVoteRepositoryImpl implements QuestionUpVoteRepositoryCus
         return voteStateResponse;
         }
 
-    @Override
-    public Long questionVoteUndoUp(Long questionId, Long memberId) {
-        return jpaQueryFactory.delete(questionUpVote)
-            .where(questionUpVote.question.id.eq(questionId)
-                .and(questionUpVote.member.id.eq(memberId))
-            ).execute();
-    }
 
 }
 

@@ -45,7 +45,7 @@ public class QuestionVoteService {
             try {
                 Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
                 QuestionUpVote questionUpVote = QuestionUpVote.toEntity(member, question);
-                questionUpVoteRepository.save(questionUpVote);
+                questionUpVoteRepository.up(questionUpVote);
                 questionUpVoted(questionWriter);
             } catch (DataIntegrityViolationException e) {
                 log.error("handleDataIntegrityViolationException", e);
@@ -60,7 +60,7 @@ public class QuestionVoteService {
 
         Member questionWriter = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new).getMember();
 
-        Long result = questionUpVoteRepository.questionVoteUndoUp(questionId, memberId);
+        Long result = questionUpVoteRepository.undoUp(questionId, memberId);
 
         if(result == 0) throw new VoteException(ErrorCode.VOTE_NOT_FOUND);
        undoQuestionUpVoted(questionWriter);
@@ -77,7 +77,7 @@ public class QuestionVoteService {
             try {
                 Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
                 QuestionDownVote questionDownVote = QuestionDownVote.toEntity(member, question);
-                questionDownVoteRepository.save(questionDownVote);
+                questionDownVoteRepository.down(questionDownVote);
                 questionDownVoted(questionWriter);
             } catch (DataIntegrityViolationException e) {
                 log.error("handleDataIntegrityViolationException", e);
@@ -92,7 +92,7 @@ public class QuestionVoteService {
 
         Member questionWriter = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new).getMember();
 
-        Long result = questionDownVoteRepository.questionVoteUndoDown(questionId, memberId);
+        Long result = questionDownVoteRepository.undoDown(questionId, memberId);
         if(result == 0) throw new VoteException(ErrorCode.VOTE_NOT_FOUND);
 
         undoQuestionDownVoted(questionWriter);
