@@ -1,15 +1,14 @@
 spring:
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: admin
-    password: preproject017
-    url: jdbc:mysql://pre-prjoect-seb-017.cs6qmfqibhz9.ap-northeast-2.rds.amazonaws.com:13306/pre-project-seb-017?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    password: 1q2w3e4r!
+    url: jdbc:mysql://seb40-pre-017.c0vpeyinlsgj.ap-northeast-2.rds.amazonaws.com:3306/demo?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
 
   jpa:
     hibernate:
       ddl-auto: update # create | create-drop | update | validate | none
-    properties: 
+    properties:
       hibernate:
-        format_sql: true
-
-
+정
