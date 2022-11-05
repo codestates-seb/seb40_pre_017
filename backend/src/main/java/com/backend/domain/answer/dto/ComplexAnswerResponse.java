@@ -39,7 +39,7 @@ public class ComplexAnswerResponse {
                 .createdAt(answer.getCreatedAt())
                 .modifiedAt(answer.getModifiedAt())
                 .content(answer.getContent())
-                .voteCount(answer.getUpVotes().size() - answer.getDownVotes().size())
+                .voteCount(answer.getVoteCount())
                 .isAccepted(answer.getIsAccepted())
                 //질문 댓글 정보
                 //작성자 정보

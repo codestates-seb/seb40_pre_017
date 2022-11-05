@@ -1,5 +1,8 @@
 package com.backend.global.jwt;
 
+import com.backend.global.error.exception.ErrorCode;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -13,7 +16,6 @@ import java.io.IOException;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        // 유효한 자격 증명 X -> 401 에러
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        throw new AccessDeniedException(ErrorCode.HANDLE_ACCESS_DENIED.getMessage());
     }
 }

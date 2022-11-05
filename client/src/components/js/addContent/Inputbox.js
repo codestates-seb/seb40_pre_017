@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import AddContent from './AddContent'
 import '../../css/addContent/Inputbox.scss'
 
-export default function Inputbox({setTitle, setContent, tags, setTags, title, content, setSubmitDis}) {
+export default function Inputbox({setTitle, tags, setTags, title, content, setSubmitDis, contentInput, type}) {
   //유효성검사 해아함
 
 
@@ -12,7 +12,7 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
     setTitle(e.target.value);
 
     //next 버튼 비활성화 & 활성화
-    if(e.target.value.length >= 5){
+    if(e.target.value.length >= 15){
       setNextTitleDis(false);
     }
     else{
@@ -40,7 +40,6 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
   // tag 삭제
   const removeTags = (indexToRemove) => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
-    console.log(indexToRemove)
   };
 
   //next버튼
@@ -55,18 +54,21 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
     if(e.target.name === 'title'){
       if(e.target.value.length < 5)setTitleNext(true);
     }
-    else if(e.target.name === 'content'){
-      if(e.target.value.length < 20) setContentNext(true);
-    }
+    
     else if(e.target.name === 'tag'){
       if(tags.length < 1) setTagNext(true);
       setTagBorder(true);
     }
+    else{
+      if(contentInput.current.getInstance().getMarkdown().length < 30) setContentNext(true);
+    }
+  }
+  const appearContentNext = () => {
+    if(contentInput.current.getInstance().getMarkdown().length < 30) setContentNext(true);
   }
 
   //next 버튼을 눌렀을때 다음 창 비활성화 풀리기
   const contentBox = useRef();
-  const contentInput = useRef();
   const tagbox = useRef();
   const tagInput = useRef();
   const clickNext = (e) => {
@@ -77,7 +79,6 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
     else if(e.target.name === 'content'){
       tagbox.current.classList.remove('disable');
       tagInput.current.disabled = false;
-      console.log(1)
     }
     else if(e.target.name === 'tag'){
       setSubmitDis(false);
@@ -109,25 +110,26 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
         ></input>
         { titleNext ? 
           <button 
+            className='blueBtn'
             name='title' 
             onClick={clickNext}
             disabled={ nextTitleDis ? true : false }
           >Next</button> : null }
       </div>
 
-      <div className={content&& content.length > 20 ? 'inputbox' :'inputbox disable'} ref={contentBox}>
+      <div className={content&& content.length >= 30 ? 'inputbox' :'inputbox disable'} ref={contentBox}>
         <h3>What are the details of your problem?</h3>
         <p>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</p>
         <AddContent 
           content={content}
-          setContent={setContent}
-          appearNext={appearNext}
+          appearNext={appearContentNext}
           contentInput={contentInput}
           setNextContentDis={setNextContentDis}
         />
         { contentNext ? 
           <button 
             name='content'
+            className='blueBtn'
             onClick={clickNext}
             disabled={ nextContentDis ? true : false}
           >Next</button> : null }
@@ -160,7 +162,13 @@ export default function Inputbox({setTitle, setContent, tags, setTags, title, co
             disabled={tags && tags.length >= 1 ? false:true}
           ></input>
         </div>
-        { tagNext ? <button name='tag' onClick={clickNext} disabled={nextTagDis ? true : false}>Next</button> : null }
+        { tagNext ? 
+          <button 
+            name='tag' 
+            className='blueBtn' 
+            onClick={clickNext} 
+            disabled={nextTagDis ? true : false}
+          >Next</button> : null }
       </div>
     </div>
   )

@@ -1,11 +1,10 @@
 spring:
-  # H2 database
   h2:
     console:
       enabled: true
       path: /h2
   datasource:
-    url: jdbc:h2:mem:test
+    url: jdbc:h2:mem:test;MODE=MYSQL
   # JPA
   jpa:
     hibernate:
@@ -31,11 +30,4 @@ server:
     encoding:
       force-response: true # HTTP encoding charset
       charset: UTF-8 # HTTP encoding charset
-jwt:
-  secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK # JWT secret
-  access-token-expiration-time: 60 * 15 # 15분
-  refresh-token-expiration-time: 60 * 60 * 24 * 14 # 2주
 
-mail:
-  address:
-    admin: admin@localhost # 관리자 이메일

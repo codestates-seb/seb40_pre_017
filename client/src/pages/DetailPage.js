@@ -1,25 +1,43 @@
-import React from 'react'
 import AnswerList from '../components/js/answer/AnswerList'
 import QuestionDetail from '../components/js/question/QuestionDetail'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import Aside from '../components/js/aside/Aside';
 import Category from '../components/js/category/Category';
 
 import './DetailPage.scss'
-import { Link } from 'react-router-dom'
+import createdAt from '../components/js/createdAt/CreatedAt';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-export default function DetailPage({items}) {
-  //오류! 새로고침시 useParams가 안불러짐
-  //AnswerList sorted by 만들어야함
-  //AddContent 마크다운 추가
-
-  //id 파라미터 가져오기
-  let params  = useParams();
+export default function DetailPage({ accessToken }) {
+  axios.defaults.headers.common["Authorization"] = accessToken;
   
-  //params로 questionData 가져오기
-  let item = items.filter(item => (
-    item.question.questionId === Number(params.id)
-  ))[0]
+  const [item, setItem] = useState(null);
+  
+  const navigate = useNavigate();
+  
+  let params = useParams();
+
+  useEffect(()=>{
+    axios.get(`/api/questions/${params.id}`, {
+      headers: {
+        "ngrok-skip-browser-warning": "69420"
+      }
+    })
+    .then(res => {
+      setItem(res.data)
+    })
+  }, []);
+
+  const createQuestion = () => {
+    if(accessToken) {
+      navigate("/add")
+    }else{
+      alert('This service requires login')
+      localStorage.setItem("lastPath", `/questions/${params.id}`);
+      navigate("/login")
+    }
+  }
 
   return (
     <div className='detailPageWrap'>
@@ -29,31 +47,31 @@ export default function DetailPage({items}) {
       <div className='detailPage'>
         <div className='detailHeadWrap'>
           <div className='detailTitleWrap'>
-            <h1>{item.question.title}</h1>
-            <Link to={'/add'}>
-              <button>Ask Question</button>
-            </Link>
+            {item !== null && <h1>{item.question.title}</h1>}
+            <button onClick={createQuestion}>Ask Question</button>
           </div>
-
+          {item !== null && 
           <div className='detailDateWrap'>
             <p>Asked</p>
-            <p className='detailDateValue'>{item.question.createdAt}</p>
+            <p className='detailDateValue'>{createdAt(item.question.createdAt)}</p>
             <p>Modefied</p>
-            <p className='detailDateValue'>{item.question.modifiedAt}</p>
+            <p className='detailDateValue'>{createdAt(item.question.modifiedAt)}</p>
             <p>Viewed</p>
             <p className='detailDateValue'>{item.question.viewCount} times</p>
           </div>
+          }
         </div>
         <div className='detailBodyWrap'>
           <div className='detailContentWrap'>
-            <QuestionDetail item={item} id={params.id}/>
-            <AnswerList item={item} id={params.id}/>
-          </div>
-          <div className='detailPageAside'>
-            <Aside />
+          {item !== null && 
+          <>
+            <QuestionDetail item={item} id={item.question.questionId} accessToken={accessToken} />
+            <AnswerList item={item} id={item.question.questionId} accessToken={accessToken}/>
+          </>
+          }
           </div>
         </div>
-      </div>
     </div>
+  </div>
   )
 }

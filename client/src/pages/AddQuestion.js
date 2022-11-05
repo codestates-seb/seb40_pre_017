@@ -1,21 +1,17 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Background from '../assets/imgs/Background.svg'
 import './AddQuestion.scss'
 import Inputbox from '../components/js/addContent/Inputbox'
-import { fetchCreate } from '../util/api'
-import  useFetch  from '../util/useFetch'
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/react-editor';
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
-export default function AddQuestion() {
-  //회원정보 받아오기 (임시)
-  const [member] = useFetch("http://localhost:3001/member/");
-  //회원정보 받아오기 (Api)
-  // const [member] = useFetch("/users/{ids}");
+export default function AddQuestion({accessToken}) {
+  axios.defaults.headers.common["Authorization"] = accessToken;
 
   //제목
   const [title, setTitle] = useState('');
-
-  //content
-  const [content, setContent] = useState('');
 
   //tag
   const [tags, setTags] = useState([]);
@@ -23,35 +19,26 @@ export default function AddQuestion() {
   //submit 비활성화
   const [ submitDis, setSubmitDis ] = useState(true);
 
+  const contentInput = useRef();
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // data 생성 & POST (임시)
-    let data = {
-    tags,
-    member,
-    "question": {
-        "isAnswered": false,
-        "viewCount": 0,
-        "acceptedAnswerId": 55152722,
-        "answerCount": 0,
-        "votes": 0,
-        "createdAt": 1552344257,
-        "modifiedAt": 1596034268,
-        "questionId": 55111502,
-        "link": "https://stackoverflow.com/questions/55111503/convert-a-gdoc-into-image",
-        title,
-        content,
-        "qcomment": []
-    },
-    "answer": []
-    }
-    fetchCreate("http://localhost:3001/items/", data)
-
     // data 생성 & POST (Api)
-    // let data = { title, content, tags }
-    // fetchCreate("/questions/", data)
+    let data = { title, content: contentInput.current.getInstance().getMarkdown(), tags }
+    
+    axios.post(`/api/questions`, data)
+    .then((res) => {
+      console.log(res.data)
+      navigate(`/questions/${res.data}`)
+    })
+    .catch(error => {
+      console.log(error.response);
+      navigate('/')
+    });
+    // window.location.replace('/')
   }
 
   return (
@@ -78,12 +65,13 @@ export default function AddQuestion() {
           </div>
           <Inputbox 
             setTitle={setTitle} 
-            setContent={setContent} 
             tags={tags} 
             setTags={setTags} 
             setSubmitDis={setSubmitDis}
+            contentInput={contentInput}
+            type={'add'}
           />
-          <button onClick={handleSubmit} disabled={submitDis ? true : false}>Review your question</button>
+          <button className='blueBtn' onClick={handleSubmit} disabled={submitDis ? true : false}>Review your question</button>
         </div>
         
       </div>

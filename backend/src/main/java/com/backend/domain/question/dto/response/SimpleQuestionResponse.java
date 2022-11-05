@@ -5,6 +5,7 @@ import com.backend.global.util.Constant;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDateTime;
 
@@ -41,7 +42,7 @@ public class SimpleQuestionResponse {
     }
 
 
-    public static SimpleQuestionResponse toSummaryResponse(Question question,int AnswerSize, int voteCount) {
+    public static SimpleQuestionResponse toSummaryResponse(Question question,int AnswerSize) {
         return SimpleQuestionResponse.builder()
                 .viewCount(question.getView())
                 .isAnswered(question.getIsAnswered())
@@ -52,7 +53,7 @@ public class SimpleQuestionResponse {
                 .title(question.getTitle())
                 .summary(getSummary(question.getContent()))
                 .answerCount(AnswerSize)
-                .voteCount(voteCount)
+                .voteCount(question.getVoteCount())
                 .build();
 
 
@@ -69,7 +70,7 @@ public class SimpleQuestionResponse {
                 .title(question.getTitle())
                 .summary(question.getContent())
                 .answerCount(answerCount)
-                .voteCount(question.getUpVotes().size() - question.getDownVotes().size())
+                .voteCount(question.getVoteCount())
                 .build();
 
     }
@@ -83,9 +84,10 @@ public class SimpleQuestionResponse {
     }
 
     private static String questionLink(Question question) {
-        return Constant.URL.getUrl().
-                concat("/questions/").
-                concat(String.valueOf(question.getId()));
+        return ServletUriComponentsBuilder.fromCurrentRequest()
+                .replacePath("questions/").path(question.getId().toString())
+                .replaceQuery(null)
+                .toUriString();
     }
 
 }

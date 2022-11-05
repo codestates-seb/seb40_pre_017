@@ -6,28 +6,58 @@ import Pagination from '../components/js/questionPage/Pagination';
 import Aside from '../components/js/aside/Aside';
 import Category from '../components/js/category/Category';
 import axios from 'axios';
+import NoSearch from '../components/js/noSearch/NoSearch';
 
-
-export default function SearchPage({inputData, filterData, changeFilterData}) {
+export default function SearchPage({inputData}) {
 
   const [items, seItems] = useState(null);;
 
   useEffect(()=>{
-    let params = {
-      "q" : inputData,
-      "tab" : filterData
-    };
+    // let params = {
+    //   "q" : inputData,
+    //   "page" : 1
+    // };
+    // console.log(params)
 
-    axios.get('http://localhost:3001/items', {
-      params : params
+    // axios.get('/api/search', {
+    //   params : params,
+    //   headers: {
+    //     "ngrok-skip-browser-warning": "69420"
+    //   }
+    // })
+    // .then(res => {
+    //   console.log(res.data.items)
+    //   seItems(res.data.items)
+    // })
+    // .catch(err => {
+    //   console.error(err)
+    // })
+    let params = {
+      "q": inputData,
+      "page": 1
+    };
+    
+    let query = Object.keys(params)
+    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+    .join('&');
+    
+    let url = '/api/search?' + query;
+
+    fetch(url, {
+      method: "GET",
+      headers: new Headers({
+        "ngrok-skip-browser-warning": "69420",
+      }),
     })
-    .then(res => {
-      seItems(res.data)
+    .then((res) => {
+      console.log(res)
+      return res.json()
     })
-    .catch(err => {
-      console.error(err)
+    .then((resData) => {
+      console.log(resData.items)
+      seItems(resData.items)
     })
-  }, [inputData, filterData])
+  }, [inputData])
 
 
 
@@ -36,7 +66,7 @@ export default function SearchPage({inputData, filterData, changeFilterData}) {
   if(items){
     count = items.length;
   }
-
+  console.log(items)
   return (
     <div className='questionPageWrap'>
       <div className='questionPageNavbar'>
@@ -44,19 +74,15 @@ export default function SearchPage({inputData, filterData, changeFilterData}) {
       </div>
       <div className='questionPage'>
         <div className='headAddWrap'>
-          <h1>All Questions</h1>
+          <h1>Search Results</h1>
           <Link to={'/add'}>
             <button>Ask Question</button>
           </Link>
         </div>
         <div className='countFilterWrap'>
           <span>{count} question</span>
-          <div className='filterBtns'>
-            <button className={'' + (filterData === "newest" && "active")} onClick={changeFilterData} name='newest'>Newest</button>
-            <button className={'' + (filterData === "vote" && "active")} onClick={changeFilterData} name='vote'>Vote</button>
-            <button className={'' + (filterData === "unanswered" && "active")} onClick={changeFilterData} name='unanswered'>Unanswered</button>
-          </div>
         </div>
+        {!items ? <NoSearch /> : <QuestionList items={items}/>}
         <QuestionList items={items}/>
         <Pagination/>
       </div>

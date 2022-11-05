@@ -1,4 +1,4 @@
-package com.backend.domain.tag;
+package com.backend.domain.tag.exception;
 
 
 import com.backend.global.error.exception.BusinessException;
