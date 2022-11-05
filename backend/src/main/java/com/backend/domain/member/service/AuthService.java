@@ -1,7 +1,6 @@
 package com.backend.domain.member.service;
 
 import com.backend.domain.member.domain.Member;
-import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.dto.ReissueResponse;
 import com.backend.domain.member.dto.SignUpRequest;
 import com.backend.domain.member.dto.TokenDto;
@@ -39,7 +38,7 @@ public class AuthService {
 
     // 회원가입
     @Transactional
-    public Long signup(SignUpRequest signUpRequest) {
+    public void signup(SignUpRequest signUpRequest) {
         if (memberRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new EmailDuplication();
         }
@@ -49,8 +48,6 @@ public class AuthService {
         // 비밀번호 암호화
         Member member = signUpRequest.encodePassword(passwordEncoder);
         Member savedMember = memberRepository.save(member);
-        // MemberId 반환
-        return MemberResponseDto.of(savedMember).getId();
     }
 
     // 토큰 재발급
