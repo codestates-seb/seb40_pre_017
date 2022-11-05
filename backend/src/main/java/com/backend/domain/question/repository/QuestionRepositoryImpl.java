@@ -10,10 +10,8 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,14 +19,11 @@ import java.util.List;
 import static com.backend.domain.answer.domain.QAnswer.answer;
 import static com.backend.domain.comment.domain.QAnswerComment.answerComment;
 import static com.backend.domain.comment.domain.QQuestionComment.questionComment;
-import static com.backend.domain.question.domain.QQuestion.*;
-import static com.backend.domain.question.domain.QQuestionTag.*;
+import static com.backend.domain.question.domain.QQuestion.question;
+import static com.backend.domain.question.domain.QQuestionTag.questionTag;
 import static com.backend.domain.tag.domain.QTag.tag;
-import static com.backend.global.dto.request.PageRequest.Filter.*;
-import static com.backend.domain.vote.domain.QQuestionDownVote.questionDownVote;
-import static com.backend.domain.vote.domain.QQuestionUpVote.questionUpVote;
-
-import javax.persistence.EntityManager;
+import static com.backend.global.dto.request.PageRequest.Filter.NoAcceptedAnswer;
+import static com.backend.global.dto.request.PageRequest.Filter.NoAnswer;
 
 @Repository
 @RequiredArgsConstructor
@@ -41,30 +36,16 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 	@Override
 	public List<Tuple> findList(PageRequest pageable) {
 
-<<<<<<< HEAD
-        List<Tuple> fetch = jpaQueryFactory
-                .select(question, question.answers.size())
-                .from(question)
-                .leftJoin(question.member)
-                .fetchJoin()
-                .where(filtering(pageable))
-                .limit(pageable.getSize())
-                .offset(pageable.getOffset())
-                .orderBy(question.id.desc())
-                .fetch();
-        return fetch;
-=======
 		List<Tuple> fetch = jpaQueryFactory
-			.select(question, question.answers.size())
-			.from(question)
-			.leftJoin(question.member)
-			.fetchJoin()
-			.where(filtering(pageable))
-			.limit(pageable.getSize())
-			.offset(pageable.getOffset())
-			.orderBy(question.id.desc())
-			.fetch();
->>>>>>> dev
+				.select(question, question.answers.size())
+				.from(question)
+				.leftJoin(question.member)
+				.fetchJoin()
+				.where(filtering(pageable))
+				.limit(pageable.getSize())
+				.offset(pageable.getOffset())
+				.orderBy(question.id.desc())
+				.fetch();
 
 		return fetch;
 
@@ -72,46 +53,31 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 
 	@Override
 	public List<Tuple> findList(PageRequest pageable, QuestionSearch questionSearch,
-		List<Long> questionIdHasKeywordAndTag) {
+								List<Long> questionIdHasKeywordAndTag) {
 
 		return jpaQueryFactory
-			.select(question, question.answers.size())
-			.from(question)
-			.where(question.title.contains(questionSearch.getQuery()))
-			.where(question.id.in(questionIdHasKeywordAndTag))
-			.leftJoin(question.member)
-			.fetchJoin()
-			.limit(pageable.getSize())
-			.offset(pageable.getOffset())
-			.orderBy(question.id.desc())
-			.fetch();
+				.select(question, question.answers.size())
+				.from(question)
+				.where(question.title.contains(questionSearch.getQuery()))
+				.where(question.id.in(questionIdHasKeywordAndTag))
+				.leftJoin(question.member)
+				.fetchJoin()
+				.limit(pageable.getSize())
+				.offset(pageable.getOffset())
+				.orderBy(question.id.desc())
+				.fetch();
 	}
 
-<<<<<<< HEAD
-        return jpaQueryFactory
-                .select(question, question.answers.size())
-                .from(question)
-                .where(question.title.contains(questionSearch.getQuery()))
-                .where(question.id.in(questionIdHasKeywordAndTag))
-                .leftJoin(question.member)
-                .fetchJoin()
-                .limit(pageable.getSize())
-                .offset(pageable.getOffset())
-                .orderBy(question.id.desc())
-                .fetch();
-    }
-=======
 	@Override
 	public List<Question> findQuestionWithMemberWithQuestionComments(Long id) {
->>>>>>> dev
 
 		return jpaQueryFactory.select(question)
-			.from(question)
-			.where(question.id.eq(id))
-			.leftJoin(question.member).fetchJoin()
-			.leftJoin(question.questionComments, questionComment).fetchJoin()
-			.leftJoin(questionComment.member).fetchJoin()
-			.fetch();
+				.from(question)
+				.where(question.id.eq(id))
+				.leftJoin(question.member).fetchJoin()
+				.leftJoin(question.questionComments, questionComment).fetchJoin()
+				.leftJoin(questionComment.member).fetchJoin()
+				.fetch();
 
 	}
 
@@ -119,12 +85,12 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 	public List<Answer> findAnswersWithAnswerComment(Long id) {
 
 		return jpaQueryFactory.select(answer)
-			.from(answer)
-			.leftJoin(answer.member).fetchJoin()
-			.leftJoin(answer.answerComments, answerComment).fetchJoin()
-			.leftJoin(answerComment.member).fetchJoin()
-			.where(answer.question.id.eq(id))
-			.fetch();
+				.from(answer)
+				.leftJoin(answer.member).fetchJoin()
+				.leftJoin(answer.answerComments, answerComment).fetchJoin()
+				.leftJoin(answerComment.member).fetchJoin()
+				.where(answer.question.id.eq(id))
+				.fetch();
 
 	}
 
@@ -136,62 +102,48 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 		ifSizeZeroThrowNoSuchElementException(tagSizeQuery);
 
 		Long tagSize = tagSizeQuery.stream().mapToLong(value -> value.get(questionTag.id.count()))
-			.sum();
+				.sum();
 		Long firstId = tagSizeQuery.get(0).get(question.id);
 
 		return jpaQueryFactory.select(question.id, tag.name)
-			.from(question)
-			.leftJoin(questionTag)
-			.on(question.id.eq(questionTag.question.id))
-			.leftJoin(tag)
-			.on(questionTag.tag.id.eq(tag.id))
-			.limit(tagSize)
-			.where(question.id.goe(firstId), filtering(pageable))
-			.orderBy(question.id.desc())
-			.fetch();
+				.from(question)
+				.leftJoin(questionTag)
+				.on(question.id.eq(questionTag.question.id))
+				.leftJoin(tag)
+				.on(questionTag.tag.id.eq(tag.id))
+				.limit(tagSize)
+				.where(question.id.goe(firstId), filtering(pageable))
+				.orderBy(question.id.desc())
+				.fetch();
 	}
 
 	@Override
 	public List<Tuple> PageFindQuestionTags(PageRequest pageable, QuestionSearch questionSearch,
-		List<Long> questionIds) {
+											List<Long> questionIds) {
 		/* 가져올 컬럼수 = 가져올 게시글의 딸린 태그 수 */
 		List<Tuple> tagSizeQuery = countTagSizeForLimit(pageable, questionSearch, questionIds);
 
 		ifSizeZeroThrowNoSuchElementException(tagSizeQuery);
 
 		long tagSize = tagSizeQuery.stream().mapToLong(value -> value.get(questionTag.id.count()))
-			.sum();
+				.sum();
 
 		Long firstId = tagSizeQuery.get(0).get(question.id);
 
 		log.info("tagSize = {}", tagSize);
 
-<<<<<<< HEAD
-        return jpaQueryFactory.select(question.id, tag.name)
-                .from(question)
-                .leftJoin(questionTag)
-                .on(question.id.eq(questionTag.question.id))
-                .leftJoin(tag)
-                .on(questionTag.tag.id.eq(tag.id))
-                .limit(tagSize)
-                .where(question.id.goe(firstId),filtering(pageable))
-                .orderBy(question.id.desc())
-                .fetch();
-    }
-=======
 		return jpaQueryFactory.select(question.id, tag.name)
-			.from(question)
-			.where(question.title.contains(questionSearch.getQuery()))
-			.where(questionTag.question.id.in(questionIds))
-			.leftJoin(questionTag)
-			.on(question.id.eq(questionTag.question.id))
-			.leftJoin(tag)
-			.on(questionTag.tag.id.eq(tag.id))
-			.limit(tagSize)
-			.where(question.id.goe(firstId))
-			.orderBy(question.id.desc())
-			.fetch();
->>>>>>> dev
+				.from(question)
+				.where(question.title.contains(questionSearch.getQuery()))
+				.where(questionTag.question.id.in(questionIds))
+				.leftJoin(questionTag)
+				.on(question.id.eq(questionTag.question.id))
+				.leftJoin(tag)
+				.on(questionTag.tag.id.eq(tag.id))
+				.limit(tagSize)
+				.where(question.id.goe(firstId))
+				.orderBy(question.id.desc())
+				.fetch();
 
 	}
 
@@ -199,13 +151,13 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 	public List<String> findTagsOfQuestion(Long id) {
 
 		return jpaQueryFactory.select(tag.name)
-			.from(question)
-			.leftJoin(questionTag)
-			.on(question.eq(questionTag.question))
-			.leftJoin(tag)
-			.on(questionTag.tag.eq(tag))
-			.where(question.id.eq(id))
-			.fetch();
+				.from(question)
+				.leftJoin(questionTag)
+				.on(question.eq(questionTag.question))
+				.leftJoin(tag)
+				.on(questionTag.tag.eq(tag))
+				.where(question.id.eq(id))
+				.fetch();
 
 	}
 
@@ -213,29 +165,13 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 	public List<Long> findByTagNames(List<String> tagNames) {
 
 		List<Long> fetch = jpaQueryFactory.select(tag.id)
-			.from(tag)
-			.where(tag.name.in(tagNames))
-			.fetch();
+				.from(tag)
+				.where(tag.name.in(tagNames))
+				.fetch();
 
 		return fetch;
 
-<<<<<<< HEAD
-        return jpaQueryFactory.select(question.id, tag.name)
-                .from(question)
-                .where(question.title.contains(questionSearch.getQuery()))
-                .where(questionTag.question.id.in(questionIds))
-                .leftJoin(questionTag)
-                .on(question.id.eq(questionTag.question.id))
-                .leftJoin(tag)
-                .on(questionTag.tag.id.eq(tag.id))
-                .limit(tagSize)
-                .where(question.id.goe(firstId))
-                .orderBy(question.id.desc())
-                .fetch();
-    }
-=======
 	}
->>>>>>> dev
 
 	public BooleanExpression inTagIds(List<Long> tagIds) {
 
@@ -249,36 +185,36 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 	public List<Long> findQuestionIdBySearch(QuestionSearch questionSearch, List<Long> tagIds) {
 
 		return jpaQueryFactory.selectDistinct(question.id)
-			.from(questionTag)
-			.join(question)
-			.on(questionTag.question.id.eq(question.id))
-			.where(question.title.contains(questionSearch.getQuery()), inTagIds(tagIds))
-			.fetch();
+				.from(questionTag)
+				.join(question)
+				.on(questionTag.question.id.eq(question.id))
+				.where(question.title.contains(questionSearch.getQuery()), inTagIds(tagIds))
+				.fetch();
 	}
 
 	public List<Tuple> countTagSizeForLimit(PageRequest pageable) {
 
 		return jpaQueryFactory.select(question.id, questionTag.id.count())
-			.from(questionTag)
-			.where(filtering(pageable))
-			.offset(pageable.getOffset())
-			.limit(pageable.getSize())
-			.groupBy(question.id)
-			.fetch();
+				.from(questionTag)
+				.where(filtering(pageable))
+				.offset(pageable.getOffset())
+				.limit(pageable.getSize())
+				.groupBy(question.id)
+				.fetch();
 
 	}
 
 	public List<Tuple> countTagSizeForLimit(PageRequest pageable, QuestionSearch questionSearch,
-		List<Long> questionIds) {
+											List<Long> questionIds) {
 
 		return jpaQueryFactory.select(question.id, questionTag.id.count())
-			.from(questionTag)
-			.where(questionTag.question.title.contains(questionSearch.getQuery()))
-			.where(questionTag.question.id.in(questionIds))
-			.offset(pageable.getOffset())
-			.limit(pageable.getSize())
-			.groupBy(question.id)
-			.fetch();
+				.from(questionTag)
+				.where(questionTag.question.title.contains(questionSearch.getQuery()))
+				.where(questionTag.question.id.in(questionIds))
+				.offset(pageable.getOffset())
+				.limit(pageable.getSize())
+				.groupBy(question.id)
+				.fetch();
 	}
 
 	private BooleanBuilder filtering(PageRequest pageable) {
