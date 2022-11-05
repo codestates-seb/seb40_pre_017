@@ -57,6 +57,7 @@ public class VoteRepository {
                                 .or(questionDownVote.member.id.eq(memberId))
                                 .or(answerUpVote.member.id.eq(memberId))
                                 .or(answerDownVote.member.id.eq(memberId))
+                    .and(question.id.eq(questionId))
                 ).fetch();
 
         if (voteCountProjections.size()==0) {
