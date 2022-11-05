@@ -35,17 +35,17 @@ export default function Category() {
                 </Link>
               </li>
               <li className={"navSub" + (navData[1][0] === selectNav ? " active": "")}>
-                <Link to={navData[1][0]}>
+                <Link to="#">
                   {navData[1][1]}
                 </Link>
               </li>
               <li className={"navSub" + (navData[2][0] === selectNav ? " active": "")}>
-                <Link to={navData[2][0]}>
+                <Link to="#">
                   {navData[2][1]}
                 </Link>
               </li>
               <li className={"navSub" + (navData[3][0] === selectNav ? " active": "")}>
-                <Link to={navData[3][0]}>
+                <Link to="#">
                   {navData[3][1]}
                 </Link>
               </li>
