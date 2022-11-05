@@ -7,7 +7,7 @@ import com.backend.domain.question.dto.response.QuestionResponse;
 import com.backend.domain.question.dto.response.SimpleQuestionResponse;
 import com.backend.domain.question.repository.QuestionRepository;
 import com.backend.domain.tag.exception.ContainsNotExistentTags;
-import com.backend.domain.tag.service.TagService;
+
 import com.backend.global.dto.Response.MultiResponse;
 import com.backend.global.dto.request.PageRequest;
 import com.querydsl.core.Tuple;
@@ -35,8 +35,7 @@ import static java.util.stream.Collectors.toList;
 public class QuestionSearchService {
 
 	private final QuestionRepository questionRepository;
-	private final TagService tagService;
-	private final MemberRepository memberRepository;
+
 
 	/**
 	 *  질문 + 질문의 멤버 + 답변
