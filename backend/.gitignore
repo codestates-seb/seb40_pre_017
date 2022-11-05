@@ -18,7 +18,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-application-local.yml
+src/main/rapplication-local.yml
 .idea
 *.iws
 *.iml
