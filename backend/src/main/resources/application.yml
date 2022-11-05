@@ -10,14 +10,10 @@ spring:
 
         format_sql: true  # (3) SQL pretty print
   profiles:
-    active: local # local / server
+    active: local
 logging:
   level:
     org:
       springframework:
         orm:
           jpa: DEBUG
-jwt:
-  secret: "c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK" # JWT secret
-  access-token-expiration-time: 30 # 30분 60 * 30
-  refresh-token-expiration-time: 20000 # 2주 60 * 60 * 24 * 14

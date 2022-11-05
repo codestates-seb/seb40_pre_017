@@ -1,6 +1,7 @@
 package com.backend.domain.vote.dao;
 
 
+import com.backend.domain.member.domain.QMember;
 import com.backend.domain.vote.dto.projection.QVoteCountProjection;
 import com.backend.domain.vote.dto.projection.VoteCountProjection;
 import com.backend.domain.vote.dto.response.VoteStateResponse;
@@ -29,7 +30,7 @@ public class QuestionUpVoteRepositoryImpl implements QuestionUpVoteRepositoryCus
 
     private final JPAQueryFactory jpaQueryFactory;
 
-@Override
+
     public VoteStateResponse getVotes(Long memberId, Long questionId) {
 
         List<VoteCountProjection> voteCountProjections = jpaQueryFactory.select(new QVoteCountProjection(
@@ -98,16 +99,16 @@ public class QuestionUpVoteRepositoryImpl implements QuestionUpVoteRepositoryCus
         VoteStateResponse voteStateResponse = voteStateResponseBuilder.answerVoteStates(answerVoteStates).build();
         return voteStateResponse;
         }
-@Override
-public Long questionVoteUndoUp(Long questionId, Long memberId) {
 
+    @Override
+    public Long questionVoteUndoUp(Long questionId, Long memberId) {
         return jpaQueryFactory.delete(questionUpVote)
-                .where(questionUpVote.question.id.eq(questionId)
-                        .and(questionUpVote.member.id.eq(memberId))
-                ).execute();
+            .where(questionUpVote.question.id.eq(questionId)
+                .and(questionUpVote.member.id.eq(memberId))
+            ).execute();
     }
 
-
-
 }
+
+
 

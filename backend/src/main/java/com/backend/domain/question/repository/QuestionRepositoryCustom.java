@@ -14,26 +14,28 @@ public interface QuestionRepositoryCustom {
 
     //전체 조회 - 페이징, 페이징+검색조건
     List<Tuple> findList(PageRequest pageable);
-    List<Tuple> findList(PageRequest pageable, QuestionSearch questionSearch,List<Long> questionIdHasKeywordAndTag);
+
+    List<Tuple> findList(PageRequest pageable, QuestionSearch questionSearch,
+        List<Long> questionIdHasKeywordAndTag);
 
     //태그 디렉토리로 빼야함
     List<Tuple> PageFindQuestionTags(PageRequest pageable);
-    List<Tuple> PageFindQuestionTags(PageRequest pageable,QuestionSearch questionSearch, List<Long> tagIds);
+
+    List<Tuple> PageFindQuestionTags(PageRequest pageable, QuestionSearch questionSearch,
+        List<Long> tagIds);
 
     //상세 조회
     List<Question> findQuestionWithMemberWithQuestionComments(Long id);
+
     List<Answer> findAnswersWithAnswerComment(Long id);
+
     List<String> findTagsOfQuestion(Long id);
 
 
     //태그
     List<Long> findByTagNames(List<String> tagNames);
+
     List<Long> findQuestionIdBySearch(QuestionSearch questionSearch, List<Long> tagIds);
-
-
-
-
-
 
 
 }
