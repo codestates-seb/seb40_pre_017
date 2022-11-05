@@ -127,30 +127,10 @@ public class TokenProvider {
         }
     }
 
-    public Claims parseClaims(String accessToken) {
-        try {
-            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
-        } catch (SignatureException e) {
-            log.info("Invalid JWT signature");
-            log.trace("Invalid JWT signature trace: {}", e);
-            throw new TokenSignatureInvalid();
-        } catch (MalformedJwtException e) {
-            log.info("Malformed JWT token");
-            log.trace("Invalid JWT token trace: {}", e);
-            throw new TokenMalformed();
-        } catch (ExpiredJwtException e) {
-            log.info("Expired JWT token");
-            log.trace("Expired JWT token trace: {}", e);
-            throw new TokenExpired();
-        } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT token");
-            log.trace("Unsupported JWT token trace: {}", e);
-            throw new TokenUnsupported();
-        } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.");
-            log.trace("JWT claims string is empty trace: {}", e);
-            throw new TokenEmpty();
-        }
+    public Claims parseClaims(String accessToken)  {
+
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
+
     }
 
 }
