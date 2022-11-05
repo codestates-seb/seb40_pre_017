@@ -64,7 +64,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                 .where(filtering(pageable))
                 .limit(pageable.getSize())
                 .offset(pageable.getOffset())
-                .orderBy(question.id.asc())
+                .orderBy(question.id.desc())
                 .fetch();
         return fetch;
 
@@ -84,7 +84,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                 .fetchJoin()
                 .limit(pageable.getSize())
                 .offset(pageable.getOffset())
-                .orderBy(question.id.asc())
+                .orderBy(question.id.desc())
                 .fetch();
     }
 
@@ -137,7 +137,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                 .on(questionTag.tag.id.eq(tag.id))
                 .limit(tagSize)
                 .where(question.id.goe(firstId),filtering(pageable))
-                .orderBy(question.id.asc())
+                .orderBy(question.id.desc())
                 .fetch();
     }
 
@@ -171,7 +171,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                 .on(questionTag.tag.id.eq(tag.id))
                 .limit(tagSize)
                 .where(question.id.goe(firstId))
-                .orderBy(question.id.asc())
+                .orderBy(question.id.desc())
                 .fetch();
     }
 

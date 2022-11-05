@@ -5,7 +5,6 @@ import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.exception.MemberNotFound;
 import com.backend.domain.member.repository.MemberRepository;
-import com.backend.domain.member.service.AuthMember;
 import com.backend.domain.vote.dao.AnswerDownVoteRepository;
 import com.backend.domain.vote.dao.AnswerUpVoteRepository;
 import com.backend.domain.vote.domain.AnswerDownVote;
@@ -44,7 +43,7 @@ public class AnswerVoteService {
             try {
                 Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
                 AnswerUpVote answerUpVote = AnswerUpVote.toEntity(answer, member);
-                answerUpVoteRepository.save(answerUpVote);
+                answerUpVoteRepository.up(answerUpVote);
                 answerUpVoted(answerWriter);
             } catch (DataIntegrityViolationException e) {
                 log.error("handleDataIntegrityViolationException", e);
@@ -61,7 +60,7 @@ public class AnswerVoteService {
 
         Member answerWriter = answerService.findVerifiedAnswer(answerId).getMember();
 
-        Long result = answerUpVoteRepository.answerVoteUndoUp(answerId, memberId);
+        Long result = answerUpVoteRepository.undoUp(answerId, memberId);
         if(result == 0) throw new VoteException(ErrorCode.VOTE_NOT_FOUND);
 
         undoAnswerUpVoted(answerWriter);
@@ -79,7 +78,7 @@ public class AnswerVoteService {
             try {
                 Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
                 AnswerDownVote answerDownVote = AnswerDownVote.toEntity(answer, member);
-                answerDownVoteRepository.save(answerDownVote);
+                answerDownVoteRepository.down(answerDownVote);
                 answerDownVoted(answerWriter);
             } catch (DataIntegrityViolationException e) {
                 log.error("handleDataIntegrityViolationException", e);
@@ -94,7 +93,7 @@ public class AnswerVoteService {
     public void undoDown(Long answerId,  Long memberId) {
 
         Member answerWriter = answerService.findVerifiedAnswer(answerId).getMember();
-        Long result = answerDownVoteRepository.answerVoteUndoDown(answerId, memberId);
+        Long result = answerDownVoteRepository.undoDown(answerId, memberId);
         if(result == 0) throw new VoteException(ErrorCode.VOTE_NOT_FOUND);
 
         undoAnswerDownVoted(answerWriter);
