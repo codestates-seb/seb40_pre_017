@@ -100,5 +100,15 @@ public class QuestionUpVoteRepositoryImpl implements QuestionUpVoteRepositoryCus
         return voteStateResponse;
         }
 
+    @Override
+    public Long questionVoteUndoUp(Long questionId, Long memberId) {
+        return jpaQueryFactory.delete(questionUpVote)
+            .where(questionUpVote.question.id.eq(questionId)
+                .and(questionUpVote.member.id.eq(memberId))
+            ).execute();
+    }
+
 }
+
+
 
