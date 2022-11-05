@@ -6,25 +6,30 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   axios.defaults.headers.common["Authorization"] = accessToken;
 
   // 투표된상태확인
-  const [voteInfo, setVoteInfo ] = useState();
+  // const [ voteInfo, setVoteInfo ] = useState(null);
+  let voteInfo = '';
+  
   useEffect(() => {
-    axios.get(`/api/question/${id}/votes`)
+    axios.get(`/api/questions/${id}/votes`)
     .then((res) => {
       console.log(res)
-      setVoteInfo(res.data)
+      // setVoteInfo(res.data)
+      voteInfo = res.data;
+      if(type === 'question'){
+        console.log(voteInfo.questionUpVote)
+        console.log(voteInfo.questionDownVote)
+        if(voteInfo.questionUpVote)setClickUp(true)
+        else if(voteInfo.questionDownVote)setClickDown(true)
+      }
+      else if( type === 'answer'){
+        let answerVote = voteInfo.answerVoteStates.filter(el => el.answerId === answerId);
+        if(answerVote.answerUpVote)setClickUp(true)
+        else if(answerVote.answerDownVote)setClickDown(true)
+      }
     })
     .catch(error => {
       console.log(error.response);
     });
-
-    // if(type === 'question'){
-    //   if(voteInfo.questionUpVote)setClickUp(true)
-    //   else if(voteInfo.questionDownVote)setClickDown(true)
-    // }else if( type === 'answer'){
-    //   let answerVote = voteInfo.answerVoteStates.filter(el => el.answerId === answerId);
-    //   if(answerVote.answerUpVote)setClickUp(true)
-    //   else if(answerVote.answerDownVote)setClickDown(true)
-    // }
   },[])
 
   // 투표찬성
@@ -36,10 +41,10 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         if(type === 'question'){
           //질문투표찬성
           ///questions/{id}/upvote
-          console.log(`/api/question/${id}/upvote`)
-          axios.post(`/api/question/${id}/upvote`)
+          // console.log(`/api/question/${id}/upvote`)
+          axios.post(`/api/questions/${id}/upvote`)
           .then((res) => {
-            console.log(res)
+            console.log(res);
           })
           .catch(error => {
             console.log(error.response);
@@ -93,7 +98,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         if(type === 'question'){
           //질문투표반대
           ///questions/{id}/downvote
-          axios.post(`/api/questions/${id}/downvote`)
+          axios.post(`/api/question/${id}/downvote`)
           .then((res) => {
             console.log(res)
           })
@@ -117,7 +122,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         if(type === 'question'){
           //질문투표반대 취소
           ///questions/{id}/downvote/undo
-          axios.post(`/api/questions/${id}/downvote/undo`)
+          axios.post(`/api/question/${id}/downvote/undo`)
           .then((res) => {
             console.log(res)
           })

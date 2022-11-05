@@ -50,18 +50,21 @@ export default function AddQuestion({accessToken}) {
         </div>
         
         <div className='addContent'>
-          <div className='addGuide'>
-            <h3>Writing a good question</h3>
-            You’re ready to ask a programming-related question and this form will help guide you through the process.
+          <div className='guideWrap'>
+            <div className='addGuide'>
+              <h3>Writing a good question</h3>
+              You’re ready to ask a programming-related question and this form will help guide you through the process.
 
-            Looking to ask a non-programming question? See the topics here to find a relevant site.
+              Looking to ask a non-programming question? See the topics here to find a relevant site.
 
-            Steps
-            Summarize your problem in a one-line title.
-            Describe your problem in more detail.
-            Describe what you tried and what you expected to happen.
-            Add “tags” which help surface your question to members of the community.
-            Review your question and post it to the site.
+              Steps
+              Summarize your problem in a one-line title.
+              Describe your problem in more detail.
+              Describe what you tried and what you expected to happen.
+              Add “tags” which help surface your question to members of the community.
+              Review your question and post it to the site.
+            </div>
+            {/* <div className='blank'>asdfasdfasfasdfasdfasdfasdfasdfsdfsdfsfda</div> */}
           </div>
           <Inputbox 
             setTitle={setTitle} 
