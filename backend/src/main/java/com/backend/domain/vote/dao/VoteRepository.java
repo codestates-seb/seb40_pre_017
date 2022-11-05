@@ -30,6 +30,10 @@ public class VoteRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    public void savedaf(){
+
+    }
+
 
     public VoteStateResponse getVotes(Long memberId, Long questionId) {
 
