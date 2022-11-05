@@ -76,7 +76,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         }else if(type === 'answer'){
           //답변투표찬성 취소
           ///question/{id}/answer/{answer-id}/upvote/undo
-          axios.post(`/api/questions/${id}/answer/${answerId}/upvote/undo`)
+          axios.post(`/api/question/${id}/answer/${answerId}/upvote/undo`)
           .then((res) => {
             console.log(res)
           })
