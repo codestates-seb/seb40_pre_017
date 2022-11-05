@@ -1,11 +1,15 @@
 package com.backend.domain.vote.application;
 
 import com.backend.domain.answer.application.AnswerService;
+import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.exception.MemberNotFound;
 import com.backend.domain.member.repository.MemberRepository;
+import com.backend.domain.member.service.AuthMember;
 import com.backend.domain.vote.dao.AnswerDownVoteRepository;
 import com.backend.domain.vote.dao.AnswerUpVoteRepository;
+import com.backend.domain.vote.domain.AnswerDownVote;
+import com.backend.domain.vote.domain.AnswerUpVote;
 import com.backend.domain.vote.exception.VoteException;
 import com.backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -32,11 +36,15 @@ public class AnswerVoteService {
 
     public void up(Long answerId, Long memberId) {
 
-        Member answerWriter = answerService.findVerifiedAnswer(answerId).getMember();
+        Answer answer = answerService.findVerifiedAnswer(answerId);
+        Member answerWriter = answer.getMember();
+
 
         if(memberId != answerWriter.getId() ) {
             try {
-                answerUpVoteRepository.up(answerId, memberId);
+                Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
+                AnswerUpVote answerUpVote = AnswerUpVote.toEntity(answer, member);
+                answerUpVoteRepository.save(answerUpVote);
                 answerUpVoted(answerWriter);
             } catch (DataIntegrityViolationException e) {
                 log.error("handleDataIntegrityViolationException", e);
@@ -49,11 +57,11 @@ public class AnswerVoteService {
 
     }
 
-    public void undoUp(Long answerId, Long memberId) {
+    public void undoUp(Long answerId,  Long memberId) {
 
         Member answerWriter = answerService.findVerifiedAnswer(answerId).getMember();
 
-        int result = answerUpVoteRepository.undoUp(answerId, memberId);
+        Long result = answerUpVoteRepository.answerVoteUndoUp(answerId, memberId);
         if(result == 0) throw new VoteException(ErrorCode.VOTE_NOT_FOUND);
 
         undoAnswerUpVoted(answerWriter);
@@ -62,13 +70,16 @@ public class AnswerVoteService {
     }
 
 
-    public void down(Long answerId, Long memberId) {
+    public void down(Long answerId,  Long memberId) {
 
-        Member answerWriter = answerService.findVerifiedAnswer(answerId).getMember();
+        Answer answer = answerService.findVerifiedAnswer(answerId);
+        Member answerWriter = answer.getMember();
 
         if(memberId != answerWriter.getId() ) {
             try {
-                answerDownVoteRepository.down(answerId, memberId);
+                Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
+                AnswerDownVote answerDownVote = AnswerDownVote.toEntity(answer, member);
+                answerDownVoteRepository.save(answerDownVote);
                 answerDownVoted(answerWriter);
             } catch (DataIntegrityViolationException e) {
                 log.error("handleDataIntegrityViolationException", e);
@@ -80,10 +91,10 @@ public class AnswerVoteService {
 
     }
 
-    public void undoDown(Long answerId, Long memberId) {
+    public void undoDown(Long answerId,  Long memberId) {
 
         Member answerWriter = answerService.findVerifiedAnswer(answerId).getMember();
-        int result = answerDownVoteRepository.undoDown(answerId, memberId);
+        Long result = answerDownVoteRepository.answerVoteUndoDown(answerId, memberId);
         if(result == 0) throw new VoteException(ErrorCode.VOTE_NOT_FOUND);
 
         undoAnswerDownVoted(answerWriter);

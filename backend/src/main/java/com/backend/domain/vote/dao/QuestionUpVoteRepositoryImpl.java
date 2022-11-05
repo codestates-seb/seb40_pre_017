@@ -1,7 +1,6 @@
 package com.backend.domain.vote.dao;
 
 
-import com.backend.domain.member.domain.QMember;
 import com.backend.domain.vote.dto.projection.QVoteCountProjection;
 import com.backend.domain.vote.dto.projection.VoteCountProjection;
 import com.backend.domain.vote.dto.response.VoteStateResponse;
@@ -26,11 +25,11 @@ import static com.backend.domain.vote.domain.QQuestionUpVote.questionUpVote;
 @RequiredArgsConstructor
 @Slf4j
 @Repository
-public class VoteRepository {
+public class QuestionUpVoteRepositoryImpl implements QuestionUpVoteRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-
+@Override
     public VoteStateResponse getVotes(Long memberId, Long questionId) {
 
         List<VoteCountProjection> voteCountProjections = jpaQueryFactory.select(new QVoteCountProjection(
@@ -99,6 +98,16 @@ public class VoteRepository {
         VoteStateResponse voteStateResponse = voteStateResponseBuilder.answerVoteStates(answerVoteStates).build();
         return voteStateResponse;
         }
+@Override
+public Long questionVoteUndoUp(Long questionId, Long memberId) {
+
+        return jpaQueryFactory.delete(questionUpVote)
+                .where(questionUpVote.question.id.eq(questionId)
+                        .and(questionUpVote.member.id.eq(memberId))
+                ).execute();
+    }
+
+
 
 }
 

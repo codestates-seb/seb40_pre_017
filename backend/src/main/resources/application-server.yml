@@ -1,10 +1,9 @@
 spring:
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: admin
-    password: ${DB_RDS_PASSWORD}
-    url: ${DB_RDS_SERVER}
+    password: preproject017
+    url: jdbc:mysql://pre-prjoect-seb-017.cs6qmfqibhz9.ap-northeast-2.rds.amazonaws.com:13306/pre-project-seb-017?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
 
   jpa:
     hibernate:
@@ -12,3 +11,5 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+
