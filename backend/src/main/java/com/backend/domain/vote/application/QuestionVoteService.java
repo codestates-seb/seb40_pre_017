@@ -88,6 +88,9 @@ public class QuestionVoteService {
         }
     }
 
+
+
+
     public void undoDown(Long questionId, Long memberId) {
 
         Member questionWriter = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new).getMember();
@@ -104,14 +107,16 @@ public class QuestionVoteService {
         Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
         findMember.questionUpVoted();
     }
-    private void undoQuestionUpVoted(Member member) {
-        Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
-        findMember.undoQuestionUpVoted();
-    }
+
 
     private void questionDownVoted(Member member) {
         Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
         findMember.questionDownVoted();
+    }
+
+    private void undoQuestionUpVoted(Member member) {
+        Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
+        findMember.undoQuestionUpVoted();
     }
 
     private void undoQuestionDownVoted(Member member) {

@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Table(indexes = @Index(name = "i_tag", columnList = "name"))
 public class Tag extends Auditable {
 
     @Id
