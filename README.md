@@ -40,9 +40,9 @@
 
 ## Project Wiki
 
-- [ERD] (https://www.notion.so/taekgil/ERD-a4b259ce84bf404faba9be48df2cac9c)
-- [UserFlow] (https://www.notion.so/taekgil/UserFlow-f54acb3a94e142a0b24b569455393eb6)
-- [API 명세서] (https://www.notion.so/taekgil/API-e993db7a3d414798bc904fe7284b8346)
+- [ERD](https://www.notion.so/taekgil/ERD-a4b259ce84bf404faba9be48df2cac9c)
+- [UserFlow](https://www.notion.so/taekgil/UserFlow-f54acb3a94e142a0b24b569455393eb6)
+- [API 명세서](https://www.notion.so/taekgil/API-e993db7a3d414798bc904fe7284b8346)
 
 
 ## Commit Convention
