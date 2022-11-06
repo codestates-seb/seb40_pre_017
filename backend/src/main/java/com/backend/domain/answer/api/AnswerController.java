@@ -47,7 +47,7 @@ public class AnswerController {
             @PathVariable("answer-id") @Positive Long answerId,
             @Valid @RequestBody AnswerUpdate answerUpdate) {
 
-        Long result = answerService.update(answerId, authMember.getId(), answerUpdate);
+        Long result = answerService.update(answerId, authMember.getMemberId(), answerUpdate);
 
         return ResponseEntity.ok(new SingleResponseDto<>(result));
     }

@@ -14,6 +14,8 @@ import com.backend.domain.question.dto.response.SimpleQuestionResponse;
 import com.backend.domain.question.service.QuestionSearchService;
 import com.backend.domain.question.service.QuestionService;
 import com.backend.domain.tag.dto.TagDto;
+import com.backend.domain.vote.application.VoteService;
+import com.backend.domain.vote.dto.response.VoteStateResponse;
 import com.backend.global.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -56,7 +58,8 @@ class QuestionControllerTest {
     @Autowired
     private MemberRepository memberRepository;
 
-
+    @MockBean
+    VoteService voteService;
     @MockBean
     QuestionService questionservice;
 
@@ -141,7 +144,7 @@ class QuestionControllerTest {
                 MockMvcRequestBuilders.get("/questions")
                         .accept(MediaType.APPLICATION_JSON)
                         .param("page", "1")
-                        .param("filters","NoAnswer")
+                        .param("filters", "NoAnswer")
 
         );
         actions.andExpect(status().isOk());
@@ -155,7 +158,7 @@ class QuestionControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .param("page", "1")
                         .param("filters", "NoAcceptedAnswer")
-                        .param("q","java")
+                        .param("q", "java")
 
         );
         actions.andExpect(status().isOk());
@@ -217,5 +220,31 @@ class QuestionControllerTest {
 
         //then
         actions.andExpect(status().isOk());
+    }
+
+    @Test
+    void getVotes() throws Exception {
+        Long questionId = 1L;
+        List<VoteStateResponse.AnswerVoteState> answerVoteStates = new ArrayList<>();
+        VoteStateResponse.AnswerVoteState answerVoteState = VoteStateResponse.AnswerVoteState.builder()
+                .answerId(1L)
+                .answerDownVote(false)
+                .answerUpVote(true)
+                .build();
+        answerVoteStates.add(answerVoteState);
+
+        VoteStateResponse res = VoteStateResponse.builder()
+                .questionUpVote(false)
+                .questionDownVote(true)
+                .answerVoteStates(answerVoteStates)
+                .build();
+
+        given(voteService.getVotes(Mockito.anyLong(), Mockito.anyLong()))
+                .willReturn(res);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/questions/{id}/votes", questionId)
+                        .with(user(authMember))
+        ).andExpect(status().isOk());
     }
 }

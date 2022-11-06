@@ -3,7 +3,6 @@ package com.backend.domain.member.controller;
 import com.backend.domain.TestUserDetailService;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.dto.MemberResponse;
-import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.dto.MemberUpdate;
 import com.backend.domain.member.service.AuthMember;
 import com.backend.domain.member.service.AuthService;

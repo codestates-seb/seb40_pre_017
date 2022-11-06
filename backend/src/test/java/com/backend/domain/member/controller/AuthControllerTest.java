@@ -42,6 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.mockito.BDDMockito.given;
@@ -152,9 +153,8 @@ class AuthControllerTest {
         String content = gson.toJson(signUpRequest);
 
 
+        willDoNothing().given(authService).signup(Mockito.any(SignUpRequest.class));
 
-        given(authService.signup(Mockito.any(SignUpRequest.class)))
-                .willReturn(1L);
         //when
         ResultActions actions = mockMvc.perform(
                 post("/users")

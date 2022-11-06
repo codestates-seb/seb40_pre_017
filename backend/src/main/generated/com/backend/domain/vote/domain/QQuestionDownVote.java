@@ -22,11 +22,17 @@ public class QQuestionDownVote extends EntityPathBase<QuestionDownVote> {
 
     public static final QQuestionDownVote questionDownVote = new QQuestionDownVote("questionDownVote");
 
-    public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
+    public final com.backend.global.Audit.QAuditable _super = new com.backend.global.Audit.QAuditable(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final com.backend.domain.member.domain.QMember member;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
     public final com.backend.domain.question.domain.QQuestion question;
 

@@ -3,7 +3,6 @@ package com.backend.domain.vote.application;
 
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.exception.MemberNotFound;
-import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.exception.QuestionNotFound;
 import com.backend.domain.question.repository.QuestionRepository;
@@ -13,6 +12,7 @@ import com.backend.domain.vote.domain.QuestionDownVote;
 import com.backend.domain.vote.domain.QuestionUpVote;
 import com.backend.domain.vote.exception.VoteException;
 import com.backend.global.error.exception.ErrorCode;
+import com.backend.global.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;

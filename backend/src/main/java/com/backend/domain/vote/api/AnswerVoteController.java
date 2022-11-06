@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.Positive;
 
 @RestController
-@RequestMapping("question/?/answer/{answer-id}")
+@RequestMapping("question/*/answer/{answer-id}")
 @RequiredArgsConstructor
 @Validated
 public class AnswerVoteController {

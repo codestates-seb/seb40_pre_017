@@ -22,13 +22,19 @@ public class QAnswerDownVote extends EntityPathBase<AnswerDownVote> {
 
     public static final QAnswerDownVote answerDownVote = new QAnswerDownVote("answerDownVote");
 
+    public final com.backend.global.Audit.QAuditable _super = new com.backend.global.Audit.QAuditable(this);
+
     public final com.backend.domain.answer.domain.QAnswer answer;
 
-    public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final com.backend.domain.member.domain.QMember member;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
     public QAnswerDownVote(String variable) {
         this(AnswerDownVote.class, forVariable(variable), INITS);
