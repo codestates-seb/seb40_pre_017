@@ -48,6 +48,8 @@ export default function AnswerList({item, accessToken}) {
     }
   }
 
+  const [ check, setCheck ] = useState(false);
+
   return (
     <div>
       <div className='answerHeadWrap'>
@@ -62,6 +64,8 @@ export default function AnswerList({item, accessToken}) {
             answerId={answer.answerId} 
             item={item}
             accessToken={accessToken}
+            setCheck={setCheck}
+            check={check}
           />
         </div>
       ))}

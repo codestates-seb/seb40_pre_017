@@ -11,7 +11,7 @@ import axios from 'axios'
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
-export default function Answer({answer, id, answerId, item, accessToken}) {
+export default function Answer({answer, id, answerId, item, accessToken, setCheck, check}) {
   axios.defaults.headers.common["Authorization"] = accessToken;
   axios.defaults.withCredentials = true;
 
@@ -32,7 +32,7 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
   }
 
   //답변 채택
-  const [ check, setCheck ] = useState(false);
+  // const [ check, setCheck ] = useState(false);
   const handleCheck = () => {
     if(!check){
       axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/accept`)
@@ -68,7 +68,7 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
   return (
     <div className='answerWrap'>
       <div className='answerVote'>
-        <Vote item={answer.voteCount} id={id} answerId={answerId} type={'answer'}/>
+        <Vote item={answer.voteCount} id={id} answerId={answerId} type={'answer'} accessToken={accessToken}/>
         <button 
           onClick={handleCheck} 
           className={check ? 'select answerCheck' : 'select'}

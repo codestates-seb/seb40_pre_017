@@ -6,6 +6,7 @@ const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 export default function Vote({item, type, id, answerId, accessToken}) {
   axios.defaults.headers.common["Authorization"] = accessToken;
+
   axios.defaults.withCredentials = true;
 
   // 투표된상태확인
@@ -13,6 +14,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   let voteInfo = '';
   
   useEffect(() => {
+    console.log(accessToken)
     axios.get(`${REACT_APP_API_URL}questions/${id}/votes`)
     .then((res) => {
       voteInfo = res.data;
@@ -41,16 +43,16 @@ export default function Vote({item, type, id, answerId, accessToken}) {
     if(!clickDown){
       if(!clickUp){
         setClickUp(true);
-        // if(type === 'question'){
-        //   //질문투표찬성
-        //   axios.post(`${REACT_APP_API_URL}question/${id}/upvote`)
-        //   .then((res) => {
-        //     console.log(res);
-        //   })
-        //   .catch(error => {
-        //     console.log(error.response);
-        //   });
-        // }else if(type === 'answer'){
+        if(type === 'question'){
+        //질문투표찬성
+          axios.post(`${REACT_APP_API_URL}question/${id}/upvote`)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
+        }else if(type === 'answer'){
           //답변투표찬성
           axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/upvote`)
           .then((res) => {
@@ -59,7 +61,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           .catch(error => {
             console.log(error.response);
           });
-        // }
+        }
       }else if(clickUp){
         setClickUp(false);
         if(type === 'question'){
@@ -76,17 +78,16 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/upvote/undo`)
           .then((res) => {
             console.log(res)
-            console.log(accessToken)
           })
           .catch(error => {
             console.log(error.response);
-            console.log(accessToken)
           });
         }
       }
     }
   }
-
+  
+  
   // 투표반대
   const [clickDown, setClickDown] = useState(false);
   const handleDown = () => {
