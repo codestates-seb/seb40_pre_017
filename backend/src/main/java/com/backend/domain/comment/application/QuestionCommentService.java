@@ -7,7 +7,7 @@ import com.backend.domain.comment.dto.QuestionCommentUpdate;
 import com.backend.domain.comment.exception.CommentException;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.exception.MemberNotFound;
-import com.backend.domain.member.repository.MemberRepository;
+import com.backend.global.repository.MemberRepository;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.exception.QuestionNotFound;
 import com.backend.domain.question.repository.QuestionRepository;

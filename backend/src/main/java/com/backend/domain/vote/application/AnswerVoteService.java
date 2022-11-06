@@ -4,7 +4,7 @@ import com.backend.domain.answer.application.AnswerService;
 import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.exception.MemberNotFound;
-import com.backend.domain.member.repository.MemberRepository;
+import com.backend.global.repository.MemberRepository;
 import com.backend.domain.vote.dao.AnswerDownVoteRepository;
 import com.backend.domain.vote.dao.AnswerUpVoteRepository;
 import com.backend.domain.vote.domain.AnswerDownVote;

@@ -1,7 +1,7 @@
 package com.backend.domain.member.service;
 
 import com.backend.domain.member.domain.Member;
-import com.backend.domain.member.repository.MemberRepository;
+import com.backend.global.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

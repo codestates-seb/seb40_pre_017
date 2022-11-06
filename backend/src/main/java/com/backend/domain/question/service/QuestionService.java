@@ -8,7 +8,7 @@ import com.backend.domain.comment.dto.SimpleQuestionCommentResponse;
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.dto.MemberResponse;
 import com.backend.domain.member.exception.MemberNotFound;
-import com.backend.domain.member.repository.MemberRepository;
+import com.backend.global.repository.MemberRepository;
 import com.backend.domain.question.domain.Question;
 import com.backend.domain.question.domain.QuestionTag;
 import com.backend.domain.question.dto.request.QuestionCreate;
@@ -89,8 +89,6 @@ public class QuestionService {
         question.hit();
         List<String> tagsOfQuestion = queryTagRepository.findTagsOfQuestion(id);
         List<Answer> answersWithAnswerComment = queryAnswerRepository.findAnswersWithAnswerComment(id);
-
-
 
 
 

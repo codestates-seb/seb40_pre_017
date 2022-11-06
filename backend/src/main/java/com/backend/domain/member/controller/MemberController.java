@@ -33,8 +33,8 @@ public class MemberController {
         return ResponseEntity.ok(new SingleResponseDto(result));
     }
 
-
     @GetMapping("/me")
+
     public ResponseEntity<MemberResponse> getMyMemberInfo(@CurrentMember AuthMember authMember) {
         Long memberId = authMember.getMemberId();
         return ResponseEntity.ok(memberService.getMyInfo(memberId));

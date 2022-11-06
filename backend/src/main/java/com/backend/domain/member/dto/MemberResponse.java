@@ -4,10 +4,13 @@ import com.backend.domain.member.domain.Member;
 import com.backend.global.util.Constant;
 import lombok.Builder;
 import lombok.Getter;
+
+import lombok.NoArgsConstructor;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
+
 
 @Getter
+@NoArgsConstructor
 public class MemberResponse {
     private Long reputation;
     private Long userId;

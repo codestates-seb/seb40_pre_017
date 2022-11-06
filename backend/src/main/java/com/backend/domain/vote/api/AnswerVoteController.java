@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.Positive;
 
 @RestController
-@RequestMapping("question/?/answer/{answer-id}")
+@RequestMapping("question/*/answer/{answer-id}")
 @RequiredArgsConstructor
 @Validated
 public class AnswerVoteController {
@@ -27,7 +27,6 @@ public class AnswerVoteController {
             @AuthenticationPrincipal AuthMember authMember) {
 
         answerVoteService.up(answerId, authMember.getMemberId());
-
 
         return ResponseEntity.ok(answerId);
     }

@@ -10,6 +10,7 @@ import com.backend.domain.tag.exception.ContainsNotExistentTags;
 import com.backend.domain.tag.repository.QueryTagRepository;
 import com.backend.global.dto.Response.MultiResponse;
 import com.backend.global.dto.request.PageRequest;
+import com.backend.global.repository.MemberRepository;
 import com.querydsl.core.Tuple;
 
 import lombok.RequiredArgsConstructor;

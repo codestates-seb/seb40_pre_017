@@ -18,7 +18,7 @@ import javax.validation.constraints.Positive;
 import java.net.URI;
 
 @RestController
-@RequestMapping("question/?/answer/{answer-id}")
+@RequestMapping("question/*/answer/{answer-id}")
 @RequiredArgsConstructor
 @Validated
 public class AnswerCommentController {

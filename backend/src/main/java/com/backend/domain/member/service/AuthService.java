@@ -8,7 +8,7 @@ import com.backend.domain.member.exception.EmailDuplication;
 import com.backend.domain.member.exception.MemberNotFound;
 import com.backend.domain.member.exception.NotLoginMember;
 import com.backend.domain.member.exception.UserNameDuplication;
-import com.backend.domain.member.repository.MemberRepository;
+import com.backend.global.repository.MemberRepository;
 import com.backend.domain.refreshtoken.domain.RefreshToken;
 import com.backend.domain.refreshtoken.exception.TokenInvalid;
 import com.backend.domain.refreshtoken.exception.TokenNotFound;
