@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Comment from './Comment'
 import '../../css/comment/CommentList.scss'
 import axios from 'axios';
@@ -30,7 +30,12 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
   }
 
   //comment input box 
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(editValue);
+
+  useEffect(() => {
+    setContent(editValue)
+  },[editValue])
+
   const handleInput = (e) => {
     setContent(e.target.value);
   }

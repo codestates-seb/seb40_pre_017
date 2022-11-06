@@ -26,15 +26,22 @@ export default function AnswerList({item, accessToken}) {
 
   const handleAddAnswer = (e) => {
     e.preventDefault();
-    console.log(item)
+    console.log(accessToken)
     if(accessToken) {
       // data 생성 & POST (Api)
       let data = { content: contentInput.current.getInstance().getMarkdown() }
-      axios.post(`${REACT_APP_API_URL}question/${item.question.questionId}/answer`, data)
+      console.log(data)
+      axios.post(`${REACT_APP_API_URL}question/${item.question.questionId}/answer`, {
+        headers: {
+          "Authrozation": `${accessToken}`,
+        },
+        // data: {content: 'asdfasdfasdfasdfasdfasdfasdfasdfasdfa'}
+        data
+      })
       .then((res) => {
         console.log(res.data)
         // window.location.reload();
-        // window.location.replace(`/questions/${item.question.questionId}`)
+        // window.location.replace(`/questions/${item.question.questionId}`);
         sessionStorage.setItem("redirect", location.pathname + location.search);
         navigate(`/dummy`)
       })

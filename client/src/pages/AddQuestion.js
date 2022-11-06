@@ -75,6 +75,7 @@ export default function AddQuestion({accessToken}) {
             setSubmitDis={setSubmitDis}
             contentInput={contentInput}
             type={'add'}
+            accessToken={accessToken}
           />
           <button className='blueBtn' onClick={handleSubmit} disabled={submitDis ? true : false}>Review your question</button>
         </div>

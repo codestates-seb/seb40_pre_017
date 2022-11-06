@@ -34,6 +34,7 @@ export default function EditQuestion({accessToken}) {
 
   const handleEdit = (e) => {
     e.preventDefault();
+    console.log(accessToken)
 
     // data 생성 & Patch (Api)
     let data = { title, content:contentInput.current.getInstance().getMarkdown(), tags }

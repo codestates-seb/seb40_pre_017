@@ -3,7 +3,7 @@ import AddContent from './AddContent'
 import Guide from './Guide'
 import '../../css/addContent/Inputbox.scss'
 
-export default function Inputbox({setTitle, tags, setTags, title, content, setSubmitDis, contentInput, type}) {
+export default function Inputbox({setTitle, tags, setTags, title, content, setSubmitDis, contentInput, type, accessToken}) {
   //유효성검사 해아함
 
 
@@ -155,6 +155,7 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
             contentInput={contentInput}
             setNextContentDis={setNextContentDis}
             setContentGuide={setContentGuide}
+            accessToken={accessToken}
           />
           { contentNext ? 
             <button 
