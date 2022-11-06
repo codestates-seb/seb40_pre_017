@@ -4,10 +4,13 @@ import '../../css/comment/Comment.scss'
 import createdAt from '../createdAt/CreatedAt';
 import { useParams, useNavigate } from 'react-router-dom';
 
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+
 export default function Comment({id, content, setEditClick, type, setEditValue, setCommentId, accessToken, answerId}) {
   let params  = useParams();
 
   axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.withCredentials = true;
 
   console.log(content.userName)
   console.log(window.localStorage.getItem("member"))
@@ -28,7 +31,7 @@ export default function Comment({id, content, setEditClick, type, setEditValue, 
   const handleDelete = () => {
     if(type === 'question'){
       if (window.confirm("Are you sure you want to delete the comment?") === true) {
-        axios.delete(`/api/question/${id}/comments/${content.questionCommentId}`)
+        axios.delete(`${REACT_APP_API_URL}question/${id}/comments/${content.questionCommentId}`)
         .then((res) => {
           if(res.status === 200) {
             window.location.href = `/questions/${params.id}`;
@@ -40,7 +43,7 @@ export default function Comment({id, content, setEditClick, type, setEditValue, 
       }
     }else if(type === 'answer'){
       if (window.confirm("Are you sure you want to delete the comment?") === true) {
-        axios.delete(`/api/question/${id}/answer/${answerId}/comments/${content.answerCommentId}`)
+        axios.delete(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/comments/${content.answerCommentId}`)
         .then((res) => {
           if(res.status === 200) {
             window.location.href = `/questions/${params.id}`;
@@ -58,7 +61,7 @@ export default function Comment({id, content, setEditClick, type, setEditValue, 
       <div className='commentContent'>{content.content} -</div>
       <div className='commentName'>{content.userName}</div>
       <div className='commentTime'>{createdAt(content.createdAt)} ago</div>
-      {content.userName === window.localStorage.getItem("member") && 
+      {content.userName === JSON.parse(window.sessionStorage.getItem("member")).username && 
       <>
         <i className="fa-solid fa-pencil" onClick={clickEdit}></i>
         <i className="fa-solid fa-trash-can" onClick={handleDelete}></i>

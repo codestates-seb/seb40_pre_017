@@ -8,43 +8,47 @@ import Aside from '../components/js/aside/Aside';
 import axios from 'axios';
 import EditAside from '../components/js/aside/EditAside';
 
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+
+
 export default function EditQuestion({accessToken}) {
   axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.withCredentials = true;
 
-    //id 파라미터 가져오기
-    let params  = useParams();
+  //id 파라미터 가져오기
+  let params  = useParams();
 
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { item } = location.state;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { item } = location.state;
 
-    //제목
-    const [title, setTitle] = useState(item.question.title);
+  //제목
+  const [title, setTitle] = useState(item.question.title);
 
-    //content
-    const content = item.question.summary
-    const contentInput = useRef();
+  //content
+  const content = item.question.summary
+  const contentInput = useRef();
 
   //tag
-    const [tags, setTags] = useState(item.tags);
+  const [tags, setTags] = useState(item.tags);
 
-    const handleEdit = (e) => {
-      e.preventDefault();
+  const handleEdit = (e) => {
+    e.preventDefault();
 
-      // data 생성 & Patch (Api)
-      let data = { title, content:contentInput.current.getInstance().getMarkdown(), tags }
+    // data 생성 & Patch (Api)
+    let data = { title, content:contentInput.current.getInstance().getMarkdown(), tags }
 
-      axios.patch(`/api/questions/${item.question.questionId}`, data)
-      .then((res) => {
-        // navigate(`/questions/${item.question.questionId}`)
-        window.location.replace(`/questions/${item.question.questionId}`)
-      })
-      .catch(error => {
-        console.log(error.response);
-      });
-    }
-    return (
-      <div className='editQuestionWrap'>
+    axios.patch(`${REACT_APP_API_URL}questions/${item.question.questionId}`, data)
+    .then((res) => {
+      // navigate(`/questions/${item.question.questionId}`)
+      window.location.replace(`/questions/${item.question.questionId}`)
+    })
+    .catch(error => {
+      console.log(error.response);
+    });
+  }
+  return (
+    <div className='editQuestionWrap'>
         <div className='editQuestionNavbar'><Category/></div>
         <div className='editQuestionMain'>
           <h2>Question</h2>
@@ -63,6 +67,6 @@ export default function EditQuestion({accessToken}) {
           </Link>
         </div>
         <div className='editQuestionAside'><EditAside/></div>
-      </div>
-    )
+    </div>
+  )
 }

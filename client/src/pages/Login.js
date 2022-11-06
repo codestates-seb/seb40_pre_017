@@ -7,8 +7,13 @@ import Facebookbtn from '../components/js/user/common/Facebookbtn';
 import Input from '../components/js/user/common/Input';
 import Button from '../components/js/user/common/Button';
 import Inputerror from '../components/js/user/common/Inputerror';
+import axios from 'axios';
 
 let content = ["Log in with Google", "Log in with Github", "Log in with Facebook"];
+
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+
+axios.defaults.withCredentials = true;
 
 export default function Login({setIslogined, setMemberData, setAccessToken}) {
   const navigate = useNavigate();
@@ -29,33 +34,41 @@ export default function Login({setIslogined, setMemberData, setAccessToken}) {
       setPasswordError(true);
       error = true
     }
-
+      
     if(!error){
-      fetch("/api/users/login", {
+      fetch(`${REACT_APP_API_URL}users/login`, {
         method: "POST",
-        headers: new Headers({
-          "ngrok-skip-browser-warning": "69420",
-          "Content-Type" : "application/json"
-        }),
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
+        headers: {"Content-Type" : "application/json"},
+        credentials: 'include'
       })
       .then((res) => {
+        console.log(res.headers.authorization)
+        console.log(res.headers.Authorization)
         if(res.status === 200){
-          let jwtToken = res.headers.get("Authorization");
+          let jwtToken = res.headers.get("authorization");
+          console.log(jwtToken)
           setAccessToken(jwtToken)
+          window.sessionStorage.setItem("jwtToken", jwtToken);
         }       
         return res.json();
       })
       .then((resData) => {
         if(resData.status !== 401) {
           setMemberData(resData);
-          localStorage.setItem("member", resData.username);
+          console.log(resData)
+          window.sessionStorage.setItem("member", JSON.stringify(resData));
+
           setIslogined(true);
           navigate(localStorage.getItem('lastPath'));
         }else{
           alert("Please check your ID and password");
         }
       })
+      // axios.post(`${REACT_APP_API_URL}users/login`, data)
+      // .then((res) => {
+      //   console.log(res)
+      // })
     }
   }
 

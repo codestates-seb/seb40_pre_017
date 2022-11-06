@@ -6,9 +6,12 @@ import EditAside from '../components/js/aside/EditAside';
 import Category from '../components/js/category/Category';
 import './EditAnswer.scss'
 
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+
+
 export default function EditAnswer({accessToken}) {
     axios.defaults.headers.common["Authorization"] = accessToken;
-
+    axios.defaults.withCredentials = true;
 
     //id 파라미터 가져오기
     let params  = useParams();
@@ -24,7 +27,7 @@ export default function EditAnswer({accessToken}) {
   
     // data 생성 & Patch (Api)
         let data = { content: contentInput.current.getInstance().getMarkdown() }
-        axios.patch(`/api/question/${item.question.questionId}/answer/${answer.answerId}`, data)
+        axios.patch(`${REACT_APP_API_URL}question/${item.question.questionId}/answer/${answer.answerId}`, data)
         .then((res) => {
             // navigate(`/questions/${item.question.questionId}`)
             window.location.replace(`/questions/${item.question.questionId}`)

@@ -7,8 +7,11 @@ import { Editor } from '@toast-ui/react-editor';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+
 export default function AddQuestion({accessToken}) {
   axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.withCredentials = true;
 
   //제목
   const [title, setTitle] = useState('');
@@ -29,7 +32,7 @@ export default function AddQuestion({accessToken}) {
     // data 생성 & POST (Api)
     let data = { title, content: contentInput.current.getInstance().getMarkdown(), tags }
     
-    axios.post(`/api/questions`, data)
+    axios.post(`${REACT_APP_API_URL}questions`, data)
     .then((res) => {
       console.log(res.data)
       navigate(`/questions/${res.data}`)

@@ -20,7 +20,7 @@ export default function Nav({changeInputData, islogined, memberData, logoutContr
         <Logo />
         <Snav />
         <Navinput changeInputData={changeInputData} />
-        {islogined ? <User memberData={memberData} logoutControll={logoutControll} /> : <Navbtn />}
+        {islogined && memberData ? <User memberData={memberData} logoutControll={logoutControll} /> : <Navbtn />}
       </nav>
     </>
   )
