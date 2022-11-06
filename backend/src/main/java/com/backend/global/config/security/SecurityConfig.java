@@ -20,10 +20,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
-import java.util.List;
 
 @EnableWebSecurity // (debug = true)
 @RequiredArgsConstructor
@@ -80,6 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 권한 관리 대상 지정
                 .authorizeRequests()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/**").permitAll() // 모든 요청에 대해 허용
                 .anyRequest().permitAll() // 나머지 요청 허용
                 .and()
@@ -90,10 +89,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "DELETE", "PATCH"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.addAllowedOrigin("http://localhost:3000"); // 로컬
+        configuration.addAllowedOrigin("http://ec2-13-209-84-129.ap-northeast-2.compute.amazonaws.com:8080/");
+        configuration.addAllowedOrigin("https://api.taekgil.xyz/");
+        configuration.addAllowedOrigin("http://127.0.0.1:5500");
+//        configuration.addAllowedOrigin("http://프론트 AWS  주소"); // 프론트 IPv4 주소
+        configuration.addAllowedMethod("*"); // 모든 메소드 허용.
+        configuration.addAllowedHeader("*");
+        configuration.setMaxAge(3600L);
         configuration.setAllowCredentials(true);
+        configuration.addExposedHeader("Authorization");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
