@@ -21,14 +21,16 @@ export default function Answer({answer, id, answerId, item, accessToken, setChec
   // 답변 삭제
   const handleDelete = () => {
     // api DELETE
-    axios.delete(`${REACT_APP_API_URL}question/${item.question.questionId}/answer/${answerId}`)
-    .then((res) => {
-      sessionStorage.setItem("redirect", location.pathname + location.search);
-      navigate(`/dummy`)
-    })
-    .catch(error => {
-      console.log(error.response);
-    });
+    if(window.confirm("Are you sure you want to delete the answer?") === true) {
+      axios.delete(`${REACT_APP_API_URL}question/${item.question.questionId}/answer/${answerId}`)
+      .then((res) => {
+        sessionStorage.setItem("redirect", location.pathname + location.search);
+        navigate(`/dummy`)
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+    }
   }
 
   //답변 채택
