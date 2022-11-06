@@ -8,17 +8,14 @@ import com.backend.domain.question.dto.request.QuestionUpdate;
 import com.backend.domain.vote.domain.QuestionDownVote;
 import com.backend.domain.vote.domain.QuestionUpVote;
 import com.backend.global.Audit.Auditable;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +37,7 @@ public class Question extends Auditable {
 	@Column(name = "view", nullable = false)
 	private Long view;
 
-	@Column(name = "content", nullable = false)
+	@Column(columnDefinition = "TEXT", nullable = false)
 	private String content;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -107,6 +104,11 @@ public class Question extends Auditable {
 		return question;
 	}
 
+	private static void addQuestionTag(Question question, QuestionTag questionTag) {
+		questionTag.setQuestion(question);
+		question.getQuestionTags().add(questionTag);
+	}
+
 	public void updateQuestion(QuestionUpdate questionUpdate, List<QuestionTag> questionTags) {
 
 		String changedTitle = questionUpdate.getTitle();
@@ -118,11 +120,6 @@ public class Question extends Auditable {
 
 		this.title = changedTitle == null ? this.title : changedTitle;
 		this.content = changedContent == null ? this.content : changedContent;
-	}
-
-	private static void addQuestionTag(Question question, QuestionTag questionTag) {
-		questionTag.setQuestion(question);
-		question.getQuestionTags().add(questionTag);
 	}
 
 	public void hit() {

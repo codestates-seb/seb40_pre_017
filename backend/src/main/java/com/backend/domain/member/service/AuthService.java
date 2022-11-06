@@ -8,12 +8,12 @@ import com.backend.domain.member.exception.EmailDuplication;
 import com.backend.domain.member.exception.MemberNotFound;
 import com.backend.domain.member.exception.NotLoginMember;
 import com.backend.domain.member.exception.UserNameDuplication;
-import com.backend.global.repository.MemberRepository;
 import com.backend.domain.refreshtoken.domain.RefreshToken;
 import com.backend.domain.refreshtoken.exception.TokenInvalid;
 import com.backend.domain.refreshtoken.exception.TokenNotFound;
 import com.backend.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.backend.global.jwt.TokenProvider;
+import com.backend.global.repository.MemberRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -110,7 +110,7 @@ public class AuthService {
                 response.addCookie(cookie);
             }
         }
-        refreshTokenRepository.deleteByValue(refreshToken);
+        refreshTokenRepository.deleteByKey(tokenProvider.parseClaims(refreshToken).getSubject());
     }
 
 }
