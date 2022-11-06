@@ -43,7 +43,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         setClickUp(true);
         if(type === 'question'){
           //질문투표찬성
-          axios.post(`${REACT_APP_API_URL}questions/${id}/upvote`)
+          axios.post(`${REACT_APP_API_URL}question/${id}/upvote`)
           .then((res) => {
             console.log(res);
           })
@@ -52,7 +52,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           });
         }else if(type === 'answer'){
           //답변투표찬성
-          axios.post(`${REACT_APP_API_URL}questions/${id}/answer/${answerId}/upvote`)
+          axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/upvote`)
           .then((res) => {
             console.log(res)
           })
@@ -64,7 +64,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         setClickUp(false);
         if(type === 'question'){
           //질문투표찬성 취소
-          axios.post(`${REACT_APP_API_URL}questions/${id}/upvote/undo`)
+          axios.post(`${REACT_APP_API_URL}question/${id}/upvote/undo`)
           .then((res) => {
             console.log(res)
           })
@@ -73,7 +73,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           });
         }else if(type === 'answer'){
           //답변투표찬성 취소
-          axios.post(`${REACT_APP_API_URL}questions/${id}/answer/${answerId}/upvote/undo`)
+          axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/upvote/undo`)
           .then((res) => {
             console.log(res)
           })
@@ -102,7 +102,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           });
         }else if(type === 'answer'){
           //답변투표반대
-          axios.post(`${REACT_APP_API_URL}questions/${id}/answer/${answerId}/downvote`)
+          axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/downvote`)
           .then((res) => {
             console.log(res)
           })
@@ -123,7 +123,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           });
         }else if(type === 'answer'){
           //답변투표반대 취소
-          axios.post(`${REACT_APP_API_URL}questions/${id}/answer/${answerId}/downvote/undo`)
+          axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/downvote/undo`)
           .then((res) => {
             console.log(res)
           })

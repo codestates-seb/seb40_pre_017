@@ -65,7 +65,7 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
   return (
     <div className='answerWrap'>
       <div className='answerVote'>
-        <Vote item={answer.voteCount} id={id} answerid={answerId} type={'answer'}/>
+        <Vote item={answer.voteCount} id={id} answerId={answerId} type={'answer'}/>
         <button 
           onClick={handleCheck} 
           className={check ? 'select answerCheck' : 'select'}
