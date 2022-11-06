@@ -7,6 +7,9 @@ import Aside from '../components/js/aside/Aside';
 import Category from '../components/js/category/Category';
 import axios from 'axios';
 
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+axios.defaults.withCredentials = true;
+
 export default function QuestionPage({accessToken, filterData, changeFilterData}) {
 
   const [items, seItems] = useState(null);
@@ -21,7 +24,7 @@ export default function QuestionPage({accessToken, filterData, changeFilterData}
       "filters" : filterData,
       "page" : page
     };
-    axios.get('/api/questions', {
+    axios.get(`${REACT_APP_API_URL}questions`, {
       params : params,
       headers: {
         "ngrok-skip-browser-warning": "69420"

@@ -7,7 +7,7 @@
         width: 164px;
         min-width: 164px;
         background-color: #e8e7e3;
-        @media screen and (max-width: 840px) {
+        @media screen and (max-width: 640px) {
             display: none;
         }
     }
@@ -45,6 +45,7 @@
 
     button{
         font-size: 13px;
+        white-space: nowrap;
         cursor: pointer;
         width: 98px;
         height: 37px;
@@ -70,6 +71,18 @@
     .detailDateValue{
         color: #232629;
         margin: 0px 15px 0px 7px;
+    }
+}
+
+.detailBodyWrap{
+    display: flex;
+    justify-content: space-between;
+}
+
+.detailAside{
+    width: 400px;
+    @media screen and (max-width: 980px) {
+        display: none;
     }
 }
 

@@ -9,9 +9,12 @@ import createdAt from '../components/js/createdAt/CreatedAt';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+
 export default function DetailPage({ accessToken }) {
   axios.defaults.headers.common["Authorization"] = accessToken;
-  
+  axios.defaults.withCredentials = true;
+
   const [item, setItem] = useState(null);
   
   const navigate = useNavigate();
@@ -19,7 +22,7 @@ export default function DetailPage({ accessToken }) {
   let params = useParams();
 
   useEffect(()=>{
-    axios.get(`/api/questions/${params.id}`, {
+    axios.get(`${REACT_APP_API_URL}questions/${params.id}`, {
       headers: {
         "ngrok-skip-browser-warning": "69420"
       }
@@ -70,7 +73,11 @@ export default function DetailPage({ accessToken }) {
           </>
           }
           </div>
+          <div className='detailAside'>
+            <Aside/>
+          </div>
         </div>
+        
     </div>
   </div>
   )

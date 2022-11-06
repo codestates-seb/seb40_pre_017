@@ -7,31 +7,8 @@ import createdAt from '../createdAt/CreatedAt'
 
 export default function Question({item}) {
 
-  // 상세페이지 데이터 GET
-  // const [detailItem, setDetailItem] = useState();
-  
-  // useEffect(()=>{
-  //   axios.get(`/api/questions/${item.question.questionId}`, {
-  //     headers: {
-  //       "ngrok-skip-browser-warning": "69420"
-  //     }
-  //   })
-  //   .then(res => {
-  //     setDetailItem(res.data)
-  //   })
-  //   .catch(err => {
-  //     console.error(err)
-  //   })
-  // }, [item])
+  axios.defaults.withCredentials = true;
 
-  // const navigate = useNavigate();
-  // const clickTitle = () => {
-  //   navigate(`/questions/${item.question.questionId}`, {
-  //     state: {
-  //       item : detailItem
-  //     }
-  //   })
-  // }
   const navigate = useNavigate();
   const clickTitle = () => {
     navigate(`/questions/${item.question.questionId}`)

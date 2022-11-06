@@ -9,15 +9,16 @@ import { useNavigate } from 'react-router-dom'
 
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
-
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 export default function QuestionDetail({item, id, accessToken }) {
   axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.withCredentials = true;
 
   // 삭제
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete the question?") === true) {
-      axios.delete(`/api/questions/${id}`)
+      axios.delete(`${REACT_APP_API_URL}questions/${id}`)
       .then((res) => {
         console.log(res)
         navigate(`/`)
@@ -28,8 +29,6 @@ export default function QuestionDetail({item, id, accessToken }) {
       // navigate('/')
     }
   }
- 
- 
 
   // Edit 데이터 GET
   const navigate = useNavigate();
@@ -51,13 +50,12 @@ export default function QuestionDetail({item, id, accessToken }) {
         <div className='detailBottomWrap'>
           <div className='detailEditWrap'>
             <button>Share</button>
-            {item.member.username === window.localStorage.getItem("member") && 
+            {JSON.parse(window.sessionStorage.getItem("member")) !== null && (item.member.username === JSON.parse(window.sessionStorage.getItem("member")).username && 
             <>
               <button onClick={clickEdit}>Edit</button>
               <button onClick={handleDelete}>Delete</button>
             </>
-            
-            }
+            )}
           </div>
           <Profile item={item.member} time={item.question.createdAt}/>
         </div>

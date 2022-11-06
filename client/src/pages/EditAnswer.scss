@@ -1,7 +1,14 @@
 .editAnswerWrap{
-    margin-top: 50px;
-    margin-bottom: 72px;
-    min-width: 800px;
+    display: flex;
+    max-width: 1264px;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.editAnswerMain{
+    margin: 50px 23px 72px 23px;
+    // min-width: 800px;
+    width: 100%;
 
     h2{
         font-size: 21px;
@@ -31,5 +38,25 @@
     }
     .cancel:hover{
         color:  #0A95FF;
+    }
+}
+
+.editAnswerNavbar{
+    border-right: 1px solid #E3E6E8;
+    position: relative;
+    width: 164px;
+    min-width: 164px;
+    @media screen and (max-width: 640px) {
+        display: none;
+    }
+}
+
+.editAnswerAside{
+    padding-top: 110px;
+    width: 300px;
+    min-width: 300px;
+    margin-right: 10px;
+    @media screen and (max-width: 980px) {
+        display: none;
     }
 }

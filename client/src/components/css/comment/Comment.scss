@@ -16,6 +16,7 @@
     margin-left: 4px;
     color: #3A93D7;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .commentName:hover {
@@ -25,4 +26,5 @@
 .commentTime {
     margin-left: 4px;
     color: #9199A1;
+    white-space: nowrap;
 }

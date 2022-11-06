@@ -9,14 +9,16 @@ import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import axios from 'axios'
 // import { fetchCreate, fetchDelete } from '../../../util/api'
 
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+
 export default function Answer({answer, id, answerId, item, accessToken}) {
   axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.withCredentials = true;
 
   // 답변 삭제
   const handleDelete = () => {
     // api DELETE
-    // /question/{id}/answer/{answer-id}
-    axios.delete(`/api/question/${item.question.questionId}/answer/${answerId}`)
+    axios.delete(`${REACT_APP_API_URL}question/${item.question.questionId}/answer/${answerId}`)
     .then((res) => {
       console.log(res)
     })
@@ -29,8 +31,7 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
   const [ check, setCheck ] = useState(false);
   const handleCheck = () => {
     if(!check){
-      // fetchCreate(`/question/${id}/answer/${answerId}/accept`)
-      axios.post(`/api/question/${id}/answer/${answerId}/accept`)
+      axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/accept`)
       .then((res) => {
         console.log(res)
       })
@@ -39,8 +40,7 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
       });
       setCheck(true);
     }else{
-      // fetchCreate(`/question/${id}/answer/${answerId}/accept/undo`)
-      axios.post(`/api/question/${id}/answer/${answerId}/accept/undo`)
+      axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/accept/undo`)
       .then((res) => {
         console.log(res)
       })
@@ -77,12 +77,12 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
         <div className='detailBottomWrap'>
           <div className='detailEditWrap'>
             <button>Share</button>
-            {answer.answerMember.username === window.localStorage.getItem("member") &&
+            {JSON.parse(window.sessionStorage.getItem("member")) !== null && (answer.answerMember.username === JSON.parse(window.sessionStorage.getItem("member")).username &&
               <>
                 <button onClick={clickEdit}>Edit</button>
                 <button onClick={handleDelete}>Delete</button>
               </>
-            }
+            )}
           </div>
           <ProfileAnswer item={answer} time={answer.createdAt}/>
         </div>
