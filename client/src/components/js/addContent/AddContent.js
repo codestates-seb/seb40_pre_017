@@ -6,6 +6,8 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+
 export default function AddContent({content, appearNext, contentInput, setNextContentDis, type, setContentGuide}) {
 
 

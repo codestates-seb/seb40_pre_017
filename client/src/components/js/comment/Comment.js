@@ -2,13 +2,15 @@ import axios from 'axios';
 import React from 'react'
 import '../../css/comment/Comment.scss'
 import createdAt from '../createdAt/CreatedAt';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 export default function Comment({id, content, setEditClick, type, setEditValue, setCommentId, accessToken, answerId}) {
   let params  = useParams();
+  const location = useLocation();
 
+  let navigate = useNavigate();
   axios.defaults.headers.common["Authorization"] = accessToken;
   axios.defaults.withCredentials = true;
 
@@ -34,7 +36,8 @@ export default function Comment({id, content, setEditClick, type, setEditValue, 
         axios.delete(`${REACT_APP_API_URL}question/${id}/comments/${content.questionCommentId}`)
         .then((res) => {
           if(res.status === 200) {
-            window.location.href = `/questions/${params.id}`;
+            sessionStorage.setItem("redirect", location.pathname + location.search);
+            navigate(`/dummy`)
           }
         })
         .catch(error => {
