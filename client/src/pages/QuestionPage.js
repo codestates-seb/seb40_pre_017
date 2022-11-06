@@ -37,7 +37,7 @@ export default function QuestionPage({accessToken, filterData, changeFilterData}
     .catch(err => {
       console.error(err)
     })
-  }, [filterData, page, pageInfo])
+  }, [filterData, page])
   
   const createQuestion = () => {
     if(accessToken) {
