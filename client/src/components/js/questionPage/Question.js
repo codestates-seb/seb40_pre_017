@@ -3,32 +3,38 @@ import '../../css/questionPage/Question.scss'
 import { useNavigate } from 'react-router-dom'
 import Tags from '../tags/Tags'
 import axios from 'axios'
+import createdAt from '../createdAt/CreatedAt'
 
 export default function Question({item}) {
-  
-  // 상세페이지 데이터 GET
-  const [detailItem, setDetailItem] = useState();
-  useEffect(()=>{
-    axios.get(`/api/questions/${item.question.questionId}`, {
-      headers: {
-        "ngrok-skip-browser-warning": "69420"
-      }
-    })
-    .then(res => {
-      setDetailItem(res.data)
-    })
-    .catch(err => {
-      console.error(err)
-    })
-  }, [item])
 
+  // 상세페이지 데이터 GET
+  // const [detailItem, setDetailItem] = useState();
+  
+  // useEffect(()=>{
+  //   axios.get(`/api/questions/${item.question.questionId}`, {
+  //     headers: {
+  //       "ngrok-skip-browser-warning": "69420"
+  //     }
+  //   })
+  //   .then(res => {
+  //     setDetailItem(res.data)
+  //   })
+  //   .catch(err => {
+  //     console.error(err)
+  //   })
+  // }, [item])
+
+  // const navigate = useNavigate();
+  // const clickTitle = () => {
+  //   navigate(`/questions/${item.question.questionId}`, {
+  //     state: {
+  //       item : detailItem
+  //     }
+  //   })
+  // }
   const navigate = useNavigate();
   const clickTitle = () => {
-    navigate(`/questions/${item.question.questionId}`, {
-      state: {
-        item : detailItem
-      }
-    })
+    navigate(`/questions/${item.question.questionId}`)
   }
 
   return (
@@ -48,7 +54,7 @@ export default function Question({item}) {
       <div className='questionList_profile'>
             <img className='pic' src={item.member.profileImage} alt='profile'/>
             <p>{item.member.username}</p>
-            <p>{item.question.createdAt}</p>
+            <p>{createdAt(item.question.createdAt)}</p>
         </div>
     </div>
   )

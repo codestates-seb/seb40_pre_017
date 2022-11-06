@@ -1,6 +1,8 @@
 package com.backend.global.error;
 
 import com.backend.global.error.exception.ErrorCode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.BindingResult;
@@ -75,5 +77,6 @@ public class ErrorResponse {
                     .collect(Collectors.toList());
         }
     }
+
 
 }

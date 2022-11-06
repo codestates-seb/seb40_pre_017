@@ -1,20 +1,40 @@
 package com.backend.domain.vote.dao;
 
 
+import com.backend.domain.vote.domain.AnswerDownVote;
 import com.backend.domain.vote.domain.AnswerUpVote;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface AnswerUpVoteRepository extends JpaRepository<AnswerUpVote, Long> {
-    @Modifying(clearAutomatically = true)
-    @Query(value = "INSERT INTO Answer_Up_Vote(answer_Id, member_Id, created_at) VALUES(:answerId, :memberId, now())", nativeQuery = true)
-    void up(Long answerId, Long memberId);
+import javax.persistence.EntityManager;
 
-    @Modifying(clearAutomatically = true)
-    @Query(value = "DELETE FROM Answer_Up_Vote WHERE answer_Id = :answerId AND member_Id = :memberId", nativeQuery = true)
-    int undoUp(Long answerId, Long memberId);
+import static com.backend.domain.vote.domain.QAnswerUpVote.answerUpVote;
+
+@RequiredArgsConstructor
+@Slf4j
+@Repository
+public class AnswerUpVoteRepository {
+
+    private final JPAQueryFactory jpaQueryFactory;
+    private final EntityManager em;
+
+    public Long undoUp(Long answerId, Long memberId) {
+
+        return jpaQueryFactory.delete(answerUpVote)
+                .where(answerUpVote.answer.id.eq(answerId)
+                        .and(answerUpVote.member.id.eq(memberId))
+                ).execute();
+    }
+
+    public void up(AnswerUpVote answerUpVote) {
+
+        em.persist(answerUpVote);
+    }
+
+
+
 
 }
+

@@ -56,7 +56,7 @@ public class AnswerVoteController {
             @PathVariable("answer-id") @Positive Long answerId,
             @AuthenticationPrincipal AuthMember authMember) {
 
-        answerVoteService.undoDown(answerId, authMember.getMemberId());
+        answerVoteService.undoDown(answerId,authMember.getMemberId());
 
         return ResponseEntity.ok(answerId);
     }

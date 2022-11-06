@@ -12,8 +12,6 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class QuestionTag {
-    // 질문 A  - > TAG A TAG B
-    // TAG A -> 질문 A, 질문 B
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

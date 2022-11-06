@@ -1,17 +1,42 @@
 package com.backend.domain.vote.dao;
 
+
+import com.backend.domain.vote.domain.AnswerDownVote;
 import com.backend.domain.vote.domain.QuestionDownVote;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
-public interface QuestionDownVoteRepository extends JpaRepository<QuestionDownVote, Long> {
+import javax.persistence.EntityManager;
 
-    @Modifying(clearAutomatically = true)
-    @Query(value = "INSERT INTO Question_Down_Vote(question_Id, member_Id,created_at) VALUES(:questionId, :memberId, now())", nativeQuery = true)
-    void down(Long questionId, Long memberId);
+import static com.backend.domain.vote.domain.QQuestionDownVote.questionDownVote;
 
-    @Modifying(clearAutomatically = true)
-    @Query(value = "DELETE FROM Question_Down_Vote WHERE question_Id = :questionId AND member_Id = :memberId", nativeQuery = true)
-    int undoDown(Long questionId, Long memberId);
+@RequiredArgsConstructor
+@Slf4j
+@Repository
+public class QuestionDownVoteRepository {
+
+    private final JPAQueryFactory jpaQueryFactory;
+    private final EntityManager em;
+
+
+
+    public Long undoDown(Long questionId, Long memberId) {
+
+        return jpaQueryFactory.delete(questionDownVote)
+                .where(questionDownVote.question.id.eq(questionId)
+                        .and(questionDownVote.member.id.eq(memberId))
+                ).execute();
+    }
+
+    public void down(QuestionDownVote questionDownVote) {
+
+        em.persist(questionDownVote);
+    }
+
+
+
+
 }
+

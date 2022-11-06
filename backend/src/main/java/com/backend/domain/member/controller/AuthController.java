@@ -1,12 +1,9 @@
 package com.backend.domain.member.controller;
 
-import com.backend.domain.member.dto.MemberResponse;
 import com.backend.domain.member.dto.ReissueResponse;
 import com.backend.domain.member.dto.SignUpRequest;
 import com.backend.domain.member.service.AuthService;
-import com.backend.domain.refreshtoken.exception.TokenNotFound;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -24,7 +21,7 @@ public class AuthController {
 
     // 회원가입
     @PostMapping()
-    public ResponseEntity<Long> signup(@RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<?> signup(@RequestBody SignUpRequest signUpRequest) {
 
         authService.signup(signUpRequest);
 
@@ -53,5 +50,3 @@ public class AuthController {
     }
 
 }
-
-

@@ -15,9 +15,10 @@ public class TagService {
 
     /* 태그가 db에 존재하지 않아야 등록 */
     public Tag addTag(TagDto tagDto){
+
         Tag tag = tagDto.toEntity();
 
-        if(!isTagExist(tag)){
+        if(!isTagExist(tag)) {
             return tagRepository.save(tag);
         }
 

@@ -2,7 +2,9 @@ package com.backend.domain.vote.domain;
 
 import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.member.domain.Member;
+import com.backend.global.Audit.Auditable;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +22,7 @@ import java.time.LocalDateTime;
                 )
         }
 )
-public class AnswerDownVote  {
+public class AnswerDownVote extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vote_id", nullable = false)
@@ -35,12 +37,17 @@ public class AnswerDownVote  {
     @JoinColumn(name = "answer_id")
     private Answer answer;
 
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    public void createDate() {
-        this.createdAt = LocalDateTime.now();
+@Builder
+    public AnswerDownVote(Member member, Answer answer) {
+        this.member = member;
+        this.answer = answer;
     }
 
+    public static AnswerDownVote toEntity(Answer answer, Member member) {
+        return  AnswerDownVote.builder()
+                .answer(answer)
+                .member(member)
+                .build();
+
+    }
 }

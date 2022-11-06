@@ -1,5 +1,6 @@
 package com.backend.domain.question.service;
 
+import com.backend.domain.answer.dao.QueryAnswerRepository;
 import com.backend.domain.answer.domain.Answer;
 import com.backend.domain.answer.dto.ComplexAnswerResponse;
 import com.backend.domain.comment.dto.SimpleAnswerCommentResponse;
@@ -21,12 +22,15 @@ import com.backend.domain.question.exception.TitleDuplication;
 import com.backend.domain.question.repository.QuestionRepository;
 import com.backend.domain.tag.domain.Tag;
 import com.backend.domain.tag.dto.TagDto;
+import com.backend.domain.tag.repository.QueryTagRepository;
 import com.backend.domain.tag.service.TagService;
 import com.backend.global.dto.Response.MultiResponse;
 import com.backend.global.dto.request.PageRequest;
 import com.querydsl.core.Tuple;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +50,8 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final TagService tagService;
     private final MemberRepository memberRepository;
+    private final QueryTagRepository queryTagRepository;
+    private final QueryAnswerRepository queryAnswerRepository;
 
     /**
      * 1. dto에서 태그를 가져온다.
@@ -81,8 +87,8 @@ public class QuestionService {
 
         Question question = questions.stream().findAny().orElseThrow(QuestionNotFound::new);
         question.hit();
-        List<String> tagsOfQuestion = questionRepository.findTagsOfQuestion(id);
-        List<Answer> answersWithAnswerComment = questionRepository.findAnswersWithAnswerComment(id);
+        List<String> tagsOfQuestion = queryTagRepository.findTagsOfQuestion(id);
+        List<Answer> answersWithAnswerComment = queryAnswerRepository.findAnswersWithAnswerComment(id);
 
 
 
@@ -97,11 +103,7 @@ public class QuestionService {
                                 .collect(toList())))
                 .collect(toList());
 
-
-        DetailQuestionResponse detailQuestionResponse = DetailQuestionResponse.of(question, complexAnswerResponses, questionCommentResponses, tagsOfQuestion);
-
-
-        return detailQuestionResponse;
+        return DetailQuestionResponse.of(question, complexAnswerResponses, questionCommentResponses, tagsOfQuestion);
     }
 
 
@@ -113,12 +115,13 @@ public class QuestionService {
 
 //        log.info("questionFindLIst= {}", questionRepository.findList(pageable).size());
 
-        List<Tuple> questionTags = questionRepository.PageFindQuestionTags(pageable);
+        List<Tuple> questionTags = queryTagRepository.pageFindQuestionTags(pageable);
 
         Map<Long, List<String>> questionTagMap = questionTags.stream().collect(
                 groupingBy(tuple -> tuple.get(question.id),
                         mapping(tuple -> tuple.get(tag.name), toList())));
 
+        Long total = questionRepository.pagingCount(pageable);
 
         PageImpl<QuestionResponse> questionResponses = new PageImpl<>(questionRepository.findList(pageable)
                 .stream()
@@ -129,7 +132,7 @@ public class QuestionService {
                                 .tags(questionTagMap.get(questionTuple.get(question).getId()))
                                 .build()
                 )
-                .collect(toList()), pageable.of(), questionRepository.getCount());
+                .collect(toList()), pageable.of(), total);
 
 
         return MultiResponse.of(questionResponses);

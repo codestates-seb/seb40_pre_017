@@ -6,11 +6,13 @@ import Pagination from '../components/js/questionPage/Pagination';
 import Aside from '../components/js/aside/Aside';
 import Category from '../components/js/category/Category';
 import axios from 'axios';
+import NoSearch from '../components/js/noSearch/NoSearch';
 
+export default function SearchPage({inputData}) {
 
-export default function SearchPage({inputData, changeFilterData}) {
-
-  const [items, seItems] = useState(null);;
+  const [items, seItems] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pageInfo, setPageInfo] = useState();
 
   useEffect(()=>{
     // let params = {
@@ -34,7 +36,7 @@ export default function SearchPage({inputData, changeFilterData}) {
     // })
     let params = {
       "q": inputData,
-      "page": 1
+      "page": page
     };
     
     let query = Object.keys(params)
@@ -50,14 +52,14 @@ export default function SearchPage({inputData, changeFilterData}) {
       }),
     })
     .then((res) => {
-      console.log(res)
       return res.json()
     })
     .then((resData) => {
-      console.log(resData.items)
+      console.log(resData)
       seItems(resData.items)
+      setPageInfo(resData.pageInfo)
     })
-  }, [inputData])
+  }, [inputData, page])
 
 
 
@@ -66,7 +68,7 @@ export default function SearchPage({inputData, changeFilterData}) {
   if(items){
     count = items.length;
   }
-
+  console.log(items)
   return (
     <div className='questionPageWrap'>
       <div className='questionPageNavbar'>
@@ -74,7 +76,7 @@ export default function SearchPage({inputData, changeFilterData}) {
       </div>
       <div className='questionPage'>
         <div className='headAddWrap'>
-          <h1>All Questions</h1>
+          <h1>Search Results</h1>
           <Link to={'/add'}>
             <button>Ask Question</button>
           </Link>
@@ -82,8 +84,8 @@ export default function SearchPage({inputData, changeFilterData}) {
         <div className='countFilterWrap'>
           <span>{count} question</span>
         </div>
-        <QuestionList items={items}/>
-        <Pagination/>
+        {!items ? <NoSearch /> : <QuestionList items={items}/>}
+        {pageInfo && <Pagination page={page} setPage={setPage} pageInfo={pageInfo}/>}
       </div>
       <div className='questionPageAside'>
         <Aside />
