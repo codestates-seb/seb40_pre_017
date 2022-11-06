@@ -52,15 +52,24 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
           disabled={handledisabled}
           hooks={{
             addImageBlobHook: async (blob, callback) => {
-                console.log(blob);
-                const imgUrl = await axios.post(`${REACT_APP_API_URL}questions/uploadImage`)
+                const formData = new FormData();
+                formData.append('img', blob);
+                for (let pair of formData.entries()) {
+                  console.log(pair[0]+ ', ' + pair[1]); 
+              }
+                await axios.post(`${REACT_APP_API_URL}questions/uploadImage`, {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+                body: formData
+                })
                 .then((res) => {
                   console.log(res.data)
                 })
                 .catch(error => {
                   console.log(error.response);
                 });
-                callback('get경로', '이미지이름');
+                callback(`${REACT_APP_API_URL}questions/uploadImage`, '이미지이름');
               }
             }}
         />
