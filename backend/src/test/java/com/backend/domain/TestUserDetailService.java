@@ -35,4 +35,11 @@ public class TestUserDetailService implements UserDetailsService {
         }
         return null;
     }
+
+    public UserDetails loadUserByUsername(String username,Member member) throws UsernameNotFoundException {
+        if (username.equals(UserName)) {
+            return AuthMember.of(member);
+        }
+        return null;
+    }
 }
