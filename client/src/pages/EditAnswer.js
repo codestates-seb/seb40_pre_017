@@ -31,7 +31,7 @@ export default function EditAnswer({accessToken}) {
         .then((res) => {
             // navigate(`/questions/${item.question.questionId}`)
             // window.location.replace(`/questions/${item.question.questionId}`)
-            sessionStorage.setItem("redirect", location.pathname + location.search);
+            sessionStorage.setItem("redirect", `/questions/${item.question.questionId}`);
             navigate(`/dummy`)
         })
         .catch(error => {
