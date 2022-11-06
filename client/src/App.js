@@ -12,7 +12,7 @@ import EditQuestion from './pages/EditQuestion';
 import EditAnswer from './pages/EditAnswer';
 import SearchPage from './pages/SearchPage';
 
-// json-server --watch data.json --port 3001
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 function App() {
   const navigate = useNavigate();
@@ -21,37 +21,38 @@ function App() {
   const [filterData, setFilterData] = useState("NoAnswer");
   
   const [islogined, setIslogined] = useState(false);
-  const [memberData, setMemberData] = useState({
-    email: '',
-    username: '',
-    imageUrl: "https://i.imgur.com/GvsgVco.jpeg"
-  });
-  const [accessToken, setAccessToken] = useState(null);
+
+  const [memberData, setMemberData] = useState(JSON.parse(window.sessionStorage.getItem("member")));
+  const [accessToken, setAccessToken] = useState(window.sessionStorage.getItem("jwtToken"));
 
   useEffect(() => {
-    if(!(islogined && accessToken)){
+    if(!(accessToken && memberData)){  
       console.log('reload')
-      window.localStorage.removeItem("member");        
-      fetch('/api/users/reissue',{
+      fetch(`${REACT_APP_API_URL}users/reissue`,{
         method: "GET",
+        credentials: 'include'
       })
       .then((res) => {
         let jwtToken = res.headers.get("Authorization");
         setAccessToken(jwtToken);
         if(jwtToken) {
           setIslogined(true);
+          window.sessionStorage.setItem("jwtToken", jwtToken);
         }
         return res.json()
       })
       .then((data) => {
         if(data.status !== 400) {
           setMemberData(data);
-          localStorage.setItem("member", data.username);
+          window.sessionStorage.setItem("member", JSON.stringify(data));
         }
       })
       .catch((err) => {
         console.log(err)
-      });
+      })
+
+    }else{
+      setIslogined(true)
     }
   }, [])
 
@@ -71,18 +72,14 @@ function App() {
   }
 
   const logoutControll = () => {
-    fetch('/api/users/logout',{
+    fetch(`${REACT_APP_API_URL}users/logout`,{
       method: "DELETE",
-      headers: new Headers({
-        "ngrok-skip-browser-warning": "69420"
-      })
+      credentials: 'include'
     })
     .then((res) => {
-      setMemberData(null);
-      setAccessToken(null);
       setIslogined(false);
-      window.localStorage.removeItem("member");        
-
+      window.sessionStorage.removeItem("member");        
+      window.sessionStorage.removeItem("jwtToken");        
       alert("Logout Success!!");
       window.location.href = "/";
     })

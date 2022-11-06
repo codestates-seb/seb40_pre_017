@@ -8,6 +8,9 @@ import Category from '../components/js/category/Category';
 import axios from 'axios';
 import NoSearch from '../components/js/noSearch/NoSearch';
 
+axios.defaults.withCredentials = true;
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+
 export default function SearchPage({inputData}) {
 
   const [items, seItems] = useState(null);
@@ -15,25 +18,6 @@ export default function SearchPage({inputData}) {
   const [pageInfo, setPageInfo] = useState();
 
   useEffect(()=>{
-    // let params = {
-    //   "q" : inputData,
-    //   "page" : 1
-    // };
-    // console.log(params)
-
-    // axios.get('/api/search', {
-    //   params : params,
-    //   headers: {
-    //     "ngrok-skip-browser-warning": "69420"
-    //   }
-    // })
-    // .then(res => {
-    //   console.log(res.data.items)
-    //   seItems(res.data.items)
-    // })
-    // .catch(err => {
-    //   console.error(err)
-    // })
     let params = {
       "q": inputData,
       "page": page
@@ -43,13 +27,11 @@ export default function SearchPage({inputData}) {
     .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
     .join('&');
     
-    let url = '/api/search?' + query;
+    let url = `${REACT_APP_API_URL}search?` + query;
 
     fetch(url, {
       method: "GET",
-      headers: new Headers({
-        "ngrok-skip-browser-warning": "69420",
-      }),
+      credentials: 'include'
     })
     .then((res) => {
       return res.json()

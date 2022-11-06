@@ -5,6 +5,7 @@ import AddContent from '../addContent/AddContent';
 import axios from 'axios'
 import { useNavigate, useLocation } from 'react-router-dom'
 
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 export default function AnswerList({item, accessToken}) {
 
@@ -12,6 +13,7 @@ export default function AnswerList({item, accessToken}) {
   const location = useLocation();
   
   axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.withCredentials = true;
 
   let count = 0;
   if(item.answers !== []){
@@ -28,7 +30,7 @@ export default function AnswerList({item, accessToken}) {
     if(accessToken) {
       // data 생성 & POST (Api)
       let data = { content: contentInput.current.getInstance().getMarkdown() }
-      axios.post(`/api/question/${item.question.questionId}/answer`, data)
+      axios.post(`${REACT_APP_API_URL}question/${item.question.questionId}/answer`, data)
       .then((res) => {
         console.log(res.data)
         // window.location.reload();

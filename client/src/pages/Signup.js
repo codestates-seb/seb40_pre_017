@@ -15,6 +15,7 @@ let content = ["Log in with Google", "Log in with Github", "Log in with Facebook
 let emailExptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
 let passwordExptext = /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/;
 
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -39,13 +40,10 @@ export default function Signup() {
     }
 
     if(!error){
-      fetch("/api/users", {
+      fetch(`${REACT_APP_API_URL}users`, {
         method: "POST",
-        headers: new Headers({
-          "ngrok-skip-browser-warning": "69420",
-          "Content-Type" : "application/json"
-        }),
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
+        credentials: 'include'
       })
       .then((res) => {
         if(res.status === 201) {

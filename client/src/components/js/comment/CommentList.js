@@ -4,13 +4,15 @@ import '../../css/comment/CommentList.scss'
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+
 export default function CommentList({item, id, answerId, type, accessToken}) {
 
   let params  = useParams();
-  const navigate = useNavigate();
-
 
   axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.withCredentials = true;
+
   const [clickAdd, setClickAdd] = useState(false);
   const [editValue, setEditValue] = useState('');
   const [commentId, setCommentId] = useState('');
@@ -37,7 +39,7 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
   const handleSubmit = () => {
     
     if(type === 'question'){    
-      axios.post(`/api/question/${id}/comments`, data)
+      axios.post(`${REACT_APP_API_URL}question/${id}/comments`, data)
       .then((res) => {
         if(res.status === 201) {
           console.log(res)
@@ -47,9 +49,8 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       .catch(error => {
         alert(error.response.data.errors[0].reason);
       });
-      // /question/{id}/answer/{answer-id}/comments
     }else if(type === 'answer'){
-      axios.post(`/api/question/${id}/answer/${answerId}/comments`, data)
+      axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/comments`, data)
       .then((res) => {
         if(res.status === 201) {
           console.log(res)
@@ -61,14 +62,13 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       });
     }
     setClickAdd(false);
-    // window.location.replace(`/questions/${id}`)
   }
 
   //comment Edit
   const [editClick, setEditClick] = useState(false);
   const handleEdit = () => {
     if(type === 'question'){
-      axios.patch(`/api/question/${id}/comments/${commentId}`, data)
+      axios.patch(`${REACT_APP_API_URL}question/${id}/comments/${commentId}`, data)
       .then((res) => {
         if(res.status === 200) {
           window.location.href = `/questions/${params.id}`;
@@ -78,8 +78,7 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
         alert(error.response.data.errors[0].reason);
       });
     }else if( type === 'answer'){
-      // fetchPatch("question/{id}/answer/{answer-id}/comments/{comment-id}")
-      axios.patch(`/api/question/${id}/answer/${answerId}/comments/${commentId}`, data)
+      axios.patch(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/comments/${commentId}`, data)
       .then((res) => {
         if(res.status === 200) {
           window.location.href = `/questions/${params.id}`;
