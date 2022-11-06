@@ -73,7 +73,11 @@ export default function DetailPage({ accessToken }) {
           </>
           }
           </div>
+          <div className='detailAside'>
+            <Aside/>
+          </div>
         </div>
+        
     </div>
   </div>
   )

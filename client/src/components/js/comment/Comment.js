@@ -58,9 +58,9 @@ export default function Comment({id, content, setEditClick, type, setEditValue, 
   }
   return (
     <div className='commentWrap'>
-      <div className='commentContent'>{content.content} -</div>
+      <div className='commentContent'>{content.content}</div>
       <div className='commentName'>{content.userName}</div>
-      <div className='commentTime'>{createdAt(content.createdAt)} ago</div>
+      <div className='commentTime'>{createdAt(content.createdAt)}</div>
       {JSON.parse(window.sessionStorage.getItem("member")) !== null && (content.userName === JSON.parse(window.sessionStorage.getItem("member")).username && 
       <>
         <i className="fa-solid fa-pencil" onClick={clickEdit}></i>
