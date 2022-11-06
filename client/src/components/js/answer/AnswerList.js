@@ -34,7 +34,9 @@ export default function AnswerList({item, accessToken}) {
       .then((res) => {
         console.log(res.data)
         // window.location.reload();
-        window.location.replace(`/questions/${item.question.questionId}`)
+        // window.location.replace(`/questions/${item.question.questionId}`)
+        sessionStorage.setItem("redirect", location.pathname + location.search);
+        navigate(`/dummy`)
       })
       .catch(error => {
         console.log(error.response);
@@ -52,8 +54,8 @@ export default function AnswerList({item, accessToken}) {
         <div className='answerCount'>{count} Answers</div>
         {/* <div>Sorted by:</div> */}
       </div>
-      {item.answers && item.answers.map((answer) => (
-        <div key={answer.answerId}>
+      {item.answers && item.answers.map((answer, idx) => (
+        <div key={idx}>
           <Answer 
             answer={answer} 
             id={item.question.questionId} 

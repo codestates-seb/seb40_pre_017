@@ -15,22 +15,21 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   useEffect(() => {
     axios.get(`${REACT_APP_API_URL}questions/${id}/votes`)
     .then((res) => {
-      console.log(res)
-      // setVoteInfo(res.data)
       voteInfo = res.data;
       if(type === 'question'){
-        console.log(voteInfo.questionUpVote)
-        console.log(voteInfo.questionDownVote)
         if(voteInfo.questionUpVote)setClickUp(true)
         else if(voteInfo.questionDownVote)setClickDown(true)
       }
       else if( type === 'answer'){
         let answerVote = voteInfo.answerVoteStates.filter(el => el.answerId === answerId);
-        if(answerVote.answerUpVote)setClickUp(true)
-        else if(answerVote.answerDownVote)setClickDown(true)
+        if(answerVote[0].answerUpVote){
+          setClickUp(true)
+        }
+        else if(answerVote[0].answerDownVote)setClickDown(true)
       }
     })
     .catch(error => {
+      if(error.status === 404)
       console.log(error.response);
     });
   },[])
@@ -38,19 +37,20 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   // 투표찬성
   const [clickUp, setClickUp] = useState(false);
   const handleUp = () => {
+    console.log(accessToken)
     if(!clickDown){
       if(!clickUp){
         setClickUp(true);
-        if(type === 'question'){
-          //질문투표찬성
-          axios.post(`${REACT_APP_API_URL}question/${id}/upvote`)
-          .then((res) => {
-            console.log(res);
-          })
-          .catch(error => {
-            console.log(error.response);
-          });
-        }else if(type === 'answer'){
+        // if(type === 'question'){
+        //   //질문투표찬성
+        //   axios.post(`${REACT_APP_API_URL}question/${id}/upvote`)
+        //   .then((res) => {
+        //     console.log(res);
+        //   })
+        //   .catch(error => {
+        //     console.log(error.response);
+        //   });
+        // }else if(type === 'answer'){
           //답변투표찬성
           axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/upvote`)
           .then((res) => {
@@ -59,7 +59,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           .catch(error => {
             console.log(error.response);
           });
-        }
+        // }
       }else if(clickUp){
         setClickUp(false);
         if(type === 'question'){
@@ -76,9 +76,11 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/upvote/undo`)
           .then((res) => {
             console.log(res)
+            console.log(accessToken)
           })
           .catch(error => {
             console.log(error.response);
+            console.log(accessToken)
           });
         }
       }

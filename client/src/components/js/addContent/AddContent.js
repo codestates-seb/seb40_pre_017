@@ -10,6 +10,7 @@ axios.defaults.withCredentials = true;
 
 export default function AddContent({content, appearNext, contentInput, setNextContentDis, type, setContentGuide}) {
 
+  const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
   const inputContent = () => {
     if(type !== 'answer'){
@@ -52,8 +53,14 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
           hooks={{
             addImageBlobHook: async (blob, callback) => {
                 console.log(blob);
-                const imgUrl = await axios.post('/api')
-                callback('/api', '이미지');
+                const imgUrl = await axios.post(`${REACT_APP_API_URL}questions/uploadImage`)
+                .then((res) => {
+                  console.log(res.data)
+                })
+                .catch(error => {
+                  console.log(error.response);
+                });
+                callback('get경로', '이미지이름');
               }
             }}
         />

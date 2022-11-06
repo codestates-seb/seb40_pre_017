@@ -26,7 +26,6 @@ export default function QuestionDetail({item, id, accessToken }) {
       .catch(error => {
         console.log(error.response);
       });
-      // navigate('/')
     }
   }
 

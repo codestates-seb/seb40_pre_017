@@ -30,7 +30,9 @@ export default function EditAnswer({accessToken}) {
         axios.patch(`${REACT_APP_API_URL}question/${item.question.questionId}/answer/${answer.answerId}`, data)
         .then((res) => {
             // navigate(`/questions/${item.question.questionId}`)
-            window.location.replace(`/questions/${item.question.questionId}`)
+            // window.location.replace(`/questions/${item.question.questionId}`)
+            sessionStorage.setItem("redirect", location.pathname + location.search);
+            navigate(`/dummy`)
         })
         .catch(error => {
             console.log(error.response);
