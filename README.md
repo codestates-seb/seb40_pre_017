@@ -16,15 +16,14 @@
 ## Stacks
 
 #### Back-end 언어 및 프레임워크
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)<img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://camo.githubusercontent.com/49befa32300e8d3f71282963743f863d1eed0856ff4073fbcff0f25675912db5/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f537072696e672053656375726974792d3644423333463f7374796c653d666f722d7468652d6261646765266c6f676f3d537072696e67205365637572697479266c6f676f436f6c6f723d7768697465">
-<br> <img src="https://camo.githubusercontent.com/ef6c19e247d89935d87fb7ea73b33f638e108fd495b65b5efd9e828bc1f36455/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f537072696e672044617461204a50412d3041424635333f7374796c653d666f722d7468652d6261646765”>![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)<img src=“https://img.shields.io/badge/JWT-d63aff?style=for-the-badge&logo=JSONWebTokens&logoColor=black”>
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white<img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://camo.githubusercontent.com/49befa32300e8d3f71282963743f863d1eed0856ff4073fbcff0f25675912db5/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f537072696e672053656375726974792d3644423333463f7374796c653d666f722d7468652d6261646765266c6f676f3d537072696e67205365637572697479266c6f676f436f6c6f723d7768697465">
+<br> 
+![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)<img src=“https://img.shields.io/badge/JWT-d63aff?style=for-the-badge&logo=JSONWebTokens&logoColor=black”>
 
 
 #### Front-end 언어 및 프레임워크
 
-<img src=“https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white”>
- <img src=“https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white”>
-![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)<img src=“https://img.shields.io/badge/Axios-181717?style=for-the-badge&logo=Axios&logoColor=white”>
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 
 
 #### 배포
