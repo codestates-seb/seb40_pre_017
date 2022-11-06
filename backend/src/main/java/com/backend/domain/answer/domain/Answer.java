@@ -26,7 +26,7 @@ public class Answer extends Auditable {
     @Column(name = "answer_id", nullable = false)
     private Long id;
 
-    @Column(name = "content", nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
 
