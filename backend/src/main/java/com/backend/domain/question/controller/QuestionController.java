@@ -16,8 +16,10 @@ import com.backend.domain.vote.dto.response.VoteStateResponse;
 import com.backend.global.Annotation.CurrentMember;
 import com.backend.global.dto.Response.MultiResponse;
 import com.backend.global.dto.request.PageRequest;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -29,76 +31,79 @@ import javax.validation.Valid;
 @Slf4j
 public class QuestionController {
 
-    private final QuestionService questionService;
-    private final QuestionSearchService questionSearchService;
-    private final VoteService voteService;
+	private final QuestionService questionService;
+	private final QuestionSearchService questionSearchService;
+	private final VoteService voteService;
 
-    @PostMapping("/questions")
-    public ResponseEntity<Long> create(@CurrentMember AuthMember authMember, @Valid @RequestBody QuestionCreate questionCreate) {
+	@PostMapping("/questions")
+	public ResponseEntity<Long> create(@CurrentMember AuthMember authMember,
+		@Valid @RequestBody QuestionCreate questionCreate) {
 
-        Long memberId = authMember.getMemberId();
+		Long memberId = authMember.getMemberId();
 
-        return ResponseEntity.ok(questionService.create(memberId, questionCreate));
-    }
+		return ResponseEntity.ok(questionService.create(memberId, questionCreate));
+	}
 
-    @GetMapping("/questions/{id}")
-    public ResponseEntity<DetailQuestionResponse> get(@PathVariable Long id) {
+	@GetMapping("/questions/{id}")
+	public ResponseEntity<DetailQuestionResponse> get(@PathVariable Long id) {
 
-        return ResponseEntity.ok(questionService.get(id));
-    }
+		return ResponseEntity.ok(questionService.get(id));
+	}
 
-    @GetMapping("/questions")
-    public ResponseEntity<MultiResponse<?>> getList(@ModelAttribute PageRequest pageable) {
-        log.info("page= {}", pageable.getPage());
-        log.info("offset = {}", pageable.getOffset());
-        log.info("size = {}", pageable.getSize());
-        log.info("filters = {}", pageable.getFilterEnums());
-        pageable.filtersToEnum(pageable.getFilters());
+	@GetMapping("/questions")
+	public ResponseEntity<MultiResponse<?>> getList(@ModelAttribute PageRequest pageable) {
 
-        return ResponseEntity.ok(questionService.getList(pageable));
-    }
+		log.info("page= {}", pageable.getPage());
+		log.info("offset = {}", pageable.getOffset());
+		log.info("size = {}", pageable.getSize());
+		log.info("filters = {}", pageable.getFilterEnums());
 
-    @GetMapping("/search")
-    public ResponseEntity<MultiResponse<?>> getSearchList(PageRequest pageable, @ModelAttribute QuestionSearchQuery questionSearchQuery) {
+		pageable.filtersToEnum(pageable.getFilters());
 
-        pageable.filtersToEnum(pageable.getFilters());
-        log.info("questionSearch get q = {}", questionSearchQuery.getQ());
-        QuestionSearch questionSearch = questionSearchQuery.queryParsing(questionSearchQuery.getQ());
-        log.info("questionSearch = {}", questionSearch.getTagNames());
+		return ResponseEntity.ok(questionService.getList(pageable));
+	}
 
-        return ResponseEntity.ok(questionSearchService.getList(pageable, questionSearch));
-    }
+	@GetMapping("/search")
+	public ResponseEntity<MultiResponse<?>> getSearchList(PageRequest pageable,
+		@ModelAttribute QuestionSearchQuery questionSearchQuery) {
 
+		pageable.filtersToEnum(pageable.getFilters());
+		log.info("questionSearch get q = {}", questionSearchQuery.getQ());
 
-    @PatchMapping("questions/{id}")
-    public ResponseEntity<Long> update(@CurrentMember AuthMember authMember, @PathVariable Long id, @Valid @RequestBody QuestionUpdate questionUpdate) {
+		QuestionSearch questionSearch = questionSearchQuery.queryParsing(questionSearchQuery.getQ());
+		log.info("questionSearch = {}", questionSearch.getTagNames());
 
-        Long memberId = authMember.getMemberId();
+		return ResponseEntity.ok(questionSearchService.getList(pageable, questionSearch));
+	}
 
-        return ResponseEntity.ok(questionService.update(memberId, id, questionUpdate));
-    }
+	@PatchMapping("questions/{id}")
+	public ResponseEntity<Long> update(@CurrentMember AuthMember authMember, @PathVariable Long id,
+		@Valid @RequestBody QuestionUpdate questionUpdate) {
 
-    @DeleteMapping("questions/{id}")
-    public ResponseEntity<Long> delete(@CurrentMember AuthMember authMember, @PathVariable Long id) {
+		Long memberId = authMember.getMemberId();
 
-        Long memberId = authMember.getMemberId();
+		return ResponseEntity.ok(questionService.update(memberId, id, questionUpdate));
+	}
 
-        return ResponseEntity.ok(questionService.delete(memberId, id));
-    }
+	@DeleteMapping("questions/{id}")
+	public ResponseEntity<Long> delete(@CurrentMember AuthMember authMember, @PathVariable Long id) {
 
-    @GetMapping("questions/{id}/votes")
-    public ResponseEntity<VoteStateResponse> getVotes(@CurrentMember AuthMember authMember, @PathVariable Long id) {
+		Long memberId = authMember.getMemberId();
 
-        if(Objects.isNull(authMember)){
-            return ResponseEntity.ok().build();
-        }
+		return ResponseEntity.ok(questionService.delete(memberId, id));
+	}
 
-        Long memberId = authMember.getMemberId();
-        VoteStateResponse votes = voteService.getVotes(memberId, id);
+	@GetMapping("questions/{id}/votes")
+	public ResponseEntity<VoteStateResponse> getVotes(@CurrentMember AuthMember authMember, @PathVariable Long id) {
 
-        return ResponseEntity.ok(votes);
-    }
+		if (Objects.isNull(authMember)) {
+			return ResponseEntity.ok().build();
+		}
 
+		Long memberId = authMember.getMemberId();
+		VoteStateResponse votes = voteService.getVotes(memberId, id);
 
+		return ResponseEntity.ok(votes);
+	}
 
 }
