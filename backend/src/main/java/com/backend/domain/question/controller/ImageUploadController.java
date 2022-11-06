@@ -22,10 +22,10 @@ public class ImageUploadController {
 
 	@PostMapping("/questions/uploadImage")
 	public String saveImage(UploadImageRequest uploadImageRequest){
+
 		log.info("upload Image = {} ", uploadImageRequest.getImg());
 
 		return awsS3Service.StoreImage(uploadImageRequest.getImg());
-
 	}
 
 }

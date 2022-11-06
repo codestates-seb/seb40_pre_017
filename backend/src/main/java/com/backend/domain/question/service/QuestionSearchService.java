@@ -1,13 +1,13 @@
 package com.backend.domain.question.service;
 
 import com.backend.domain.member.dto.MemberResponse;
-import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.question.dto.request.QuestionSearch;
 import com.backend.domain.question.dto.response.QuestionResponse;
 import com.backend.domain.question.dto.response.SimpleQuestionResponse;
 import com.backend.domain.question.repository.QuestionRepository;
 import com.backend.domain.tag.exception.ContainsNotExistentTags;
 
+import com.backend.domain.tag.repository.QueryTagRepository;
 import com.backend.global.dto.Response.MultiResponse;
 import com.backend.global.dto.request.PageRequest;
 import com.querydsl.core.Tuple;
@@ -35,6 +35,7 @@ import static java.util.stream.Collectors.toList;
 public class QuestionSearchService {
 
 	private final QuestionRepository questionRepository;
+	private final QueryTagRepository queryTagRepository;
 
 
 	/**
@@ -43,24 +44,27 @@ public class QuestionSearchService {
 	 */
 	public MultiResponse<?> getList(PageRequest pageable, QuestionSearch questionSearch) {
 
-		//        log.info("questionFindLIst= {}", questionRepository.findList(pageable,questionSearch).size());
+
 		/* 키워드랑 태그가 달린 게시글 번호 가져오기*/
-		List<Long> tagIds = questionRepository.findByTagNames(questionSearch.getTagNames());
+		List<Long> tagIds = queryTagRepository.findByTagNames(questionSearch.getTagNames());
 
 		if (questionSearch.getTagNames().size() != tagIds.size()) {
 			throw new ContainsNotExistentTags();
 		}
 
-		List<Long> questionIdHasKeywordAndTag = questionRepository.findQuestionIdBySearch(questionSearch, tagIds);
-		log.info("questionIdHasKeywordAndTag={}", questionIdHasKeywordAndTag);
+		List<Long> questionIdHasKeywordAndTag = queryTagRepository.findQuestionIdBySearch(questionSearch, tagIds);
+
+		log.info("검색 조건에 맞는 질문 아이디={}", questionIdHasKeywordAndTag);
 
 		/* 저 번호로 싹다 가져와서 페이징 */
-		List<Tuple> questionTags = questionRepository.PageFindQuestionTags(pageable, questionSearch,
+		List<Tuple> questionTags = queryTagRepository.pageFindQuestionTags(pageable, questionSearch,
 			questionIdHasKeywordAndTag);
 
 		Map<Long, List<String>> questionTagMap = questionTags.stream().collect(
 			groupingBy(tuple -> tuple.get(question.id),
 				mapping(tuple -> tuple.get(tag.name), toList())));
+
+		Long total = questionRepository.searchPagingCount(pageable, questionSearch, questionIdHasKeywordAndTag);
 
 		PageImpl<QuestionResponse> questionResponses = new PageImpl<>(
 			questionRepository.findList(pageable, questionSearch, questionIdHasKeywordAndTag)
@@ -74,9 +78,9 @@ public class QuestionSearchService {
 						.tags(questionTagMap.get(questionTuple.get(question).getId()))
 						.build()
 				)
-				.collect(toList()), pageable.of(), questionRepository.getCount());
+				.collect(toList()), pageable.of(), total);
 
-		log.info("getCount = {}", questionRepository.getCount());
+		log.info("total = {}", total);
 
 		return MultiResponse.of(questionResponses);
 	}

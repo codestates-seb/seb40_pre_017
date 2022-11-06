@@ -36,7 +36,6 @@ public class AwsS3Service implements ImageUploadService {
 		ObjectMetadata objectMetadata = new ObjectMetadata();
 		objectMetadata.setContentType(img.getContentType());
 
-
 		try (InputStream inputStream = img.getInputStream()) {
 			amazonS3.putObject(new PutObjectRequest(bucketName, storeFileName, inputStream, objectMetadata)
 				.withCannedAcl(CannedAccessControlList.PublicRead));
@@ -46,7 +45,6 @@ public class AwsS3Service implements ImageUploadService {
 		}
 
 		return amazonS3.getUrl(bucketName, storeFileName).toString();
-
 	}
 
 	private void validateFileExists(MultipartFile multipartFile) {
