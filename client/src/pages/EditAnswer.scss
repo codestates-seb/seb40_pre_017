@@ -1,6 +1,10 @@
 .editAnswerWrap{
-    margin-top: 50px;
-    margin-bottom: 72px;
+    display: flex;
+    max-width: 1264px;
+}
+
+.editAnswerMain{
+    margin: 50px 23px 72px 23px;
     min-width: 800px;
 
     h2{
@@ -31,5 +35,24 @@
     }
     .cancel:hover{
         color:  #0A95FF;
+    }
+}
+
+.editAnswerNavbar{
+    border-right: 1px solid #E3E6E8;
+    position: relative;
+    width: 164px;
+    min-width: 164px;
+    @media screen and (max-width: 640px) {
+        display: none;
+    }
+}
+
+.editAnswerAside{
+    padding-top: 110px;
+    width: 300px;
+    min-width: 300px;
+    @media screen and (max-width: 1350px) {
+        display: none;
     }
 }

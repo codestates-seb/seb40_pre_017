@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useRef } from 'react'
 import { Link, useLocation,  useNavigate,  useParams } from 'react-router-dom'
 import AddContent from '../components/js/addContent/AddContent';
+import EditAside from '../components/js/aside/EditAside';
+import Category from '../components/js/category/Category';
 import './EditAnswer.scss'
 
 export default function EditAnswer({accessToken}) {
@@ -34,16 +36,20 @@ export default function EditAnswer({accessToken}) {
 
   return (
     <div className='editAnswerWrap'>
-        <h2>Answer</h2>
-        <AddContent 
-        content={content}
-        // setContent={setContent} 
-        contentInput={contentInput} 
-        />
-        <button onClick={handleEdit} className='saveEdit'>Save Edits</button>
-        <Link to={`/questions/${params.id}`}>
-            <button className='cancel'>Cancel</button>
-        </Link>
+        <div className='editAnswerNavbar'><Category/></div>
+        <div className='editAnswerMain'>
+            <h2>Answer</h2>
+            <AddContent 
+            content={content}
+            // setContent={setContent} 
+            contentInput={contentInput} 
+            />
+            <button onClick={handleEdit} className='saveEdit'>Save Edits</button>
+            <Link to={`/questions/${params.id}`}>
+                <button className='cancel'>Cancel</button>
+            </Link>
+        </div>
+        <div className='editAnswerAside'><EditAside/></div>
     </div>
     )
 }

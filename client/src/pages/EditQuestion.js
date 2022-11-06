@@ -6,6 +6,7 @@ import './EditQuestion.scss'
 import Category from '../components/js/category/Category';
 import Aside from '../components/js/aside/Aside';
 import axios from 'axios';
+import EditAside from '../components/js/aside/EditAside';
 
 export default function EditQuestion({accessToken}) {
   axios.defaults.headers.common["Authorization"] = accessToken;
@@ -61,7 +62,7 @@ export default function EditQuestion({accessToken}) {
               <button className='cancel'>Cancel</button>
           </Link>
         </div>
-        <div className='editQuestionAside'><Aside/></div>
+        <div className='editQuestionAside'><EditAside/></div>
       </div>
     )
 }
