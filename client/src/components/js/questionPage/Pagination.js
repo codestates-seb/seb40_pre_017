@@ -12,10 +12,9 @@ export default function Pagination({ page, setPage, pageInfo }) {
   
   const [currentPage, setCurrentPage] = useState(0);
   const [arr, setArr] = useState(pageArr[0])
-  useEffect(() => {
-    // console.log(arr)
-    setArr(pageArr[currentPage]);
-  },[currentPage])
+  // useEffect(() => {
+  //   setArr(pageArr[currentPage]);
+  // },[page, arr])
   
   return (
     <div className='pagenation'>

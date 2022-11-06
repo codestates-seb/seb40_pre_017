@@ -2,13 +2,15 @@ import React, { useState } from 'react'
 import Comment from './Comment'
 import '../../css/comment/CommentList.scss'
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 export default function CommentList({item, id, answerId, type, accessToken}) {
 
   let params  = useParams();
+  let navigate = useNavigate();
+  const location = useLocation();
 
   axios.defaults.headers.common["Authorization"] = accessToken;
   axios.defaults.withCredentials = true;
@@ -43,7 +45,9 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       .then((res) => {
         if(res.status === 201) {
           console.log(res)
-          window.location.href = `/questions/${params.id}`;
+          // window.location.href = `/questions/${params.id}`;
+          sessionStorage.setItem("redirect", location.pathname + location.search);
+          navigate(`/dummy`)
         }
       })
       .catch(error => {
@@ -54,7 +58,9 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       .then((res) => {
         if(res.status === 201) {
           console.log(res)
-          window.location.href = `/questions/${params.id}`;
+          // window.location.href = `/questions/${params.id}`;
+          sessionStorage.setItem("redirect", location.pathname + location.search);
+          navigate(`/dummy`)
         }
       })
       .catch(error => {
@@ -71,7 +77,9 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       axios.patch(`${REACT_APP_API_URL}question/${id}/comments/${commentId}`, data)
       .then((res) => {
         if(res.status === 200) {
-          window.location.href = `/questions/${params.id}`;
+          // window.location.href = `/questions/${params.id}`;
+          sessionStorage.setItem("redirect", location.pathname + location.search);
+          navigate(`/dummy`)
         }
       })
       .catch(error => {
@@ -81,7 +89,9 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       axios.patch(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/comments/${commentId}`, data)
       .then((res) => {
         if(res.status === 200) {
-          window.location.href = `/questions/${params.id}`;
+          // window.location.href = `/questions/${params.id}`;
+          sessionStorage.setItem("redirect", location.pathname + location.search);
+          navigate(`/dummy`)
         }
       })
       .catch(error => {
@@ -89,7 +99,6 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       });
     }
     setEditClick(false);
-    // window.location.replace(`/questions/${id}`)
   }
 
   //edit 취소
@@ -99,8 +108,8 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
 
   return (
     <div className='commentList'>
-      {item && item.map(content => (
-        <div className='commentLine'>
+      {item && item.map((content, idx) => (
+        <div className='commentLine' key={idx}>
         <Comment 
           id={id}
           content={content} 

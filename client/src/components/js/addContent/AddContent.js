@@ -6,8 +6,11 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+
 export default function AddContent({content, appearNext, contentInput, setNextContentDis, type, setContentGuide}) {
 
+  const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
   const inputContent = () => {
     if(type !== 'answer'){
@@ -49,9 +52,24 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
           disabled={handledisabled}
           hooks={{
             addImageBlobHook: async (blob, callback) => {
-                console.log(blob);
-                const imgUrl = await axios.post('/api')
-                callback('/api', '이미지');
+                const formData = new FormData();
+                formData.append('img', blob);
+                for (let pair of formData.entries()) {
+                  console.log(pair[0]+ ', ' + pair[1]); 
+              }
+                await axios.post(`${REACT_APP_API_URL}questions/uploadImage`, {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+                body: formData
+                })
+                .then((res) => {
+                  console.log(res.data)
+                })
+                .catch(error => {
+                  console.log(error.response);
+                });
+                callback(`${REACT_APP_API_URL}questions/uploadImage`, '이미지이름');
               }
             }}
         />

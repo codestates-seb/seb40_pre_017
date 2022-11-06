@@ -3,7 +3,7 @@ import Vote from '../vote/Vote'
 import ProfileAnswer from '../profile/ProfileAnswer'
 import CommentList from '../comment/CommentList'
 import '../../css/answer/Answer.scss'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import axios from 'axios'
@@ -15,20 +15,26 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
   axios.defaults.headers.common["Authorization"] = accessToken;
   axios.defaults.withCredentials = true;
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   // 답변 삭제
   const handleDelete = () => {
     // api DELETE
-    axios.delete(`${REACT_APP_API_URL}question/${item.question.questionId}/answer/${answerId}`)
-    .then((res) => {
-      console.log(res)
-    })
-    .catch(error => {
-      console.log(error.response);
-    });
+    if(window.confirm("Are you sure you want to delete the answer?") === true) {
+      axios.delete(`${REACT_APP_API_URL}question/${item.question.questionId}/answer/${answerId}`)
+      .then((res) => {
+        sessionStorage.setItem("redirect", location.pathname + location.search);
+        navigate(`/dummy`)
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+    }
   }
 
   //답변 채택
-  const [ check, setCheck ] = useState(false);
+  const [ check, setCheck ] = useState(answer.accepted);
   const handleCheck = () => {
     if(!check){
       axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/accept`)
@@ -52,7 +58,6 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
   }
 
   //질문 수정 data GET
-  const navigate = useNavigate();
   const clickEdit = () => {
     navigate(`/questions/${id}/editanswer/${answerId}`, {
       state: {
@@ -65,7 +70,7 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
   return (
     <div className='answerWrap'>
       <div className='answerVote'>
-        <Vote item={answer.voteCount} id={id} answerid={answerId} type={'answer'}/>
+        <Vote item={answer.voteCount} id={id} answerId={answerId} type={'answer'} accessToken={accessToken}/>
         <button 
           onClick={handleCheck} 
           className={check ? 'select answerCheck' : 'select'}

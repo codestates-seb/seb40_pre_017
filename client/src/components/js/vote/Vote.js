@@ -6,6 +6,7 @@ const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 export default function Vote({item, type, id, answerId, accessToken}) {
   axios.defaults.headers.common["Authorization"] = accessToken;
+
   axios.defaults.withCredentials = true;
 
   // 투표된상태확인
@@ -13,24 +14,24 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   let voteInfo = '';
   
   useEffect(() => {
+    console.log(accessToken)
     axios.get(`${REACT_APP_API_URL}questions/${id}/votes`)
     .then((res) => {
-      console.log(res)
-      // setVoteInfo(res.data)
       voteInfo = res.data;
       if(type === 'question'){
-        console.log(voteInfo.questionUpVote)
-        console.log(voteInfo.questionDownVote)
         if(voteInfo.questionUpVote)setClickUp(true)
         else if(voteInfo.questionDownVote)setClickDown(true)
       }
       else if( type === 'answer'){
         let answerVote = voteInfo.answerVoteStates.filter(el => el.answerId === answerId);
-        if(answerVote.answerUpVote)setClickUp(true)
-        else if(answerVote.answerDownVote)setClickDown(true)
+        if(answerVote[0].answerUpVote){
+          setClickUp(true)
+        }
+        else if(answerVote[0].answerDownVote)setClickDown(true)
       }
     })
     .catch(error => {
+      if(error.status === 404)
       console.log(error.response);
     });
   },[])
@@ -38,12 +39,13 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   // 투표찬성
   const [clickUp, setClickUp] = useState(false);
   const handleUp = () => {
+    console.log(accessToken)
     if(!clickDown){
       if(!clickUp){
         setClickUp(true);
         if(type === 'question'){
-          //질문투표찬성
-          axios.post(`${REACT_APP_API_URL}questions/${id}/upvote`)
+        //질문투표찬성
+          axios.post(`${REACT_APP_API_URL}question/${id}/upvote`)
           .then((res) => {
             console.log(res);
           })
@@ -52,7 +54,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           });
         }else if(type === 'answer'){
           //답변투표찬성
-          axios.post(`${REACT_APP_API_URL}questions/${id}/answer/${answerId}/upvote`)
+          axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/upvote`)
           .then((res) => {
             console.log(res)
           })
@@ -64,7 +66,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
         setClickUp(false);
         if(type === 'question'){
           //질문투표찬성 취소
-          axios.post(`${REACT_APP_API_URL}questions/${id}/upvote/undo`)
+          axios.post(`${REACT_APP_API_URL}question/${id}/upvote/undo`)
           .then((res) => {
             console.log(res)
           })
@@ -73,7 +75,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           });
         }else if(type === 'answer'){
           //답변투표찬성 취소
-          axios.post(`${REACT_APP_API_URL}questions/${id}/answer/${answerId}/upvote/undo`)
+          axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/upvote/undo`)
           .then((res) => {
             console.log(res)
           })
@@ -84,7 +86,8 @@ export default function Vote({item, type, id, answerId, accessToken}) {
       }
     }
   }
-
+  
+  
   // 투표반대
   const [clickDown, setClickDown] = useState(false);
   const handleDown = () => {
@@ -102,7 +105,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           });
         }else if(type === 'answer'){
           //답변투표반대
-          axios.post(`${REACT_APP_API_URL}questions/${id}/answer/${answerId}/downvote`)
+          axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/downvote`)
           .then((res) => {
             console.log(res)
           })
@@ -123,7 +126,7 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           });
         }else if(type === 'answer'){
           //답변투표반대 취소
-          axios.post(`${REACT_APP_API_URL}questions/${id}/answer/${answerId}/downvote/undo`)
+          axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/downvote/undo`)
           .then((res) => {
             console.log(res)
           })
