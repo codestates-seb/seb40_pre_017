@@ -3,11 +3,18 @@ package com.backend.domain.vote.application;
 
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.exception.MemberNotFound;
+<<<<<<< HEAD
 import com.backend.global.repository.MemberRepository;
+=======
+import com.backend.domain.member.repository.MemberRepository;
+import com.backend.domain.question.domain.Question;
+>>>>>>> dev
 import com.backend.domain.question.exception.QuestionNotFound;
 import com.backend.domain.question.repository.QuestionRepository;
 import com.backend.domain.vote.dao.QuestionDownVoteRepository;
 import com.backend.domain.vote.dao.QuestionUpVoteRepository;
+import com.backend.domain.vote.domain.QuestionDownVote;
+import com.backend.domain.vote.domain.QuestionUpVote;
 import com.backend.domain.vote.exception.VoteException;
 import com.backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -33,11 +40,16 @@ public class QuestionVoteService {
 
     public void up(Long questionId, Long memberId) {
 
-        Member questionWriter = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new).getMember();
+
+        Question question = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new);
+        Member questionWriter =question.getMember();
+
 
         if (memberId != questionWriter.getId()) {
             try {
-                questionUpVoteRepository.up(questionId, memberId);
+                Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
+                QuestionUpVote questionUpVote = QuestionUpVote.toEntity(member, question);
+                questionUpVoteRepository.up(questionUpVote);
                 questionUpVoted(questionWriter);
             } catch (DataIntegrityViolationException e) {
                 log.error("handleDataIntegrityViolationException", e);
@@ -52,7 +64,7 @@ public class QuestionVoteService {
 
         Member questionWriter = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new).getMember();
 
-        int result = questionUpVoteRepository.undoUp(questionId, memberId);
+        Long result = questionUpVoteRepository.undoUp(questionId, memberId);
 
         if(result == 0) throw new VoteException(ErrorCode.VOTE_NOT_FOUND);
        undoQuestionUpVoted(questionWriter);
@@ -62,11 +74,14 @@ public class QuestionVoteService {
 
     public void down(Long questionId, Long memberId) {
 
-        Member questionWriter = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new).getMember();
+        Question question = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new);
+        Member questionWriter =question.getMember();
 
         if (memberId != questionWriter.getId()) {
             try {
-                questionDownVoteRepository.down(questionId, memberId);
+                Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFound::new);
+                QuestionDownVote questionDownVote = QuestionDownVote.toEntity(member, question);
+                questionDownVoteRepository.down(questionDownVote);
                 questionDownVoted(questionWriter);
             } catch (DataIntegrityViolationException e) {
                 log.error("handleDataIntegrityViolationException", e);
@@ -77,11 +92,14 @@ public class QuestionVoteService {
         }
     }
 
+
+
+
     public void undoDown(Long questionId, Long memberId) {
 
         Member questionWriter = questionRepository.findById(questionId).orElseThrow(QuestionNotFound::new).getMember();
 
-        int result = questionDownVoteRepository.undoDown(questionId, memberId);
+        Long result = questionDownVoteRepository.undoDown(questionId, memberId);
         if(result == 0) throw new VoteException(ErrorCode.VOTE_NOT_FOUND);
 
         undoQuestionDownVoted(questionWriter);
@@ -93,14 +111,16 @@ public class QuestionVoteService {
         Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
         findMember.questionUpVoted();
     }
-    private void undoQuestionUpVoted(Member member) {
-        Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
-        findMember.undoQuestionUpVoted();
-    }
+
 
     private void questionDownVoted(Member member) {
         Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
         findMember.questionDownVoted();
+    }
+
+    private void undoQuestionUpVoted(Member member) {
+        Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
+        findMember.undoQuestionUpVoted();
     }
 
     private void undoQuestionDownVoted(Member member) {

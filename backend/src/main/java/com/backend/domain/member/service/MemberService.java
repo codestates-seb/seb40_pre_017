@@ -2,9 +2,7 @@ package com.backend.domain.member.service;
 
 import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.dto.MemberResponse;
-import com.backend.domain.member.dto.MemberResponseDto;
 import com.backend.domain.member.dto.MemberUpdate;
-import com.backend.domain.member.dto.SignUpRequest;
 import com.backend.domain.member.exception.MemberNotFound;
 import com.backend.domain.member.exception.UserNameDuplication;
 import com.backend.global.repository.MemberRepository;
@@ -22,18 +20,6 @@ public class MemberService {
 
     private final PasswordEncoder passwordEncoder;
 
-    // 회원가입
-    public MemberResponseDto create(SignUpRequest signUpRequest) {
-        Member member = signUpRequest.signup();
-
-        // 비밀번호 암호화
-        String encryptedPassword = passwordEncoder.encode(member.getPassword());
-        member.encodePassword(encryptedPassword);
-
-        Member savedMember = memberRepository.save(member);
-
-        return MemberResponseDto.of(savedMember);
-    }
 
     public Long update(Long memberId, MemberUpdate memberUpdate) {
 

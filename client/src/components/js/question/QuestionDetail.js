@@ -1,46 +1,42 @@
-import React from 'react'
 import CommentList from '../comment/CommentList'
 import Profile from '../profile/Profile'
 import Vote from '../vote/Vote'
 import Tags from '../tags/Tags'
 import '../../css/question/QuestionDetail.scss'
-import { Link } from 'react-router-dom'
-import { fetchDelete } from '../../../util/api'
 import { Viewer } from '@toast-ui/react-editor';
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
 
 
-export default function QuestionDetail({item, id, accessToken}) {
-  
+export default function QuestionDetail({item, id, accessToken }) {
   axios.defaults.headers.common["Authorization"] = accessToken;
 
+  // 삭제
   const handleDelete = () => {
-    // 임시 DELETE
-    // fetchDelete('http://localhost:3001/items/', item.id)
+    if (window.confirm("Are you sure you want to delete the question?") === true) {
+      axios.delete(`/api/questions/${id}`)
+      .then((res) => {
+        console.log(res)
+        navigate(`/`)
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+      // navigate('/')
+    }
+  }
+ 
+ 
 
-    // api DELETE
-    // fetchDelete(`/api/questions/${id}`)
-    // fetch(`/api/questions/${id}`, {
-    //   method: "DELETE",
-    //   headers: new Headers({
-    //     "ngrok-skip-browser-warning": "69420",
-    //     "Content-Type" : "application/json"
-    //   })
-    // })
-
-    axios.delete(`/api/questions/${id}`)
-    .then((res) => {
-      console.log(res)
-      // navigate(`/question${res}`)
-      // return res.json()
+  // Edit 데이터 GET
+  const navigate = useNavigate();
+  const clickEdit = () => {
+    navigate(`/questions/${id}/edit`, {
+      state: {item}
     })
-    .catch(error => {
-      console.log(error.response);
-    });
-    // navigate('/')
   }
 
   return (
@@ -55,15 +51,18 @@ export default function QuestionDetail({item, id, accessToken}) {
         <div className='detailBottomWrap'>
           <div className='detailEditWrap'>
             <button>Share</button>
-            <Link to={`/questions/${id}/edit`}>
-              <button>Edit</button>
-            </Link>
-            <button onClick={handleDelete}>Delete</button>
+            {item.member.username === window.localStorage.getItem("member") && 
+            <>
+              <button onClick={clickEdit}>Edit</button>
+              <button onClick={handleDelete}>Delete</button>
+            </>
+            
+            }
           </div>
-          <Profile item={item.member}/>
+          <Profile item={item.member} time={item.question.createdAt}/>
         </div>
-        <CommentList item={item.question.qcomment} type={'question'} temporary={item}/>
-      </div>      
+        <CommentList item={item.questionComments} id={item.question.questionId} type={'question'} accessToken={accessToken}/>
+      </div>
     </div>
   )
 }
