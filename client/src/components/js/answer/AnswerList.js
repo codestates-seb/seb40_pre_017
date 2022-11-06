@@ -48,13 +48,10 @@ export default function AnswerList({item, accessToken}) {
     }
   }
 
-  const [ check, setCheck ] = useState(false);
-
   return (
     <div>
       <div className='answerHeadWrap'>
         <div className='answerCount'>{count} Answers</div>
-        {/* <div>Sorted by:</div> */}
       </div>
       {item.answers && item.answers.map((answer, idx) => (
         <div key={idx}>
@@ -64,8 +61,6 @@ export default function AnswerList({item, accessToken}) {
             answerId={answer.answerId} 
             item={item}
             accessToken={accessToken}
-            setCheck={setCheck}
-            check={check}
           />
         </div>
       ))}

@@ -11,7 +11,7 @@ import axios from 'axios'
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
-export default function Answer({answer, id, answerId, item, accessToken, setCheck, check}) {
+export default function Answer({answer, id, answerId, item, accessToken}) {
   axios.defaults.headers.common["Authorization"] = accessToken;
   axios.defaults.withCredentials = true;
 
@@ -34,7 +34,7 @@ export default function Answer({answer, id, answerId, item, accessToken, setChec
   }
 
   //답변 채택
-  // const [ check, setCheck ] = useState(false);
+  const [ check, setCheck ] = useState(answer.accepted);
   const handleCheck = () => {
     if(!check){
       axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/accept`)
