@@ -77,12 +77,12 @@ export default function Answer({answer, id, answerId, item, accessToken}) {
         <div className='detailBottomWrap'>
           <div className='detailEditWrap'>
             <button>Share</button>
-            {answer.answerMember.username === JSON.parse(window.sessionStorage.getItem("member")).username &&
+            {JSON.parse(window.sessionStorage.getItem("member")) !== null && (answer.answerMember.username === JSON.parse(window.sessionStorage.getItem("member")).username &&
               <>
                 <button onClick={clickEdit}>Edit</button>
                 <button onClick={handleDelete}>Delete</button>
               </>
-            }
+            )}
           </div>
           <ProfileAnswer item={answer} time={answer.createdAt}/>
         </div>

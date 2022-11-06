@@ -50,13 +50,12 @@ export default function QuestionDetail({item, id, accessToken }) {
         <div className='detailBottomWrap'>
           <div className='detailEditWrap'>
             <button>Share</button>
-            {item.member.username === JSON.parse(window.sessionStorage.getItem("member")).username && 
+            {JSON.parse(window.sessionStorage.getItem("member")) !== null && (item.member.username === JSON.parse(window.sessionStorage.getItem("member")).username && 
             <>
               <button onClick={clickEdit}>Edit</button>
               <button onClick={handleDelete}>Delete</button>
             </>
-            
-            }
+            )}
           </div>
           <Profile item={item.member} time={item.question.createdAt}/>
         </div>
