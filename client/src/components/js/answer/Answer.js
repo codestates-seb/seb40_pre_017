@@ -7,7 +7,6 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import axios from 'axios'
-// import { fetchCreate, fetchDelete } from '../../../util/api'
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 

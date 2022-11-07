@@ -2,12 +2,11 @@ import axios from 'axios';
 import React from 'react'
 import '../../css/comment/Comment.scss'
 import createdAt from '../createdAt/CreatedAt';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 export default function Comment({id, content, setEditClick, type, setEditValue, setCommentId, accessToken, answerId, setPastValue}) {
-  let params  = useParams();
   const location = useLocation();
 
   let navigate = useNavigate();

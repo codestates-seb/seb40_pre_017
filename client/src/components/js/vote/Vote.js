@@ -15,7 +15,6 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   let navigate = useNavigate();
 
   // 투표된상태확인
-  // const [ voteInfo, setVoteInfo ] = useState(null);
   let voteInfo = '';
   
   useEffect(() => {
@@ -58,6 +57,10 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           .catch(error => {
             if(error.response.data.message === 'Cannot Vote Your Own Post'){
               alert('Cannot Vote Your Own Post')
+            }else{
+              alert('This service requires login')
+              localStorage.setItem("lastPath", `${location.pathname}`);
+              navigate("/login")
             }
           });
         }else if(type === 'answer'){
@@ -71,6 +74,10 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           .catch(error => {
             if(error.response.data.message === 'Cannot Vote Your Own Post'){
               alert('Cannot Vote Your Own Post')
+            }else{
+              alert('This service requires login')
+              localStorage.setItem("lastPath", `${location.pathname}`);
+              navigate("/login")
             }
           });
         }
@@ -121,6 +128,10 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           .catch(error => {
             if(error.response.data.message === 'Cannot Vote Your Own Post'){
               alert('Cannot Vote Your Own Post')
+            }else{
+              alert('This service requires login')
+              localStorage.setItem("lastPath", `${location.pathname}`);
+              navigate("/login")
             }
           });
         }else if(type === 'answer'){
@@ -134,6 +145,10 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           .catch(error => {
             if(error.response.data.message === 'Cannot Vote Your Own Post'){
               alert('Cannot Vote Your Own Post')
+            }else{
+              alert('This service requires login')
+              localStorage.setItem("lastPath", `${location.pathname}`);
+              navigate("/login")
             }
           });
         }
