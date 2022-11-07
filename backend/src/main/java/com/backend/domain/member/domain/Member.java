@@ -33,7 +33,7 @@ public class Member extends Auditable {
     private String username;
 
     @Column(name = "profile_image")
-    private String profileImage = "https://i.imgur.com/GvsgVco.jpeg";
+    private String profileImage = "https://i.stack.imgur.com/VojFx.png?s=256&g=1";
 
     @Column(name = "reputation", nullable = false)
     private Long reputation;
