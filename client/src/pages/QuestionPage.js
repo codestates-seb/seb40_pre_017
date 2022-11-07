@@ -10,10 +10,10 @@ import axios from 'axios';
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
-export default function QuestionPage({accessToken, filterData, changeFilterData}) {
+export default function QuestionPage({accessToken, filterData, changeFilterData, clickFilter,page,setPage}) {
 
   const [items, seItems] = useState(null);
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
   const [pageInfo, setPageInfo] = useState();
 
   const navigate = useNavigate();
@@ -32,8 +32,7 @@ export default function QuestionPage({accessToken, filterData, changeFilterData}
     })
     .then(res => {
       seItems(res.data.items)
-      setPageInfo(res.data.pageInfo)
-      console.log(pageInfo.totalPages)
+      setPageInfo(res.data.pageInfo.totalElements)
     })
     .catch(err => {
       console.error(err)
@@ -68,7 +67,7 @@ export default function QuestionPage({accessToken, filterData, changeFilterData}
           </div>
         </div>
         <QuestionList items={items}/>
-        {pageInfo && <Pagination page={page} setPage={setPage} pageInfo={pageInfo}/>}
+        {pageInfo && <Pagination page={page} setPage={setPage} pageInfo={pageInfo} clickFilter={clickFilter}/>}
       </div>
       <div className='questionPageAside'>
         <Aside />
