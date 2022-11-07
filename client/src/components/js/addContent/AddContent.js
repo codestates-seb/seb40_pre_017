@@ -12,7 +12,7 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
 
   const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
-  axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
   axios.defaults.withCredentials = true;
 
   const inputContent = () => {

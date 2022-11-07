@@ -12,7 +12,7 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
   let navigate = useNavigate();
   const location = useLocation();
 
-  axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
   axios.defaults.withCredentials = true;
 
   const [clickAdd, setClickAdd] = useState(false);
@@ -49,8 +49,6 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       axios.post(`${REACT_APP_API_URL}question/${id}/comments`, data)
       .then((res) => {
         if(res.status === 201) {
-          console.log(res)
-          // window.location.href = `/questions/${params.id}`;
           sessionStorage.setItem("redirect", location.pathname + location.search);
           navigate(`/dummy`)
         }
@@ -62,8 +60,6 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/comments`, data)
       .then((res) => {
         if(res.status === 201) {
-          console.log(res)
-          // window.location.href = `/questions/${params.id}`;
           sessionStorage.setItem("redirect", location.pathname + location.search);
           navigate(`/dummy`)
         }

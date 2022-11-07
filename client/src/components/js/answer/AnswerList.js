@@ -12,7 +12,7 @@ export default function AnswerList({item, accessToken}) {
   const navigate = useNavigate();
   const location = useLocation();
   
-  axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
   axios.defaults.withCredentials = true;
 
   let count = 0;
@@ -26,22 +26,12 @@ export default function AnswerList({item, accessToken}) {
 
   const handleAddAnswer = (e) => {
     e.preventDefault();
-    console.log(accessToken)
-    if(accessToken) {
+
+    if(window.sessionStorage.getItem("jwtToken")) {
       // data 생성 & POST (Api)
       let data = { content: contentInput.current.getInstance().getMarkdown() }
-      console.log(data)
-      axios.post(`${REACT_APP_API_URL}question/${item.question.questionId}/answer`, {
-        headers: {
-          "Authrozation": `${accessToken}`,
-        },
-        // data: {content: 'asdfasdfasdfasdfasdfasdfasdfasdfasdfa'}
-        data
-      })
+      axios.post(`${REACT_APP_API_URL}question/${item.question.questionId}/answer`, data)
       .then((res) => {
-        console.log(res.data)
-        // window.location.reload();
-        // window.location.replace(`/questions/${item.question.questionId}`);
         sessionStorage.setItem("redirect", location.pathname + location.search);
         navigate(`/dummy`)
       })

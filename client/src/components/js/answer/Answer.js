@@ -12,7 +12,7 @@ import axios from 'axios'
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 export default function Answer({answer, id, answerId, item, accessToken}) {
-  axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
   axios.defaults.withCredentials = true;
 
   const navigate = useNavigate();

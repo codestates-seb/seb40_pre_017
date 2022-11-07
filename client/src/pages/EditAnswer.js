@@ -10,7 +10,7 @@ const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 
 export default function EditAnswer({accessToken}) {
-    axios.defaults.headers.common["Authorization"] = accessToken;
+    axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
     axios.defaults.withCredentials = true;
 
     //id 파라미터 가져오기

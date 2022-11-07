@@ -41,7 +41,7 @@ export default function QuestionPage({accessToken, filterData, changeFilterData}
   }, [filterData, page]);
   
   const createQuestion = () => {
-    if(accessToken) {
+    if(window.sessionStorage.getItem("jwtToken")) {
       navigate("/add")
     }else{
       alert('This service requires login')
