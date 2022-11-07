@@ -73,7 +73,7 @@ export default function QuestionPage({accessToken, filterData, changeFilterData,
         <QuestionList items={items}/>
         {/* {pageInfo && <Pagination page={page} setPage={setPage} pageInfo={pageInfo} clickFilter={clickFilter}/>} */}
         <ReactPaginate
-          pageCount={pageInfo && Math.ceil(pageInfo.totalPages)}
+          pageCount={pageInfo && pageInfo.totalPages}
           pageRangeDisplayed={5}
           marginPagesDisplayed={0}
           breakLabel={""}

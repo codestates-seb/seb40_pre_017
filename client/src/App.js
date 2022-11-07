@@ -1,6 +1,6 @@
 import './App.scss';
 import React, {useState, useEffect} from 'react'
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Layout from './components/js/basic/Layout';
 import Notfound from './components/js/basic/Notfound';
 import QuestionPage from './pages/QuestionPage';
@@ -16,10 +16,9 @@ const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 function App() {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [inputData, setInputData] = useState("");
-  const [filterData, setFilterData] = useState("NoAnswer");
+  const [filterData, setFilterData] = useState("Newest");
   
   const [islogined, setIslogined] = useState(false);
 

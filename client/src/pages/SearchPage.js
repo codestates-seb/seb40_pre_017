@@ -69,7 +69,7 @@ export default function SearchPage({inputData, handlePageChange, pagetest}) {
         {!items ? <NoSearch /> : <QuestionList items={items}/>}
         {/* <Pagination page={page} setPage={setPage} pageInfo={pageInfo}/> */}
         <ReactPaginate
-          pageCount={pageInfo && Math.ceil(pageInfo.totalPages)}
+          pageCount={pageInfo && pageInfo.totalPages}
           pageRangeDisplayed={5}
           marginPagesDisplayed={0}
           breakLabel={""}
