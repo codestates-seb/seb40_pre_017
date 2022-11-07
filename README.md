@@ -8,6 +8,12 @@
 - FE: 손현지, 최민수
 - BE: 이성준, 박재원, 방인석
 
+## Previews
+
+#회원가입 & 로그인
+![시퀀스 01_1](https://user-images.githubusercontent.com/100991074/200313947-f341a10d-e729-4ccd-9f86-bff50a12a151.gif)
+
+
 ## Stacks
 
 #### #Back-end 언어 및 프레임워크
