@@ -93,7 +93,6 @@ function App() {
   const [pagetest, setPagetest] = useState({selected: 1});
   const handlePageChange = (page) => {
     setPagetest({selected: page.selected + 1});
-    console.log(pagetest)
   };
 
   return (
@@ -110,7 +109,7 @@ function App() {
           <Route path="*" element={<Notfound />} />
         </Route>
         <Route path="/search" element={<Layout changeInputData={changeInputData} islogined={islogined} memberData={memberData} logoutControll={logoutControll} />}>
-          <Route index element={<SearchPage accessToken={accessToken} inputData={inputData} handlePageChange={handlePageChange}/>} />
+          <Route index element={<SearchPage accessToken={accessToken} inputData={inputData} handlePageChange={handlePageChange} pagetest={pagetest}/>} />
           <Route path="*" element={<Notfound />} />
         </Route>
       </Routes>

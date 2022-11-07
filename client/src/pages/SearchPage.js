@@ -12,16 +12,15 @@ import NoSearch from '../components/js/noSearch/NoSearch';
 axios.defaults.withCredentials = true;
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
-export default function SearchPage({inputData, handlePageChange}) {
+export default function SearchPage({inputData, handlePageChange, pagetest}) {
 
   const [items, seItems] = useState(null);
-  const [page, setPage] = useState(1);
   const [pageInfo, setPageInfo] = useState();
 
   useEffect(()=>{
     let params = {
       "q": inputData,
-      "page": page
+      "page": pagetest.selected
     };
     
     let query = Object.keys(params)
@@ -42,7 +41,7 @@ export default function SearchPage({inputData, handlePageChange}) {
       seItems(resData.items)
       setPageInfo(resData.pageInfo)
     })
-  }, [inputData, page])
+  }, [inputData, pagetest])
 
 
 
