@@ -7,6 +7,7 @@ import com.backend.global.config.security.handler.MemberAuthenticationSuccessHan
 import com.backend.global.jwt.JwtAccessDeniedHandler;
 import com.backend.global.jwt.JwtAuthenticationEntryPoint;
 import com.backend.global.jwt.TokenProvider;
+import com.backend.global.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,9 +23,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-import java.util.List;
-
 @EnableWebSecurity // (debug = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -36,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final MemberRepository memberRepository;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -90,10 +89,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "DELETE", "PATCH"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.addAllowedOrigin("http://localhost:3000"); // 로컬
+        configuration.addAllowedOrigin("http://ec2-13-209-84-129.ap-northeast-2.compute.amazonaws.com:8080/");
+        configuration.addAllowedOrigin("https://api.taekgil.xyz/");
+        configuration.addAllowedOrigin("http://127.0.0.1:5500");
+        configuration.addAllowedOrigin("http://practice-fe-cms98.s3-website.ap-northeast-2.amazonaws.com/"); // 프론트 IPv4 주소
+        configuration.addAllowedMethod("*"); // 모든 메소드 허용.
+        configuration.addAllowedHeader("*");
+        configuration.setMaxAge(3600L);
         configuration.setAllowCredentials(true);
+        configuration.addExposedHeader("Authorization");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -106,7 +111,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(tokenProvider, authenticationManager);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(tokenProvider, authenticationManager, memberRepository);
             jwtAuthenticationFilter.setFilterProcessesUrl("/users/login");
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler(refreshTokenRepository));
 //            jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
