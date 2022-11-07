@@ -17,6 +17,7 @@ import com.backend.global.repository.MemberRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,12 +83,15 @@ public class AuthService {
         RefreshToken newRefreshToken = savedRefreshToken.updateValue(newRTK);
         refreshTokenRepository.save(newRefreshToken);
 
-        Cookie refreshTokenToCookie = new Cookie("refreshToken", newRTK);
-        refreshTokenToCookie.setMaxAge(60 * 60 * 24 * 14);
-        refreshTokenToCookie.setHttpOnly(true);
-        refreshTokenToCookie.setPath("/");
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", newRTK)
+                .maxAge(7 * 24 * 60 * 60)
+                .path("/")
+                .secure(true)
+                .sameSite("None")
+                .httpOnly(true)
+                .build();
+        response.setHeader("Set-Cookie", cookie.toString());
 
-        response.addCookie(refreshTokenToCookie);
 
         response.setHeader("Authorization", "Bearer " + newATK);
 
