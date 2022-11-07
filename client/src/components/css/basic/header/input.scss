@@ -1,0 +1,27 @@
+.navInput{
+  width: 100%;
+  padding: 0.6em 0.7em;
+  padding-left: 34px;
+  border: 1px solid #daddde;
+  border-radius: 3px;
+}
+.navInput:focus {
+  border: 1px solid #53baff;
+  outline: 3px solid #b5deff;
+}
+// .navSmallInput{
+//   width:100vw;
+//   padding: 0.6em 0.7em;
+//   border: 1px solid #daddde;
+//   border-radius: 3px;
+//   margin-bottom: 5px;
+// }
+// .navSmallInput:focus {
+//   border: 1px solid #53baff;
+//   outline: 3px solid #b5deff;
+// }
+// @media screen and (min-width: 640px) {
+//   .navSmallInput{
+//     display: none;
+//   }
+// }

@@ -1,0 +1,121 @@
+.questionPageWrap {
+  display: flex;
+  width: 100%;
+  max-width: 1264px;
+  .questionPageNavbar{
+    position: relative;
+    width: 164px;
+    min-width: 164px;
+    background-color: #e8e7e3;
+  }
+
+  .questionPageAside{
+    margin-left: 20px;
+    padding-top: 30px;
+
+    width: 300px;
+    min-width: 300px;
+  }
+}
+
+
+.questionPage {
+  flex-grow: 1;
+  margin-top: 30px;
+  border-left: 1px solid #e8e7e3;
+}
+
+.headAddWrap{
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 20px;
+  h1{
+      font-size: 27px;
+  }
+
+  button{
+      font-size: 13px;
+      cursor: pointer;
+      width: 98px;
+      height: 37px;
+      padding: 10px;
+      color: white;
+      background-color: #0A95FF;
+      border-color: transparent;
+      border-radius: 3px;
+      box-shadow: rgba(255,255,255,0.4) 0px 2px 0px 0px inset;
+  }
+  button:hover{
+      background-color: #0074CC;
+  }
+}
+
+.countFilterWrap{
+  margin: 20px 0px 15px;
+  padding: 0px 20px;
+  display: flex;
+  justify-content: space-between;
+  span{
+      position: relative;
+      top: 15px;
+  }
+
+  .filterBtns{
+      button{
+          background-color: white;
+          color: #8188C1;
+          font-size: 12px;
+          height: 35px;
+          padding: 0px 10px;
+          cursor: pointer;
+      }
+      button:nth-child(1) {
+          border: 1px solid #838C95;
+          border-top-left-radius: 3px;
+          border-bottom-left-radius: 3px;
+      }
+      button:nth-child(2) {
+          border-top: 1px solid #838C95;
+          border-bottom: 1px solid #838C95;
+      }
+      button:nth-child(3) {
+          border: 1px solid #838C95;
+          border-top-right-radius: 3px;
+          border-bottom-right-radius: 3px;
+      }
+
+      button:hover{
+          background-color: #F8F9F9;
+      }
+      .active{
+        background-color: #d8d8d8;
+      }
+  }
+}
+
+@media (max-width:980px) {
+
+  .questionPageAside{
+      display: none;
+  }
+  
+}
+
+@media (max-width:640px) {
+  .questionPageNavbar {
+      display: none;
+  }
+
+  .countFilterWrap{
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      span{
+          position: relative;
+          top: 15px;
+      }
+      .filterBtns{
+          margin-top: 30px;
+      }
+  }
+}

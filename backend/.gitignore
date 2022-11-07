@@ -18,6 +18,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
+src/main/rapplication-local.yml
 .idea
 *.iws
 *.iml
@@ -35,3 +36,5 @@ out/
 
 ### VS Code ###
 .vscode/
+*.yml
+*.jpg

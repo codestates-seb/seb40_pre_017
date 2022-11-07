@@ -1,0 +1,93 @@
+.signupPage{
+  width: 100%;
+  height: calc(100vh - 53px);
+  min-height: 900px;
+  max-width: 1264px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .flexBox{
+    display: flex;
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    .flexLeft{
+      flex: 1 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      padding-left: 10px;
+      padding-bottom: 50px;
+      h1{
+        font-size: 28px;
+        margin-bottom: 30px;
+      }
+      .dFlex{
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        .flexItem{
+          margin-right: 8px;
+          font-size: 16px;
+        }
+        .color--blue{
+          font-size: 20px;
+          color: #0091ff;
+        }
+      }
+      .tFlex{
+        margin-bottom: 25px;
+        .flexItem{
+          color: #737a80;
+          margin-right: 5px;
+          font-size: 13px;
+        }
+        .color--blue{
+          color: hsl(206,100%,40%);
+        }
+      }
+      @media screen and (max-width: 800px) {
+        display: none;
+      }
+    }
+    .flexRight{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 336px;
+      height: 100%;
+      .signupForm{
+        width: 336px;
+        padding: 24px;
+        border-radius: 5px;
+        margin-bottom: 40px;
+        background-color: white;
+        box-shadow: 0 1px 2px hsla(0,0%,0%,0.1), 0 1px 4px hsla(0, 0%, 0%, 0.1), 0 2px 8px hsla(0, 0%, 0%, 0.1);
+        color: #737a80;
+        p{
+          margin-bottom: 20px;
+        }
+        .checkBot{
+          width: 100%;
+          height: 150px;
+          background-color: #f1f2f4;
+          border-radius: 5px;
+          margin-bottom: 20px;
+        }
+      }
+      .loginLink{
+        font-size: 14px;
+        margin-bottom: 20px;
+        a{
+          margin-left: 10px;
+          color: rgb(0, 138, 169);
+        }
+      }
+    }
+  }
+}

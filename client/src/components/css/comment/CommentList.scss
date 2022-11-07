@@ -1,0 +1,69 @@
+.commentList {
+    margin-top: 32px;
+    .commentLine:nth-child(1) {
+        border-top: 1px solid #E3E6E8;
+    }
+}
+
+.commentWrap{
+    padding-right: 40px;
+    input{
+        width: 100%;
+        border: 2px solid #E3E6E8;
+        border-radius: 3px;
+    }
+    input:focus{
+        border-color: transparent;
+        outline: 1px solid #59A4DE;
+        box-shadow: rgba(14, 136, 230, 0.15) 0px 0px 0px 4px;
+    }
+}
+.addCommentBtn {
+    background-color: transparent;
+    cursor: pointer;
+    margin-top: 10px;
+    outline: 0;
+    border-color: transparent;
+    padding: 0px;
+    color: #BBC0C5;
+}
+
+.addCommentBtn:hover {
+    color: #6CBFFF;
+}
+
+.commentBtnWrap{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+
+    .AddComment{
+        font-size: 13px;
+        cursor: pointer;
+        white-space:nowrap;
+        height: 37px;
+        padding: 10px;
+        color: white;
+        background-color: #0A95FF;
+        border-color: transparent;
+        border-radius: 3px;
+        box-shadow: rgba(255,255,255,0.4) 0px 2px 0px 0px inset;
+        margin-bottom: 20px;
+    }
+    .AddComment:hover{
+        background-color: #0074CC;
+    }
+
+    .cancel{
+        cursor: pointer;
+        margin-left: 15px;
+        background-color: transparent;
+        color: #0089DA;
+        padding: 0px;
+        margin: 0px;
+        width: 10px;
+    }
+    .cancel:hover{
+        color:  #0A95FF;
+    }
+}

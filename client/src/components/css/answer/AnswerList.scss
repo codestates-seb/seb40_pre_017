@@ -1,0 +1,15 @@
+.answerHeadWrap {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    margin-bottom: 26px;
+
+    .answerCount{
+        font-size: 19px;
+    }
+}
+
+.addAnswerInput{
+    margin-right: 30px;
+}
+

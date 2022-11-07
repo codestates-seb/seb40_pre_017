@@ -1,0 +1,46 @@
+.btnArea{
+  width: 160px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding-left: 5px;
+  @media screen and (max-width: 640px) {
+    width: 130px;
+
+  }
+  .btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    outline: none;
+    border: 1px solid #76a7cd;
+    border-radius: 3px;
+    margin-right: 5px;
+    cursor: pointer;
+    width: 75px;
+    height: 38px;
+    @media screen and (max-width: 640px) {
+      font-size: 12px;
+      height: 33px;
+
+    }
+  }
+  .btnColor1{
+    color: #76a7cd;
+    background-color: #e2ecf5;
+  }
+  .btnColor1:hover{
+    background-color: #b6dcff;
+  }
+  .btnColor2{
+    color: white;
+    background-color: #0b96ff;
+  }
+  .btnColor2:hover{
+    background-color: #0072c8;
+  }
+
+
+}

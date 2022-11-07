@@ -1,0 +1,39 @@
+.questionDetail {
+    display: flex;
+}
+
+.detailMainWrap {
+    flex-grow: 1;
+    // margin: 0px 30px;
+    padding: 0px 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.detailContent {
+    
+    h3 {
+        font-size: 15px;
+        line-height: 20px;
+        color: #232629;
+        margin-bottom: 30px;
+    }
+}
+
+.detailBottomWrap {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+
+    button {
+        font-size: 13px;
+        background-color: transparent;
+        padding: 0px;
+        color: #8C939A;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+    button:hover {
+        color: #9fa7af;
+    }
+}
