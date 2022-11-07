@@ -30,8 +30,9 @@ export default function Vote({item, type, id, answerId, accessToken}) {
       }
     })
     .catch(error => {
-      if(error.status === 404)
-      console.log(error.response);
+      if(error.response.data.message !== 'None Still Voted'){
+        console.log(error.response);
+      }
     });
   },[])
 

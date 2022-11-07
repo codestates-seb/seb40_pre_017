@@ -10,10 +10,10 @@ import axios from 'axios';
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
-export default function QuestionPage({accessToken, filterData, changeFilterData}) {
+export default function QuestionPage({accessToken, filterData, changeFilterData, clickFilter,page,setPage}) {
 
   const [items, seItems] = useState(null);
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
   const [pageInfo, setPageInfo] = useState();
 
   const navigate = useNavigate();
@@ -32,8 +32,7 @@ export default function QuestionPage({accessToken, filterData, changeFilterData}
     })
     .then(res => {
       seItems(res.data.items)
-      setPageInfo(res.data.pageInfo)
-      console.log(pageInfo.totalPages)
+      setPageInfo(res.data.pageInfo.totalElements)
     })
     .catch(err => {
       console.error(err)
@@ -61,14 +60,14 @@ export default function QuestionPage({accessToken, filterData, changeFilterData}
           <button onClick={createQuestion}>Ask Question</button>
         </div>
         <div className='countFilterWrap'>
-          {pageInfo && <span>{pageInfo.totalElements} questions</span>}
+          {pageInfo && <span>{pageInfo} questions</span>}
           <div className='filterBtns'>
             <button className={'' + (filterData === "NoAnswer" && "active")} onClick={changeFilterData} name='NoAnswer'>NoAnswer</button>
             <button className={'' + (filterData === "NoAcceptedAnswer" && "active")} onClick={changeFilterData} name='NoAcceptedAnswer'>NoAcceptedAnswer</button>
           </div>
         </div>
         <QuestionList items={items}/>
-        {pageInfo && <Pagination page={page} setPage={setPage} pageInfo={pageInfo}/>}
+        {pageInfo && <Pagination page={page} setPage={setPage} pageInfo={pageInfo} clickFilter={clickFilter}/>}
       </div>
       <div className='questionPageAside'>
         <Aside />

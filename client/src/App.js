@@ -1,6 +1,6 @@
 import './App.scss';
 import React, {useState, useEffect} from 'react'
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Layout from './components/js/basic/Layout';
 import Notfound from './components/js/basic/Notfound';
 import QuestionPage from './pages/QuestionPage';
@@ -16,6 +16,7 @@ const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [inputData, setInputData] = useState("");
   const [filterData, setFilterData] = useState("NoAnswer");
@@ -65,9 +66,13 @@ function App() {
     }
   }
 
+  const [clickFilter, setClickFilter] = useState(false);
+  const [page, setPage] = useState(1);
   const changeFilterData = (e) => {
     let temp = e.target.name;
     setFilterData(e.target.name)
+    setPage(1)
+    setClickFilter(!clickFilter)
     navigate(`/?filter=${temp}`);
   }
 
@@ -92,7 +97,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout changeInputData={changeInputData} islogined={islogined} memberData={memberData} logoutControll={logoutControll} />}>
-          <Route index element={<QuestionPage accessToken={accessToken} filterData={filterData} changeFilterData={changeFilterData}/>} />
+          <Route index element={<QuestionPage accessToken={accessToken} filterData={filterData} changeFilterData={changeFilterData} clickFilter={clickFilter} page={page} setPage={setPage}/>} />
           <Route path="/add" element={<AddQuestion accessToken={accessToken}/>} />
           <Route path="questions/:id" element={<DetailPage accessToken={accessToken} />} />
           <Route path="questions/:id/edit" element={<EditQuestion accessToken={accessToken}/>} />
