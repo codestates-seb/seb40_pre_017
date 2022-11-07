@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../../css/vote/Vote.scss'
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
@@ -8,6 +9,10 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
 
   axios.defaults.withCredentials = true;
+
+  const location = useLocation();
+
+  let navigate = useNavigate();
 
   // 투표된상태확인
   // const [ voteInfo, setVoteInfo ] = useState(null);
@@ -47,18 +52,26 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           axios.post(`${REACT_APP_API_URL}question/${id}/upvote`)
           .then((res) => {
             console.log(res);
+            sessionStorage.setItem("redirect", location.pathname + location.search);
+            navigate(`/dummy`)
           })
           .catch(error => {
-            console.log(error.response);
+            if(error.response.data.message === 'Cannot Vote Your Own Post'){
+              alert('Cannot Vote Your Own Post')
+            }
           });
         }else if(type === 'answer'){
           //답변투표찬성
           axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/upvote`)
           .then((res) => {
             console.log(res)
+            sessionStorage.setItem("redirect", location.pathname + location.search);
+            navigate(`/dummy`)
           })
           .catch(error => {
-            console.log(error.response);
+            if(error.response.data.message === 'Cannot Vote Your Own Post'){
+              alert('Cannot Vote Your Own Post')
+            }
           });
         }
       }else if(clickUp){
@@ -68,6 +81,8 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           axios.post(`${REACT_APP_API_URL}question/${id}/upvote/undo`)
           .then((res) => {
             console.log(res)
+            sessionStorage.setItem("redirect", location.pathname + location.search);
+            navigate(`/dummy`)
           })
           .catch(error => {
             console.log(error.response);
@@ -77,6 +92,8 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/upvote/undo`)
           .then((res) => {
             console.log(res)
+            sessionStorage.setItem("redirect", location.pathname + location.search);
+            navigate(`/dummy`)
           })
           .catch(error => {
             console.log(error.response);
@@ -98,18 +115,26 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           axios.post(`${REACT_APP_API_URL}question/${id}/downvote`)
           .then((res) => {
             console.log(res)
+            sessionStorage.setItem("redirect", location.pathname + location.search);
+            navigate(`/dummy`)
           })
           .catch(error => {
-            console.log(error.response);
+            if(error.response.data.message === 'Cannot Vote Your Own Post'){
+              alert('Cannot Vote Your Own Post')
+            }
           });
         }else if(type === 'answer'){
           //답변투표반대
           axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/downvote`)
           .then((res) => {
             console.log(res)
+            sessionStorage.setItem("redirect", location.pathname + location.search);
+            navigate(`/dummy`)
           })
           .catch(error => {
-            console.log(error.response);
+            if(error.response.data.message === 'Cannot Vote Your Own Post'){
+              alert('Cannot Vote Your Own Post')
+            }
           });
         }
       }else if(clickDown){
@@ -119,6 +144,8 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           axios.post(`${REACT_APP_API_URL}question/${id}/downvote/undo`)
           .then((res) => {
             console.log(res)
+            sessionStorage.setItem("redirect", location.pathname + location.search);
+            navigate(`/dummy`)
           })
           .catch(error => {
             console.log(error.response);
@@ -128,6 +155,8 @@ export default function Vote({item, type, id, answerId, accessToken}) {
           axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/downvote/undo`)
           .then((res) => {
             console.log(res)
+            sessionStorage.setItem("redirect", location.pathname + location.search);
+            navigate(`/dummy`)
           })
           .catch(error => {
             console.log(error.response);
