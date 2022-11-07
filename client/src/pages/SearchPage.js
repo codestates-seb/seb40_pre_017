@@ -37,7 +37,6 @@ export default function SearchPage({inputData, handlePageChange, pagetest}) {
       return res.json()
     })
     .then((resData) => {
-      console.log(resData)
       seItems(resData.items)
       setPageInfo(resData.pageInfo)
     })
@@ -67,7 +66,6 @@ export default function SearchPage({inputData, handlePageChange, pagetest}) {
           <span>{count} question</span>
         </div>
         {!items ? <NoSearch /> : <QuestionList items={items}/>}
-        {/* <Pagination page={page} setPage={setPage} pageInfo={pageInfo}/> */}
         <ReactPaginate
           pageCount={pageInfo && pageInfo.totalPages}
           pageRangeDisplayed={5}

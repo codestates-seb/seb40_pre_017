@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import QuestionList from '../components/js/questionPage/QuestionList'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './QuestionPage.scss'
 // import Pagination from '../components/js/questionPage/Pagination';
 import ReactPaginate from 'react-paginate'
@@ -29,9 +29,6 @@ export default function QuestionPage({accessToken, filterData, changeFilterData,
     }
     axios.get(`${REACT_APP_API_URL}questions`, {
       params : params,
-      headers: {
-        "ngrok-skip-browser-warning": "69420"
-      }
     })
     .then(res => {
       seItems(res.data.items)

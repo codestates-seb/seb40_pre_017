@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import '../../../css/basic/header/user.scss'
 import Userinfo from './Userinfo'
-import { getItemWithExpireTime }  from '../../../../util/controlStorage'
 
 export default function User({memberData, logoutControll}) {
 

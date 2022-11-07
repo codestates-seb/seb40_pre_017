@@ -7,7 +7,7 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-export default function AddContent({content, appearNext, contentInput, setNextContentDis, type, setContentGuide, accessToken}) {
+export default function AddContent({content, appearNext, contentInput, setNextContentDis, type, setContentGuide}) {
 
   const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 

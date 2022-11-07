@@ -5,7 +5,7 @@ import '../../css/vote/Vote.scss'
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
-export default function Vote({item, type, id, answerId, accessToken}) {
+export default function Vote({item, type, id, answerId}) {
   axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
 
   axios.defaults.withCredentials = true;

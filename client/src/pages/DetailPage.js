@@ -10,10 +10,10 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
+axios.defaults.withCredentials = true;
 
 export default function DetailPage({ accessToken }) {
-  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
-  axios.defaults.withCredentials = true;
 
   const [item, setItem] = useState(null);
   
@@ -22,11 +22,7 @@ export default function DetailPage({ accessToken }) {
   let params = useParams();
 
   useEffect(()=>{
-    axios.get(`${REACT_APP_API_URL}questions/${params.id}`, {
-      headers: {
-        "ngrok-skip-browser-warning": "69420"
-      }
-    })
+    axios.get(`${REACT_APP_API_URL}questions/${params.id}`)
     .then(res => {
       setItem(res.data)
     })

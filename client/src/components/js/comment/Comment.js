@@ -5,13 +5,13 @@ import createdAt from '../createdAt/CreatedAt';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
+axios.defaults.withCredentials = true;
 
-export default function Comment({id, content, setEditClick, type, setEditValue, setCommentId, accessToken, answerId, setPastValue}) {
+export default function Comment({id, content, setEditClick, type, setEditValue, setCommentId, answerId}) {
   const location = useLocation();
 
   let navigate = useNavigate();
-  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
-  axios.defaults.withCredentials = true;
 
   // click edit
   const clickEdit = () => {
