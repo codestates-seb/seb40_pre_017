@@ -1,9 +1,12 @@
 package com.backend.global.config.security.filter;
 
+import com.backend.domain.member.domain.Member;
 import com.backend.domain.member.dto.SignUpRequest;
 import com.backend.domain.member.dto.TokenDto;
+import com.backend.domain.member.exception.MemberNotFound;
 import com.backend.domain.member.service.AuthMember;
 import com.backend.global.jwt.TokenProvider;
+import com.backend.global.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -25,6 +28,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
+    private final MemberRepository memberRepository;
 
     @SneakyThrows
     @Override
@@ -46,6 +50,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
         AuthMember authMember = (AuthMember) authResult.getPrincipal();
+
+         Member member = memberRepository.findById(authMember.getMemberId())
+                 .orElseThrow(MemberNotFound::new);
+
+
         TokenDto tokenDto = tokenProvider.generateTokenDto(authMember);
 
         String refreshToken = tokenDto.getRefreshToken();
@@ -62,9 +71,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // response body에 member의 emial, username, ImageUrl을 담아서 보내준다.
         response.getWriter().write(
                 "{" +
-                        "\"email\":\"" + authMember.getEmail() + "\","
-                        + "\"username\":\"" + authMember.getMemberUsername() + "\","
-                        + "\"imageUrl\":\"" + authMember.getProfileImage() + "\"" +
+                        "\"email\":\"" + member.getEmail() + "\","
+                        + "\"username\":\"" + member.getUsername() + "\","
+                        + "\"imageUrl\":\"" + member.getProfileImage() + "\"" +
                         "}"
         );
 
