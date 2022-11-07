@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
 import './EditQuestion.scss'
 import Category from '../components/js/category/Category';
-import Aside from '../components/js/aside/Aside';
 import axios from 'axios';
 import EditAside from '../components/js/aside/EditAside';
 
@@ -55,7 +54,6 @@ export default function EditQuestion() {
           <h2>Question</h2>
           <Inputbox 
               setTitle={setTitle} 
-              // setContent={setContent} 
               tags={tags} 
               setTags={setTags} 
               title={title} 

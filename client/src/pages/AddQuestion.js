@@ -3,7 +3,6 @@ import Background from '../assets/imgs/Background.svg'
 import './AddQuestion.scss'
 import Inputbox from '../components/js/addContent/Inputbox'
 import '@toast-ui/editor/dist/toastui-editor.css';
-import { Editor } from '@toast-ui/react-editor';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
