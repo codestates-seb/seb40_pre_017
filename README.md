@@ -1,8 +1,6 @@
 # seb40_pre_017
 
-
-
-## Features
+[배포 링크](https://c11.kr/seb-pre-017)
 
 
 ## Contributors
