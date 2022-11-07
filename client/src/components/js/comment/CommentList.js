@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Comment from './Comment'
 import '../../css/comment/CommentList.scss'
 import axios from 'axios';
@@ -12,7 +12,7 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
   let navigate = useNavigate();
   const location = useLocation();
 
-  axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
   axios.defaults.withCredentials = true;
 
   const [clickAdd, setClickAdd] = useState(false);
@@ -30,7 +30,12 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
   }
 
   //comment input box 
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(editValue);
+
+  useEffect(() => {
+    setContent(editValue)
+  },[editValue])
+
   const handleInput = (e) => {
     setContent(e.target.value);
   }
@@ -44,8 +49,6 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       axios.post(`${REACT_APP_API_URL}question/${id}/comments`, data)
       .then((res) => {
         if(res.status === 201) {
-          console.log(res)
-          // window.location.href = `/questions/${params.id}`;
           sessionStorage.setItem("redirect", location.pathname + location.search);
           navigate(`/dummy`)
         }
@@ -57,8 +60,6 @@ export default function CommentList({item, id, answerId, type, accessToken}) {
       axios.post(`${REACT_APP_API_URL}question/${id}/answer/${answerId}/comments`, data)
       .then((res) => {
         if(res.status === 201) {
-          console.log(res)
-          // window.location.href = `/questions/${params.id}`;
           sessionStorage.setItem("redirect", location.pathname + location.search);
           navigate(`/dummy`)
         }

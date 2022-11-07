@@ -12,7 +12,7 @@ const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 
 export default function EditQuestion({accessToken}) {
-  axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
   axios.defaults.withCredentials = true;
 
   //id 파라미터 가져오기
@@ -34,6 +34,7 @@ export default function EditQuestion({accessToken}) {
 
   const handleEdit = (e) => {
     e.preventDefault();
+    console.log(window.sessionStorage.getItem("jwtToken"))
 
     // data 생성 & Patch (Api)
     let data = { title, content:contentInput.current.getInstance().getMarkdown(), tags }

@@ -12,7 +12,7 @@ import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 export default function QuestionDetail({item, id, accessToken }) {
-  axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
   axios.defaults.withCredentials = true;
 
   // 삭제
@@ -20,7 +20,6 @@ export default function QuestionDetail({item, id, accessToken }) {
     if (window.confirm("Are you sure you want to delete the question?") === true) {
       axios.delete(`${REACT_APP_API_URL}questions/${id}`)
       .then((res) => {
-        console.log(res)
         navigate(`/`)
       })
       .catch(error => {

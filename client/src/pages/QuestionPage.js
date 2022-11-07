@@ -33,26 +33,21 @@ export default function QuestionPage({accessToken, filterData, changeFilterData}
     .then(res => {
       seItems(res.data.items)
       setPageInfo(res.data.pageInfo)
+      console.log(pageInfo.totalPages)
     })
     .catch(err => {
       console.error(err)
     })
-  }, [filterData, page])
+  }, [filterData, page]);
   
   const createQuestion = () => {
-    if(accessToken) {
+    if(window.sessionStorage.getItem("jwtToken")) {
       navigate("/add")
     }else{
       alert('This service requires login')
       localStorage.setItem("lastPath", `${location.pathname}`);
       navigate("/login")
     }
-  }
-
-  //questionList Count
-  let count = 0;
-  if(items){
-    count = items.length;
   }
 
   return (

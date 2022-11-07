@@ -5,7 +5,7 @@ import '../../css/vote/Vote.scss'
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 export default function Vote({item, type, id, answerId, accessToken}) {
-  axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
 
   axios.defaults.withCredentials = true;
 
@@ -14,7 +14,6 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   let voteInfo = '';
   
   useEffect(() => {
-    console.log(accessToken)
     axios.get(`${REACT_APP_API_URL}questions/${id}/votes`)
     .then((res) => {
       voteInfo = res.data;
@@ -39,7 +38,6 @@ export default function Vote({item, type, id, answerId, accessToken}) {
   // 투표찬성
   const [clickUp, setClickUp] = useState(false);
   const handleUp = () => {
-    console.log(accessToken)
     if(!clickDown){
       if(!clickUp){
         setClickUp(true);

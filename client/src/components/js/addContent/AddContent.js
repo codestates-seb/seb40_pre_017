@@ -8,9 +8,12 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-export default function AddContent({content, appearNext, contentInput, setNextContentDis, type, setContentGuide}) {
+export default function AddContent({content, appearNext, contentInput, setNextContentDis, type, setContentGuide, accessToken}) {
 
   const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+
+  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
+  axios.defaults.withCredentials = true;
 
   const inputContent = () => {
     if(type !== 'answer'){
@@ -51,20 +54,18 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
           ref={contentInput}
           disabled={handledisabled}
           hooks={{
-            addImageBlobHook: async (blob, callback) => {
+            addImageBlobHook:  (blob, callback) => {
                 const formData = new FormData();
                 formData.append('img', blob);
-                for (let pair of formData.entries()) {
-                  console.log(pair[0]+ ', ' + pair[1]); 
-              }
-                await axios.post(`${REACT_APP_API_URL}questions/uploadImage`, {
+                axios.post(`${REACT_APP_API_URL}questions/uploadImage`, {
                 headers: {
+                  'Accept': 'application/json',
                   'Content-Type': 'multipart/form-data',
                 },
                 body: formData
                 })
                 .then((res) => {
-                  console.log(res.data)
+                  console.log(res)
                 })
                 .catch(error => {
                   console.log(error.response);

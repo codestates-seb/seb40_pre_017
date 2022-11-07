@@ -12,7 +12,7 @@ import axios from 'axios';
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 export default function DetailPage({ accessToken }) {
-  axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
   axios.defaults.withCredentials = true;
 
   const [item, setItem] = useState(null);
@@ -33,7 +33,7 @@ export default function DetailPage({ accessToken }) {
   }, []);
 
   const createQuestion = () => {
-    if(accessToken) {
+    if(window.sessionStorage.getItem("jwtToken")) {
       navigate("/add")
     }else{
       alert('This service requires login')

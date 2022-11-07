@@ -3,18 +3,21 @@ import '../../css/questionPage/Pagination.scss'
 
 export default function Pagination({ page, setPage, pageInfo }) {
   //totalpage 필터와 검색 될때까지 임시로 100페이지 생성
-  // let maxPage = pageInfo.totlaPages;
-  let maxPage = 100;
+  const [maxPage, setMaxPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [arr, setArr] = useState([1])
+
+  // let maxPage = pageInfo.totalPages;
 
   let totlaPages = Array.from({length: maxPage}, (_,idx)=> idx + 1);
   let pageArr = Array(Math.ceil(maxPage / 5)).fill().map(() => totlaPages.splice(0, 5));
-  // let currentPages = pageArr[0];
   
-  const [currentPage, setCurrentPage] = useState(0);
-  const [arr, setArr] = useState(pageArr[0])
-  // useEffect(() => {
-  //   setArr(pageArr[currentPage]);
-  // },[page, arr])
+  useEffect(() => {
+    setMaxPage(pageInfo.totalPages);
+    setArr(pageArr[currentPage]);
+    
+    console.log(pageInfo.totalPages)
+  },[currentPage, pageInfo])
   
   return (
     <div className='pagenation'>

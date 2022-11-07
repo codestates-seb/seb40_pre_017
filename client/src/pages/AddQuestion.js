@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 export default function AddQuestion({accessToken}) {
-  axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
   axios.defaults.withCredentials = true;
 
   //제목
@@ -75,6 +75,7 @@ export default function AddQuestion({accessToken}) {
             setSubmitDis={setSubmitDis}
             contentInput={contentInput}
             type={'add'}
+            accessToken={accessToken}
           />
           <button className='blueBtn' onClick={handleSubmit} disabled={submitDis ? true : false}>Review your question</button>
         </div>

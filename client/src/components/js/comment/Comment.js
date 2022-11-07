@@ -6,16 +6,13 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
-export default function Comment({id, content, setEditClick, type, setEditValue, setCommentId, accessToken, answerId}) {
+export default function Comment({id, content, setEditClick, type, setEditValue, setCommentId, accessToken, answerId, setPastValue}) {
   let params  = useParams();
   const location = useLocation();
 
   let navigate = useNavigate();
-  axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
   axios.defaults.withCredentials = true;
-
-  // console.log(content.userName)
-  // console.log(window.localStorage.getItem("member"))
 
   // click edit
   const clickEdit = () => {
@@ -41,6 +38,7 @@ export default function Comment({id, content, setEditClick, type, setEditValue, 
           }
         })
         .catch(error => {
+          console.log(error.response)
           alert(error.response.data.errors[0].reason);
         });
       }
