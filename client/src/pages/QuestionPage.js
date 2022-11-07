@@ -60,7 +60,7 @@ export default function QuestionPage({accessToken, filterData, changeFilterData,
           <button onClick={createQuestion}>Ask Question</button>
         </div>
         <div className='countFilterWrap'>
-          {pageInfo && <span>{pageInfo.totalElements} questions</span>}
+          {pageInfo && <span>{pageInfo} questions</span>}
           <div className='filterBtns'>
             <button className={'' + (filterData === "NoAnswer" && "active")} onClick={changeFilterData} name='NoAnswer'>NoAnswer</button>
             <button className={'' + (filterData === "NoAcceptedAnswer" && "active")} onClick={changeFilterData} name='NoAcceptedAnswer'>NoAcceptedAnswer</button>
