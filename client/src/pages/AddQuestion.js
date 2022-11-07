@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
 export default function AddQuestion({accessToken}) {
-  axios.defaults.headers.common["Authorization"] = accessToken;
+  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
   axios.defaults.withCredentials = true;
 
   //제목

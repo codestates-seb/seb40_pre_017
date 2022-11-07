@@ -43,7 +43,10 @@ export default function Signup() {
       fetch(`${REACT_APP_API_URL}users`, {
         method: "POST",
         body: JSON.stringify(data),
-        credentials: 'include'
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
       .then((res) => {
         if(res.status === 201) {
