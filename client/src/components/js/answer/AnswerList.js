@@ -6,14 +6,14 @@ import axios from 'axios'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
+axios.defaults.withCredentials = true;
 
 export default function AnswerList({item, accessToken}) {
 
   const navigate = useNavigate();
   const location = useLocation();
   
-  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
-  axios.defaults.withCredentials = true;
 
   let count = 0;
   if(item.answers !== []){

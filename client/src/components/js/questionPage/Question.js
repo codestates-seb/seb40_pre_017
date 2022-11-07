@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import '../../css/questionPage/Question.scss'
 import { useNavigate } from 'react-router-dom'
 import Tags from '../tags/Tags'
-import axios from 'axios'
 import createdAt from '../createdAt/CreatedAt'
 
 export default function Question({item}) {
-
-  axios.defaults.withCredentials = true;
 
   const navigate = useNavigate();
   const clickTitle = () => {

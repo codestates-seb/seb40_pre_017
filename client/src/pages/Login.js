@@ -43,8 +43,6 @@ export default function Login({setIslogined, setMemberData, setAccessToken}) {
         credentials: 'include'
       })
       .then((res) => {
-        console.log(res.headers.authorization)
-        console.log(res.headers.Authorization)
         if(res.status === 200){
           let jwtToken = res.headers.get("authorization");
           console.log(jwtToken)
@@ -65,10 +63,6 @@ export default function Login({setIslogined, setMemberData, setAccessToken}) {
           alert("Please check your ID and password");
         }
       })
-      // axios.post(`${REACT_APP_API_URL}users/login`, data)
-      // .then((res) => {
-      //   console.log(res)
-      // })
     }
   }
 

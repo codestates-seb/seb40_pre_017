@@ -8,12 +8,9 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-export default function AddContent({content, appearNext, contentInput, setNextContentDis, type, setContentGuide, accessToken}) {
+export default function AddContent({content, appearNext, contentInput, setNextContentDis, type, setContentGuide}) {
 
   const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
-
-  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
-  axios.defaults.withCredentials = true;
 
   const inputContent = () => {
     if(type !== 'answer'){
@@ -46,7 +43,6 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
             ['link','quote', 'code', 'image', 'codeblock'],
             [],
             [],
-            // ['indent', 'outdent','task','table', 'ul','ol' ],
           ]}
           onChange={inputContent}
           onFocus={appearNext}
@@ -54,37 +50,21 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
           ref={contentInput}
           disabled={handledisabled}
           hooks={{
-            addImageBlobHook:  (blob, callback) => {
-                const formData = new FormData();
-                formData.append('img', blob);
-                axios.post(`${REACT_APP_API_URL}questions/uploadImage`, {
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'multipart/form-data',
-                },
-                body: formData
-                })
-                .then((res) => {
-                  console.log(res)
-                })
-                .catch(error => {
-                  console.log(error.response);
-                });
-                callback(`${REACT_APP_API_URL}questions/uploadImage`, '이미지이름');
-              }
-            }}
+            addImageBlobHook: async (blob, callback) => {
+              (async () => {
+                  const formData = new FormData();
+                  formData.append("img", blob);
+
+                  const res = await axios.post(`${REACT_APP_API_URL}questions/uploadImage`, formData);
+
+                  callback(res.data, "input alt text");
+                })();
+      
+              return false;
+          }
+          }}
         />
       </div>
-        {/* <input 
-          className='AddInput' 
-          name='content'
-          type='text' 
-          onFocus={appearNext}
-          ref={contentInput}
-          onChange={inputContent} 
-          value={content}
-          disabled={handledisabled}
-        ></input> */}
     </div>
   )
 }

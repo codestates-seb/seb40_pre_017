@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react'
 import QuestionList from '../components/js/questionPage/QuestionList'
 import { Link } from 'react-router-dom'
 import './searchPage.scss'
-import Pagination from '../components/js/questionPage/Pagination';
+// import Pagination from '../components/js/questionPage/Pagination';
+import ReactPaginate from 'react-paginate'
 import Aside from '../components/js/aside/Aside';
 import Category from '../components/js/category/Category';
 import axios from 'axios';
@@ -11,16 +12,15 @@ import NoSearch from '../components/js/noSearch/NoSearch';
 axios.defaults.withCredentials = true;
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 
-export default function SearchPage({inputData}) {
+export default function SearchPage({inputData, handlePageChange, pagetest}) {
 
   const [items, seItems] = useState(null);
-  const [page, setPage] = useState(1);
   const [pageInfo, setPageInfo] = useState();
 
   useEffect(()=>{
     let params = {
       "q": inputData,
-      "page": page
+      "page": pagetest.selected
     };
     
     let query = Object.keys(params)
@@ -37,11 +37,10 @@ export default function SearchPage({inputData}) {
       return res.json()
     })
     .then((resData) => {
-      console.log(resData)
       seItems(resData.items)
       setPageInfo(resData.pageInfo)
     })
-  }, [inputData, page])
+  }, [inputData, pagetest])
 
 
 
@@ -67,7 +66,20 @@ export default function SearchPage({inputData}) {
           <span>{count} question</span>
         </div>
         {!items ? <NoSearch /> : <QuestionList items={items}/>}
-        <Pagination page={page} setPage={setPage} pageInfo={pageInfo}/>
+        <ReactPaginate
+          pageCount={pageInfo && pageInfo.totalPages}
+          pageRangeDisplayed={5}
+          marginPagesDisplayed={0}
+          breakLabel={""}
+          previousLabel={"Prev"}
+          nextLabel={"Next"}
+          onPageChange={handlePageChange}
+          containerClassName={"pagination-ul"}
+          pageClassName={'pageButton'}
+          activeClassName={"currentPage"}
+          previousClassName={"switchPage"}
+          nextClassName={"switchPage"}
+        />
       </div>
       <div className='questionPageAside'>
         <Aside />

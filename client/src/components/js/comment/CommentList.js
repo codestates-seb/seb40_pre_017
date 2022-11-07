@@ -5,15 +5,14 @@ import axios from 'axios';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
+axios.defaults.withCredentials = true;
 
 export default function CommentList({item, id, answerId, type, accessToken}) {
 
-  let params  = useParams();
   let navigate = useNavigate();
   const location = useLocation();
 
-  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
-  axios.defaults.withCredentials = true;
 
   const [clickAdd, setClickAdd] = useState(false);
   const [editValue, setEditValue] = useState('');

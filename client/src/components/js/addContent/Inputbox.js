@@ -4,8 +4,6 @@ import Guide from './Guide'
 import '../../css/addContent/Inputbox.scss'
 
 export default function Inputbox({setTitle, tags, setTags, title, content, setSubmitDis, contentInput, type, accessToken}) {
-  //유효성검사 해아함
-
 
   // title 입력
   const inputTitle = (e) => {
@@ -112,11 +110,6 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
     setTagGuide(false);
   }
 
-
-  // aside
-  // onfocus일때 나타난다
-  // false 면 사라진다
-
   return (
     <div>
       <div className='inputBoxWrap'>
@@ -140,7 +133,7 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
             disabled={ nextTitleDis ? true : false }
           >Next</button> : null }
         </div>
-        <div>
+        <div className='guideWrap'>
           {titleGuide ? <Guide type={'title'}/> : null}
         </div>
       </div>
@@ -165,7 +158,7 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
               disabled={ nextContentDis ? true : false}
             >Next</button> : null }
         </div>
-        <div>
+        <div className='guideWrap'>
             {contentGuide ? <Guide type={'content'}/> : null}
         </div>
       </div>
@@ -205,7 +198,7 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
               disabled={nextTagDis ? true : false}
             >Next</button> : null }
         </div>
-        <div>
+        <div className='guideWrap'>
             {tagGuide ? <Guide type={'tag'}/> : null}
         </div>
       </div>

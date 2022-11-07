@@ -7,11 +7,11 @@ import Category from '../components/js/category/Category';
 import './EditAnswer.scss'
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
+axios.defaults.withCredentials = true;
 
 
-export default function EditAnswer({accessToken}) {
-    axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
-    axios.defaults.withCredentials = true;
+export default function EditAnswer() {
 
     //id 파라미터 가져오기
     let params  = useParams();
@@ -24,13 +24,12 @@ export default function EditAnswer({accessToken}) {
 
     const handleEdit = (e) => {
         e.preventDefault();
-  
-    // data 생성 & Patch (Api)
+
+        // data 생성 & Patch (Api)
         let data = { content: contentInput.current.getInstance().getMarkdown() }
         axios.patch(`${REACT_APP_API_URL}question/${item.question.questionId}/answer/${answer.answerId}`, data)
         .then((res) => {
             navigate(`/questions/${item.question.questionId}`)
-            // window.location.replace(`/questions/${item.question.questionId}`)
             sessionStorage.setItem("redirect", `/questions/${item.question.questionId}`);
             navigate(`/dummy`)
         })
@@ -46,7 +45,6 @@ export default function EditAnswer({accessToken}) {
             <h2>Answer</h2>
             <AddContent 
             content={content}
-            // setContent={setContent} 
             contentInput={contentInput} 
             />
             <button onClick={handleEdit} className='saveEdit'>Save Edits</button>
