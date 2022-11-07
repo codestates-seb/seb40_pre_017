@@ -10,8 +10,42 @@
 
 ## Previews
 
+#검색어 & 태그검색
+
+![ezgif com-gif-maker (9)](https://user-images.githubusercontent.com/100991074/200317034-a16bd935-acd3-4586-96db-d509cf787edd.gif)
+
+#전체페이지 필터
+
+![ezgif com-gif-maker (11)](https://user-images.githubusercontent.com/100991074/200318293-e8650f88-8547-42fe-bbb7-4b254e2a2419.gif)
+
+#질문 & 답변 투표
+
+![ezgif com-gif-maker (14)](https://user-images.githubusercontent.com/100991074/200319941-057ed148-dbfd-4771-bac4-a9f03d490eca.gif)
+
+
+#답변채택
+
+![ezgif com-gif-maker (13)](https://user-images.githubusercontent.com/100991074/200319288-12a7f3a4-31ba-4927-a29d-e80fed6eb2b6.gif)
+
+
 #회원가입 & 로그인
-![시퀀스 01_1](https://user-images.githubusercontent.com/100991074/200313947-f341a10d-e729-4ccd-9f86-bff50a12a151.gif)
+
+![ezgif com-gif-maker (3)](https://user-images.githubusercontent.com/100991074/200314608-ab36f35b-b53b-4b13-8c09-a8b0f8f782dc.gif)
+
+#질문 CRUD
+
+![ezgif com-gif-maker (5)](https://user-images.githubusercontent.com/100991074/200315875-2a9ea7fc-450b-49d3-aeb2-f00f13bbae4c.gif)
+
+![ezgif com-gif-maker (6)](https://user-images.githubusercontent.com/100991074/200316137-cf9ca3c2-ed53-45d8-aa2d-0cd04f9aa0de.gif)
+
+#답변 CRUD
+
+![ezgif com-gif-maker (12)](https://user-images.githubusercontent.com/100991074/200318933-ac3914b2-db55-44f5-ad34-18a8fb9b0b77.gif)
+
+
+#질문댓글 & 답변댓글 CRUD
+
+![ezgif com-gif-maker (8)](https://user-images.githubusercontent.com/100991074/200316760-4fca457a-0ba9-47de-a32e-b61e44057ac3.gif)
 
 
 ## Stacks
