@@ -70,6 +70,9 @@ function App() {
     let temp = e.target.name;
     setFilterData(e.target.name)
     setPagetest({selected: 1})
+    if(filterData === 'Newest'){
+      navigate(`/questions`);
+    }
     navigate(`/?filter=${temp}`);
   }
 

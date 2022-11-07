@@ -11,7 +11,7 @@ import axios from 'axios';
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
-export default function QuestionPage({accessToken, filterData, changeFilterData, clickFilter,pagetest,handlePageChange}) {
+export default function QuestionPage({accessToken, filterData, changeFilterData,pagetest,handlePageChange}) {
 
   const [items, seItems] = useState(null);
   // const [page, setPage] = useState(1);
@@ -22,11 +22,11 @@ export default function QuestionPage({accessToken, filterData, changeFilterData,
 
   useEffect(()=>{
     let params = {
-      "filters" : filterData,
       "page" : pagetest.selected
-      // "page" : 1
-
     };
+    if(filterData !== 'Newest'){
+      params.filters = filterData;
+    }
     axios.get(`${REACT_APP_API_URL}questions`, {
       params : params,
       headers: {
@@ -65,6 +65,7 @@ export default function QuestionPage({accessToken, filterData, changeFilterData,
         <div className='countFilterWrap'>
           {pageInfo && <span>{pageInfo.totalElements} questions</span>}
           <div className='filterBtns'>
+            <button className={'' + (filterData === "Newest" && "active")} onClick={changeFilterData} name='Newest'>Newest</button>
             <button className={'' + (filterData === "NoAnswer" && "active")} onClick={changeFilterData} name='NoAnswer'>NoAnswer</button>
             <button className={'' + (filterData === "NoAcceptedAnswer" && "active")} onClick={changeFilterData} name='NoAcceptedAnswer'>NoAcceptedAnswer</button>
           </div>

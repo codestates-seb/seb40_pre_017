@@ -61,6 +61,8 @@ button{
 }
 .pagination-ul{
 	display: flex;
+	margin-bottom: 50px;
+	margin-left: 15px;
 }
 .pageButton{
 	padding:5px 9px;
@@ -76,6 +78,7 @@ button{
 .switchPage{
     padding:5px 9px;
     border: 1px solid #D6D9DC;
+	margin-right: 4px;
     background-color: transparent;
     border-radius: 3px;
     cursor: pointer;
