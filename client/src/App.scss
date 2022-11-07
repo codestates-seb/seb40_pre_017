@@ -59,3 +59,33 @@ button{
 *::-webkit-scrollbar {
 	display: none;
 }
+.pagination-ul{
+	display: flex;
+}
+.pageButton{
+	padding:5px 9px;
+    border: 1px solid #D6D9DC;
+    background-color: transparent;
+    border-radius: 3px;
+    margin-right: 4px;
+    cursor: pointer;
+}
+.pageButton:hover{
+    background-color: #D6D9DC;
+}
+.switchPage{
+    padding:5px 9px;
+    border: 1px solid #D6D9DC;
+    background-color: transparent;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.switchPage:hover{
+    background-color: #D6D9DC;
+}
+
+.currentPage{
+	background-color: #F48225;
+    color: white;
+    cursor: default;
+}

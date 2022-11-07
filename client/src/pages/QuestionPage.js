@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react'
 import QuestionList from '../components/js/questionPage/QuestionList'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import './QuestionPage.scss'
-import Pagination from '../components/js/questionPage/Pagination';
+// import Pagination from '../components/js/questionPage/Pagination';
+import ReactPaginate from 'react-paginate'
 import Aside from '../components/js/aside/Aside';
 import Category from '../components/js/category/Category';
 import axios from 'axios';
@@ -10,7 +11,7 @@ import axios from 'axios';
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
-export default function QuestionPage({accessToken, filterData, changeFilterData, clickFilter,page,setPage}) {
+export default function QuestionPage({accessToken, filterData, changeFilterData, clickFilter,pagetest,handlePageChange}) {
 
   const [items, seItems] = useState(null);
   // const [page, setPage] = useState(1);
@@ -22,7 +23,9 @@ export default function QuestionPage({accessToken, filterData, changeFilterData,
   useEffect(()=>{
     let params = {
       "filters" : filterData,
-      "page" : page
+      "page" : pagetest.selected
+      // "page" : 1
+
     };
     axios.get(`${REACT_APP_API_URL}questions`, {
       params : params,
@@ -32,12 +35,12 @@ export default function QuestionPage({accessToken, filterData, changeFilterData,
     })
     .then(res => {
       seItems(res.data.items)
-      setPageInfo(res.data.pageInfo.totalElements)
+      setPageInfo(res.data.pageInfo)
     })
     .catch(err => {
       console.error(err)
     })
-  }, [filterData, page]);
+  }, [filterData, pagetest]);
   
   const createQuestion = () => {
     if(window.sessionStorage.getItem("jwtToken")) {
@@ -60,14 +63,28 @@ export default function QuestionPage({accessToken, filterData, changeFilterData,
           <button onClick={createQuestion}>Ask Question</button>
         </div>
         <div className='countFilterWrap'>
-          {pageInfo && <span>{pageInfo} questions</span>}
+          {pageInfo && <span>{pageInfo.totalElements} questions</span>}
           <div className='filterBtns'>
             <button className={'' + (filterData === "NoAnswer" && "active")} onClick={changeFilterData} name='NoAnswer'>NoAnswer</button>
             <button className={'' + (filterData === "NoAcceptedAnswer" && "active")} onClick={changeFilterData} name='NoAcceptedAnswer'>NoAcceptedAnswer</button>
           </div>
         </div>
         <QuestionList items={items}/>
-        {pageInfo && <Pagination page={page} setPage={setPage} pageInfo={pageInfo} clickFilter={clickFilter}/>}
+        {/* {pageInfo && <Pagination page={page} setPage={setPage} pageInfo={pageInfo} clickFilter={clickFilter}/>} */}
+        <ReactPaginate
+          pageCount={pageInfo && Math.ceil(pageInfo.totalPages)}
+          pageRangeDisplayed={5}
+          marginPagesDisplayed={0}
+          breakLabel={""}
+          previousLabel={"Prev"}
+          nextLabel={"Next"}
+          onPageChange={handlePageChange}
+          containerClassName={"pagination-ul"}
+          pageClassName={'pageButton'}
+          activeClassName={"currentPage"}
+          previousClassName={"switchPage"}
+          nextClassName={"switchPage"}
+        />
       </div>
       <div className='questionPageAside'>
         <Aside />

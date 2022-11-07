@@ -66,13 +66,10 @@ function App() {
     }
   }
 
-  const [clickFilter, setClickFilter] = useState(false);
-  const [page, setPage] = useState(1);
   const changeFilterData = (e) => {
     let temp = e.target.name;
     setFilterData(e.target.name)
-    setPage(1)
-    setClickFilter(!clickFilter)
+    setPagetest({selected: 1})
     navigate(`/?filter=${temp}`);
   }
 
@@ -93,11 +90,17 @@ function App() {
     })
   }
 
+  const [pagetest, setPagetest] = useState({selected: 1});
+  const handlePageChange = (page) => {
+    setPagetest({selected: page.selected + 1});
+    console.log(pagetest)
+  };
+
   return (
     <>
       <Routes>
         <Route path="/" element={<Layout changeInputData={changeInputData} islogined={islogined} memberData={memberData} logoutControll={logoutControll} />}>
-          <Route index element={<QuestionPage accessToken={accessToken} filterData={filterData} changeFilterData={changeFilterData} clickFilter={clickFilter} page={page} setPage={setPage}/>} />
+          <Route index element={<QuestionPage accessToken={accessToken} filterData={filterData} changeFilterData={changeFilterData} pagetest={pagetest} handlePageChange={handlePageChange}/>} />
           <Route path="/add" element={<AddQuestion accessToken={accessToken}/>} />
           <Route path="questions/:id" element={<DetailPage accessToken={accessToken} />} />
           <Route path="questions/:id/edit" element={<EditQuestion accessToken={accessToken}/>} />
@@ -107,7 +110,7 @@ function App() {
           <Route path="*" element={<Notfound />} />
         </Route>
         <Route path="/search" element={<Layout changeInputData={changeInputData} islogined={islogined} memberData={memberData} logoutControll={logoutControll} />}>
-          <Route index element={<SearchPage accessToken={accessToken} inputData={inputData} />} />
+          <Route index element={<SearchPage accessToken={accessToken} inputData={inputData} handlePageChange={handlePageChange}/>} />
           <Route path="*" element={<Notfound />} />
         </Route>
       </Routes>
