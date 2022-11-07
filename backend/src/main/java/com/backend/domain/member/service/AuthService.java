@@ -114,7 +114,7 @@ public class AuthService {
                 response.addCookie(cookie);
             }
         }
-        refreshTokenRepository.deleteByKey(tokenProvider.parseClaims(refreshToken).getSubject());
+        refreshTokenRepository.deleteByKey(Long.valueOf(tokenProvider.parseClaims(refreshToken).getSubject()));
     }
 
 }
