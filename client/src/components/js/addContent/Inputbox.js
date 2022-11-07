@@ -140,7 +140,7 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
             disabled={ nextTitleDis ? true : false }
           >Next</button> : null }
         </div>
-        <div>
+        <div className='guideWrap'>
           {titleGuide ? <Guide type={'title'}/> : null}
         </div>
       </div>
@@ -165,7 +165,7 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
               disabled={ nextContentDis ? true : false}
             >Next</button> : null }
         </div>
-        <div>
+        <div className='guideWrap'>
             {contentGuide ? <Guide type={'content'}/> : null}
         </div>
       </div>
@@ -205,7 +205,7 @@ export default function Inputbox({setTitle, tags, setTags, title, content, setSu
               disabled={nextTagDis ? true : false}
             >Next</button> : null }
         </div>
-        <div>
+        <div className='guideWrap'>
             {tagGuide ? <Guide type={'tag'}/> : null}
         </div>
       </div>

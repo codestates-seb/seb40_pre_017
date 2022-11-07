@@ -2,6 +2,12 @@
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
+    
+    @media screen and (max-width: 980px) {
+        // justify-content: baseline;
+        flex-direction: column-reverse;
+    }
+    
 }
 
 .inputbox {
@@ -95,3 +101,5 @@
     cursor:not-allowed;
 
 }
+
+
