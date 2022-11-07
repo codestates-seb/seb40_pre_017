@@ -11,12 +11,9 @@ export default function Pagination({ page, setPage, pageInfo, clickFilter }) {
   let pageArr = Array(Math.ceil(maxPage / 5)).fill().map(() => totlaPages.splice(0, 5));
   
   useEffect(() => {
-    // setMaxPage(Math.ceil(pageInfo/15));
-    setMaxPage(100);
 
     setArr(pageArr[currentPage]);
-    console.log(pageInfo)
-    console.log(maxPage)
+
   },[page, currentPage, clickFilter])
   
   return (

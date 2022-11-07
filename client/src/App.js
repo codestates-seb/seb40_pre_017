@@ -27,7 +27,6 @@ function App() {
 
   useEffect(() => {
     if(!(accessToken && memberData)){  
-      console.log('reload')
       fetch(`${REACT_APP_API_URL}users/reissue`,{
         method: "GET",
         credentials: 'include'

@@ -3,7 +3,6 @@ import '../../css/profile/ProfileAnswer.scss'
 import createdAt from '../createdAt/CreatedAt'
 
 export default function ProfileAnswer({item, time}) {
-  //createdAt 시간 계산
 
   return (
     <div className='profileWrapA'>

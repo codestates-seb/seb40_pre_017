@@ -9,11 +9,11 @@ import axios from 'axios';
 import EditAside from '../components/js/aside/EditAside';
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
+axios.defaults.withCredentials = true;
 
 
-export default function EditQuestion({accessToken}) {
-  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
-  axios.defaults.withCredentials = true;
+export default function EditQuestion() {
 
   //id 파라미터 가져오기
   let params  = useParams();
@@ -41,8 +41,6 @@ export default function EditQuestion({accessToken}) {
 
     axios.patch(`${REACT_APP_API_URL}questions/${item.question.questionId}`, data)
     .then((res) => {
-      // navigate(`/questions/${item.question.questionId}`)
-      // window.location.replace(`/questions/${item.question.questionId}`)
       sessionStorage.setItem("redirect", `/questions/${item.question.questionId}`);
       navigate(`/dummy`)
     })

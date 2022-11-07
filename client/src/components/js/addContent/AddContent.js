@@ -8,12 +8,9 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-export default function AddContent({content, appearNext, contentInput, setNextContentDis, type, setContentGuide, accessToken}) {
+export default function AddContent({content, appearNext, contentInput, setNextContentDis, type, setContentGuide}) {
 
   const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
-
-  // axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
-  // axios.defaults.withCredentials = true;
 
   const inputContent = () => {
     if(type !== 'answer'){
@@ -46,35 +43,12 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
             ['link','quote', 'code', 'image', 'codeblock'],
             [],
             [],
-            // ['indent', 'outdent','task','table', 'ul','ol' ],
           ]}
           onChange={inputContent}
           onFocus={appearNext}
           onBlur={() => setContentGuide(false)}
           ref={contentInput}
           disabled={handledisabled}
-          // hooks={{
-          //   addImageBlobHook:  async (blob, callback) => {
-          //       const formData = new FormData();
-          //       formData.append('img', blob);
-          //       console.log(blob)
-          //       const imgUrl = await axios.post(`${REACT_APP_API_URL}questions/uploadImage`, {
-          //       headers: {
-          //         'Content-Type': 'multipart/form-data',
-          //       },
-          //       body: formData
-          //       })
-          //       .then((res) => {
-          //         console.log(res)
-          //       })
-          //       .catch(error => {
-          //         console.log(error.response);
-          //       });
-          //       callback(imgUrl);
-          //       return false;
-          //     }
-          //   }}
-
           hooks={{
             addImageBlobHook: async (blob, callback) => {
               (async () => {
@@ -89,26 +63,8 @@ export default function AddContent({content, appearNext, contentInput, setNextCo
               return false;
           }
           }}
-        
-
-          // hooks={{
-          //   addImageBlobHook:  (blob, callback) => {
-          //       console.log(blob)
-          //       callback('imgUrl');
-          //     }
-          //   }}
         />
       </div>
-        {/* <input 
-          className='AddInput' 
-          name='content'
-          type='text' 
-          onFocus={appearNext}
-          ref={contentInput}
-          onChange={inputContent} 
-          value={content}
-          disabled={handledisabled}
-        ></input> */}
     </div>
   )
 }

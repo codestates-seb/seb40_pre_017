@@ -10,10 +10,10 @@ import { useNavigate } from 'react-router-dom'
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
+axios.defaults.withCredentials = true;
 
 export default function QuestionDetail({item, id, accessToken }) {
-  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
-  axios.defaults.withCredentials = true;
 
   // 삭제
   const handleDelete = () => {

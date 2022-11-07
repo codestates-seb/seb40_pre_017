@@ -29,9 +29,6 @@ export default function QuestionPage({accessToken, filterData, changeFilterData,
     }
     axios.get(`${REACT_APP_API_URL}questions`, {
       params : params,
-      headers: {
-        "ngrok-skip-browser-warning": "69420"
-      }
     })
     .then(res => {
       seItems(res.data.items)

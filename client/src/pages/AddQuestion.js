@@ -8,10 +8,10 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
+axios.defaults.withCredentials = true;
 
 export default function AddQuestion({accessToken}) {
-  axios.defaults.headers.common["Authorization"] = window.sessionStorage.getItem("jwtToken");
-  axios.defaults.withCredentials = true;
 
   //제목
   const [title, setTitle] = useState('');
